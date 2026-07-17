@@ -164,9 +164,15 @@ body.home {
   opacity: 1;
 }
 
+.intro-hello {
+  font-family: var(--font-mono);
+  font-weight: var(--weight-semibold);
+  color: var(--accent-strong);
+}
+
 .intro-copy h2 {
   margin-top: var(--space-2);
-  font-size: var(--text-3xl);
+  font-size: var(--text-4xl);
   letter-spacing: var(--tracking-tight);
 }
 
@@ -183,17 +189,21 @@ body.home {
   width: var(--size, 90px);
   height: auto;
   pointer-events: auto;
+  cursor: grab;
+  touch-action: none;
   transform: rotate(var(--tilt, 0deg));
-  filter: drop-shadow(3px 0 0 #fff) drop-shadow(-3px 0 0 #fff)
-    drop-shadow(0 3px 0 #fff) drop-shadow(0 -3px 0 #fff)
-    drop-shadow(2px 2px 0 #fff) drop-shadow(-2px 2px 0 #fff)
-    drop-shadow(2px -2px 0 #fff) drop-shadow(-2px -2px 0 #fff)
-    drop-shadow(0 8px 10px rgba(35, 30, 27, 0.28));
+  filter: drop-shadow(0 8px 10px rgba(35, 30, 27, 0.25));
   transition: transform var(--duration-base) var(--ease-out);
 }
 
 .sticker:hover {
   transform: rotate(0deg) scale(1.12);
+}
+
+.sticker.is-dragging {
+  cursor: grabbing;
+  transition: none;
+  transform: rotate(var(--tilt, 0deg)) scale(1.05);
 }
 
 @media (max-width: 720px) {
