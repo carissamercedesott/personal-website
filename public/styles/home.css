@@ -82,14 +82,44 @@ body.home {
   }
 }
 
-/* ── Intro band: photo + sticker cards ── */
+/* ── Intro band: photo + vinyl stickers on a darker blush ── */
+:root {
+  --band-blush: var(--blush-200);
+}
+
+[data-theme="dark"] {
+  --band-blush: #3a2523;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --band-blush: #3a2523;
+  }
+}
+
 .intro {
   padding: var(--space-16) var(--space-6);
+  background: var(--band-blush);
+}
+
+.wave-into-blush {
+  color: var(--band-blush);
+}
+
+.wave-out-blush {
+  background: var(--band-blush);
+  color: var(--surface-default);
+}
+
+/* The resume and everything below sit on plain surface. */
+.site-footer {
+  background: var(--surface-default);
 }
 
 .intro-inner {
+  position: relative;
   display: grid;
-  grid-template-columns: minmax(0, 5fr) minmax(0, 7fr);
+  grid-template-columns: minmax(0, 5fr) minmax(0, 6fr);
   gap: var(--space-12);
   align-items: center;
 }
@@ -142,47 +172,44 @@ body.home {
   letter-spacing: var(--tracking-tight);
 }
 
-.sticker-row {
-  margin-top: var(--space-8);
-  display: flex;
-  flex-wrap: wrap;
-  gap: var(--space-4);
+/* Vinyl stickers: logo cutouts with a white die-cut border (stacked
+ * drop-shadows follow the cutout's silhouette), scattered sporadically. */
+.sticker-scatter {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
 }
 
 .sticker {
+  position: absolute;
+  width: var(--size, 90px);
+  height: auto;
+  pointer-events: auto;
   transform: rotate(var(--tilt, 0deg));
-  background: var(--oat-0);
-  border: 1px solid var(--border-default);
-  border-radius: var(--radius-md);
-  padding: var(--space-3) var(--space-4);
-  box-shadow: var(--shadow-md);
-  transition: transform var(--duration-base) var(--ease-out),
-    box-shadow var(--duration-base) var(--ease-out);
+  filter: drop-shadow(3px 0 0 #fff) drop-shadow(-3px 0 0 #fff)
+    drop-shadow(0 3px 0 #fff) drop-shadow(0 -3px 0 #fff)
+    drop-shadow(2px 2px 0 #fff) drop-shadow(-2px 2px 0 #fff)
+    drop-shadow(2px -2px 0 #fff) drop-shadow(-2px -2px 0 #fff)
+    drop-shadow(0 8px 10px rgba(35, 30, 27, 0.28));
+  transition: transform var(--duration-base) var(--ease-out);
 }
 
 .sticker:hover {
-  transform: rotate(0deg) translateY(-4px) scale(1.08);
-  box-shadow: var(--shadow-lg);
+  transform: rotate(0deg) scale(1.12);
 }
 
-/* Placeholder wordmarks until official logo assets are provided.
- * Brand colors are intentional literals, not design tokens. */
-.sticker-text {
-  font-family: var(--font-display);
-  font-weight: var(--weight-bold);
-  font-size: var(--text-lg);
-}
+@media (max-width: 720px) {
+  .sticker-scatter {
+    position: static;
+    display: flex;
+    align-items: center;
+    gap: var(--space-6);
+    margin-top: var(--space-2);
+  }
 
-.sticker-ucla {
-  color: #2774ae;
-}
-
-.sticker-duolingo {
-  color: #58cc02;
-}
-
-.sticker-ios {
-  color: #1d1d1f;
+  .sticker {
+    position: static;
+  }
 }
 
 /* ── About squiggle: draws itself in as the section scrolls into view ── */

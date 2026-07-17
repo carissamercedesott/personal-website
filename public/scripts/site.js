@@ -60,8 +60,6 @@ function initScrollSpy() {
   if (links.length === 0 || !("IntersectionObserver" in window)) return;
 
   const setCurrentSection = (id) => {
-    // Drives both the nav highlight and the per-section background tint.
-    document.body.dataset.section = id;
     for (const link of links) {
       if (link.hash === `#${id}`) {
         link.setAttribute("aria-current", "page");

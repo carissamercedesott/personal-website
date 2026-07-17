@@ -22,7 +22,6 @@
     <script src="/scripts/theme.js"></script>
   </head>
   <body class="home">
-    <div class="bg-tint" aria-hidden="true"></div>
     <header class="site-header">
       <nav class="site-nav">
         <a class="site-logo" href="#top">Carissa Ott</a>
@@ -66,10 +65,10 @@
         </defs>
       </svg>
 
-      <div class="wave" aria-hidden="true">
+      <div class="wave wave-into-blush" aria-hidden="true">
         <svg viewBox="0 0 1440 64" preserveAspectRatio="none"><use href="#wave-path" fill="currentColor" /></svg>
       </div>
-      <section class="band intro" id="intro">
+      <section class="intro" id="intro">
         <div class="section-inner intro-inner">
           <figure class="intro-photo" data-reveal>
             <!-- Swap this placeholder for <img src="/images/me.jpg" alt="Carissa Ott" class="intro-photo-img" /> when the photo is ready. -->
@@ -86,20 +85,19 @@
               learn at UCLA, and now I build how people learn at Duolingo —
               mostly in Swift, often with a constraint solver nearby.
             </p>
-            <div class="sticker-row">
-              <!-- Placeholder stickers — swap the text spans for official logo images when provided. -->
-              <div class="sticker" style="--tilt: -6deg"><span class="sticker-text sticker-ucla">UCLA</span></div>
-              <div class="sticker" style="--tilt: 4deg"><span class="sticker-text sticker-duolingo">duolingo</span></div>
-              <div class="sticker" style="--tilt: -3deg"><span class="sticker-text sticker-ios">iOS</span></div>
-            </div>
+          </div>
+          <div class="sticker-scatter">
+            <img class="sticker" src="/images/stickers/duolingo.png" alt="Duolingo" style="--tilt: -10deg; --size: 110px; top: -8%; right: 3%" />
+            <img class="sticker" src="/images/stickers/ucla.png" alt="UCLA Bruins" style="--tilt: 9deg; --size: 92px; top: 46%; right: -12px" />
+            <img class="sticker" src="/images/stickers/apple.svg" alt="Apple iOS" style="--tilt: -16deg; --size: 56px; bottom: -6%; right: 26%" />
           </div>
         </div>
       </section>
-      <div class="wave wave-flip" aria-hidden="true">
+      <div class="wave wave-out-blush" aria-hidden="true">
         <svg viewBox="0 0 1440 64" preserveAspectRatio="none"><use href="#wave-path" fill="currentColor" /></svg>
       </div>
 
-      <section class="page-section" id="experience">
+      <section class="page-section band" id="experience">
         <div class="section-inner">
           <span class="section-label">Experience</span>
           <h2>Where I've worked</h2>
@@ -313,9 +311,6 @@
         </div>
       </section>
 
-      <div class="wave" aria-hidden="true">
-        <svg viewBox="0 0 1440 64" preserveAspectRatio="none"><use href="#wave-path" fill="currentColor" /></svg>
-      </div>
       <section class="page-section band" id="projects">
         <div class="section-inner">
           <span class="section-label">Projects</span>
@@ -467,10 +462,7 @@
         </div>
       </section>
 
-      <div class="wave wave-flip" aria-hidden="true">
-        <svg viewBox="0 0 1440 64" preserveAspectRatio="none"><use href="#wave-path" fill="currentColor" /></svg>
-      </div>
-      <section class="page-section" id="about">
+      <section class="page-section band" id="about">
         <div class="section-inner">
           <span class="section-label">About</span>
           <h2>About me</h2>
@@ -491,9 +483,6 @@
         </div>
       </section>
 
-      <div class="wave" aria-hidden="true">
-        <svg viewBox="0 0 1440 64" preserveAspectRatio="none"><use href="#wave-path" fill="currentColor" /></svg>
-      </div>
       <section class="page-section band" id="interests">
         <div class="section-inner">
           <span class="section-label">Interests</span>
@@ -508,9 +497,6 @@
           </div>
         </div>
       </section>
-      <div class="wave wave-flip" aria-hidden="true">
-        <svg viewBox="0 0 1440 64" preserveAspectRatio="none"><use href="#wave-path" fill="currentColor" /></svg>
-      </div>
     </main>
 
     <footer class="site-footer">
