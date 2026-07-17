@@ -24,10 +24,6 @@
   function swapPage(doc, url, push) {
     document.title = doc.title;
 
-    // The DJ deck (and its running audio) must survive the swap.
-    const dj = document.querySelector(".dj");
-    if (dj) dj.remove();
-
     // Incoming scripts must not re-execute — dj.js and site.js are
     // already live in this document.
     doc.body.querySelectorAll("script").forEach((script) => script.remove());
@@ -36,11 +32,21 @@
     document.body.className = doc.body.className;
     if (djing) document.body.classList.add("is-djing");
 
+    // The DJ deck (its running audio and animations) must survive the
+    // swap untouched — removing and re-adding it would restart its CSS
+    // animations and flicker the BPM panel. Swap everything around it.
+    const dj = document.querySelector(".dj");
+    for (const child of Array.from(document.body.children)) {
+      if (child !== dj) child.remove();
+    }
     // Snapshot before adopting: adoptNode removes each node from the live
     // HTMLCollection, which would otherwise skip every other element.
-    const incoming = Array.from(doc.body.children);
-    document.body.replaceChildren(...incoming.map((node) => document.adoptNode(node)));
-    if (dj) document.body.appendChild(dj);
+    const incoming = Array.from(doc.body.children).map((node) => document.adoptNode(node));
+    if (dj) {
+      dj.before(...incoming);
+    } else {
+      document.body.append(...incoming);
+    }
 
     if (push) history.pushState({}, "", url);
     window.scrollTo(0, 0);

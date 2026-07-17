@@ -67,8 +67,16 @@
   const panel = dj.querySelector("#dj-panel");
   const bpmInput = dj.querySelector("#dj-bpm");
   const bpmValue = dj.querySelector("#dj-bpm-value");
-  bpmInput.value = String(bpm);
-  bpmValue.textContent = String(bpm);
+  function renderBpm() {
+    bpmInput.value = String(bpm);
+    bpmValue.textContent = String(bpm);
+    const min = Number(bpmInput.min);
+    const max = Number(bpmInput.max);
+    const fill = ((bpm - min) / (max - min)) * 100;
+    bpmInput.style.setProperty("--dj-bpm-fill", `${fill}%`);
+  }
+
+  renderBpm();
 
   // ── Position (draggable, persisted) ──
   function clampPosition(right, bottom) {
@@ -371,7 +379,7 @@
 
   bpmInput.addEventListener("input", () => {
     bpm = Number(bpmInput.value);
-    bpmValue.textContent = String(bpm);
+    renderBpm();
     writeStorage(sessionStorage, "djBpm", String(bpm));
     if (playing) applyTempoTokens();
   });
