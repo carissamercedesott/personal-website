@@ -120,8 +120,8 @@ become low-opacity overlays of the 500 step so they read on dark.
 
 ## Typography
 
-- **Display / headings:** Sora (600, 700) — geometric, modern, friendly.
-- **Body / UI:** Inter (400, 500, 600).
+- **Display / headings / body:** Geist (400, 500, 600, 700) — crisp,
+  modern grotesque.
 - **Code / meta:** system monospace.
 
 | Style | Size | Weight | Line height | Tracking |
