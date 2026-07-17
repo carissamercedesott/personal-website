@@ -1,5 +1,11 @@
 /* Base layer — resets and element defaults built on tokens.css. */
 
+/* Smooth cross-page fade in browsers that support cross-document view
+ * transitions; everywhere else navigation just works normally. */
+@view-transition {
+  navigation: auto;
+}
+
 * {
   margin: 0;
   padding: 0;

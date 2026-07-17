@@ -336,7 +336,7 @@
     <div class="page">
       <header class="page-header">
         <a href="/">&larr; carissaott.dev</a>
-        <button class="theme-toggle" id="theme-toggle" type="button">🌙 Dark</button>
+        <button class="theme-toggle" id="theme-toggle" type="button"></button>
       </header>
 
       <div class="intro">
@@ -461,28 +461,9 @@
 
     <div class="toast" id="toast">Copied</div>
 
+    <script src="/scripts/site.js"></script>
     <script>
       const root = document.documentElement;
-      const toggle = document.getElementById("theme-toggle");
-      const prefersDark = window.matchMedia("(prefers-color-scheme: dark)");
-
-      function resolveTheme() {
-        return root.dataset.theme ?? (prefersDark.matches ? "dark" : "light");
-      }
-
-      function renderToggle() {
-        toggle.textContent = resolveTheme() === "dark" ? "☀️ Light" : "🌙 Dark";
-      }
-
-      function toggleTheme() {
-        const next = resolveTheme() === "dark" ? "light" : "dark";
-        root.dataset.theme = next;
-        localStorage.setItem("theme", next);
-        renderToggle();
-      }
-
-      toggle.addEventListener("click", toggleTheme);
-      renderToggle();
 
       // Palette families rendered from tokens.css itself, so the guide can
       // never drift from the source of truth.
