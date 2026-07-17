@@ -60,6 +60,8 @@ function initScrollSpy() {
   if (links.length === 0 || !("IntersectionObserver" in window)) return;
 
   const setCurrentSection = (id) => {
+    // Drives both the nav highlight and the per-section background tint.
+    document.body.dataset.section = id;
     for (const link of links) {
       if (link.hash === `#${id}`) {
         link.setAttribute("aria-current", "page");
@@ -113,11 +115,60 @@ function initCarousels() {
   }
 }
 
+function initTypewriter() {
+  const wordEl = document.getElementById("hero-type-word");
+  if (!wordEl) return;
+
+  const WORDS = [
+    "software engineer",
+    "designer",
+    "researcher",
+    "writer",
+    "snowboarder",
+    "DJ",
+    "baker",
+  ];
+
+  if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+    wordEl.textContent = WORDS[0];
+    return;
+  }
+
+  const TYPE_MS = 75;
+  const DELETE_MS = 40;
+  const HOLD_MS = 1600;
+  const GAP_MS = 350;
+
+  let wordIndex = 0;
+  let length = 0;
+  let deleting = false;
+
+  function typeTick() {
+    const word = WORDS[wordIndex];
+    length += deleting ? -1 : 1;
+    wordEl.textContent = word.slice(0, length);
+
+    let delay = deleting ? DELETE_MS : TYPE_MS;
+    if (!deleting && length === word.length) {
+      deleting = true;
+      delay = HOLD_MS;
+    } else if (deleting && length === 0) {
+      deleting = false;
+      wordIndex = (wordIndex + 1) % WORDS.length;
+      delay = GAP_MS;
+    }
+    setTimeout(typeTick, delay);
+  }
+
+  typeTick();
+}
+
 function initSiteChrome() {
   initThemeToggle();
   initReveal();
   initScrollSpy();
   initCarousels();
+  initTypewriter();
 }
 
 window.initSiteChrome = initSiteChrome;

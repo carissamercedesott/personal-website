@@ -22,6 +22,7 @@
     <script src="/scripts/theme.js"></script>
   </head>
   <body class="home">
+    <div class="bg-tint" aria-hidden="true"></div>
     <header class="site-header">
       <nav class="site-nav">
         <a class="site-logo" href="#top">Carissa Ott</a>
@@ -37,8 +38,13 @@
 
     <main>
       <section class="hero" id="top">
-        <span class="hero-tag">Software Engineer @ Duolingo</span>
         <h1 class="hero-title">Carissa Ott</h1>
+        <p
+          class="hero-type"
+          aria-label="your fav software engineer, designer, researcher, writer, snowboarder, DJ, baker"
+        >
+          your fav <span class="hero-type-word" id="hero-type-word"></span><span class="hero-type-cursor" aria-hidden="true"></span>
+        </p>
         <a class="hero-design-link" href="/design">✦ Explore my design system</a>
         <p class="hero-subtitle">
           I build products at the intersection of software engineering and
@@ -48,6 +54,7 @@
           <a class="btn btn-primary" href="#experience">Experience</a>
           <a class="btn btn-secondary" href="#projects">Projects</a>
         </nav>
+        <span class="hero-scroll-cue" aria-hidden="true">↓</span>
       </section>
 
       <section class="page-section" id="experience">
