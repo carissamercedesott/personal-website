@@ -268,6 +268,7 @@
 
   function startPlaying() {
     if (playing) return;
+    if (cancelArmedResume) cancelArmedResume();
     if (!audio) audio = createAudio();
     audio.ctx.resume();
     nextBeatTime = audio.ctx.currentTime + 0.08;
@@ -288,7 +289,10 @@
   function stopPlaying() {
     clearInterval(schedulerId);
     schedulerId = null;
-    if (audio) audio.ctx.suspend();
+    // Close (not suspend) so already-scheduled notes are discarded —
+    // suspending leaves them queued and they overlap the next play.
+    if (audio) audio.ctx.close();
+    audio = null;
     playing = false;
     dj.classList.remove("is-playing");
     document.body.classList.remove("is-djing");
@@ -373,20 +377,31 @@
   // ── Resume across navigation ──
   // Autoplay policy blocks audio until the visitor interacts with the new
   // page, so arm the deck and resume on the first gesture anywhere.
+  let cancelArmedResume = null;
+
   function armResume() {
     dj.classList.add("is-armed");
     toggle.title = "Tap anywhere to resume the music 🎧";
-    const resumeOnGesture = () => {
-      window.removeEventListener("pointerdown", resumeOnGesture);
-      window.removeEventListener("keydown", resumeOnGesture);
+    const resumeOnGesture = (event) => {
+      // Gestures on the deck itself go through the normal click handler —
+      // otherwise pointerdown starts the music and the click instantly
+      // stops it again.
+      if (dj.contains(event.target)) return;
       startPlaying();
     };
     window.addEventListener("pointerdown", resumeOnGesture);
     window.addEventListener("keydown", resumeOnGesture);
+    cancelArmedResume = () => {
+      window.removeEventListener("pointerdown", resumeOnGesture);
+      window.removeEventListener("keydown", resumeOnGesture);
+      cancelArmedResume = null;
+    };
   }
 
   // ── Needle-drop splash (home page, once per session) ──
   function createSplash() {
+    // The corner deck only appears once the flying record lands.
+    dj.classList.add("is-hidden");
     const splash = document.createElement("div");
     splash.className = "dj-splash";
     splash.innerHTML = `
@@ -411,6 +426,10 @@
       writeStorage(sessionStorage, "djSplashSeen", "1");
       document.body.classList.remove("has-splash");
       splash.classList.add("is-leaving");
+      const revealDeck = () => {
+        dj.classList.remove("is-hidden");
+        splash.remove();
+      };
       if (withSound) {
         startPlaying();
         const target = toggle.getBoundingClientRect();
@@ -418,10 +437,10 @@
         const dx = target.left + target.width / 2 - (from.left + from.width / 2);
         const dy = target.top + target.height / 2 - (from.top + from.height / 2);
         splashDeck.style.transform = `translate(${dx}px, ${dy}px) scale(${target.width / from.width})`;
-        window.setTimeout(() => splash.remove(), 750);
+        window.setTimeout(revealDeck, 750);
       } else {
         splashDeck.style.opacity = "0";
-        window.setTimeout(() => splash.remove(), 550);
+        window.setTimeout(revealDeck, 550);
       }
     }
 

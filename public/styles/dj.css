@@ -13,6 +13,11 @@
   gap: var(--space-3);
 }
 
+/* Hidden while the splash owns the screen; revealed when its record lands. */
+.dj.is-hidden {
+  visibility: hidden;
+}
+
 .dj-deck {
   position: relative;
   width: 72px;
@@ -144,16 +149,17 @@ body::before {
 }
 
 body.is-djing::before {
-  animation: dj-pulse var(--beat-duration, 714ms) var(--ease-in-out) infinite;
+  /* Breathe over two beats at low opacity — a wash, never a strobe. */
+  animation: dj-pulse calc(var(--beat-duration, 714ms) * 2) var(--ease-in-out) infinite;
 }
 
 @keyframes dj-pulse {
   0%,
   100% {
-    opacity: 0;
+    opacity: 0.06;
   }
-  18% {
-    opacity: 0.55;
+  50% {
+    opacity: 0.28;
   }
 }
 
