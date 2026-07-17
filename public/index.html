@@ -57,6 +57,48 @@
         <span class="hero-scroll-cue" aria-hidden="true">↓</span>
       </section>
 
+      <svg style="display: none" aria-hidden="true">
+        <defs>
+          <path
+            id="wave-path"
+            d="M0,40 C180,10 360,66 540,40 C720,14 900,64 1080,38 C1260,14 1360,46 1440,30 L1440,64 L0,64 Z"
+          />
+        </defs>
+      </svg>
+
+      <div class="wave" aria-hidden="true">
+        <svg viewBox="0 0 1440 64" preserveAspectRatio="none"><use href="#wave-path" fill="currentColor" /></svg>
+      </div>
+      <section class="band intro" id="intro">
+        <div class="section-inner intro-inner">
+          <figure class="intro-photo" data-reveal>
+            <!-- Swap this placeholder for <img src="/images/me.jpg" alt="Carissa Ott" class="intro-photo-img" /> when the photo is ready. -->
+            <div class="intro-photo-placeholder">
+              <span>📸</span>
+              <p>photo on the way</p>
+            </div>
+          </figure>
+          <div class="intro-copy" data-reveal>
+            <span class="section-label">Hi, it's me</span>
+            <h2>Nice to meet you</h2>
+            <p class="section-lead">
+              Cognitive science brain, engineer's hands. I studied how people
+              learn at UCLA, and now I build how people learn at Duolingo —
+              mostly in Swift, often with a constraint solver nearby.
+            </p>
+            <div class="sticker-row">
+              <!-- Placeholder stickers — swap the text spans for official logo images when provided. -->
+              <div class="sticker" style="--tilt: -6deg"><span class="sticker-text sticker-ucla">UCLA</span></div>
+              <div class="sticker" style="--tilt: 4deg"><span class="sticker-text sticker-duolingo">duolingo</span></div>
+              <div class="sticker" style="--tilt: -3deg"><span class="sticker-text sticker-ios">iOS</span></div>
+            </div>
+          </div>
+        </div>
+      </section>
+      <div class="wave wave-flip" aria-hidden="true">
+        <svg viewBox="0 0 1440 64" preserveAspectRatio="none"><use href="#wave-path" fill="currentColor" /></svg>
+      </div>
+
       <section class="page-section" id="experience">
         <div class="section-inner">
           <span class="section-label">Experience</span>
@@ -271,7 +313,10 @@
         </div>
       </section>
 
-      <section class="page-section" id="projects">
+      <div class="wave" aria-hidden="true">
+        <svg viewBox="0 0 1440 64" preserveAspectRatio="none"><use href="#wave-path" fill="currentColor" /></svg>
+      </div>
+      <section class="page-section band" id="projects">
         <div class="section-inner">
           <span class="section-label">Projects</span>
           <h2>Builds</h2>
@@ -422,10 +467,22 @@
         </div>
       </section>
 
+      <div class="wave wave-flip" aria-hidden="true">
+        <svg viewBox="0 0 1440 64" preserveAspectRatio="none"><use href="#wave-path" fill="currentColor" /></svg>
+      </div>
       <section class="page-section" id="about">
         <div class="section-inner">
           <span class="section-label">About</span>
           <h2>About me</h2>
+          <svg class="squiggle" viewBox="0 0 320 28" fill="none" aria-hidden="true">
+            <path
+              pathLength="1"
+              d="M4 14 C 24 2, 44 26, 64 14 C 84 2, 104 26, 124 14 C 144 2, 164 26, 184 14 C 204 2, 224 26, 244 14 C 264 2, 284 26, 304 14"
+              stroke="var(--accent-default)"
+              stroke-width="5"
+              stroke-linecap="round"
+            />
+          </svg>
           <p class="section-lead">The longer story — how I got here and what I care about.</p>
           <div class="placeholder" data-reveal>
             <h3>Coming soon</h3>
@@ -434,7 +491,10 @@
         </div>
       </section>
 
-      <section class="page-section" id="interests">
+      <div class="wave" aria-hidden="true">
+        <svg viewBox="0 0 1440 64" preserveAspectRatio="none"><use href="#wave-path" fill="currentColor" /></svg>
+      </div>
+      <section class="page-section band" id="interests">
         <div class="section-inner">
           <span class="section-label">Interests</span>
           <h2>Hobbies &amp; tidbits</h2>
@@ -448,6 +508,9 @@
           </div>
         </div>
       </section>
+      <div class="wave wave-flip" aria-hidden="true">
+        <svg viewBox="0 0 1440 64" preserveAspectRatio="none"><use href="#wave-path" fill="currentColor" /></svg>
+      </div>
     </main>
 
     <footer class="site-footer">

@@ -82,6 +82,140 @@ body.home {
   }
 }
 
+/* ── Intro band: photo + sticker cards ── */
+.intro {
+  padding: var(--space-16) var(--space-6);
+}
+
+.intro-inner {
+  display: grid;
+  grid-template-columns: minmax(0, 5fr) minmax(0, 7fr);
+  gap: var(--space-12);
+  align-items: center;
+}
+
+@media (max-width: 720px) {
+  .intro-inner {
+    grid-template-columns: 1fr;
+  }
+}
+
+.intro-photo {
+  transform: rotate(-3deg);
+  transition: transform var(--duration-base) var(--ease-out);
+}
+
+.intro-photo:hover {
+  transform: rotate(-1deg) scale(1.02);
+}
+
+.intro-photo-placeholder,
+.intro-photo-img {
+  aspect-ratio: 4 / 5;
+  width: 100%;
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--border-default);
+  box-shadow: var(--shadow-lg);
+}
+
+.intro-photo-placeholder {
+  background: linear-gradient(135deg, var(--blush-100), var(--apricot-100));
+  display: grid;
+  place-content: center;
+  gap: var(--space-2);
+  text-align: center;
+  color: var(--text-secondary);
+  font-size: var(--text-sm);
+}
+
+.intro-photo-placeholder span {
+  font-size: 2.5rem;
+}
+
+.intro-photo-img {
+  object-fit: cover;
+}
+
+.intro-copy h2 {
+  margin-top: var(--space-2);
+  font-size: var(--text-3xl);
+  letter-spacing: var(--tracking-tight);
+}
+
+.sticker-row {
+  margin-top: var(--space-8);
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-4);
+}
+
+.sticker {
+  transform: rotate(var(--tilt, 0deg));
+  background: var(--oat-0);
+  border: 1px solid var(--border-default);
+  border-radius: var(--radius-md);
+  padding: var(--space-3) var(--space-4);
+  box-shadow: var(--shadow-md);
+  transition: transform var(--duration-base) var(--ease-out),
+    box-shadow var(--duration-base) var(--ease-out);
+}
+
+.sticker:hover {
+  transform: rotate(0deg) translateY(-4px) scale(1.08);
+  box-shadow: var(--shadow-lg);
+}
+
+/* Placeholder wordmarks until official logo assets are provided.
+ * Brand colors are intentional literals, not design tokens. */
+.sticker-text {
+  font-family: var(--font-display);
+  font-weight: var(--weight-bold);
+  font-size: var(--text-lg);
+}
+
+.sticker-ucla {
+  color: #2774ae;
+}
+
+.sticker-duolingo {
+  color: #58cc02;
+}
+
+.sticker-ios {
+  color: #1d1d1f;
+}
+
+/* ── About squiggle: draws itself in as the section scrolls into view ── */
+.squiggle {
+  display: block;
+  width: min(320px, 70%);
+  height: 28px;
+  margin-top: var(--space-4);
+}
+
+@supports (animation-timeline: view()) {
+  .squiggle path {
+    stroke-dasharray: 1;
+    stroke-dashoffset: 1;
+    animation: draw-squiggle linear both;
+    animation-timeline: view();
+    animation-range: entry 10% cover 45%;
+  }
+
+  @keyframes draw-squiggle {
+    to {
+      stroke-dashoffset: 0;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .squiggle path {
+      animation: none;
+      stroke-dashoffset: 0;
+    }
+  }
+}
+
 .hero-design-link {
   justify-self: center;
   margin-top: var(--space-3);
