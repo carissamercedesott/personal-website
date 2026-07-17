@@ -1,6 +1,7 @@
-/* Landing page styles. */
+/* Landing page styles — scoped to body.home so this sheet can load on
+ * every page (soft navigation swaps pages without a full reload). */
 
-body {
+body.home {
   display: flex;
   flex-direction: column;
   min-height: 100vh;

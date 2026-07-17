@@ -148,8 +148,8 @@ body::before {
   opacity: 0;
 }
 
-body.is-djing::before {
-  /* Breathe over two beats at low opacity — a wash, never a strobe. */
+/* Only the home page breathes with the music — inner pages stay still. */
+body.home.is-djing::before {
   animation: dj-pulse calc(var(--beat-duration, 714ms) * 2) var(--ease-in-out) infinite;
 }
 

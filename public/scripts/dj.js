@@ -9,7 +9,9 @@
   const root = document.documentElement;
   const DEFAULT_BPM = 84;
   const LOOKAHEAD_MS = 100;
-  const SCHEDULE_AHEAD_S = 0.25;
+  // Background tabs throttle timers to ~1s, so keep well over a second of
+  // audio scheduled or the loop stutters when the tab loses focus.
+  const SCHEDULE_AHEAD_S = 1.8;
   const DRAG_THRESHOLD_PX = 6;
 
   // One chord per bar: Fmaj7 → Em7 → Dm7 → Cmaj7 (MIDI note numbers).

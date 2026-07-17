@@ -1,6 +1,8 @@
 // Shared site behavior: theme toggle and scroll-reveal animations.
+// initSiteChrome is exposed globally so soft navigation (nav.js) can
+// re-bind after swapping in a new page's content.
 
-(function initTheme() {
+function initThemeToggle() {
   const root = document.documentElement;
   const toggle = document.getElementById("theme-toggle");
   if (!toggle) return;
@@ -26,10 +28,10 @@
 
   toggle.addEventListener("click", toggleTheme);
   renderToggle();
-})();
+}
 
-(function initReveal() {
-  const revealables = document.querySelectorAll("[data-reveal]");
+function initReveal() {
+  const revealables = document.querySelectorAll("[data-reveal]:not(.is-revealed)");
   if (revealables.length === 0 || !("IntersectionObserver" in window)) {
     revealables.forEach((el) => el.classList.add("is-revealed"));
     return;
@@ -51,4 +53,12 @@
     el.style.transitionDelay = `${Math.min(index % 6, 4) * 60}ms`;
     observer.observe(el);
   });
-})();
+}
+
+function initSiteChrome() {
+  initThemeToggle();
+  initReveal();
+}
+
+window.initSiteChrome = initSiteChrome;
+initSiteChrome();
