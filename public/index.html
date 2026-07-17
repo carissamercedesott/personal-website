@@ -70,12 +70,11 @@
       </div>
       <section class="intro" id="intro">
         <div class="section-inner intro-inner">
-          <figure class="intro-photo" data-reveal>
-            <!-- Swap this placeholder for <img src="/images/me.jpg" alt="Carissa Ott" class="intro-photo-img" /> when the photo is ready. -->
-            <div class="intro-photo-placeholder">
-              <span>📸</span>
-              <p>photo on the way</p>
-            </div>
+          <figure class="intro-photo" id="intro-photo" data-reveal>
+            <img class="intro-photo-img" src="/images/photos/me-cover.jpg" alt="Carissa Ott" />
+            <img class="intro-photo-img intro-photo-peek" data-photo="ucla" src="/images/photos/me-beach.jpg" alt="Carissa on the beach in her UCLA graduation sash" />
+            <img class="intro-photo-img intro-photo-peek" data-photo="duolingo" src="/images/photos/me-duo.jpg" alt="Carissa with Duo the owl at Duolingo" />
+            <img class="intro-photo-img intro-photo-peek" data-photo="apple" src="/images/photos/me-laptop.jpg" alt="Carissa as a toddler at a laptop" />
           </figure>
           <div class="intro-copy" data-reveal>
             <span class="section-label">Hi, it's me</span>
@@ -87,9 +86,9 @@
             </p>
           </div>
           <div class="sticker-scatter">
-            <img class="sticker" src="/images/stickers/duolingo.png" alt="Duolingo" style="--tilt: -10deg; --size: 110px; top: -8%; right: 3%" />
-            <img class="sticker" src="/images/stickers/ucla.png" alt="UCLA Bruins" style="--tilt: 9deg; --size: 92px; top: 46%; right: -12px" />
-            <img class="sticker" src="/images/stickers/apple.svg" alt="Apple iOS" style="--tilt: -16deg; --size: 56px; bottom: -6%; right: 26%" />
+            <img class="sticker" data-peek="duolingo" src="/images/stickers/duolingo.png" alt="Duolingo" style="--tilt: -10deg; --size: 110px; top: -8%; right: 3%" />
+            <img class="sticker" data-peek="ucla" src="/images/stickers/ucla.png" alt="UCLA Bruins" style="--tilt: 9deg; --size: 92px; top: 46%; right: -12px" />
+            <img class="sticker" data-peek="apple" src="/images/stickers/apple.svg" alt="Apple iOS" style="--tilt: -16deg; --size: 56px; bottom: -6%; right: 26%" />
           </div>
         </div>
       </section>

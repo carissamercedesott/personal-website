@@ -161,12 +161,26 @@ function initTypewriter() {
   typeTick();
 }
 
+function initStickerPeek() {
+  const photo = document.getElementById("intro-photo");
+  if (!photo) return;
+  for (const sticker of document.querySelectorAll("[data-peek]")) {
+    sticker.addEventListener("mouseenter", () => {
+      photo.dataset.show = sticker.dataset.peek;
+    });
+    sticker.addEventListener("mouseleave", () => {
+      delete photo.dataset.show;
+    });
+  }
+}
+
 function initSiteChrome() {
   initThemeToggle();
   initReveal();
   initScrollSpy();
   initCarousels();
   initTypewriter();
+  initStickerPeek();
 }
 
 window.initSiteChrome = initSiteChrome;
