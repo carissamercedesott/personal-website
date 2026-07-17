@@ -1,19 +1,16 @@
-// DJ mode: a synthesized lo-fi loop (Web Audio API — no audio files),
-// a beat-synced hero pulse, and a BPM slider that rescales the site's
-// motion tokens so the tempo literally drives the design system.
+// DJ mode: a persistent, draggable turntable on every page.
+// - The lo-fi loop is synthesized with the Web Audio API (no audio files).
+// - A BPM slider rescales the site's --duration-* motion tokens.
+// - On the home page, a first visit starts with a needle-drop splash.
+// - Play state survives navigation; browsers block audio until the next
+//   interaction, so the deck arrives "armed" and resumes on first gesture.
 
 (function initDj() {
-  const dj = document.getElementById("dj");
-  const toggle = document.getElementById("dj-toggle");
-  const panel = document.getElementById("dj-panel");
-  const bpmInput = document.getElementById("dj-bpm");
-  const bpmValue = document.getElementById("dj-bpm-value");
-  if (!dj || !toggle) return;
-
   const root = document.documentElement;
   const DEFAULT_BPM = 84;
   const LOOKAHEAD_MS = 100;
   const SCHEDULE_AHEAD_S = 0.25;
+  const DRAG_THRESHOLD_PX = 6;
 
   // One chord per bar: Fmaj7 → Em7 → Dm7 → Cmaj7 (MIDI note numbers).
   const PROGRESSION = [
@@ -23,9 +20,91 @@
     [48, 52, 55, 59],
   ];
 
-  let audio = null; // { ctx, master, crackle }
+  function readStorage(store, key) {
+    try {
+      return store.getItem(key);
+    } catch {
+      return null;
+    }
+  }
+
+  function writeStorage(store, key, value) {
+    try {
+      store.setItem(key, value);
+    } catch {
+      /* private mode — feature degrades gracefully */
+    }
+  }
+
+  let bpm = Number(readStorage(sessionStorage, "djBpm")) || DEFAULT_BPM;
+  const wasPlaying = readStorage(sessionStorage, "djPlaying") === "1";
+
+  // ── Widget ──
+  const dj = document.createElement("div");
+  dj.className = "dj";
+  dj.innerHTML = `
+    <div class="dj-panel" id="dj-panel" hidden>
+      <label for="dj-bpm">BPM</label>
+      <input type="range" id="dj-bpm" min="60" max="140" step="1" />
+      <span class="dj-bpm-value" id="dj-bpm-value"></span>
+    </div>
+    <button
+      class="dj-deck"
+      id="dj-toggle"
+      type="button"
+      aria-pressed="false"
+      aria-label="Play a lo-fi loop"
+      title="Drop the needle 🎧 (drag to move)"
+    >
+      <span class="dj-record"></span>
+      <span class="dj-arm"></span>
+    </button>`;
+  document.body.appendChild(dj);
+
+  const toggle = dj.querySelector("#dj-toggle");
+  const panel = dj.querySelector("#dj-panel");
+  const bpmInput = dj.querySelector("#dj-bpm");
+  const bpmValue = dj.querySelector("#dj-bpm-value");
+  bpmInput.value = String(bpm);
+  bpmValue.textContent = String(bpm);
+
+  // ── Position (draggable, persisted) ──
+  function clampPosition(right, bottom) {
+    const margin = 8;
+    const maxRight = window.innerWidth - toggle.offsetWidth - margin;
+    // Reserve headroom above the deck so the BPM panel always fits on screen.
+    const maxBottom = window.innerHeight - toggle.offsetHeight - 96;
+    return {
+      right: Math.min(Math.max(right, margin), Math.max(margin, maxRight)),
+      bottom: Math.min(Math.max(bottom, margin), Math.max(margin, maxBottom)),
+    };
+  }
+
+  function placeDeck(right, bottom) {
+    const pos = clampPosition(right, bottom);
+    dj.style.right = `${pos.right}px`;
+    dj.style.bottom = `${pos.bottom}px`;
+    return pos;
+  }
+
+  function restorePosition() {
+    const raw = readStorage(localStorage, "djDeckPos");
+    if (!raw) return;
+    try {
+      const pos = JSON.parse(raw);
+      if (Number.isFinite(pos.right) && Number.isFinite(pos.bottom)) {
+        placeDeck(pos.right, pos.bottom);
+      }
+    } catch {
+      /* corrupt value — keep the default corner */
+    }
+  }
+
+  restorePosition();
+
+  // ── Audio engine ──
+  let audio = null; // { ctx, master }
   let playing = false;
-  let bpm = DEFAULT_BPM;
   let nextBeatTime = 0;
   let beatIndex = 0;
   let schedulerId = null;
@@ -44,6 +123,12 @@
     root.style.setProperty("--duration-slow", `${Math.round(400 * scale)}ms`);
   }
 
+  function resetTempoTokens() {
+    for (const token of ["--beat-duration", "--duration-fast", "--duration-base", "--duration-slow"]) {
+      root.style.removeProperty(token);
+    }
+  }
+
   function createAudio() {
     const ctx = new (window.AudioContext || window.webkitAudioContext)();
 
@@ -55,24 +140,33 @@
     warmth.type = "lowpass";
     warmth.frequency.value = 5500;
 
+    // Soft compression keeps kick + chords from summing into distortion.
+    const glue = ctx.createDynamicsCompressor();
+    glue.threshold.value = -20;
+    glue.knee.value = 24;
+    glue.ratio.value = 5;
+    glue.attack.value = 0.005;
+    glue.release.value = 0.2;
+
     master.connect(warmth);
-    warmth.connect(ctx.destination);
+    warmth.connect(glue);
+    glue.connect(ctx.destination);
 
     // Vinyl crackle: a looped noise buffer of sparse pops over faint hiss.
     const seconds = 2;
     const buffer = ctx.createBuffer(1, ctx.sampleRate * seconds, ctx.sampleRate);
     const data = buffer.getChannelData(0);
     for (let i = 0; i < data.length; i++) {
-      data[i] = (Math.random() * 2 - 1) * 0.004;
-      if (Math.random() < 0.0006) {
-        data[i] = (Math.random() * 2 - 1) * 0.35;
+      data[i] = (Math.random() * 2 - 1) * 0.0015;
+      if (Math.random() < 0.0002) {
+        data[i] = (Math.random() * 2 - 1) * 0.1;
       }
     }
     const crackle = ctx.createBufferSource();
     crackle.buffer = buffer;
     crackle.loop = true;
     const crackleGain = ctx.createGain();
-    crackleGain.gain.value = 0.5;
+    crackleGain.gain.value = 0.3;
     crackle.connect(crackleGain);
     crackleGain.connect(master);
     crackle.start();
@@ -96,7 +190,7 @@
   }
 
   function scheduleHat(time) {
-    const { ctx, master } = audio;
+    const { ctx } = audio;
     const length = 0.05;
     const buffer = ctx.createBuffer(1, ctx.sampleRate * length, ctx.sampleRate);
     const data = buffer.getChannelData(0);
@@ -109,7 +203,7 @@
     filter.type = "highpass";
     filter.frequency.value = 7000;
     const gain = ctx.createGain();
-    gain.gain.setValueAtTime(0.09, time);
+    gain.gain.setValueAtTime(0.08, time);
     gain.gain.exponentialRampToValueAtTime(0.001, time + length);
     source.connect(filter);
     filter.connect(gain);
@@ -173,6 +267,7 @@
   }
 
   function startPlaying() {
+    if (playing) return;
     if (!audio) audio = createAudio();
     audio.ctx.resume();
     nextBeatTime = audio.ctx.currentTime + 0.08;
@@ -181,11 +276,13 @@
     schedulerId = setInterval(runScheduler, LOOKAHEAD_MS);
     playing = true;
     dj.classList.add("is-playing");
+    dj.classList.remove("is-armed");
     document.body.classList.add("is-djing");
-    if (panel) panel.hidden = false;
+    panel.hidden = false;
     toggle.setAttribute("aria-pressed", "true");
     toggle.setAttribute("aria-label", "Stop the lo-fi loop");
     applyTempoTokens();
+    writeStorage(sessionStorage, "djPlaying", "1");
   }
 
   function stopPlaying() {
@@ -195,26 +292,152 @@
     playing = false;
     dj.classList.remove("is-playing");
     document.body.classList.remove("is-djing");
-    if (panel) panel.hidden = true;
+    panel.hidden = true;
     toggle.setAttribute("aria-pressed", "false");
     toggle.setAttribute("aria-label", "Play a lo-fi loop");
+    resetTempoTokens();
+    writeStorage(sessionStorage, "djPlaying", "0");
   }
 
-  function togglePlaying() {
+  // ── Click vs drag: only a deliberate click toggles playback ──
+  let suppressClick = false;
+  let drag = null;
+
+  toggle.addEventListener("click", () => {
+    if (suppressClick) {
+      suppressClick = false;
+      return;
+    }
     if (playing) {
       stopPlaying();
     } else {
       startPlaying();
     }
+  });
+
+  toggle.addEventListener("pointerdown", (event) => {
+    // A fresh interaction always starts clean — a stale flag from a
+    // cancelled drag must not swallow this press's click.
+    suppressClick = false;
+    const rect = dj.getBoundingClientRect();
+    drag = {
+      startX: event.clientX,
+      startY: event.clientY,
+      right: window.innerWidth - rect.right,
+      bottom: window.innerHeight - rect.bottom,
+      moved: false,
+    };
+    toggle.setPointerCapture(event.pointerId);
+  });
+
+  toggle.addEventListener("pointermove", (event) => {
+    if (!drag) return;
+    const dx = event.clientX - drag.startX;
+    const dy = event.clientY - drag.startY;
+    if (!drag.moved && Math.hypot(dx, dy) < DRAG_THRESHOLD_PX) return;
+    drag.moved = true;
+    dj.classList.add("is-dragging");
+    placeDeck(drag.right - dx, drag.bottom - dy);
+  });
+
+  function finishDrag() {
+    if (!drag) return;
+    if (drag.moved) {
+      suppressClick = true;
+      const rect = dj.getBoundingClientRect();
+      const pos = {
+        right: Math.round(window.innerWidth - rect.right),
+        bottom: Math.round(window.innerHeight - rect.bottom),
+      };
+      writeStorage(localStorage, "djDeckPos", JSON.stringify(pos));
+    }
+    dj.classList.remove("is-dragging");
+    drag = null;
   }
 
-  toggle.addEventListener("click", togglePlaying);
+  toggle.addEventListener("pointerup", finishDrag);
+  toggle.addEventListener("pointercancel", finishDrag);
 
-  if (bpmInput) {
-    bpmInput.addEventListener("input", () => {
-      bpm = Number(bpmInput.value);
-      if (bpmValue) bpmValue.textContent = String(bpm);
-      applyTempoTokens();
+  window.addEventListener("resize", () => {
+    const rect = dj.getBoundingClientRect();
+    placeDeck(window.innerWidth - rect.right, window.innerHeight - rect.bottom);
+  });
+
+  bpmInput.addEventListener("input", () => {
+    bpm = Number(bpmInput.value);
+    bpmValue.textContent = String(bpm);
+    writeStorage(sessionStorage, "djBpm", String(bpm));
+    if (playing) applyTempoTokens();
+  });
+
+  // ── Resume across navigation ──
+  // Autoplay policy blocks audio until the visitor interacts with the new
+  // page, so arm the deck and resume on the first gesture anywhere.
+  function armResume() {
+    dj.classList.add("is-armed");
+    toggle.title = "Tap anywhere to resume the music 🎧";
+    const resumeOnGesture = () => {
+      window.removeEventListener("pointerdown", resumeOnGesture);
+      window.removeEventListener("keydown", resumeOnGesture);
+      startPlaying();
+    };
+    window.addEventListener("pointerdown", resumeOnGesture);
+    window.addEventListener("keydown", resumeOnGesture);
+  }
+
+  // ── Needle-drop splash (home page, once per session) ──
+  function createSplash() {
+    const splash = document.createElement("div");
+    splash.className = "dj-splash";
+    splash.innerHTML = `
+      <div class="dj-splash-inner">
+        <button class="dj-deck" id="dj-splash-deck" type="button" aria-label="Drop the needle and enter">
+          <span class="dj-record"></span>
+          <span class="dj-arm"></span>
+        </button>
+        <div class="dj-splash-text">
+          <p class="dj-splash-hint">Drop the needle</p>
+          <p class="dj-splash-sub">click the record to come on in</p>
+        </div>
+        <button class="dj-splash-skip" type="button">enter quietly →</button>
+      </div>`;
+    document.body.appendChild(splash);
+    document.body.classList.add("has-splash");
+
+    const splashDeck = splash.querySelector("#dj-splash-deck");
+    splashDeck.focus();
+
+    function leaveSplash(withSound) {
+      writeStorage(sessionStorage, "djSplashSeen", "1");
+      document.body.classList.remove("has-splash");
+      splash.classList.add("is-leaving");
+      if (withSound) {
+        startPlaying();
+        const target = toggle.getBoundingClientRect();
+        const from = splashDeck.getBoundingClientRect();
+        const dx = target.left + target.width / 2 - (from.left + from.width / 2);
+        const dy = target.top + target.height / 2 - (from.top + from.height / 2);
+        splashDeck.style.transform = `translate(${dx}px, ${dy}px) scale(${target.width / from.width})`;
+        window.setTimeout(() => splash.remove(), 750);
+      } else {
+        splashDeck.style.opacity = "0";
+        window.setTimeout(() => splash.remove(), 550);
+      }
+    }
+
+    splashDeck.addEventListener("click", () => leaveSplash(true));
+    splash.querySelector(".dj-splash-skip").addEventListener("click", () => leaveSplash(false));
+    splash.addEventListener("keydown", (event) => {
+      if (event.key === "Escape") leaveSplash(false);
     });
+  }
+
+  const onHomePage = location.pathname === "/" || location.pathname === "/index.html";
+  const splashSeen = readStorage(sessionStorage, "djSplashSeen") === "1";
+
+  if (onHomePage && !splashSeen && !wasPlaying) {
+    createSplash();
+  } else if (wasPlaying) {
+    armResume();
   }
 })();
