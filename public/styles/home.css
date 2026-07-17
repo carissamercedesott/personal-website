@@ -1,0 +1,57 @@
+/* Landing page styles. */
+
+body {
+  display: grid;
+  place-items: center;
+  background-image: var(--bg-wash);
+  background-attachment: fixed;
+}
+
+.hero {
+  text-align: center;
+  padding: var(--space-6);
+  animation: rise-in var(--duration-slow) var(--ease-out) both;
+}
+
+.hero-tag {
+  display: inline-block;
+  padding: var(--space-1) var(--space-3);
+  border-radius: var(--radius-full);
+  background: var(--accent-soft);
+  color: var(--accent-strong);
+  font-size: var(--text-xs);
+  font-weight: var(--weight-semibold);
+  letter-spacing: var(--tracking-wide);
+  text-transform: uppercase;
+}
+
+.hero-title {
+  margin-top: var(--space-4);
+  font-size: var(--text-display);
+  font-weight: var(--weight-bold);
+  letter-spacing: var(--tracking-tight);
+}
+
+.hero-subtitle {
+  margin-top: var(--space-3);
+  font-size: var(--text-lg);
+  color: var(--text-secondary);
+}
+
+.hero-links {
+  margin-top: var(--space-8);
+  display: flex;
+  gap: var(--space-4);
+  justify-content: center;
+}
+
+@keyframes rise-in {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}

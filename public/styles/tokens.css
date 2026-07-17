@@ -1,0 +1,258 @@
+/*
+ * Design tokens — single source of truth.
+ *
+ * Layer 1: primitives (named color sets, fixed values, never theme-dependent).
+ *          Figma naming: "Blush/500", "Oat/100", etc.
+ * Layer 2: semantic tokens (what a color *means* in the UI). These remap
+ *          between light and dark mode; components only ever use these.
+ *          Figma naming: "bg/default", "text/primary", etc.
+ */
+
+:root {
+  /* ── Blush — primary. Pastel pink with reddish undertones. ── */
+  --blush-50:  #FFF1F0;
+  --blush-100: #FDE2E0;
+  --blush-200: #FACBC7;
+  --blush-300: #F5A9A3;
+  --blush-400: #EE867F;
+  --blush-500: #E36A62;
+  --blush-600: #C94E46;
+  --blush-700: #A63B34;
+  --blush-800: #7C2C27;
+  --blush-900: #571F1B;
+
+  /* ── Apricot — secondary. Pastel orange, warm and soft. ── */
+  --apricot-50:  #FFF6F0;
+  --apricot-100: #FEE8DA;
+  --apricot-200: #FCD3B8;
+  --apricot-300: #F8B48A;
+  --apricot-400: #F0945E;
+  --apricot-500: #E1773D;
+  --apricot-600: #BF5D28;
+  --apricot-700: #98481F;
+  --apricot-800: #703517;
+  --apricot-900: #4E2510;
+
+  /* ── Oat — neutrals. Warm greige with a rosy cast; never pure gray. ── */
+  --oat-0:   #FFFFFF;
+  --oat-50:  #FAF7F5;
+  --oat-100: #F3EDEA;
+  --oat-200: #E6DDD8;
+  --oat-300: #D2C5BF;
+  --oat-400: #AF9F98;
+  --oat-500: #897971;
+  --oat-600: #695C55;
+  --oat-700: #4E443F;
+  --oat-800: #352E2A;
+  --oat-900: #231E1B;
+  --oat-950: #171310;
+
+  /* ── Support pastels — tags, highlights, illustration, fun tidbits. ── */
+  --sage-100: #E4F0E7;
+  --sage-200: #C8E1CE;
+  --sage-300: #A3CBAD;
+  --sage-500: #679B76;
+  --sage-700: #3D6449;
+
+  --sky-100: #E4EFF8;
+  --sky-200: #C6DFF0;
+  --sky-300: #9FC8E3;
+  --sky-500: #5F97BF;
+  --sky-700: #386185;
+
+  --lilac-100: #F0EAF9;
+  --lilac-200: #DFD2F2;
+  --lilac-300: #C5AFE5;
+  --lilac-500: #9678C7;
+  --lilac-700: #614C8C;
+
+  --butter-100: #FBF2D9;
+  --butter-200: #F6E4B3;
+  --butter-300: #EDCF83;
+  --butter-500: #C8A24B;
+  --butter-700: #86682B;
+
+  /* ── Typography ── */
+  --font-display: "Sora", "Inter", system-ui, -apple-system, sans-serif;
+  --font-body: "Inter", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font-mono: ui-monospace, "SF Mono", "JetBrains Mono", Menlo, monospace;
+
+  --text-xs: 0.75rem;    /* 12px — captions, labels */
+  --text-sm: 0.875rem;   /* 14px — secondary text */
+  --text-md: 1rem;       /* 16px — body */
+  --text-lg: 1.125rem;   /* 18px — lead paragraphs */
+  --text-xl: 1.375rem;   /* 22px — h4 */
+  --text-2xl: 1.75rem;   /* 28px — h3 */
+  --text-3xl: 2.25rem;   /* 36px — h2 */
+  --text-4xl: clamp(2.5rem, 6vw, 3.5rem);   /* h1 */
+  --text-display: clamp(3rem, 9vw, 5.5rem); /* hero display */
+
+  --weight-regular: 400;
+  --weight-medium: 500;
+  --weight-semibold: 600;
+  --weight-bold: 700;
+
+  --leading-tight: 1.15;  /* display, headings */
+  --leading-snug: 1.35;   /* subheadings */
+  --leading-normal: 1.6;  /* body */
+
+  --tracking-tight: -0.02em; /* large headings only */
+  --tracking-wide: 0.06em;   /* uppercase labels only */
+
+  /* ── Spacing — 4px base grid ── */
+  --space-1: 0.25rem;  /*  4px */
+  --space-2: 0.5rem;   /*  8px */
+  --space-3: 0.75rem;  /* 12px */
+  --space-4: 1rem;     /* 16px */
+  --space-6: 1.5rem;   /* 24px */
+  --space-8: 2rem;     /* 32px */
+  --space-12: 3rem;    /* 48px */
+  --space-16: 4rem;    /* 64px */
+  --space-24: 6rem;    /* 96px */
+
+  /* ── Radii — soft but crisp ── */
+  --radius-sm: 6px;    /* chips, tags, inputs */
+  --radius-md: 10px;   /* buttons */
+  --radius-lg: 16px;   /* cards */
+  --radius-xl: 24px;   /* feature panels, modals */
+  --radius-full: 999px;
+
+  /* ── Motion ── */
+  --duration-fast: 150ms;  /* hovers, toggles */
+  --duration-base: 250ms;  /* most transitions */
+  --duration-slow: 400ms;  /* entrances, page-level */
+  --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+  --ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);
+
+  /* ── Semantic tokens — LIGHT (default) ── */
+  color-scheme: light;
+
+  --bg-default: var(--oat-50);
+  --bg-subtle: var(--oat-100);
+  --bg-wash: linear-gradient(135deg, var(--blush-100), var(--apricot-100));
+
+  --surface-default: var(--oat-0);
+  --surface-hover: var(--oat-50);
+  --surface-raised: var(--oat-0);
+
+  --border-default: var(--oat-200);
+  --border-strong: var(--oat-300);
+
+  --text-primary: var(--oat-900);
+  --text-secondary: var(--oat-600);
+  --text-muted: var(--oat-500);
+  --text-on-accent: var(--oat-0);
+
+  --accent-default: var(--blush-500);
+  --accent-hover: var(--blush-600);
+  --accent-strong: var(--blush-700);   /* small text/links: AA on light bg */
+  --accent-soft: var(--blush-100);     /* pastel fills behind dark text */
+  --accent-2-default: var(--apricot-500);
+  --accent-2-soft: var(--apricot-100);
+
+  --focus-ring: var(--blush-400);
+
+  --status-success: var(--sage-700);
+  --status-success-soft: var(--sage-100);
+  --status-info: var(--sky-700);
+  --status-info-soft: var(--sky-100);
+  --status-warning: var(--butter-700);
+  --status-warning-soft: var(--butter-100);
+  --status-error: var(--blush-700);
+  --status-error-soft: var(--blush-100);
+
+  --shadow-sm: 0 1px 2px rgba(35, 30, 27, 0.06);
+  --shadow-md: 0 2px 8px rgba(35, 30, 27, 0.08), 0 1px 2px rgba(35, 30, 27, 0.04);
+  --shadow-lg: 0 12px 32px rgba(35, 30, 27, 0.12), 0 2px 6px rgba(35, 30, 27, 0.06);
+}
+
+/* ── Semantic tokens — DARK ──
+ * Warm near-black (never pure #000); accents lighten one to two steps so
+ * pastels keep their character and text stays AA-readable on dark surfaces.
+ */
+[data-theme="dark"] {
+  color-scheme: dark;
+
+  --bg-default: var(--oat-950);
+  --bg-subtle: var(--oat-900);
+  --bg-wash: linear-gradient(135deg, rgba(227, 106, 98, 0.14), rgba(225, 119, 61, 0.12));
+
+  --surface-default: var(--oat-900);
+  --surface-hover: var(--oat-800);
+  --surface-raised: var(--oat-800);
+
+  --border-default: var(--oat-800);
+  --border-strong: var(--oat-700);
+
+  --text-primary: var(--oat-50);
+  --text-secondary: var(--oat-300);
+  --text-muted: var(--oat-400);
+  --text-on-accent: var(--oat-950);
+
+  --accent-default: var(--blush-400);
+  --accent-hover: var(--blush-300);
+  --accent-strong: var(--blush-300);
+  --accent-soft: rgba(227, 106, 98, 0.18);
+  --accent-2-default: var(--apricot-400);
+  --accent-2-soft: rgba(225, 119, 61, 0.16);
+
+  --focus-ring: var(--blush-300);
+
+  --status-success: var(--sage-300);
+  --status-success-soft: rgba(103, 155, 118, 0.18);
+  --status-info: var(--sky-300);
+  --status-info-soft: rgba(95, 151, 191, 0.18);
+  --status-warning: var(--butter-300);
+  --status-warning-soft: rgba(200, 162, 75, 0.18);
+  --status-error: var(--blush-300);
+  --status-error-soft: rgba(227, 106, 98, 0.18);
+
+  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.3);
+  --shadow-md: 0 2px 8px rgba(0, 0, 0, 0.35), 0 1px 2px rgba(0, 0, 0, 0.25);
+  --shadow-lg: 0 12px 32px rgba(0, 0, 0, 0.45), 0 2px 6px rgba(0, 0, 0, 0.3);
+}
+
+/* System dark mode, unless the user explicitly chose light. */
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    color-scheme: dark;
+
+    --bg-default: var(--oat-950);
+    --bg-subtle: var(--oat-900);
+    --bg-wash: linear-gradient(135deg, rgba(227, 106, 98, 0.14), rgba(225, 119, 61, 0.12));
+
+    --surface-default: var(--oat-900);
+    --surface-hover: var(--oat-800);
+    --surface-raised: var(--oat-800);
+
+    --border-default: var(--oat-800);
+    --border-strong: var(--oat-700);
+
+    --text-primary: var(--oat-50);
+    --text-secondary: var(--oat-300);
+    --text-muted: var(--oat-400);
+    --text-on-accent: var(--oat-950);
+
+    --accent-default: var(--blush-400);
+    --accent-hover: var(--blush-300);
+    --accent-strong: var(--blush-300);
+    --accent-soft: rgba(227, 106, 98, 0.18);
+    --accent-2-default: var(--apricot-400);
+    --accent-2-soft: rgba(225, 119, 61, 0.16);
+
+    --focus-ring: var(--blush-300);
+
+    --status-success: var(--sage-300);
+    --status-success-soft: rgba(103, 155, 118, 0.18);
+    --status-info: var(--sky-300);
+    --status-info-soft: rgba(95, 151, 191, 0.18);
+    --status-warning: var(--butter-300);
+    --status-warning-soft: rgba(200, 162, 75, 0.18);
+    --status-error: var(--blush-300);
+    --status-error-soft: rgba(227, 106, 98, 0.18);
+
+    --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.3);
+    --shadow-md: 0 2px 8px rgba(0, 0, 0, 0.35), 0 1px 2px rgba(0, 0, 0, 0.25);
+    --shadow-lg: 0 12px 32px rgba(0, 0, 0, 0.45), 0 2px 6px rgba(0, 0, 0, 0.3);
+  }
+}

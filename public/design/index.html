@@ -1,0 +1,600 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Design System — Carissa Ott</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Sora:wght@600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="/styles/tokens.css" />
+    <link rel="stylesheet" href="/styles/base.css" />
+    <script src="/scripts/theme.js"></script>
+    <style>
+      .page {
+        max-width: 960px;
+        margin: 0 auto;
+        padding: var(--space-6) var(--space-6) var(--space-24);
+      }
+
+      .page-header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: var(--space-4);
+        padding: var(--space-4) 0;
+      }
+
+      .page-header a {
+        font-size: var(--text-sm);
+        text-decoration: none;
+      }
+
+      .theme-toggle {
+        border: 1px solid var(--border-default);
+        background: var(--surface-default);
+        color: var(--text-primary);
+        border-radius: var(--radius-full);
+        padding: var(--space-2) var(--space-4);
+        font-size: var(--text-sm);
+        font-weight: var(--weight-medium);
+        box-shadow: var(--shadow-sm);
+        transition: border-color var(--duration-fast) var(--ease-out);
+      }
+
+      .theme-toggle:hover {
+        border-color: var(--border-strong);
+      }
+
+      .intro {
+        margin: var(--space-8) 0 var(--space-12);
+      }
+
+      .intro h1 {
+        font-size: var(--text-4xl);
+        letter-spacing: var(--tracking-tight);
+      }
+
+      .intro p {
+        margin-top: var(--space-3);
+        max-width: 60ch;
+        color: var(--text-secondary);
+        font-size: var(--text-lg);
+      }
+
+      section {
+        margin-top: var(--space-16);
+      }
+
+      section > h2 {
+        font-size: var(--text-2xl);
+      }
+
+      section > p {
+        margin-top: var(--space-2);
+        color: var(--text-secondary);
+        max-width: 65ch;
+      }
+
+      .family {
+        margin-top: var(--space-8);
+      }
+
+      .family-name {
+        font-size: var(--text-xl);
+      }
+
+      .family-note {
+        margin-top: var(--space-1);
+        font-size: var(--text-sm);
+        color: var(--text-muted);
+      }
+
+      .swatches {
+        margin-top: var(--space-4);
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+        gap: var(--space-3);
+      }
+
+      .swatch {
+        border: 1px solid var(--border-default);
+        border-radius: var(--radius-md);
+        overflow: hidden;
+        background: var(--surface-default);
+        text-align: left;
+        padding: 0;
+        transition: transform var(--duration-fast) var(--ease-out),
+          box-shadow var(--duration-fast) var(--ease-out);
+      }
+
+      .swatch:hover {
+        transform: translateY(-2px);
+        box-shadow: var(--shadow-md);
+      }
+
+      .swatch-chip {
+        height: 56px;
+      }
+
+      .swatch-meta {
+        padding: var(--space-2) var(--space-3);
+        display: block;
+      }
+
+      .swatch-name {
+        display: block;
+        font-size: var(--text-xs);
+        font-weight: var(--weight-semibold);
+      }
+
+      .swatch-hex {
+        display: block;
+        font-family: var(--font-mono);
+        font-size: var(--text-xs);
+        color: var(--text-muted);
+        text-transform: uppercase;
+      }
+
+      .semantic-grid {
+        margin-top: var(--space-6);
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+        gap: var(--space-3);
+      }
+
+      .semantic-chip {
+        display: flex;
+        align-items: center;
+        gap: var(--space-3);
+        border: 1px solid var(--border-default);
+        border-radius: var(--radius-md);
+        padding: var(--space-3);
+        background: var(--surface-default);
+      }
+
+      .semantic-dot {
+        width: 32px;
+        height: 32px;
+        flex: none;
+        border-radius: var(--radius-sm);
+        border: 1px solid var(--border-default);
+      }
+
+      .semantic-chip code {
+        font-family: var(--font-mono);
+        font-size: var(--text-xs);
+      }
+
+      .semantic-chip small {
+        display: block;
+        color: var(--text-muted);
+        font-size: var(--text-xs);
+      }
+
+      .type-row {
+        display: flex;
+        align-items: baseline;
+        gap: var(--space-6);
+        padding: var(--space-4) 0;
+        border-bottom: 1px solid var(--border-default);
+      }
+
+      .type-label {
+        flex: none;
+        width: 130px;
+        font-family: var(--font-mono);
+        font-size: var(--text-xs);
+        color: var(--text-muted);
+      }
+
+      .spacing-row {
+        display: flex;
+        align-items: center;
+        gap: var(--space-6);
+        padding: var(--space-2) 0;
+      }
+
+      .spacing-bar {
+        height: 16px;
+        border-radius: var(--radius-sm);
+        background: var(--accent-2-default);
+      }
+
+      .radius-grid,
+      .shadow-grid {
+        margin-top: var(--space-6);
+        display: flex;
+        flex-wrap: wrap;
+        gap: var(--space-6);
+      }
+
+      .radius-box {
+        width: 120px;
+        height: 80px;
+        background: var(--accent-soft);
+        border: 1px solid var(--accent-default);
+        display: grid;
+        place-items: center;
+        font-family: var(--font-mono);
+        font-size: var(--text-xs);
+      }
+
+      .shadow-box {
+        width: 160px;
+        height: 90px;
+        border-radius: var(--radius-lg);
+        background: var(--surface-raised);
+        display: grid;
+        place-items: center;
+        font-family: var(--font-mono);
+        font-size: var(--text-xs);
+      }
+
+      .component-row {
+        margin-top: var(--space-6);
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        gap: var(--space-4);
+      }
+
+      .btn {
+        border: none;
+        border-radius: var(--radius-md);
+        padding: var(--space-3) var(--space-6);
+        font-size: var(--text-sm);
+        font-weight: var(--weight-semibold);
+        transition: background-color var(--duration-fast) var(--ease-out),
+          transform var(--duration-fast) var(--ease-out);
+      }
+
+      .btn:active {
+        transform: scale(0.97);
+      }
+
+      .btn-primary {
+        background: var(--accent-default);
+        color: var(--text-on-accent);
+      }
+
+      .btn-primary:hover {
+        background: var(--accent-hover);
+      }
+
+      .btn-secondary {
+        background: var(--accent-soft);
+        color: var(--accent-strong);
+      }
+
+      .btn-ghost {
+        background: transparent;
+        color: var(--text-primary);
+        border: 1px solid var(--border-strong);
+      }
+
+      .tag {
+        display: inline-block;
+        padding: var(--space-1) var(--space-3);
+        border-radius: var(--radius-full);
+        font-size: var(--text-xs);
+        font-weight: var(--weight-semibold);
+      }
+
+      .demo-card {
+        margin-top: var(--space-6);
+        max-width: 420px;
+        background: var(--surface-default);
+        border: 1px solid var(--border-default);
+        border-radius: var(--radius-lg);
+        padding: var(--space-6);
+        box-shadow: var(--shadow-md);
+        transition: transform var(--duration-base) var(--ease-out),
+          box-shadow var(--duration-base) var(--ease-out);
+      }
+
+      .demo-card:hover {
+        transform: translateY(-4px);
+        box-shadow: var(--shadow-lg);
+      }
+
+      .demo-card h3 {
+        font-size: var(--text-xl);
+        margin-top: var(--space-3);
+      }
+
+      .demo-card p {
+        margin-top: var(--space-2);
+        color: var(--text-secondary);
+        font-size: var(--text-sm);
+      }
+
+      .toast {
+        position: fixed;
+        bottom: var(--space-6);
+        left: 50%;
+        translate: -50% 0;
+        background: var(--oat-900);
+        color: var(--oat-50);
+        font-size: var(--text-sm);
+        padding: var(--space-2) var(--space-4);
+        border-radius: var(--radius-full);
+        opacity: 0;
+        pointer-events: none;
+        transition: opacity var(--duration-base) var(--ease-out);
+      }
+
+      .toast.is-visible {
+        opacity: 1;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="page">
+      <header class="page-header">
+        <a href="/">&larr; carissaott.dev</a>
+        <button class="theme-toggle" id="theme-toggle" type="button">🌙 Dark</button>
+      </header>
+
+      <div class="intro">
+        <h1>Design system</h1>
+        <p>
+          Warm pastels, crisp surfaces, soft motion. Two token layers: named
+          color sets (primitives) that never change, and semantic tokens that
+          remap between light and dark. Click any swatch to copy its hex.
+        </p>
+      </div>
+
+      <section id="palette">
+        <h2>Color palette</h2>
+        <p>
+          Figma naming: <code>Blush/500</code>, <code>Oat/100</code>, &hellip;
+          Pastel steps (100&ndash;300) are fills behind dark text; 600&ndash;700
+          are the accessible text steps on light backgrounds.
+        </p>
+        <div id="families"></div>
+      </section>
+
+      <section id="semantic">
+        <h2>Semantic tokens</h2>
+        <p>
+          Components only use these — never raw palette values. Toggle the
+          theme above and watch them remap.
+        </p>
+        <div class="semantic-grid" id="semantic-grid"></div>
+      </section>
+
+      <section id="typography">
+        <h2>Typography</h2>
+        <p>
+          Sora for display and headings, Inter for everything else.
+          Body line-height 1.6; headings 1.15 with &minus;2% tracking.
+        </p>
+        <div class="type-row">
+          <span class="type-label">display</span>
+          <span style="font-family: var(--font-display); font-size: var(--text-display); font-weight: var(--weight-bold); letter-spacing: var(--tracking-tight); line-height: var(--leading-tight)">Aa</span>
+        </div>
+        <div class="type-row">
+          <span class="type-label">4xl / h1</span>
+          <span style="font-family: var(--font-display); font-size: var(--text-4xl); font-weight: var(--weight-bold); letter-spacing: var(--tracking-tight)">Warm and crisp</span>
+        </div>
+        <div class="type-row">
+          <span class="type-label">3xl / h2</span>
+          <span style="font-family: var(--font-display); font-size: var(--text-3xl); font-weight: var(--weight-semibold)">Warm and crisp</span>
+        </div>
+        <div class="type-row">
+          <span class="type-label">2xl / h3</span>
+          <span style="font-family: var(--font-display); font-size: var(--text-2xl); font-weight: var(--weight-semibold)">Warm and crisp</span>
+        </div>
+        <div class="type-row">
+          <span class="type-label">xl / h4</span>
+          <span style="font-family: var(--font-display); font-size: var(--text-xl); font-weight: var(--weight-semibold)">Warm and crisp</span>
+        </div>
+        <div class="type-row">
+          <span class="type-label">lg / lead</span>
+          <span style="font-size: var(--text-lg)">The quick brown fox jumps over the lazy dog.</span>
+        </div>
+        <div class="type-row">
+          <span class="type-label">md / body</span>
+          <span>The quick brown fox jumps over the lazy dog.</span>
+        </div>
+        <div class="type-row">
+          <span class="type-label">sm</span>
+          <span style="font-size: var(--text-sm); color: var(--text-secondary)">The quick brown fox jumps over the lazy dog.</span>
+        </div>
+        <div class="type-row">
+          <span class="type-label">xs / label</span>
+          <span style="font-size: var(--text-xs); font-weight: var(--weight-semibold); letter-spacing: var(--tracking-wide); text-transform: uppercase; color: var(--text-muted)">Section label</span>
+        </div>
+      </section>
+
+      <section id="spacing">
+        <h2>Spacing</h2>
+        <p>4px base grid. Use the scale — never arbitrary values.</p>
+        <div id="spacing-rows" style="margin-top: var(--space-6)"></div>
+      </section>
+
+      <section id="radii">
+        <h2>Radii &amp; elevation</h2>
+        <p>Soft corners, warm-tinted shadows. Elevation is subtle — crisp beats floaty.</p>
+        <div class="radius-grid">
+          <div class="radius-box" style="border-radius: var(--radius-sm)">sm 6</div>
+          <div class="radius-box" style="border-radius: var(--radius-md)">md 10</div>
+          <div class="radius-box" style="border-radius: var(--radius-lg)">lg 16</div>
+          <div class="radius-box" style="border-radius: var(--radius-xl)">xl 24</div>
+        </div>
+        <div class="shadow-grid">
+          <div class="shadow-box" style="box-shadow: var(--shadow-sm)">shadow-sm</div>
+          <div class="shadow-box" style="box-shadow: var(--shadow-md)">shadow-md</div>
+          <div class="shadow-box" style="box-shadow: var(--shadow-lg)">shadow-lg</div>
+        </div>
+      </section>
+
+      <section id="components">
+        <h2>Components in the system</h2>
+        <p>Buttons, tags, and a project card assembled purely from semantic tokens.</p>
+        <div class="component-row">
+          <button class="btn btn-primary" type="button">Primary</button>
+          <button class="btn btn-secondary" type="button">Secondary</button>
+          <button class="btn btn-ghost" type="button">Ghost</button>
+        </div>
+        <div class="component-row">
+          <span class="tag" style="background: var(--accent-soft); color: var(--accent-strong)">Design</span>
+          <span class="tag" style="background: var(--accent-2-soft); color: var(--accent-2-default)">TypeScript</span>
+          <span class="tag" style="background: var(--status-success-soft); color: var(--status-success)">SolidJS</span>
+          <span class="tag" style="background: var(--status-info-soft); color: var(--status-info)">React</span>
+          <span class="tag" style="background: var(--status-warning-soft); color: var(--status-warning)">Animation</span>
+        </div>
+        <article class="demo-card">
+          <span class="tag" style="background: var(--accent-2-soft); color: var(--accent-2-default)">Project</span>
+          <h3>Sample project card</h3>
+          <p>
+            Surface, border, shadow, radius, type, and motion — every value on
+            this card comes from a token. Hover to feel the elevation change.
+          </p>
+        </article>
+      </section>
+    </div>
+
+    <div class="toast" id="toast">Copied</div>
+
+    <script>
+      const root = document.documentElement;
+      const toggle = document.getElementById("theme-toggle");
+      const prefersDark = window.matchMedia("(prefers-color-scheme: dark)");
+
+      function resolveTheme() {
+        return root.dataset.theme ?? (prefersDark.matches ? "dark" : "light");
+      }
+
+      function renderToggle() {
+        toggle.textContent = resolveTheme() === "dark" ? "☀️ Light" : "🌙 Dark";
+      }
+
+      function toggleTheme() {
+        const next = resolveTheme() === "dark" ? "light" : "dark";
+        root.dataset.theme = next;
+        localStorage.setItem("theme", next);
+        renderToggle();
+      }
+
+      toggle.addEventListener("click", toggleTheme);
+      renderToggle();
+
+      // Palette families rendered from tokens.css itself, so the guide can
+      // never drift from the source of truth.
+      const FAMILIES = [
+        { name: "Blush", prefix: "blush", steps: [50, 100, 200, 300, 400, 500, 600, 700, 800, 900], note: "Primary — pastel pink with reddish undertones." },
+        { name: "Apricot", prefix: "apricot", steps: [50, 100, 200, 300, 400, 500, 600, 700, 800, 900], note: "Secondary — pastel orange." },
+        { name: "Oat", prefix: "oat", steps: [0, 50, 100, 200, 300, 400, 500, 600, 700, 800, 900, 950], note: "Neutrals — warm greige, never pure gray." },
+        { name: "Sage", prefix: "sage", steps: [100, 200, 300, 500, 700], note: "Support — tags, success." },
+        { name: "Sky", prefix: "sky", steps: [100, 200, 300, 500, 700], note: "Support — tags, info." },
+        { name: "Lilac", prefix: "lilac", steps: [100, 200, 300, 500, 700], note: "Support — tags, playful accents." },
+        { name: "Butter", prefix: "butter", steps: [100, 200, 300, 500, 700], note: "Support — tags, warning." },
+      ];
+
+      const SEMANTIC_TOKENS = [
+        ["--bg-default", "page background"],
+        ["--bg-subtle", "alternate sections"],
+        ["--surface-default", "cards, panels"],
+        ["--surface-hover", "hovered surfaces"],
+        ["--border-default", "hairlines"],
+        ["--text-primary", "headings, body"],
+        ["--text-secondary", "supporting text"],
+        ["--text-muted", "captions, labels"],
+        ["--accent-default", "buttons, highlights"],
+        ["--accent-strong", "links, text on light"],
+        ["--accent-soft", "pastel fills"],
+        ["--accent-2-default", "secondary accent"],
+        ["--focus-ring", "keyboard focus"],
+        ["--status-success", "success text"],
+        ["--status-error", "error text"],
+        ["--status-info", "info text"],
+      ];
+
+      function readToken(name) {
+        return getComputedStyle(root).getPropertyValue(name).trim();
+      }
+
+      function showToast(message) {
+        const toast = document.getElementById("toast");
+        toast.textContent = message;
+        toast.classList.add("is-visible");
+        clearTimeout(showToast.timer);
+        showToast.timer = setTimeout(() => toast.classList.remove("is-visible"), 1200);
+      }
+
+      function renderFamilies() {
+        const container = document.getElementById("families");
+        container.innerHTML = "";
+        for (const family of FAMILIES) {
+          const section = document.createElement("div");
+          section.className = "family";
+          section.innerHTML =
+            '<h3 class="family-name">' + family.name + '</h3>' +
+            '<p class="family-note">' + family.note + '</p>';
+          const grid = document.createElement("div");
+          grid.className = "swatches";
+          for (const step of family.steps) {
+            const token = "--" + family.prefix + "-" + step;
+            const hex = readToken(token).toUpperCase();
+            const swatch = document.createElement("button");
+            swatch.className = "swatch";
+            swatch.type = "button";
+            swatch.title = "Copy " + hex;
+            swatch.innerHTML =
+              '<div class="swatch-chip" style="background:' + hex + '"></div>' +
+              '<span class="swatch-meta">' +
+              '<span class="swatch-name">' + family.name + "/" + step + '</span>' +
+              '<span class="swatch-hex">' + hex + '</span>' +
+              '</span>';
+            swatch.addEventListener("click", () => {
+              navigator.clipboard.writeText(hex);
+              showToast("Copied " + hex);
+            });
+            grid.appendChild(swatch);
+          }
+          section.appendChild(grid);
+          container.appendChild(section);
+        }
+      }
+
+      function renderSemanticTokens() {
+        const grid = document.getElementById("semantic-grid");
+        grid.innerHTML = "";
+        for (const [token, description] of SEMANTIC_TOKENS) {
+          const chip = document.createElement("div");
+          chip.className = "semantic-chip";
+          chip.innerHTML =
+            '<span class="semantic-dot" style="background: var(' + token + ')"></span>' +
+            "<span><code>" + token + "</code><small>" + description + "</small></span>";
+          grid.appendChild(chip);
+        }
+      }
+
+      function renderSpacing() {
+        const container = document.getElementById("spacing-rows");
+        const steps = [
+          ["--space-1", "4"], ["--space-2", "8"], ["--space-3", "12"],
+          ["--space-4", "16"], ["--space-6", "24"], ["--space-8", "32"],
+          ["--space-12", "48"], ["--space-16", "64"], ["--space-24", "96"],
+        ];
+        for (const [token, px] of steps) {
+          const row = document.createElement("div");
+          row.className = "spacing-row";
+          row.innerHTML =
+            '<span class="type-label">' + token + " · " + px + 'px</span>' +
+            '<div class="spacing-bar" style="width: var(' + token + ')"></div>';
+          container.appendChild(row);
+        }
+      }
+
+      renderFamilies();
+      renderSemanticTokens();
+      renderSpacing();
+    </script>
+  </body>
+</html>

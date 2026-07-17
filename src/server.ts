@@ -37,10 +37,15 @@ const server = createServer((req, res) => {
   const pathname = url.pathname === "/" ? "/index.html" : url.pathname;
 
   // Resolve against the public directory and reject anything that escapes it.
-  const filePath = normalize(join(PUBLIC_DIR, pathname));
+  let filePath = normalize(join(PUBLIC_DIR, pathname));
   if (!filePath.startsWith(PUBLIC_DIR)) {
     sendNotFound(res);
     return;
+  }
+
+  // Extensionless paths are directories: /design -> /design/index.html.
+  if (extname(filePath) === "") {
+    filePath = join(filePath, "index.html");
   }
 
   void sendFile(res, filePath);
