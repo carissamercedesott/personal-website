@@ -10,7 +10,7 @@ body.home {
 }
 
 .hero {
-  flex: 1;
+  min-height: calc(100vh - 64px);
   display: grid;
   place-content: center;
   text-align: center;

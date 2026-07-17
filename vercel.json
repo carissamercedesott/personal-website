@@ -1,5 +1,11 @@
 {
   "$schema": "https://openapi.vercel.sh/vercel.json",
   "outputDirectory": "public",
-  "cleanUrls": true
+  "cleanUrls": true,
+  "redirects": [
+    { "source": "/experience", "destination": "/#experience" },
+    { "source": "/projects", "destination": "/#projects" },
+    { "source": "/about", "destination": "/#about" },
+    { "source": "/interests", "destination": "/#interests" }
+  ]
 }

@@ -55,9 +55,69 @@ function initReveal() {
   });
 }
 
+function initScrollSpy() {
+  const links = Array.from(document.querySelectorAll('.site-links a[href^="#"]'));
+  if (links.length === 0 || !("IntersectionObserver" in window)) return;
+
+  const setCurrentSection = (id) => {
+    for (const link of links) {
+      if (link.hash === `#${id}`) {
+        link.setAttribute("aria-current", "page");
+      } else {
+        link.removeAttribute("aria-current");
+      }
+    }
+  };
+
+  // A section becomes current while it crosses a band around the upper
+  // middle of the viewport. The hero (#top) has no nav link, so reaching
+  // it clears the highlight.
+  const observer = new IntersectionObserver(
+    (entries) => {
+      for (const entry of entries) {
+        if (entry.isIntersecting) setCurrentSection(entry.target.id);
+      }
+    },
+    { rootMargin: "-35% 0px -60% 0px" }
+  );
+
+  const sectionIds = ["top", ...links.map((link) => link.hash.slice(1))];
+  for (const id of sectionIds) {
+    const section = document.getElementById(id);
+    if (section) observer.observe(section);
+  }
+}
+
+function initCarousels() {
+  for (const carousel of document.querySelectorAll("[data-carousel]")) {
+    const track = carousel.querySelector(".carousel-track");
+    const prev = carousel.querySelector("[data-carousel-prev]");
+    const next = carousel.querySelector("[data-carousel-next]");
+    if (!track || !prev || !next) continue;
+
+    const measureStep = () => {
+      const card = track.querySelector(".carousel-card");
+      return card ? card.getBoundingClientRect().width + 24 : track.clientWidth;
+    };
+
+    const renderArrows = () => {
+      prev.disabled = track.scrollLeft <= 4;
+      next.disabled = track.scrollLeft >= track.scrollWidth - track.clientWidth - 4;
+    };
+
+    prev.addEventListener("click", () => track.scrollBy({ left: -measureStep(), behavior: "smooth" }));
+    next.addEventListener("click", () => track.scrollBy({ left: measureStep(), behavior: "smooth" }));
+    track.addEventListener("scroll", renderArrows, { passive: true });
+    window.addEventListener("resize", renderArrows);
+    renderArrows();
+  }
+}
+
 function initSiteChrome() {
   initThemeToggle();
   initReveal();
+  initScrollSpy();
+  initCarousels();
 }
 
 window.initSiteChrome = initSiteChrome;

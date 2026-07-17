@@ -24,29 +24,423 @@
   <body class="home">
     <header class="site-header">
       <nav class="site-nav">
-        <a class="site-logo" href="/">Carissa Ott</a>
+        <a class="site-logo" href="#top">Carissa Ott</a>
         <div class="site-links">
-          <a href="/experience">Experience</a>
-          <a href="/projects">Projects</a>
-          <a href="/about">About</a>
-          <a href="/interests">Interests</a>
+          <a href="#experience">Experience</a>
+          <a href="#projects">Projects</a>
+          <a href="#about">About</a>
+          <a href="#interests">Interests</a>
           <button class="theme-toggle" id="theme-toggle" type="button"></button>
         </div>
       </nav>
     </header>
 
-    <main class="hero">
-      <span class="hero-tag">Software Engineer @ Duolingo</span>
-      <h1 class="hero-title">Carissa Ott</h1>
-      <a class="hero-design-link" href="/design">✦ Explore my design system</a>
-      <p class="hero-subtitle">
-        I build products at the intersection of software engineering and
-        cognitive science — currently shipping iOS and backend at Duolingo.
-      </p>
-      <nav class="hero-links">
-        <a class="btn btn-primary" href="/experience">Experience</a>
-        <a class="btn btn-secondary" href="/projects">Projects</a>
-      </nav>
+    <main>
+      <section class="hero" id="top">
+        <span class="hero-tag">Software Engineer @ Duolingo</span>
+        <h1 class="hero-title">Carissa Ott</h1>
+        <a class="hero-design-link" href="/design">✦ Explore my design system</a>
+        <p class="hero-subtitle">
+          I build products at the intersection of software engineering and
+          cognitive science — currently shipping iOS and backend at Duolingo.
+        </p>
+        <nav class="hero-links">
+          <a class="btn btn-primary" href="#experience">Experience</a>
+          <a class="btn btn-secondary" href="#projects">Projects</a>
+        </nav>
+      </section>
+
+      <section class="page-section" id="experience">
+        <div class="section-inner">
+          <span class="section-label">Experience</span>
+          <h2>Where I've worked</h2>
+          <div class="timeline">
+            <article class="timeline-entry" data-reveal>
+              <div class="timeline-header">
+                <h3>Duolingo</h3>
+                <span class="timeline-dates">Aug 2025 – Present · New York, NY</span>
+              </div>
+              <p class="timeline-role">Software Engineer — iOS &amp; Backend</p>
+              <ul>
+                <li>
+                  Shipped critical improvements to Stories, increasing retention
+                  +0.11% (p&nbsp;&lt;&nbsp;0.01) and learning metrics +0.12
+                  (p&nbsp;&lt;&nbsp;0.01).
+                </li>
+                <li>
+                  Refactored the iOS Course architecture onto a new API, saving
+                  $500,000+ in bandwidth costs.
+                </li>
+                <li>
+                  Collaborate with product managers and designers to increase
+                  client experience, brainstorming which features to develop.
+                </li>
+              </ul>
+              <div class="tag-row">
+                <span class="tag tag-blush">Swift</span>
+                <span class="tag">Backend</span>
+                <span class="tag tag-sky">Product</span>
+              </div>
+            </article>
+
+            <article class="timeline-entry" data-reveal>
+              <div class="timeline-header">
+                <h3>Duolingo</h3>
+                <span class="timeline-dates">Jun 2024 – Sep 2024</span>
+              </div>
+              <p class="timeline-role">Software Engineering Intern</p>
+              <ul>
+                <li>
+                  Implemented and launched the Cross Math game on iOS: a
+                  constraint-programming algorithm for accurate puzzle number
+                  generation, a backend algorithm for real-time random puzzle
+                  shapes, and responsive Swift UI for all iOS devices.
+                </li>
+                <li>
+                  Presented the business case for Cross Math to senior
+                  leadership, gained CEO approval, and launched to 100+ million
+                  users.
+                </li>
+              </ul>
+              <div class="tag-row">
+                <span class="tag tag-blush">Swift</span>
+                <span class="tag tag-sage">Algorithms</span>
+              </div>
+            </article>
+
+            <article class="timeline-entry" data-reveal>
+              <div class="timeline-header">
+                <h3>Duolingo</h3>
+                <span class="timeline-dates">Jun 2023 – Aug 2023</span>
+              </div>
+              <p class="timeline-role">Software Engineering Thrive Intern</p>
+              <ul>
+                <li>
+                  Designed and built Conlang Creator with a team of four interns:
+                  a full-stack web app for creating custom languages.
+                </li>
+                <li>
+                  Developed language-building features with Python, DynamoDB, and
+                  ReactJS — vocabulary, grammar, and an automatic translation
+                  algorithm supporting 40+ languages to and from conlangs.
+                </li>
+              </ul>
+              <div class="tag-row">
+                <span class="tag tag-sage">Python</span>
+                <span class="tag tag-sky">ReactJS</span>
+                <span class="tag">DynamoDB</span>
+              </div>
+            </article>
+
+            <article class="timeline-entry" data-reveal>
+              <div class="timeline-header">
+                <h3>Cognixion</h3>
+                <span class="timeline-dates">Jun 2021 – Sep 2021 · Santa Barbara, CA</span>
+              </div>
+              <p class="timeline-role">Neurotechnology Software Development Intern</p>
+              <ul>
+                <li>
+                  Developed software for the Cognixion ONE assistive
+                  communication BCI headset — adding 500+ colloquial phrases and
+                  creating the first non-English language pack of Californian
+                  Spanish slang for bilingual users.
+                </li>
+              </ul>
+              <div class="tag-row">
+                <span class="tag tag-butter">Accessibility</span>
+                <span class="tag">BCI</span>
+              </div>
+            </article>
+          </div>
+
+          <div class="subsection" data-reveal>
+            <span class="section-label">Research</span>
+            <h2>Research &amp; involvement</h2>
+            <div class="timeline">
+              <article class="timeline-entry" data-reveal>
+                <div class="timeline-header">
+                  <h3>Speech &amp; Cognitive Development Laboratory, UCLA</h3>
+                  <span class="timeline-dates">Jan 2024 – Present</span>
+                </div>
+                <p class="timeline-role">Undergraduate Researcher — Speech Development</p>
+                <ul>
+                  <li>
+                    Developing transformer-based ML algorithms in PyTorch to
+                    extract child-directed speech from 300+ twelve-hour audio
+                    recordings of 130 children (ages 3–5), generating clinically
+                    relevant insights into early language acquisition.
+                  </li>
+                </ul>
+              </article>
+
+              <article class="timeline-entry" data-reveal>
+                <div class="timeline-header">
+                  <h3>Neural Engineering &amp; Computation (Kao) Lab, UCLA</h3>
+                  <span class="timeline-dates">Mar 2024 – Present</span>
+                </div>
+                <p class="timeline-role">Undergraduate Researcher — NLP &amp; Speech Neuroprosthesis</p>
+                <ul>
+                  <li>
+                    Developing transformer models with self-supervised learning on
+                    intracranial neural data to investigate how the brain processes
+                    language, toward clinically viable speech neuroprostheses.
+                  </li>
+                </ul>
+              </article>
+
+              <article class="timeline-entry" data-reveal>
+                <div class="timeline-header">
+                  <h3>BMES Design Team — Vertebrae Rehabilitation Device</h3>
+                  <span class="timeline-dates">Sep 2023 – Sep 2024</span>
+                </div>
+                <p class="timeline-role">Software Team Lead</p>
+                <ul>
+                  <li>
+                    Led the software team building an affordable wearable vertebrae
+                    rehabilitation device — real-time feedback, ML models
+                    predicting spinal alignment, and an intuitive UI for patients,
+                    surgeons, and ergonomic use.
+                  </li>
+                </ul>
+              </article>
+
+              <article class="timeline-entry" data-reveal>
+                <div class="timeline-header">
+                  <h3>ACM TeachLA, UCLA</h3>
+                  <span class="timeline-dates">Sep 2021 – Apr 2024</span>
+                </div>
+                <p class="timeline-role">Justice, Equity, Diversity &amp; Inclusion Director</p>
+                <ul>
+                  <li>
+                    Taught 50+ underserved middle-school students core CS concepts
+                    in Python, and hosted allyship spaces promoting diversity and
+                    inclusion in CS.
+                  </li>
+                  <li>
+                    Implemented and instructed a 6-week quantum computing course at
+                    UCLA with 25+ undergraduate and graduate attendees.
+                  </li>
+                </ul>
+              </article>
+            </div>
+          </div>
+
+          <div class="subsection" data-reveal>
+            <span class="section-label">Education</span>
+            <h2>Education</h2>
+            <div class="timeline">
+              <article class="timeline-entry" data-reveal>
+                <div class="timeline-header">
+                  <h3>University of California, Los Angeles</h3>
+                  <span class="timeline-dates">Graduated Mar 2025</span>
+                </div>
+                <p class="timeline-role">
+                  B.S. Cognitive Science, Specialization in Computer Science ·
+                  Minor in Data Science Engineering
+                </p>
+                <ul>
+                  <li>Cumulative GPA: 3.901</li>
+                </ul>
+              </article>
+            </div>
+          </div>
+
+          <div class="subsection" data-reveal>
+            <span class="section-label">Skills</span>
+            <h2>Toolbox</h2>
+            <div class="tag-row" style="margin-top: var(--space-6)">
+              <span class="tag tag-blush">Python</span>
+              <span class="tag tag-blush">Swift</span>
+              <span class="tag tag-blush">Machine Learning</span>
+              <span class="tag tag-blush">Statistics</span>
+              <span class="tag tag-blush">C++</span>
+              <span class="tag tag-blush">ReactJS</span>
+              <span class="tag tag-blush">Data Science</span>
+              <span class="tag tag-blush">Figma</span>
+              <span class="tag tag-butter">Cookie Baking Expert</span>
+              <span class="tag tag-butter">Poker</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="page-section" id="projects">
+        <div class="section-inner">
+          <span class="section-label">Projects</span>
+          <h2>Builds</h2>
+          <p class="section-lead">
+            Shipped products and award-winning builds — mostly where language,
+            learning, and machine learning meet.
+          </p>
+          <div class="carousel" data-carousel data-reveal>
+            <div class="carousel-track">
+              <article class="card carousel-card">
+                <span class="tag-row">
+                  <span class="tag tag-blush">Swift</span>
+                  <span class="tag tag-sage">Algorithms</span>
+                </span>
+                <h3>Cross Math</h3>
+                <p>
+                  A math puzzle game shipped inside the Duolingo iOS app. Built
+                  the constraint-programming algorithm for accurate puzzle
+                  generation, real-time backend puzzle shapes, and responsive
+                  Swift UI — then pitched it to senior leadership and launched
+                  to 100M+ users.
+                </p>
+                <span class="card-award">📱 Live in Duolingo on iOS</span>
+              </article>
+
+              <article class="card carousel-card">
+                <span class="tag-row">
+                  <span class="tag tag-sky">AI Agents</span>
+                  <span class="tag">Automation</span>
+                </span>
+                <h3>Theramind</h3>
+                <p>
+                  AI agent workflow automation for therapists — cutting the
+                  administrative load so clinicians can spend their time on
+                  patients, not paperwork.
+                </p>
+                <span class="card-award">
+                  🏆 2nd place, AI Agent Excellence &amp; Innovation Award —
+                  Stanford TreeHacks 2025 ($2.5k)
+                </span>
+              </article>
+
+              <article class="card carousel-card">
+                <span class="tag-row">
+                  <span class="tag tag-sage">NLP</span>
+                  <span class="tag tag-sky">ML</span>
+                </span>
+                <h3>BuzzyBabbl</h3>
+                <p>
+                  An NLP and machine learning product for identifying
+                  developmental delays in children early, when intervention
+                  matters most.
+                </p>
+                <span class="card-award">
+                  🏆 2nd place, Sigma Eta Pi Create-a-thon Entrepreneurship
+                  Pitch Competition 2024
+                </span>
+              </article>
+
+              <article class="card carousel-card">
+                <span class="tag-row">
+                  <span class="tag tag-butter">Bioengineering</span>
+                  <span class="tag tag-sky">ML</span>
+                </span>
+                <h3>Vertiflex</h3>
+                <p>
+                  A soft robotic orthosis for progressive vertebrae
+                  rehabilitation — wearable, affordable, with ML-predicted
+                  spinal alignment and real-time feedback.
+                </p>
+                <span class="card-award">
+                  🏆 3rd place, SB3C National Bioengineering Conference ($3k
+                  NSF prize) · 1st place, BMES Technical Project Symposium
+                </span>
+              </article>
+
+              <article class="card carousel-card">
+                <span class="tag-row">
+                  <span class="tag tag-sage">Python</span>
+                  <span class="tag tag-sky">ReactJS</span>
+                </span>
+                <h3>Conlang Creator</h3>
+                <p>
+                  A full-stack web app for building your own constructed
+                  language — vocabulary, grammar, and automatic translation to
+                  and from 40+ real languages.
+                </p>
+                <span class="card-award">🌱 Built at Duolingo Thrive</span>
+              </article>
+            </div>
+            <div class="carousel-nav">
+              <button class="carousel-arrow" type="button" data-carousel-prev aria-label="Previous builds">←</button>
+              <button class="carousel-arrow" type="button" data-carousel-next aria-label="More builds">→</button>
+            </div>
+          </div>
+
+          <div class="subsection" data-reveal>
+            <span class="section-label">Research output</span>
+            <h2>Research achievements</h2>
+            <p class="section-lead">Publications, posters, and talks.</p>
+            <div class="carousel" data-carousel>
+              <div class="carousel-track">
+                <article class="card carousel-card">
+                  <span class="tag-row">
+                    <span class="tag tag-sky">Publication</span>
+                  </span>
+                  <h3>Canonical Proportion as a Phonological Index</h3>
+                  <p>
+                    "Connecting Preschoolers' Spontaneous Speech to Phonological
+                    Development: A Longitudinal Cohort Study of Canonical
+                    Proportion as a Phonological Index."
+                  </p>
+                  <span class="card-award">🎓 1st author · Poster, LabPhon 20 (Feb 2026)</span>
+                </article>
+
+                <article class="card carousel-card">
+                  <span class="tag-row">
+                    <span class="tag tag-sky">Publication</span>
+                  </span>
+                  <h3>Automated Vocal Analysis</h3>
+                  <p>
+                    "Can automated vocal analysis methods be used to predict
+                    speech-language development?" — full paper and poster.
+                  </p>
+                  <span class="card-award">
+                    🎓 1st author · Cognitive Science Society Proceedings 2025
+                  </span>
+                </article>
+
+                <article class="card carousel-card">
+                  <span class="tag-row">
+                    <span class="tag tag-butter">Talk</span>
+                  </span>
+                  <h3>TEDx — "Building a Safer Headspace"</h3>
+                  <p>
+                    A TED talk on Chronic Traumatic Encephalopathy — chosen out
+                    of 50 applicants.
+                  </p>
+                  <span class="card-award">🎤 3,300+ views on YouTube (2021)</span>
+                </article>
+              </div>
+              <div class="carousel-nav">
+                <button class="carousel-arrow" type="button" data-carousel-prev aria-label="Previous research achievements">←</button>
+                <button class="carousel-arrow" type="button" data-carousel-next aria-label="More research achievements">→</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="page-section" id="about">
+        <div class="section-inner">
+          <span class="section-label">About</span>
+          <h2>About me</h2>
+          <p class="section-lead">The longer story — how I got here and what I care about.</p>
+          <div class="placeholder" data-reveal>
+            <h3>Coming soon</h3>
+            <p>This section is being written. Check back shortly!</p>
+          </div>
+        </div>
+      </section>
+
+      <section class="page-section" id="interests">
+        <div class="section-inner">
+          <span class="section-label">Interests</span>
+          <h2>Hobbies &amp; tidbits</h2>
+          <p class="section-lead">Running, snowboarding, DJing — and more to come.</p>
+          <div class="placeholder" data-reveal>
+            <h3>Coming soon</h3>
+            <p>
+              A sneak peek: cookie baking expertise 🍪, a competitive poker
+              streak 🃏, and the lo-fi loop in the corner 🎧.
+            </p>
+          </div>
+        </div>
+      </section>
     </main>
 
     <footer class="site-footer">
@@ -62,6 +456,5 @@
 
     <script src="/scripts/site.js"></script>
     <script src="/scripts/dj.js"></script>
-    <script src="/scripts/nav.js"></script>
   </body>
 </html>
