@@ -120,8 +120,9 @@ become low-opacity overlays of the 500 step so they read on dark.
 
 ## Typography
 
-- **Display / headings / body:** Geist (400, 500, 600, 700) — crisp,
-  modern grotesque.
+- **Display / headings / body:** Satoshi (400, 500, 700, 900, via
+  Fontshare) — warm modern grotesque. Satoshi has no 600, so the
+  semibold token maps to 700 and bold to 900 (Black).
 - **Code / meta:** system monospace.
 
 | Style | Size | Weight | Line height | Tracking |
