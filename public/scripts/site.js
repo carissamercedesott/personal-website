@@ -161,115 +161,12 @@ function initTypewriter() {
   typeTick();
 }
 
-function initStickerPeek() {
-  const photo = document.getElementById("intro-photo");
-  if (!photo) return;
-  const cover = photo.querySelector(".intro-photo-img:not(.intro-photo-peek)");
-
-  function findActivePhoto() {
-    const key = photo.dataset.show;
-    const peek = key && photo.querySelector(`.intro-photo-peek[data-photo="${key}"]`);
-    return peek || cover;
-  }
-
-  // The frame's height follows the active photo's natural aspect ratio,
-  // animating via the CSS height transition when hovers swap photos.
-  function resizePhotoFrame() {
-    const img = findActivePhoto();
-    if (!img || !img.naturalWidth) return;
-    // Release the CSS fallback aspect-ratio before measuring — combined
-    // with an explicit height it would derive width from height and
-    // shrink the frame on every update.
-    photo.style.aspectRatio = "auto";
-    const height = (photo.clientWidth * img.naturalHeight) / img.naturalWidth;
-    photo.style.height = `${Math.round(height)}px`;
-  }
-
-  for (const img of photo.querySelectorAll("img")) {
-    img.addEventListener("load", resizePhotoFrame);
-  }
-  window.addEventListener("resize", resizePhotoFrame);
-
-  for (const sticker of document.querySelectorAll("[data-peek]")) {
-    sticker.addEventListener("mouseenter", () => {
-      photo.dataset.show = sticker.dataset.peek;
-      resizePhotoFrame();
-    });
-    sticker.addEventListener("mouseleave", () => {
-      delete photo.dataset.show;
-      resizePhotoFrame();
-    });
-  }
-
-  resizePhotoFrame();
-}
-
-function initStickerDrag() {
-  const scatter = document.querySelector(".sticker-scatter");
-  if (!scatter) return;
-
-  let layout = {};
-  try {
-    layout = JSON.parse(localStorage.getItem("stickerLayout") || "{}");
-  } catch {
-    layout = {};
-  }
-
-  function placeSticker(sticker, pos) {
-    sticker.style.left = `${pos.left}px`;
-    sticker.style.top = `${pos.top}px`;
-    sticker.style.right = "auto";
-    sticker.style.bottom = "auto";
-  }
-
-  for (const sticker of scatter.querySelectorAll(".sticker")) {
-    const key = sticker.dataset.peek;
-    if (layout[key]) placeSticker(sticker, layout[key]);
-
-    let drag = null;
-    sticker.addEventListener("pointerdown", (event) => {
-      event.preventDefault();
-      const rect = sticker.getBoundingClientRect();
-      drag = { dx: event.clientX - rect.left, dy: event.clientY - rect.top };
-      sticker.setPointerCapture(event.pointerId);
-      sticker.classList.add("is-dragging");
-    });
-    sticker.addEventListener("pointermove", (event) => {
-      if (!drag) return;
-      const parent = scatter.getBoundingClientRect();
-      placeSticker(sticker, {
-        left: Math.round(event.clientX - parent.left - drag.dx),
-        top: Math.round(event.clientY - parent.top - drag.dy),
-      });
-    });
-    const finishDrag = () => {
-      if (!drag) return;
-      drag = null;
-      sticker.classList.remove("is-dragging");
-      layout[key] = {
-        left: parseFloat(sticker.style.left),
-        top: parseFloat(sticker.style.top),
-      };
-      try {
-        localStorage.setItem("stickerLayout", JSON.stringify(layout));
-      } catch {
-        /* private mode */
-      }
-      console.log("sticker layout:", JSON.stringify(layout));
-    };
-    sticker.addEventListener("pointerup", finishDrag);
-    sticker.addEventListener("pointercancel", finishDrag);
-  }
-}
-
 function initSiteChrome() {
   initThemeToggle();
   initReveal();
   initScrollSpy();
   initCarousels();
   initTypewriter();
-  initStickerPeek();
-  initStickerDrag();
 }
 
 window.initSiteChrome = initSiteChrome;

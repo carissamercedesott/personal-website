@@ -130,14 +130,9 @@ body.home {
   }
 }
 
-/* The frame matches the active photo's natural aspect ratio; its height
- * is set from JS and animates as hovers swap photos of different sizes. */
 .intro-photo {
-  position: relative;
-  aspect-ratio: 3 / 4; /* fallback until JS measures the active photo */
   transform: rotate(-3deg);
-  transition: transform var(--duration-base) var(--ease-out),
-    height var(--duration-slow) var(--ease-in-out);
+  transition: transform var(--duration-base) var(--ease-out);
 }
 
 .intro-photo:hover {
@@ -145,26 +140,12 @@ body.home {
 }
 
 .intro-photo-img {
-  position: absolute;
-  inset: 0;
+  display: block;
   width: 100%;
-  height: 100%;
-  object-fit: cover;
+  height: auto;
   border-radius: var(--radius-lg);
   border: 1px solid var(--border-default);
   box-shadow: var(--shadow-lg);
-}
-
-/* Peek photos crossfade in while their matching sticker is hovered. */
-.intro-photo-peek {
-  opacity: 0;
-  transition: opacity var(--duration-slow) var(--ease-out);
-}
-
-.intro-photo[data-show="ucla"] .intro-photo-peek[data-photo="ucla"],
-.intro-photo[data-show="duolingo"] .intro-photo-peek[data-photo="duolingo"],
-.intro-photo[data-show="apple"] .intro-photo-peek[data-photo="apple"] {
-  opacity: 1;
 }
 
 .intro-hello {
@@ -192,8 +173,6 @@ body.home {
   width: var(--size, 90px);
   height: auto;
   pointer-events: auto;
-  cursor: grab;
-  touch-action: none;
   transform: rotate(var(--tilt, 0deg));
   filter: drop-shadow(0 8px 10px rgba(35, 30, 27, 0.25));
   transition: transform var(--duration-base) var(--ease-out);
@@ -201,12 +180,6 @@ body.home {
 
 .sticker:hover {
   transform: rotate(0deg) scale(1.12);
-}
-
-.sticker.is-dragging {
-  cursor: grabbing;
-  transition: none;
-  transform: rotate(var(--tilt, 0deg)) scale(1.05);
 }
 
 @media (max-width: 720px) {
