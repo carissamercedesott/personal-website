@@ -71,6 +71,40 @@
   border-color: var(--border-strong);
 }
 
+/* Phones: logo on its own row with the toggle pinned to the corner, and
+ * the nav links wrapping to a centered second row. */
+@media (max-width: 640px) {
+  .site-nav {
+    position: relative;
+    flex-wrap: wrap;
+    padding: var(--space-2) var(--space-4);
+  }
+
+  .site-logo {
+    white-space: nowrap;
+  }
+
+  .site-links {
+    flex: 1 0 100%;
+    justify-content: center;
+    gap: 0;
+  }
+
+  .site-links a {
+    padding: var(--space-2);
+    font-size: var(--text-xs);
+  }
+
+  .theme-toggle {
+    position: absolute;
+    top: var(--space-2);
+    right: var(--space-4);
+    width: 32px;
+    height: 32px;
+    margin-left: 0;
+  }
+}
+
 .page {
   max-width: 960px;
   margin: 0 auto;
@@ -377,6 +411,26 @@
 
 .timeline-entry .tag-row {
   margin-top: var(--space-4);
+}
+
+/* Phones: tighter section gutters and timeline indent so text keeps
+ * a usable measure. */
+@media (max-width: 640px) {
+  .page-section {
+    padding: var(--space-12) var(--space-4);
+  }
+
+  .timeline {
+    padding-left: var(--space-6);
+  }
+
+  .timeline-entry::before {
+    left: calc(-1 * var(--space-6) - 7px);
+  }
+
+  .timeline-entry ul {
+    padding-left: var(--space-4);
+  }
 }
 
 /* ── Project cards ── */

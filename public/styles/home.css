@@ -10,7 +10,9 @@ body.home {
 }
 
 .hero {
+  /* svh keeps the hero stable under mobile browser URL bars. */
   min-height: calc(100vh - 64px);
+  min-height: calc(100svh - 64px);
   display: grid;
   place-content: center;
   text-align: center;
@@ -102,6 +104,17 @@ body.home {
   background: var(--band-blush);
 }
 
+@media (max-width: 640px) {
+  body.home {
+    /* iOS repaints fixed backgrounds badly while scrolling. */
+    background-attachment: scroll;
+  }
+
+  .intro {
+    padding: var(--space-12) var(--space-4);
+  }
+}
+
 .wave-into-blush {
   color: var(--band-blush);
 }
@@ -187,12 +200,15 @@ body.home {
     position: static;
     display: flex;
     align-items: center;
-    gap: var(--space-6);
-    margin-top: var(--space-2);
+    justify-content: center;
+    gap: var(--space-4);
+    margin-top: var(--space-4);
   }
 
+  /* Scaled down from the scattered desktop sizes so all three fit one row. */
   .sticker {
     position: static;
+    width: calc(var(--size, 90px) * 0.75);
   }
 }
 

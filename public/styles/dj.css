@@ -21,6 +21,17 @@
   visibility: hidden;
 }
 
+/* Phones: shrink the whole widget (scale keeps the deck art intact,
+ * since its parts are absolutely sized). */
+@media (max-width: 640px) {
+  .dj {
+    right: var(--space-4);
+    bottom: var(--space-4);
+    transform: scale(0.8);
+    transform-origin: bottom right;
+  }
+}
+
 .dj-deck {
   position: relative;
   width: 72px;
