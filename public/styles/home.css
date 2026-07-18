@@ -130,9 +130,14 @@ body.home {
   }
 }
 
+/* The frame matches the active photo's natural aspect ratio; its height
+ * is set from JS and animates as hovers swap photos of different sizes. */
 .intro-photo {
+  position: relative;
+  aspect-ratio: 3 / 4; /* fallback until JS measures the active photo */
   transform: rotate(-3deg);
-  transition: transform var(--duration-base) var(--ease-out);
+  transition: transform var(--duration-base) var(--ease-out),
+    height var(--duration-slow) var(--ease-in-out);
 }
 
 .intro-photo:hover {
@@ -140,9 +145,10 @@ body.home {
 }
 
 .intro-photo-img {
-  display: block;
-  aspect-ratio: 4 / 5;
+  position: absolute;
+  inset: 0;
   width: 100%;
+  height: 100%;
   object-fit: cover;
   border-radius: var(--radius-lg);
   border: 1px solid var(--border-default);
@@ -151,11 +157,8 @@ body.home {
 
 /* Peek photos crossfade in while their matching sticker is hovered. */
 .intro-photo-peek {
-  position: absolute;
-  inset: 0;
-  height: 100%;
   opacity: 0;
-  transition: opacity var(--duration-base) var(--ease-out);
+  transition: opacity var(--duration-slow) var(--ease-out);
 }
 
 .intro-photo[data-show="ucla"] .intro-photo-peek[data-photo="ucla"],

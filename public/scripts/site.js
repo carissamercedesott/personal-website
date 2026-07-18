@@ -164,14 +164,44 @@ function initTypewriter() {
 function initStickerPeek() {
   const photo = document.getElementById("intro-photo");
   if (!photo) return;
+  const cover = photo.querySelector(".intro-photo-img:not(.intro-photo-peek)");
+
+  function findActivePhoto() {
+    const key = photo.dataset.show;
+    const peek = key && photo.querySelector(`.intro-photo-peek[data-photo="${key}"]`);
+    return peek || cover;
+  }
+
+  // The frame's height follows the active photo's natural aspect ratio,
+  // animating via the CSS height transition when hovers swap photos.
+  function resizePhotoFrame() {
+    const img = findActivePhoto();
+    if (!img || !img.naturalWidth) return;
+    // Release the CSS fallback aspect-ratio before measuring — combined
+    // with an explicit height it would derive width from height and
+    // shrink the frame on every update.
+    photo.style.aspectRatio = "auto";
+    const height = (photo.clientWidth * img.naturalHeight) / img.naturalWidth;
+    photo.style.height = `${Math.round(height)}px`;
+  }
+
+  for (const img of photo.querySelectorAll("img")) {
+    img.addEventListener("load", resizePhotoFrame);
+  }
+  window.addEventListener("resize", resizePhotoFrame);
+
   for (const sticker of document.querySelectorAll("[data-peek]")) {
     sticker.addEventListener("mouseenter", () => {
       photo.dataset.show = sticker.dataset.peek;
+      resizePhotoFrame();
     });
     sticker.addEventListener("mouseleave", () => {
       delete photo.dataset.show;
+      resizePhotoFrame();
     });
   }
+
+  resizePhotoFrame();
 }
 
 function initStickerDrag() {
