@@ -73,9 +73,9 @@
   --butter-700: #86682B;
 
   /* ── Typography ── */
-  --font-display: "Satoshi", system-ui, -apple-system, sans-serif;
-  --font-body: "Satoshi", system-ui, -apple-system, "Segoe UI", sans-serif;
-  --font-mono: ui-monospace, "SF Mono", "JetBrains Mono", Menlo, monospace;
+  --font-display: "IBM Plex Sans", system-ui, -apple-system, sans-serif;
+  --font-body: "IBM Plex Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font-mono: "IBM Plex Mono", ui-monospace, "SF Mono", Menlo, monospace;
 
   --text-xs: 0.75rem;    /* 12px — captions, labels */
   --text-sm: 0.875rem;   /* 14px — secondary text */
@@ -87,12 +87,12 @@
   --text-4xl: clamp(2.5rem, 6vw, 3.5rem);   /* h1 */
   --text-display: clamp(3rem, 9vw, 5.5rem); /* hero display */
 
-  /* Satoshi ships 400/500/700/900 (no 600): semibold maps to 700 and
-   * bold to 900 (Black) so the heading hierarchy keeps two clear steps. */
+  /* IBM Plex tops out at 700 (no 900): bold maps to 700 and semibold
+   * to 600 so the heading hierarchy keeps two clear steps. */
   --weight-regular: 400;
   --weight-medium: 500;
-  --weight-semibold: 700;
-  --weight-bold: 900;
+  --weight-semibold: 600;
+  --weight-bold: 700;
 
   --leading-tight: 1.15;  /* display, headings */
   --leading-snug: 1.35;   /* subheadings */

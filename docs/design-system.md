@@ -120,10 +120,10 @@ become low-opacity overlays of the 500 step so they read on dark.
 
 ## Typography
 
-- **Display / headings / body:** Satoshi (400, 500, 700, 900, via
-  Fontshare) — warm modern grotesque. Satoshi has no 600, so the
-  semibold token maps to 700 and bold to 900 (Black).
-- **Code / meta:** system monospace.
+- **Display / headings / body:** IBM Plex Sans (400, 500, 600, 700, via
+  Google Fonts). Plex tops out at 700, so the semibold token maps to 600
+  and bold to 700.
+- **Code / meta:** IBM Plex Mono (400, 500, 600).
 
 | Style | Size | Weight | Line height | Tracking |
 |---|---|---|---|---|
