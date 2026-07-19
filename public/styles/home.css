@@ -499,25 +499,8 @@ body.has-modal {
   -webkit-backdrop-filter: blur(3px);
 }
 
-/* "Pop": dialogs scale in on the spring so they land, not stop. */
-.project-modal[open] {
-  animation: modal-pop var(--duration-base) var(--ease-spring);
-}
-
-/* When a shared-element view transition carries the card into the modal,
- * the pop would fight the morph — the transition is the entrance. */
-.project-modal[data-vt][open],
-.project-modal[data-vt][open]::backdrop {
-  animation: none;
-}
-
-@keyframes modal-pop {
-  from {
-    opacity: 0;
-    transform: translateY(16px) scale(0.96);
-  }
-}
-
+/* Entrance transform comes from the FLIP in site.js; only the backdrop
+ * animates in CSS. */
 .project-modal[open]::backdrop {
   animation: backdrop-fade var(--duration-base) var(--ease-out);
 }
