@@ -5,12 +5,15 @@ import { GhostText } from "./GhostText";
 import { AnimatedDiff } from "./AnimatedDiff";
 import { StreamRenderer } from "./StreamRenderer";
 import { MotionToy } from "./MotionToy";
+import { SmiskiBox } from "./SmiskiBox";
 import paletteSource from "./CommandPalette.tsx?raw";
 import fuzzySource from "./fuzzy.ts?raw";
 import ghostSource from "./GhostText.tsx?raw";
 import diffSource from "./AnimatedDiff.tsx?raw";
 import streamSource from "./StreamRenderer.tsx?raw";
 import toySource from "./MotionToy.tsx?raw";
+import smiskiSource from "./SmiskiBox.tsx?raw";
+import smiskiSceneSource from "./smiski-scene.ts?raw";
 
 const mount = (id: string, component: () => ReturnType<typeof Experiment>) => {
   const el = document.getElementById(id);
@@ -44,5 +47,14 @@ mount("exp-stream", () => (
 mount("exp-toy", () => (
   <Experiment source={toySource} sourceName="MotionToy.tsx">
     <MotionToy />
+  </Experiment>
+));
+
+mount("exp-smiski", () => (
+  <Experiment
+    source={`${smiskiSource}\n\n// smiski-scene.ts\n${smiskiSceneSource}`}
+    sourceName="SmiskiBox.tsx"
+  >
+    <SmiskiBox />
   </Experiment>
 ));

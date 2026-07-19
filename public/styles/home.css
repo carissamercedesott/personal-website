@@ -123,23 +123,34 @@ body.home {
 :root {
   --band-blush: var(--blush-200);
   --band-rose: var(--blush-100);
+  --aurora-opacity: 0.75;
 }
 
 [data-theme="dark"] {
   --band-blush: #3a2523;
   --band-rose: #322220;
+  --aurora-opacity: 0.3;
 }
 
 @media (prefers-color-scheme: dark) {
   :root:not([data-theme="light"]) {
     --band-blush: #3a2523;
     --band-rose: #322220;
+    --aurora-opacity: 0.3;
   }
 }
 
 .intro {
   padding: var(--space-16) var(--space-6);
-  background: var(--band-blush);
+  /* Top stays transparent so the hero's fixed wash flows in; the bottom
+   * lands on the surface color the next band uses — no seam. */
+  background: linear-gradient(
+    180deg,
+    transparent 0%,
+    var(--band-blush) 26%,
+    var(--band-blush) 72%,
+    var(--surface-default) 100%
+  );
 }
 
 @media (max-width: 640px) {
@@ -153,16 +164,55 @@ body.home {
   }
 }
 
-/* Bands meet on 1px hairlines — atmosphere comes from the palette,
- * not shaped edges. */
+/* Bands melt into one another: each colored band owns a long vertical
+ * gradient whose endpoints match its neighbors, and a slow-drifting
+ * aurora layer keeps the color fields gently in motion. */
 .intro,
 .band,
 .band-rose {
-  border-top: 1px solid var(--border-default);
+  position: relative;
+  overflow: hidden;
 }
 
-#offclock {
-  border-bottom: 1px solid var(--border-default);
+.intro::before,
+.band-rose::before,
+.hero::before {
+  content: "";
+  position: absolute;
+  inset: -25%;
+  pointer-events: none;
+  opacity: var(--aurora-opacity);
+  background:
+    radial-gradient(42% 55% at 18% 32%, color-mix(in srgb, var(--blush-300) 22%, transparent), transparent 70%),
+    radial-gradient(38% 50% at 78% 22%, color-mix(in srgb, var(--sage-300) 24%, transparent), transparent 70%),
+    radial-gradient(46% 60% at 60% 84%, color-mix(in srgb, var(--apricot-300) 18%, transparent), transparent 70%);
+  animation: aurora-drift 26s var(--ease-in-out) infinite alternate;
+}
+
+@keyframes aurora-drift {
+  from {
+    transform: translate3d(-3%, -2%, 0) scale(1);
+  }
+  to {
+    transform: translate3d(3%, 2%, 0) scale(1.06);
+  }
+}
+
+/* Content rides above the aurora layer (the modal keeps its own
+ * positioning, so only the inner wrappers move up). */
+.intro > .section-inner,
+.band > .section-inner,
+.band-rose > .section-inner {
+  position: relative;
+}
+
+.hero {
+  position: relative;
+  overflow: hidden;
+}
+
+.hero > * {
+  position: relative;
 }
 
 /* The resume and everything below sit on plain surface. */
@@ -255,7 +305,13 @@ body.home {
 
 /* ── Experience: a sticker sheet on its own rose band ── */
 .band-rose {
-  background: var(--band-rose);
+  background: linear-gradient(
+    180deg,
+    var(--surface-default) 0%,
+    var(--band-rose) 24%,
+    var(--band-rose) 76%,
+    var(--surface-default) 100%
+  );
 }
 
 .exp-stickers {
@@ -377,19 +433,16 @@ a.project-card {
   text-decoration: none;
 }
 
-/* Shared element: the Waddl card's title glides into the case-study h1
- * via the cross-document view transition already enabled site-wide
- * (waddl.css names the h1 to match). */
-.project-card--waddl h3 {
-  view-transition-name: waddl-title;
-}
-
 a.project-card:hover {
   color: inherit;
 }
 
-/* Narrative hand-offs: one-sentence bridges between sections. */
+/* Narrative hand-offs: one-sentence bridges between sections, narrated
+ * by the resident smiski (his icon leads each one). */
 .handoff {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-2);
   margin-top: var(--space-12);
   max-width: 60ch;
   font-family: var(--font-mono);
@@ -398,9 +451,11 @@ a.project-card:hover {
   color: var(--text-secondary);
 }
 
-.handoff::before {
-  content: "↳ ";
-  color: var(--accent-strong);
+.handoff > .icon {
+  width: 18px;
+  height: 18px;
+  margin-top: 2px;
+  color: var(--status-success);
 }
 
 .flagships .handoff {
@@ -605,5 +660,88 @@ body.has-modal {
   to {
     opacity: 1;
     transform: translateY(0);
+  }
+}
+
+/* ── The resident smiski: walks the bottom edge as you scroll ──
+ * Built by walker-scene.ts; the strip is pointer-transparent except for
+ * a small hitbox that tracks the figure, so the page stays clickable. */
+.smiski-walker {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 340px;
+  z-index: 15;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity var(--duration-slow) var(--ease-out);
+}
+
+.smiski-walker.is-active {
+  opacity: 1;
+}
+
+.smiski-walker canvas {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+.smiski-walker-hit {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 110px;
+  height: 170px;
+  pointer-events: auto;
+  cursor: grab;
+  touch-action: none;
+}
+
+.smiski-walker:not(.is-active) .smiski-walker-hit {
+  pointer-events: none;
+}
+
+.smiski-bubble {
+  position: absolute;
+  transform: translate(-50%, 6px);
+  max-width: 250px;
+  padding: var(--space-2) var(--space-3);
+  background: var(--surface-raised);
+  border: 1px solid var(--sage-300);
+  border-radius: var(--radius-lg);
+  font-family: var(--font-mono);
+  font-size: var(--text-xs);
+  color: var(--text-primary);
+  text-align: center;
+  box-shadow: var(--shadow-md);
+  opacity: 0;
+  transition: opacity var(--duration-base) var(--ease-out),
+    transform var(--duration-base) var(--ease-spring);
+  pointer-events: none;
+}
+
+.smiski-bubble::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  bottom: -5px;
+  width: 8px;
+  height: 8px;
+  transform: translateX(-50%) rotate(45deg);
+  background: var(--surface-raised);
+  border-right: 1px solid var(--sage-300);
+  border-bottom: 1px solid var(--sage-300);
+}
+
+.smiski-bubble.is-visible {
+  opacity: 1;
+  transform: translate(-50%, 0);
+}
+
+@media print {
+  .smiski-walker {
+    display: none;
   }
 }
