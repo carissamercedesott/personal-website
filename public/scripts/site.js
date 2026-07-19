@@ -103,8 +103,7 @@ function initTypewriter() {
   if (!wordEl) return;
 
   const WORDS = [
-    "software engineer",
-    "designer",
+    "design engineer",
     "researcher",
     "writer",
     "snowboarder",
