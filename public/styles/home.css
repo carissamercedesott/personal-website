@@ -231,7 +231,7 @@ body.home {
   pointer-events: none;
   background-image: radial-gradient(
     circle,
-    color-mix(in srgb, var(--text-primary) 17%, transparent) 1.1px,
+    color-mix(in srgb, var(--accent-default) 30%, transparent) 1.1px,
     transparent 1.9px
   );
   background-size: 26px 26px;
@@ -241,7 +241,7 @@ body.home {
 .hero::after {
   background-image: radial-gradient(
     circle,
-    color-mix(in srgb, var(--text-primary) 62%, transparent) 1.3px,
+    color-mix(in srgb, var(--accent-strong) 72%, transparent) 1.3px,
     transparent 2.1px
   );
   -webkit-mask-image: radial-gradient(
@@ -283,10 +283,17 @@ body.home {
   }
 }
 
-.intro-photo {
+/* The hello-world stage: just the light ring, no photo — the smiski
+ * floating in it IS the portrait. Hidden entirely when the guide isn't
+ * running (mobile, reduced motion, no WebGL) so the column collapses. */
+.hello-stage {
   position: relative;
-  transform: rotate(-3deg);
-  transition: transform var(--duration-base) var(--ease-out);
+  aspect-ratio: 1;
+  max-height: 440px;
+}
+
+html:not(.smiski-live) .hello-stage {
+  display: none;
 }
 
 /* Where the smiski sits during the hero act. Just an invisible anchor —
@@ -306,8 +313,8 @@ body.home {
 .hello-ring {
   position: absolute;
   left: 50%;
-  top: 52%;
-  width: min(66%, 250px);
+  top: 50%;
+  width: min(96%, 400px);
   aspect-ratio: 1;
   transform: translate(-50%, -50%);
   border-radius: 50%;
@@ -384,18 +391,6 @@ html.smiski-live .hello-ring {
   }
 }
 
-.intro-photo:hover {
-  transform: rotate(-1deg) scale(1.02);
-}
-
-.intro-photo-img {
-  display: block;
-  width: 100%;
-  height: auto;
-  border-radius: var(--radius-lg);
-  border: 1px solid var(--border-default);
-  box-shadow: var(--shadow-lg);
-}
 
 .intro-hello {
   font-family: var(--font-mono);
@@ -835,8 +830,11 @@ body.has-modal {
   position: absolute;
   top: 0;
   left: 0;
-  width: 110px;
+  width: 120px;
   height: 170px;
+  /* The scene scales this with the figure (bigger in the ring); scaling
+   * from the corner keeps the translate() math centered on the torso. */
+  transform-origin: 0 0;
   pointer-events: auto;
   cursor: grab;
   touch-action: none;

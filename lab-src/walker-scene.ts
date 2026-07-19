@@ -93,39 +93,19 @@ export const createSmiskiWalker = () => {
     if (child.userData.eye) eyes.push(child as THREE.Mesh);
   });
 
-  // ── The mossy perch he sits on during the hero ──
-  const moundMat = new THREE.MeshStandardMaterial({
-    color: 0x7d9c60,
-    roughness: 0.95,
-    transparent: true,
-  });
-  const bladeMat = new THREE.MeshStandardMaterial({
-    color: 0x95b46e,
-    roughness: 0.9,
-    transparent: true,
-  });
-  const mound = new THREE.Group();
-  const hill = new THREE.Mesh(new THREE.SphereGeometry(0.62, 24, 16), moundMat);
-  hill.scale.set(1, 0.42, 0.75);
-  mound.add(hill);
-  const bladeGeo = new THREE.ConeGeometry(0.022, 0.16, 5);
-  [-0.42, -0.3, 0.34, 0.46].forEach((bx, index) => {
-    const blade = new THREE.Mesh(bladeGeo, bladeMat);
-    blade.position.set(bx, 0.2 - Math.abs(bx) * 0.22, 0.1);
-    blade.rotation.z = (index % 2 ? -1 : 1) * (0.15 + index * 0.06);
-    mound.add(blade);
-  });
-  scene.add(mound);
-
   // Fake contact shadow — cheaper than shadow maps on a viewport overlay.
+  // Doubles as the thing he "sits" on during the hero act.
   const shadowMat = new THREE.MeshBasicMaterial({
     color: 0x231e1b,
     transparent: true,
     opacity: 0.16,
   });
+  // Camera-facing squashed ellipse — a flat floor disc would be edge-on
+  // (invisible) to the orthographic camera.
   const shadow = new THREE.Mesh(new THREE.CircleGeometry(0.34, 24), shadowMat);
-  shadow.rotation.x = -Math.PI / 2;
-  shadow.position.y = 0.01;
+  const setShadowSize = (size: number) => shadow.scale.set(size, size * 0.26, 1);
+  shadow.position.y = 0.05;
+  setShadowSize(1);
   scene.add(shadow);
 
   // ── Theme: glow in the dark like the lab scene ──
@@ -137,8 +117,6 @@ export const createSmiskiWalker = () => {
       (!explicit && window.matchMedia("(prefers-color-scheme: dark)").matches);
     rig.skin.emissiveIntensity = dark ? 0.5 : 0.18;
     shadowBase = dark ? 0.3 : 0.16;
-    moundMat.emissive.setHex(dark ? 0x2b3a1e : 0x000000);
-    moundMat.emissiveIntensity = dark ? 0.35 : 0;
   };
   applyTheme();
   window
@@ -172,8 +150,10 @@ export const createSmiskiWalker = () => {
     const rect = introEl.getBoundingClientRect();
     const introTop = rect.top + window.scrollY;
     const introBottom = introTop + rect.height;
-    dropStart = introTop - viewH * 0.55;
-    dropEnd = introTop - viewH * 0.12;
+    // The drop completes while the intro is still entering, so by the
+    // time the section rests in view he's already floating in the ring.
+    dropStart = introTop - viewH * 0.72;
+    dropEnd = introTop - viewH * 0.34;
     walkStart = Math.max(introBottom - viewH * 0.5, dropEnd + 80);
     walkEnd = Math.max(introBottom - viewH * 0.1, walkStart + 240);
   };
@@ -217,6 +197,11 @@ export const createSmiskiWalker = () => {
   const offsetV = new THREE.Vector3();
   const eulerT = new THREE.Euler();
 
+  // He renders bigger while floating in the ring — poseScale grows with
+  // the spread pose and scales both the part meshes and their spacing.
+  let poseScale = 1;
+  const SPREAD_SCALE = 1.5;
+
   const poseLimb = (
     part: RigPart,
     pivot: [number, number, number],
@@ -227,10 +212,11 @@ export const createSmiskiWalker = () => {
     eulerT.set(swingX, 0, swingZ);
     limbQ.setFromEuler(eulerT);
     meshQ.copy(rootQ).multiply(limbQ);
-    offsetV.set(...offset).applyQuaternion(meshQ);
-    pivotV.set(...pivot).applyQuaternion(rootQ);
+    offsetV.set(...offset).applyQuaternion(meshQ).multiplyScalar(poseScale);
+    pivotV.set(...pivot).applyQuaternion(rootQ).multiplyScalar(poseScale);
     part.mesh.position.copy(rootPos).add(pivotV).add(offsetV);
     part.mesh.quaternion.copy(meshQ);
+    part.mesh.scale.setScalar(poseScale);
   };
 
   // ── Speech bubbles: the guide narrates each section as it scrolls in ──
@@ -344,6 +330,9 @@ export const createSmiskiWalker = () => {
       hit?.object.userData.body ?? rig.byName.torso.body;
     mode = "ragdoll";
     ragdollTime = 0;
+    // Physics bodies are unscaled — snap the meshes back to match.
+    poseScale = 1;
+    rig.parts.forEach((part) => part.mesh.scale.setScalar(1));
     rig.wake();
     const at = hit
       ? new CANNON.Vec3(hit.point.x, hit.point.y, hit.point.z)
@@ -436,7 +425,7 @@ export const createSmiskiWalker = () => {
     const ringA = ringEl
       ? anchorWorld(ringEl)
       : { x: worldW / 2, y: worldH * 0.55 };
-    const pHero = { x: perch.x, y: perch.y + 0.4 + Math.sin(clock * 1.8) * 0.012 };
+    const pHero = { x: perch.x, y: perch.y + 0.22 + Math.sin(clock * 1.8) * 0.012 };
     const pRing = { x: ringA.x, y: ringA.y - 0.06 + Math.sin(clock * 1.5) * 0.055 };
     const bobWalk =
       Math.abs(Math.sin(phase)) * 0.05 * gait +
@@ -505,9 +494,11 @@ export const createSmiskiWalker = () => {
     eulerT.set(lean, yaw, 0, "YXZ");
     rootQ.setFromEuler(eulerT);
     rootPos.set(smoothX, smoothY, 0);
+    poseScale = 1 + spreadW * (SPREAD_SCALE - 1);
 
     rig.byName.torso.mesh.position.copy(rootPos);
     rig.byName.torso.mesh.quaternion.copy(rootQ);
+    rig.byName.torso.mesh.scale.setScalar(poseScale);
     poseLimb(
       rig.byName.head,
       [0, 0.3, 0],
@@ -545,16 +536,16 @@ export const createSmiskiWalker = () => {
     );
     rig.syncBodies();
 
-    // Perch mound melts away as soon as he lifts off — a half-faded blob
-    // hanging in the hero reads as a glitch.
-    const moundFade = 1 - smooth01(u / 0.35);
-    mound.position.set(perch.x, perch.y - 0.16, -0.3);
-    moundMat.opacity = moundFade;
-    bladeMat.opacity = moundFade;
-    mound.visible = moundFade > 0.02;
-
-    // Ground shadow only reads when he's actually near the ground.
-    shadowMat.opacity = shadowBase * walkW;
+    // Soft contact shadow: under his seat on the hero, on the floor while
+    // walking, gone while he floats in the ring.
+    if (w > 0) {
+      shadow.position.y = 0.05;
+      setShadowSize(THREE.MathUtils.clamp(1.2 - (smoothY - restY) * 0.45, 0.35, 1.2));
+    } else {
+      shadow.position.y = perch.y - 0.38;
+      setShadowSize(1.05);
+    }
+    shadowMat.opacity = shadowBase * (sitW * 0.85 + walkW);
   };
 
   const beginRise = () => {
@@ -624,7 +615,6 @@ export const createSmiskiWalker = () => {
       world.step(1 / 60, dt, 3);
       rig.syncMeshes();
       shadowMat.opacity = shadowBase;
-      mound.visible = false;
       if (!dragConstraint) {
         const speed = Math.max(...rig.parts.map((part) => part.body.velocity.length()));
         settleTime = speed < 0.4 ? settleTime + dt : 0;
@@ -650,14 +640,18 @@ export const createSmiskiWalker = () => {
     // Contact shadow + hitbox + bubble all track the torso.
     const torsoPos = rig.byName.torso.mesh.position;
     shadow.position.x = torsoPos.x;
-    const lift = THREE.MathUtils.clamp(1.2 - (torsoPos.y - restY) * 0.45, 0.35, 1.2);
-    shadow.scale.setScalar(lift);
+    if (mode !== "flow") {
+      // Physics acts play out on the viewport floor.
+      shadow.position.y = 0.05;
+      const lift = THREE.MathUtils.clamp(1.2 - (torsoPos.y - restY) * 0.45, 0.35, 1.2);
+      setShadowSize(lift);
+    }
 
     const pxX = torsoPos.x * SCALE;
     const pxY = torsoPos.y * SCALE;
-    hitbox.style.transform = `translate(${pxX - 60}px, ${viewH - pxY - 95}px)`;
+    hitbox.style.transform = `translate(${pxX - 60 * poseScale}px, ${viewH - pxY - 95 * poseScale}px) scale(${poseScale.toFixed(3)})`;
     bubble.style.left = `${THREE.MathUtils.clamp(pxX, 90, viewW - 90)}px`;
-    bubble.style.bottom = `${THREE.MathUtils.clamp(pxY + 110, 60, viewH - 30)}px`;
+    bubble.style.bottom = `${THREE.MathUtils.clamp(pxY + 110 * poseScale, 60, viewH - 30)}px`;
 
     updateBlink(dt, clock);
     renderer.render(scene, camera);

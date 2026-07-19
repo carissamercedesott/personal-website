@@ -1,276 +1,263 @@
-import { W as Pt, S as Tt, O as Nt, H as Wt, D as It, b as Rt, V as H, B as X, c as pt, g as At, f as mt, G as Bt, M as Le, o as Xt, C as Yt, p as Dt, q as Ft, n as Vt, R as Gt, l as Ht, m as a, E as Qt, Q, j as O } from "./smiski-rig.js";
-const E = 92, ht = 0.9, Ot = 2.6, Y = (h) => {
-  const u = a.clamp(h, 0, 1);
-  return u * u * (3 - 2 * u);
-}, jt = () => {
-  const h = document.createElement("div");
-  h.className = "smiski-walker", h.setAttribute("aria-hidden", "true");
-  const u = new Pt({ antialias: !0, alpha: !0 });
-  u.setPixelRatio(Math.min(window.devicePixelRatio, 2)), h.appendChild(u.domElement);
-  const i = document.createElement("div");
-  i.className = "smiski-walker-hit", h.appendChild(i);
-  const v = document.createElement("div");
-  v.className = "smiski-bubble", h.appendChild(v), document.body.appendChild(h), document.documentElement.classList.add("smiski-live");
-  const q = new Tt(), L = new Nt(0, 1, 1, 0, -10, 20);
-  L.position.z = 6, q.add(new Wt(16775407, 12167325, 1.15));
-  const Pe = new It(16777215, 1.5);
-  Pe.position.set(2, 6, 4), q.add(Pe);
-  const d = new Rt({ gravity: new H(0, -9.8, 0) });
-  d.allowSleep = !0, d.solver.iterations = 12, d.defaultContactMaterial.friction = 0.5, d.defaultContactMaterial.restitution = 0.25;
-  const Te = new X({ type: X.STATIC, shape: new pt() });
-  Te.quaternion.setFromEuler(-Math.PI / 2, 0, 0), d.addBody(Te);
-  const D = (t) => {
-    const e = new X({ type: X.STATIC, shape: new pt() });
-    return e.quaternion.setFromVectors(new H(0, 0, 1), new H(...t)), d.addBody(e), e;
-  }, ut = D([1, 0, 0]), wt = D([-1, 0, 0]), yt = D([0, -1, 0]);
-  D([0, 0, 1]).position.set(0, 0, -0.75), D([0, 0, -1]).position.set(0, 0, 0.75);
-  const n = At(d);
-  q.add(n.group);
-  const pe = [];
-  n.byName.head.mesh.traverse((t) => {
-    t.userData.eye && pe.push(t);
+import { W as ke, S as Se, O as Ce, H as Le, D as Pe, b as Te, V as Q, B as I, c as ie, g as qe, o as Ne, M as Ae, C as Re, n as We, R as Be, l as Ie, m as i, E as De, Q as O, j as $ } from "./smiski-rig.js";
+const k = 92, re = 0.9, Xe = 2.6, j = (w) => {
+  const y = i.clamp(w, 0, 1);
+  return y * y * (3 - 2 * y);
+}, Fe = () => {
+  const w = document.createElement("div");
+  w.className = "smiski-walker", w.setAttribute("aria-hidden", "true");
+  const y = new ke({ antialias: !0, alpha: !0 });
+  y.setPixelRatio(Math.min(window.devicePixelRatio, 2)), w.appendChild(y.domElement);
+  const r = document.createElement("div");
+  r.className = "smiski-walker-hit", w.appendChild(r);
+  const S = document.createElement("div");
+  S.className = "smiski-bubble", w.appendChild(S), document.body.appendChild(w), document.documentElement.classList.add("smiski-live");
+  const D = new Se(), T = new Ce(0, 1, 1, 0, -10, 20);
+  T.position.z = 6, D.add(new Le(16775407, 12167325, 1.15));
+  const Ct = new Pe(16777215, 1.5);
+  Ct.position.set(2, 6, 4), D.add(Ct);
+  const p = new Te({ gravity: new Q(0, -9.8, 0) });
+  p.allowSleep = !0, p.solver.iterations = 12, p.defaultContactMaterial.friction = 0.5, p.defaultContactMaterial.restitution = 0.25;
+  const Lt = new I({ type: I.STATIC, shape: new ie() });
+  Lt.quaternion.setFromEuler(-Math.PI / 2, 0, 0), p.addBody(Lt);
+  const X = (t) => {
+    const e = new I({ type: I.STATIC, shape: new ie() });
+    return e.quaternion.setFromVectors(new Q(0, 0, 1), new Q(...t)), p.addBody(e), e;
+  }, ce = X([1, 0, 0]), le = X([-1, 0, 0]), pe = X([0, -1, 0]);
+  X([0, 0, 1]).position.set(0, 0, -0.75), X([0, 0, -1]).position.set(0, 0, 0.75);
+  const s = qe(p);
+  D.add(s.group);
+  const lt = [];
+  s.byName.head.mesh.traverse((t) => {
+    t.userData.eye && lt.push(t);
   });
-  const z = new mt({
-    color: 8232032,
-    roughness: 0.95,
-    transparent: !0
-  }), Ne = new mt({
-    color: 9811054,
-    roughness: 0.9,
-    transparent: !0
-  }), P = new Bt(), We = new Le(new Xt(0.62, 24, 16), z);
-  We.scale.set(1, 0.42, 0.75), P.add(We);
-  const bt = new Yt(0.022, 0.16, 5);
-  [-0.42, -0.3, 0.34, 0.46].forEach((t, e) => {
-    const o = new Le(bt, Ne);
-    o.position.set(t, 0.2 - Math.abs(t) * 0.22, 0.1), o.rotation.z = (e % 2 ? -1 : 1) * (0.15 + e * 0.06), P.add(o);
-  }), q.add(P);
-  const me = new Dt({
+  const pt = new Ne({
     color: 2301467,
     transparent: !0,
     opacity: 0.16
-  }), F = new Le(new Ft(0.34, 24), me);
-  F.rotation.x = -Math.PI / 2, F.position.y = 0.01, q.add(F);
-  let he = 0.16;
-  const ue = () => {
+  }), C = new Ae(new Re(0.34, 24), pt), z = (t) => C.scale.set(t, t * 0.26, 1);
+  C.position.y = 0.05, z(1), D.add(C);
+  let mt = 0.16;
+  const dt = () => {
     const t = document.documentElement.dataset.theme, e = t === "dark" || !t && window.matchMedia("(prefers-color-scheme: dark)").matches;
-    n.skin.emissiveIntensity = e ? 0.5 : 0.18, he = e ? 0.3 : 0.16, z.emissive.setHex(e ? 2832926 : 0), z.emissiveIntensity = e ? 0.35 : 0;
+    s.skin.emissiveIntensity = e ? 0.5 : 0.18, mt = e ? 0.3 : 0.16;
   };
-  ue(), window.matchMedia("(prefers-color-scheme: dark)").addEventListener("change", ue), new MutationObserver(ue).observe(document.documentElement, {
+  dt(), window.matchMedia("(prefers-color-scheme: dark)").addEventListener("change", dt), new MutationObserver(dt).observe(document.documentElement, {
     attributeFilter: ["data-theme"]
   });
-  const Ie = document.querySelector("[data-smiski-perch]"), Re = document.querySelector("[data-smiski-ring]"), Ae = document.querySelector(".intro");
-  let j = 1, m = 1, T = 1, V = 1, Be = 1, we = 400, ye = 700, $ = 900, _ = 1200;
-  const Xe = () => {
-    if (Be = Math.max(
+  const Pt = document.querySelector("[data-smiski-perch]"), Tt = document.querySelector("[data-smiski-ring]"), qt = document.querySelector(".intro");
+  let G = 1, d = 1, q = 1, Y = 1, Nt = 1, ht = 400, ut = 700, _ = 900, U = 1200;
+  const At = () => {
+    if (Nt = Math.max(
       1,
       document.documentElement.scrollHeight - window.innerHeight
-    ), !Ae) return;
-    const t = Ae.getBoundingClientRect(), e = t.top + window.scrollY, o = e + t.height;
-    we = e - m * 0.55, ye = e - m * 0.12, $ = Math.max(o - m * 0.5, ye + 80), _ = Math.max(o - m * 0.1, $ + 240);
-  }, Ye = () => {
-    j = window.innerWidth, m = window.innerHeight, u.setSize(j, m), T = j / E, V = m / E, L.right = T, L.top = V, L.updateProjectionMatrix(), ut.position.set(0.2, 0, 0), wt.position.set(T - 0.2, 0, 0), yt.position.set(0, V - 0.15, 0), Xe();
+    ), !qt) return;
+    const t = qt.getBoundingClientRect(), e = t.top + window.scrollY, o = e + t.height;
+    ht = e - d * 0.72, ut = e - d * 0.34, _ = Math.max(o - d * 0.5, ut + 80), U = Math.max(o - d * 0.1, _ + 240);
+  }, Rt = () => {
+    G = window.innerWidth, d = window.innerHeight, y.setSize(G, d), q = G / k, Y = d / k, T.right = q, T.top = Y, T.updateProjectionMatrix(), ce.position.set(0.2, 0, 0), le.position.set(q - 0.2, 0, 0), pe.position.set(0, Y - 0.15, 0), At();
   };
-  Ye(), window.addEventListener("resize", Ye);
-  const U = 0.715, N = () => ht, De = () => Math.max(ht + 0.5, T - Ot), Fe = (t) => {
+  Rt(), window.addEventListener("resize", Rt);
+  const F = 0.715, N = () => re, Wt = () => Math.max(re + 0.5, q - Xe), Bt = (t) => {
     const e = t.getBoundingClientRect();
     return {
-      x: (e.left + e.width / 2) / E,
-      y: (m - (e.top + e.height / 2)) / E
+      x: (e.left + e.width / 2) / k,
+      y: (d - (e.top + e.height / 2)) / k
     };
-  }, be = new O(N(), U, 0), Z = new Q(), Ve = new Q(), fe = new Q(), Ge = new O(), He = new O(), J = new Qt(), G = (t, e, o, s, l) => {
-    J.set(s, 0, l), Ve.setFromEuler(J), fe.copy(Z).multiply(Ve), He.set(...o).applyQuaternion(fe), Ge.set(...e).applyQuaternion(Z), t.mesh.position.copy(be).add(Ge).add(He), t.mesh.quaternion.copy(fe);
+  }, wt = new $(N(), F, 0), Z = new O(), It = new O(), yt = new O(), Dt = new $(), Xt = new $(), J = new De();
+  let h = 1;
+  const me = 1.5, V = (t, e, o, n, c) => {
+    J.set(n, 0, c), It.setFromEuler(J), yt.copy(Z).multiply(It), Xt.set(...o).applyQuaternion(yt).multiplyScalar(h), Dt.set(...e).applyQuaternion(Z).multiplyScalar(h), t.mesh.position.copy(wt).add(Dt).add(Xt), t.mesh.quaternion.copy(yt), t.mesh.scale.setScalar(h);
   };
-  let Qe = 0;
+  let Yt = 0;
   const K = (t, e = 4600) => {
-    v.textContent = t, v.classList.add("is-visible"), window.clearTimeout(Qe), Qe = window.setTimeout(
-      () => v.classList.remove("is-visible"),
+    S.textContent = t, S.classList.add("is-visible"), window.clearTimeout(Yt), Yt = window.setTimeout(
+      () => S.classList.remove("is-visible"),
       e
     );
-  }, Oe = /* @__PURE__ */ new Set(), ze = document.querySelectorAll("[data-smiski-note]");
-  if (ze.length && "IntersectionObserver" in window) {
+  }, Ft = /* @__PURE__ */ new Set(), Vt = document.querySelectorAll("[data-smiski-note]");
+  if (Vt.length && "IntersectionObserver" in window) {
     const t = new IntersectionObserver(
       (e) => {
         for (const o of e)
-          !o.isIntersecting || Oe.has(o.target) || (Oe.add(o.target), K(o.target.getAttribute("data-smiski-note") ?? ""));
+          !o.isIntersecting || Ft.has(o.target) || (Ft.add(o.target), K(o.target.getAttribute("data-smiski-note") ?? ""));
       },
       { rootMargin: "-35% 0px -55% 0px" }
     );
-    ze.forEach((e) => t.observe(e));
+    Vt.forEach((e) => t.observe(e));
   }
-  const je = new Gt(), $e = new Vt(), ee = new X({ type: X.STATIC });
-  d.addBody(ee);
-  let w = null, k = "flow", c = 0, y = 0, te = 0, oe = 0, _e = !1, g = N(), p = 0.22, ne = 1, W = 0, b = 0, se = 0, ge = 0, C = 0;
-  const I = n.parts.map(
-    () => ({ pos: new O(), quat: new Q() })
-  ), ae = n.parts.map(
-    () => ({ pos: new O(), quat: new Q() })
+  const Ht = new Be(), Qt = new We(), tt = new I({ type: I.STATIC });
+  p.addBody(tt);
+  let f = null, g = "flow", l = 0, u = 0, et = 0, H = 0, Ot = !1, M = N(), m = 0.22, ot = 1, A = 0, b = 0, st = 0, ft = 0, L = 0;
+  const R = s.parts.map(
+    () => ({ pos: new $(), quat: new O() })
+  ), nt = s.parts.map(
+    () => ({ pos: new $(), quat: new O() })
   );
-  let R = !1, Me = 0, A = 0, xe = 10, S = 10, Ue = 1.6;
-  const Ee = 2.1, ft = () => S >= Ee ? 0 : Math.min(Y(S / 0.35), Y((Ee - S) / 0.45)), Ze = () => y > 0 ? "walk" : c >= 1 ? "ring" : c <= 0 ? "hero" : "drop", Je = (t) => {
-    const e = u.domElement.getBoundingClientRect();
+  let W = !1, bt = 0, B = 0, gt = 10, P = 10, $t = 1.6;
+  const Mt = 2.1, de = () => P >= Mt ? 0 : Math.min(j(P / 0.35), j((Mt - P) / 0.45)), jt = () => u > 0 ? "walk" : l >= 1 ? "ring" : l <= 0 ? "hero" : "drop", zt = (t) => {
+    const e = y.domElement.getBoundingClientRect();
     return {
-      x: (t.clientX - e.left) / E,
-      y: (e.bottom - t.clientY) / E,
+      x: (t.clientX - e.left) / k,
+      y: (e.bottom - t.clientY) / k,
       ndcX: (t.clientX - e.left) / e.width * 2 - 1,
       ndcY: -((t.clientY - e.top) / e.height) * 2 + 1
     };
-  }, gt = (t) => {
-    const e = Ze();
-    if (k === "flow" && (e === "ring" || e === "drop")) {
-      R = !0, xe = 0, Me = t.clientX, i.setPointerCapture(t.pointerId), i.style.cursor = "grabbing", t.preventDefault();
+  }, he = (t) => {
+    const e = jt();
+    if (g === "flow" && (e === "ring" || e === "drop")) {
+      W = !0, gt = 0, bt = t.clientX, r.setPointerCapture(t.pointerId), r.style.cursor = "grabbing", t.preventDefault();
       return;
     }
-    if (k === "flow" && e === "hero") {
-      S = 0, K("hi!", 1400), t.preventDefault();
+    if (g === "flow" && e === "hero") {
+      P = 0, K("hi!", 1400), t.preventDefault();
       return;
     }
-    const o = Je(t);
-    $e.set(o.ndcX, o.ndcY), je.setFromCamera($e, L);
-    const s = je.intersectObject(n.group, !0)[0], l = s?.object.userData.body ?? n.byName.torso.body;
-    k = "ragdoll", ge = 0, n.wake();
-    const r = s ? new H(s.point.x, s.point.y, s.point.z) : l.position.clone();
-    ee.position.copy(r), w = new Ht(
-      l,
-      l.pointToLocalFrame(r),
-      ee,
-      new H(0, 0, 0),
+    const o = zt(t);
+    Qt.set(o.ndcX, o.ndcY), Ht.setFromCamera(Qt, T);
+    const n = Ht.intersectObject(s.group, !0)[0], c = n?.object.userData.body ?? s.byName.torso.body;
+    g = "ragdoll", ft = 0, h = 1, s.parts.forEach((E) => E.mesh.scale.setScalar(1)), s.wake();
+    const a = n ? new Q(n.point.x, n.point.y, n.point.z) : c.position.clone();
+    tt.position.copy(a), f = new Ie(
+      c,
+      c.pointToLocalFrame(a),
+      tt,
+      new Q(0, 0, 0),
       40
-    ), d.addConstraint(w), i.setPointerCapture(t.pointerId), i.style.cursor = "grabbing", K("!!", 900), t.preventDefault();
-  }, Mt = (t) => {
-    if (R) {
-      const o = t.clientX - Me;
-      Me = t.clientX, p += o * 0.011, A = a.clamp(0.6 * A + 0.4 * o * 0.011 * 60, -7, 7);
+    ), p.addConstraint(f), r.setPointerCapture(t.pointerId), r.style.cursor = "grabbing", K("!!", 900), t.preventDefault();
+  }, ue = (t) => {
+    if (W) {
+      const o = t.clientX - bt;
+      bt = t.clientX, m += o * 0.011, B = i.clamp(0.6 * B + 0.4 * o * 0.011 * 60, -7, 7);
       return;
     }
-    if (!w) return;
-    const e = Je(t);
-    ee.position.set(
-      a.clamp(e.x, 0.3, T - 0.3),
-      a.clamp(e.y, 0.2, V - 0.2),
+    if (!f) return;
+    const e = zt(t);
+    tt.position.set(
+      i.clamp(e.x, 0.3, q - 0.3),
+      i.clamp(e.y, 0.2, Y - 0.2),
       0
-    ), w.bodyA.wakeUp();
-  }, Ke = () => {
-    if (R) {
-      R = !1, i.style.cursor = "grab";
+    ), f.bodyA.wakeUp();
+  }, Gt = () => {
+    if (W) {
+      W = !1, r.style.cursor = "grab";
       return;
     }
-    if (w) {
-      d.removeConstraint(w), w = null, se = 0, i.style.cursor = "grab";
-      for (const t of n.parts) {
+    if (f) {
+      p.removeConstraint(f), f = null, st = 0, r.style.cursor = "grab";
+      for (const t of s.parts) {
         const e = t.body.velocity.length();
         e > 7 && t.body.velocity.scale(7 / e, t.body.velocity);
       }
     }
   };
-  i.addEventListener("pointerdown", gt), i.addEventListener("pointermove", Mt), i.addEventListener("pointerup", Ke), i.addEventListener("pointercancel", Ke);
-  let M = 0;
-  const ve = (t, e) => {
+  r.addEventListener("pointerdown", he), r.addEventListener("pointermove", ue), r.addEventListener("pointerup", Gt), r.addEventListener("pointercancel", Gt);
+  let x = 0;
+  const xt = (t, e) => {
     const o = window.scrollY;
-    c = Y((o - we) / Math.max(1, ye - we)), y = Y((o - $) / Math.max(1, _ - $));
-    const s = 1 - c, l = c * (1 - y), r = c * y, f = a.clamp(
-      (o - _) / Math.max(1, Be - _),
+    l = j((o - ht) / Math.max(1, ut - ht)), u = j((o - _) / Math.max(1, U - _));
+    const n = 1 - l, c = l * (1 - u), a = l * u, E = i.clamp(
+      (o - U) / Math.max(1, Nt - U),
       0,
       1
-    ), x = N() + f * (De() - N()), B = g;
-    g += (x - g) * (e ? 1 : 1 - Math.exp(-t * 2.4));
-    const ke = Math.abs(g - B) / Math.max(t, 1e-4), Ce = y > 0.6 && Math.abs(x - g) > 0.04 && ke > 0.02;
-    Ce && (ne = Math.sign(x - g) || ne), b += ((Ce ? Math.min(1, ke / 1.1) : 0) - b) * Math.min(1, t * 8), W += ke * t * 9 * r;
-    const re = Ie ? Fe(Ie) : { x: N(), y: U }, at = Re ? Fe(Re) : { x: T / 2, y: V * 0.55 }, it = { x: re.x, y: re.y + 0.4 + Math.sin(M * 1.8) * 0.012 }, ce = { x: at.x, y: at.y - 0.06 + Math.sin(M * 1.5) * 0.055 }, vt = Math.abs(Math.sin(W)) * 0.05 * b + Math.sin(M * 1.8) * 8e-3 * (1 - b), rt = { x: g, y: U + vt };
-    let le, de;
-    y > 0 ? (le = a.lerp(ce.x, rt.x, y), de = a.lerp(ce.y, rt.y, y)) : (le = a.lerp(it.x, ce.x, c), de = a.lerp(it.y, ce.y, c) + Math.sin(c * Math.PI) * 0.3);
-    const ct = e ? 1 : 1 - Math.exp(-t * 10);
-    if (!_e || e ? (te = le, oe = de, _e = !0) : (te += (le - te) * ct, oe += (de - oe) * ct), y > 0) {
-      p = a.euclideanModulo(p + Math.PI, Math.PI * 2) - Math.PI;
-      const Lt = Ce ? ne * 0.85 : ne * 0.12;
-      p += (Lt - p) * Math.min(1, t * 5);
-    } else c >= 1 ? (xe += t, R || (p += A * t, A *= Math.exp(-t * 1.6), p += 0.4 * Y((xe - 1.2) / 1.5) * t)) : c > 0 ? (p = 0.22 + c * Math.PI * 2, A = 0) : (p += (0.22 - p) * Math.min(1, t * 4), S += t, M > Ue && S > Ee + 1 && (Ue = M + 6 + Math.random() * 4, S = 0));
-    const Se = s > 0.3 ? ft() : 0, lt = Math.sin(W) * 0.55 * b, dt = Math.sin(W) * 0.45 * b, kt = Math.sin(W * 2) * 0.045 * b, Ct = a.lerp(
+    ), v = N() + E * (Wt() - N()), fe = M;
+    M += (v - M) * (e ? 1 : 1 - Math.exp(-t * 2.4));
+    const Et = Math.abs(M - fe) / Math.max(t, 1e-4), vt = u > 0.6 && Math.abs(v - M) > 0.04 && Et > 0.02;
+    vt && (ot = Math.sign(v - M) || ot), b += ((vt ? Math.min(1, Et / 1.1) : 0) - b) * Math.min(1, t * 8), A += Et * t * 9 * a;
+    const kt = Pt ? Bt(Pt) : { x: N(), y: F }, te = Tt ? Bt(Tt) : { x: q / 2, y: Y * 0.55 }, ee = { x: kt.x, y: kt.y + 0.22 + Math.sin(x * 1.8) * 0.012 }, it = { x: te.x, y: te.y - 0.06 + Math.sin(x * 1.5) * 0.055 }, be = Math.abs(Math.sin(A)) * 0.05 * b + Math.sin(x * 1.8) * 8e-3 * (1 - b), oe = { x: M, y: F + be };
+    let rt, ct;
+    u > 0 ? (rt = i.lerp(it.x, oe.x, u), ct = i.lerp(it.y, oe.y, u)) : (rt = i.lerp(ee.x, it.x, l), ct = i.lerp(ee.y, it.y, l) + Math.sin(l * Math.PI) * 0.3);
+    const se = e ? 1 : 1 - Math.exp(-t * 10);
+    if (!Ot || e ? (et = rt, H = ct, Ot = !0) : (et += (rt - et) * se, H += (ct - H) * se), u > 0) {
+      m = i.euclideanModulo(m + Math.PI, Math.PI * 2) - Math.PI;
+      const ve = vt ? ot * 0.85 : ot * 0.12;
+      m += (ve - m) * Math.min(1, t * 5);
+    } else l >= 1 ? (gt += t, W || (m += B * t, B *= Math.exp(-t * 1.6), m += 0.4 * j((gt - 1.2) / 1.5) * t)) : l > 0 ? (m = 0.22 + l * Math.PI * 2, B = 0) : (m += (0.22 - m) * Math.min(1, t * 4), P += t, x > $t && P > Mt + 1 && ($t = x + 6 + Math.random() * 4, P = 0));
+    const St = n > 0.3 ? de() : 0, ne = Math.sin(A) * 0.55 * b, ae = Math.sin(A) * 0.45 * b, ge = Math.sin(A * 2) * 0.045 * b, Me = i.lerp(
       0.2,
-      2.55 + Math.sin(M * 7.5) * 0.42,
-      Se
-    ), St = a.lerp(-0.5, 0, Se), qt = s * -0.1 + r * 0.06 * b;
-    J.set(qt, p, 0, "YXZ"), Z.setFromEuler(J), be.set(te, oe, 0), n.byName.torso.mesh.position.copy(be), n.byName.torso.mesh.quaternion.copy(Z), G(
-      n.byName.head,
+      2.55 + Math.sin(x * 7.5) * 0.42,
+      St
+    ), xe = i.lerp(-0.5, 0, St), Ee = n * -0.1 + a * 0.06 * b;
+    J.set(Ee, m, 0, "YXZ"), Z.setFromEuler(J), wt.set(et, H, 0), h = 1 + c * (me - 1), s.byName.torso.mesh.position.copy(wt), s.byName.torso.mesh.quaternion.copy(Z), s.byName.torso.mesh.scale.setScalar(h), V(
+      s.byName.head,
       [0, 0.3, 0],
       [0, 0.2, 0],
-      s * 0.06 + r * kt,
-      s * Se * 0.14
-    ), G(
-      n.byName.armL,
+      n * 0.06 + a * ge,
+      n * St * 0.14
+    ), V(
+      s.byName.armL,
       [-0.27, 0.18, 0],
       [0, -0.16, 0],
-      s * -0.5 + r * -dt,
-      s * -0.2 + l * -2.1
-    ), G(
-      n.byName.armR,
+      n * -0.5 + a * -ae,
+      n * -0.2 + c * -2.1
+    ), V(
+      s.byName.armR,
       [0.27, 0.18, 0],
       [0, -0.16, 0],
-      s * St + r * dt,
-      s * Ct + l * 2.1
-    ), G(
-      n.byName.legL,
+      n * xe + a * ae,
+      n * Me + c * 2.1
+    ), V(
+      s.byName.legL,
       [-0.12, -0.28, 0],
       [0, -0.22, 0],
-      s * -1.15 + r * lt,
-      s * -0.14 + l * -0.5
-    ), G(
-      n.byName.legR,
+      n * -1.15 + a * ne,
+      n * -0.14 + c * -0.5
+    ), V(
+      s.byName.legR,
       [0.12, -0.28, 0],
       [0, -0.22, 0],
-      s * -1.15 + r * -lt,
-      s * 0.14 + l * 0.5
-    ), n.syncBodies();
-    const qe = 1 - Y(c / 0.35);
-    P.position.set(re.x, re.y - 0.16, -0.3), z.opacity = qe, Ne.opacity = qe, P.visible = qe > 0.02, me.opacity = he * r;
-  }, xt = () => {
-    k = "rise", C = 0;
-    const t = n.byName.torso.body;
-    g = a.clamp(t.position.x, N(), De()), W = 0, b = 0, A = 0, n.parts.forEach((e, o) => {
-      I[o].pos.copy(e.body.position), I[o].quat.copy(e.body.quaternion);
-    }), ve(1 / 60, !0), n.parts.forEach((e, o) => {
-      ae[o].pos.copy(e.mesh.position), ae[o].quat.copy(e.mesh.quaternion);
-    }), n.parts.forEach((e, o) => {
-      e.mesh.position.copy(I[o].pos), e.mesh.quaternion.copy(I[o].quat);
+      n * -1.15 + a * -ne,
+      n * 0.14 + c * 0.5
+    ), s.syncBodies(), u > 0 ? (C.position.y = 0.05, z(i.clamp(1.2 - (H - F) * 0.45, 0.35, 1.2))) : (C.position.y = kt.y - 0.38, z(1.05)), pt.opacity = mt * (n * 0.85 + a);
+  }, we = () => {
+    g = "rise", L = 0;
+    const t = s.byName.torso.body;
+    M = i.clamp(t.position.x, N(), Wt()), A = 0, b = 0, B = 0, s.parts.forEach((e, o) => {
+      R[o].pos.copy(e.body.position), R[o].quat.copy(e.body.quaternion);
+    }), xt(1 / 60, !0), s.parts.forEach((e, o) => {
+      nt[o].pos.copy(e.mesh.position), nt[o].quat.copy(e.mesh.quaternion);
+    }), s.parts.forEach((e, o) => {
+      e.mesh.position.copy(R[o].pos), e.mesh.quaternion.copy(R[o].quat);
     });
   };
-  let et = 2.5, ie = 0;
-  const Et = (t, e) => {
-    ie > 0 ? (ie -= t, ie <= 0 && pe.forEach((o) => o.scale.setY(1.7))) : e > et && (et = e + 2.8 + Math.random() * 3.5, ie = 0.13, pe.forEach((o) => o.scale.setY(0.2)));
+  let _t = 2.5, at = 0;
+  const ye = (t, e) => {
+    at > 0 ? (at -= t, at <= 0 && lt.forEach((o) => o.scale.setY(1.7))) : e > _t && (_t = e + 2.8 + Math.random() * 3.5, at = 0.13, lt.forEach((o) => o.scale.setY(0.2)));
   };
-  let tt = performance.now(), ot = 0, nt = null;
-  const st = (t) => {
-    requestAnimationFrame(st);
-    const e = Math.min((t - tt) / 1e3, 0.05);
-    if (tt = t, M += e, ot += 1, ot % 180 === 0 && Xe(), k === "flow") {
-      ve(e, !1);
-      const f = Ze();
-      f !== nt && !R && !w && (i.style.cursor = f === "hero" ? "pointer" : "grab", nt = f);
-    } else if (k === "ragdoll")
-      d.step(1 / 60, e, 3), n.syncMeshes(), me.opacity = he, P.visible = !1, w || (se = Math.max(...n.parts.map((x) => x.body.velocity.length())) < 0.4 ? se + e : 0, ge += e, (se > 0.55 || ge > 3.5) && xt());
+  let Ut = performance.now(), Zt = 0, Jt = null;
+  const Kt = (t) => {
+    requestAnimationFrame(Kt);
+    const e = Math.min((t - Ut) / 1e3, 0.05);
+    if (Ut = t, x += e, Zt += 1, Zt % 180 === 0 && At(), g === "flow") {
+      xt(e, !1);
+      const a = jt();
+      a !== Jt && !W && !f && (r.style.cursor = a === "hero" ? "pointer" : "grab", Jt = a);
+    } else if (g === "ragdoll")
+      p.step(1 / 60, e, 3), s.syncMeshes(), pt.opacity = mt, f || (st = Math.max(...s.parts.map((E) => E.body.velocity.length())) < 0.4 ? st + e : 0, ft += e, (st > 0.55 || ft > 3.5) && we());
     else {
-      C = Math.min(1, C + e / 0.7);
-      const f = C * C * (3 - 2 * C);
-      n.parts.forEach((x, B) => {
-        x.mesh.position.lerpVectors(I[B].pos, ae[B].pos, f), x.mesh.quaternion.slerpQuaternions(
-          I[B].quat,
-          ae[B].quat,
-          f
+      L = Math.min(1, L + e / 0.7);
+      const a = L * L * (3 - 2 * L);
+      s.parts.forEach((E, v) => {
+        E.mesh.position.lerpVectors(R[v].pos, nt[v].pos, a), E.mesh.quaternion.slerpQuaternions(
+          R[v].quat,
+          nt[v].quat,
+          a
         );
-      }), n.syncBodies(), C >= 1 && (k = "flow");
+      }), s.syncBodies(), L >= 1 && (g = "flow");
     }
-    const o = n.byName.torso.mesh.position;
-    F.position.x = o.x;
-    const s = a.clamp(1.2 - (o.y - U) * 0.45, 0.35, 1.2);
-    F.scale.setScalar(s);
-    const l = o.x * E, r = o.y * E;
-    i.style.transform = `translate(${l - 60}px, ${m - r - 95}px)`, v.style.left = `${a.clamp(l, 90, j - 90)}px`, v.style.bottom = `${a.clamp(r + 110, 60, m - 30)}px`, Et(e, M), u.render(q, L);
+    const o = s.byName.torso.mesh.position;
+    if (C.position.x = o.x, g !== "flow") {
+      C.position.y = 0.05;
+      const a = i.clamp(1.2 - (o.y - F) * 0.45, 0.35, 1.2);
+      z(a);
+    }
+    const n = o.x * k, c = o.y * k;
+    r.style.transform = `translate(${n - 60 * h}px, ${d - c - 95 * h}px) scale(${h.toFixed(3)})`, S.style.left = `${i.clamp(n, 90, G - 90)}px`, S.style.bottom = `${i.clamp(c + 110 * h, 60, d - 30)}px`, ye(e, x), y.render(D, T);
   };
-  ve(1 / 60, !0), h.classList.add("is-active"), window.setTimeout(
+  xt(1 / 60, !0), w.classList.add("is-active"), window.setTimeout(
     () => K("hi! scroll down — i'll give you the tour.", 4200),
     900
-  ), requestAnimationFrame(st);
+  ), requestAnimationFrame(Kt);
 };
 export {
-  jt as createSmiskiWalker
+  Fe as createSmiskiWalker
 };
