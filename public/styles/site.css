@@ -352,6 +352,15 @@
 }
 
 /* ── Experience timeline ── */
+.resume-link {
+  display: inline-block;
+  margin-top: var(--space-3);
+  font-size: var(--text-sm);
+  font-weight: var(--weight-medium);
+  text-decoration-thickness: 1px;
+  text-underline-offset: 3px;
+}
+
 .timeline {
   margin-top: var(--space-6);
   border-left: 2px solid var(--border-default);
@@ -359,6 +368,10 @@
   display: flex;
   flex-direction: column;
   gap: var(--space-12);
+}
+
+.timeline-compact {
+  gap: var(--space-8);
 }
 
 .timeline-entry {
