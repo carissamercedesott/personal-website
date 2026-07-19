@@ -80,18 +80,130 @@ body.lab kbd {
   color: var(--accent-hover);
 }
 
-.experiment-code {
+.code-window {
   margin-top: var(--space-2);
-  max-height: 26rem;
-  overflow: auto;
-  background: var(--bg-subtle);
   border: 1px solid var(--border-default);
   border-radius: var(--radius-md);
+  background: var(--bg-subtle);
+  overflow: hidden;
+  box-shadow: var(--shadow-sm);
+}
+
+.code-window-bar {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  padding: var(--space-2) var(--space-3);
+  background: var(--surface-default);
+  border-bottom: 1px solid var(--border-default);
+}
+
+.code-window-lights {
+  display: inline-flex;
+  gap: 6px;
+}
+
+/* macOS traffic-light colors — intentionally not theme tokens, they stay
+ * the same in both themes just like the real thing. */
+.light {
+  width: 13px;
+  height: 13px;
+  border-radius: var(--radius-full);
+  border: none;
+  padding: 0;
+  display: grid;
+  place-items: center;
+  font-family: var(--font-mono);
+  font-size: 10px;
+  line-height: 1;
+  color: transparent;
+  transition: color var(--duration-fast) var(--ease-out);
+}
+
+.light-close {
+  background: #ff5f57;
+}
+
+.light-min {
+  background: #febc2e;
+}
+
+.light-max {
+  background: #28c840;
+}
+
+/* Glyphs appear when the bar is hovered or a light is focused, like the
+ * real ones. */
+.code-window-bar:hover .light,
+.light:focus-visible {
+  color: rgba(0, 0, 0, 0.55);
+}
+
+.code-window.is-minimized .experiment-code {
+  display: none;
+}
+
+.code-window.is-maximized .experiment-code {
+  max-height: none;
+}
+
+.code-window-name {
+  font-family: var(--font-mono);
+  font-size: var(--text-xs);
+  color: var(--text-secondary);
+}
+
+.code-copy {
+  margin-left: auto;
+  display: grid;
+  place-items: center;
+  width: 28px;
+  height: 28px;
+  color: var(--text-secondary);
+  background: transparent;
+  border: 1px solid var(--border-default);
+  border-radius: var(--radius-sm);
+  padding: 0;
+  transition: background var(--duration-fast) var(--ease-out),
+    color var(--duration-fast) var(--ease-out);
+}
+
+.code-copy:hover {
+  background: var(--surface-hover);
+  color: var(--text-primary);
+}
+
+.code-copy.is-copied {
+  color: var(--status-success);
+  border-color: var(--status-success);
+}
+
+.experiment-code {
+  margin: 0;
+  max-height: 26rem;
+  overflow: auto;
   padding: var(--space-4);
   font-family: var(--font-mono);
   font-size: var(--text-xs);
   line-height: var(--leading-normal);
   tab-size: 2;
+}
+
+.tok-comment {
+  color: var(--text-muted);
+  font-style: italic;
+}
+
+.tok-string {
+  color: var(--status-success);
+}
+
+.tok-number {
+  color: var(--accent-2-strong);
+}
+
+.tok-keyword {
+  color: var(--accent-strong);
 }
 
 /* ── Shared keyframes ── */
