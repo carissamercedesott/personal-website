@@ -87,15 +87,18 @@ body.home {
 /* ── Intro band: photo + vinyl stickers on a darker blush ── */
 :root {
   --band-blush: var(--blush-200);
+  --band-rose: var(--blush-100);
 }
 
 [data-theme="dark"] {
   --band-blush: #3a2523;
+  --band-rose: #322220;
 }
 
 @media (prefers-color-scheme: dark) {
   :root:not([data-theme="light"]) {
     --band-blush: #3a2523;
+    --band-rose: #322220;
   }
 }
 
@@ -209,6 +212,78 @@ body.home {
   .sticker {
     position: static;
     width: calc(var(--size, 90px) * 0.75);
+  }
+}
+
+/* ── Experience: a sticker sheet on its own rose band ── */
+.wave-into-rose {
+  background: var(--surface-default);
+  color: var(--band-rose);
+}
+
+.wave-out-rose {
+  background: var(--band-rose);
+  color: var(--surface-default);
+}
+
+.band-rose {
+  background: var(--band-rose);
+}
+
+.exp-stickers {
+  margin-top: var(--space-12);
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  justify-content: center;
+  gap: var(--space-16);
+}
+
+.exp-sticker {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-4);
+  margin: 0;
+}
+
+.exp-sticker img {
+  height: 140px;
+  width: auto;
+  transform: rotate(var(--tilt, 0deg));
+  filter: drop-shadow(0 8px 10px rgba(35, 30, 27, 0.22));
+  transition: transform var(--duration-base) var(--ease-out);
+}
+
+.exp-sticker:hover img {
+  transform: rotate(0deg) scale(1.08);
+}
+
+/* The paper page gets a die-cut white edge so it reads as a sticker too. */
+.exp-sticker-paper {
+  height: 176px !important;
+  border: 5px solid #fff;
+  border-radius: 8px;
+}
+
+.exp-sticker figcaption {
+  font-family: var(--font-mono);
+  font-size: var(--text-sm);
+  font-weight: var(--weight-semibold);
+  color: var(--text-primary);
+}
+
+@media (max-width: 640px) {
+  .exp-stickers {
+    gap: var(--space-8);
+  }
+
+  .exp-sticker img {
+    height: 110px;
+  }
+
+  .exp-sticker-paper {
+    height: 138px !important;
   }
 }
 

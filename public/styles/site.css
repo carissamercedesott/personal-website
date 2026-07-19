@@ -370,10 +370,6 @@
   gap: var(--space-12);
 }
 
-.timeline-compact {
-  gap: var(--space-8);
-}
-
 .timeline-entry {
   position: relative;
 }
