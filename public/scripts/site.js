@@ -22,26 +22,11 @@ function initThemeToggle() {
     toggle.setAttribute("aria-label", dark ? "Switch to light mode" : "Switch to dark mode");
   }
 
-  function applyTheme(next) {
+  function toggleTheme() {
+    const next = resolveTheme() === "dark" ? "light" : "dark";
     root.dataset.theme = next;
     localStorage.setItem("theme", next);
     renderToggle();
-  }
-
-  function toggleTheme() {
-    const next = resolveTheme() === "dark" ? "light" : "dark";
-    if (!document.startViewTransition || prefersReducedMotion()) {
-      applyTheme(next);
-      return;
-    }
-    // Radial wipe from the toggle (rules in base.css). The data attribute
-    // scopes the wipe so navigation transitions keep their crossfade.
-    const rect = toggle.getBoundingClientRect();
-    root.style.setProperty("--wipe-x", `${rect.left + rect.width / 2}px`);
-    root.style.setProperty("--wipe-y", `${rect.top + rect.height / 2}px`);
-    root.setAttribute("data-theme-wipe", "");
-    const transition = document.startViewTransition(() => applyTheme(next));
-    transition.finished.finally(() => root.removeAttribute("data-theme-wipe"));
   }
 
   toggle.addEventListener("click", toggleTheme);

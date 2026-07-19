@@ -80,28 +80,6 @@ button {
   display: inline-block;
   vertical-align: -0.185em;
 }
-
-/* ── Theme switch: radial wipe from the toggle ──
- * site.js runs the theme change inside startViewTransition and stamps
- * data-theme-wipe on <html> for the duration, so page-navigation
- * transitions keep their default crossfade. */
-:root[data-theme-wipe]::view-transition-old(root) {
-  animation: none;
-}
-
-:root[data-theme-wipe]::view-transition-new(root) {
-  animation: theme-wipe var(--duration-slow) var(--ease-out);
-}
-
-@keyframes theme-wipe {
-  from {
-    clip-path: circle(0 at var(--wipe-x, 100%) var(--wipe-y, 0%));
-  }
-  to {
-    clip-path: circle(150% at var(--wipe-x, 100%) var(--wipe-y, 0%));
-  }
-}
-
 ::selection {
   background: var(--accent-soft);
   color: var(--text-primary);
