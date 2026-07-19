@@ -640,3 +640,32 @@
     transform: none;
   }
 }
+
+/* ── Nav entry point for the shortcuts sheet (injected by keys.js) ── */
+.keys-nav {
+  width: 36px;
+  height: 36px;
+  margin-left: var(--space-1);
+  border: 1px solid var(--border-default);
+  background: var(--surface-default);
+  color: var(--text-secondary);
+  border-radius: var(--radius-full);
+  font-family: var(--font-mono);
+  font-size: var(--text-sm);
+  font-weight: var(--weight-semibold);
+  line-height: 1;
+  transition: border-color var(--duration-fast) var(--ease-out),
+    color var(--duration-fast) var(--ease-out);
+}
+
+.keys-nav:hover {
+  border-color: var(--border-strong);
+  color: var(--text-primary);
+}
+
+@media (max-width: 640px) {
+  .keys-nav {
+    width: 32px;
+    height: 32px;
+  }
+}

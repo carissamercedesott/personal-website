@@ -22,8 +22,15 @@ function initThemeToggle() {
     toggle.setAttribute("aria-label", dark ? "Switch to light mode" : "Switch to dark mode");
   }
 
+  let fadeTimer = 0;
+
   function toggleTheme() {
     const next = resolveTheme() === "dark" ? "light" : "dark";
+    // Briefly let every surface fade together (rules in base.css) —
+    // without this only body transitions and components snap.
+    root.setAttribute("data-theme-fade", "");
+    window.clearTimeout(fadeTimer);
+    fadeTimer = window.setTimeout(() => root.removeAttribute("data-theme-fade"), 500);
     root.dataset.theme = next;
     localStorage.setItem("theme", next);
     renderToggle();

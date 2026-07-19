@@ -102,6 +102,19 @@
     }
   }
 
+  // The public doorway: a "?" button in the nav, next to the theme toggle.
+  const navLinks = document.querySelector(".site-links");
+  if (navLinks) {
+    const navHint = document.createElement("button");
+    navHint.className = "keys-nav";
+    navHint.type = "button";
+    navHint.textContent = "?";
+    navHint.setAttribute("aria-label", "Keyboard shortcuts");
+    navHint.title = "Keyboard shortcuts (?)";
+    navHint.addEventListener("click", toggleSheet);
+    navLinks.insertBefore(navHint, document.getElementById("theme-toggle"));
+  }
+
   // A quiet doorway in the footer, so mouse users find the layer too.
   const footer = document.querySelector(".site-footer-inner");
   if (footer) {
