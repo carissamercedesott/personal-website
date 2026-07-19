@@ -2,24 +2,33 @@ import * as THREE from "three";
 import * as CANNON from "cannon-es";
 import { createSmiskiRig, type RigPart } from "./smiski-rig";
 
-// The homepage guide: the shared smiski rig walking along the bottom of the
-// viewport. Scroll drives where he's headed (page progress maps to a spot
-// between the left edge and the DJ deck), and he walks there on his own —
-// a kinematic gait, not physics. Grab him and he goes full ragdoll; once
-// he's done tumbling he picks himself up and resumes the walk.
+// The homepage guide, staged in three acts driven by scroll:
+//   1. Hero — he sits on a mossy mound (a Little Big Planet nod) in the
+//      corner and waves at you.
+//   2. Hello world — he hops off and drops into the pulsating light ring
+//      over the intro photo, floating there in the Vitruvian pose. Drag
+//      him to spin him; he stays in the ring.
+//   3. Below — he lands and walks the bottom edge as before. Grabbing him
+//      there still goes full ragdoll, and he picks himself back up.
 //
-// Loaded lazily by walker-main.ts the first time the visitor scrolls past
-// the hero, so three/cannon never load for people who don't scroll.
+// The canvas is a full-viewport transparent overlay; an orthographic
+// camera maps world units linearly to pixels so he can be pinned to DOM
+// anchors (the hero perch and the ring) by reading their rects each frame.
 
 const SCALE = 92; // px per world unit — makes the figure ~140px tall
-const STRIP = 340; // canvas height in px; extra headroom so tosses stay visible
 const EDGE_L = 0.9; // world x he won't walk past on the left
 const EDGE_R = 2.6; // world units clear of the right edge (the DJ deck corner)
 
-type Mode = "walk" | "ragdoll" | "rise";
+type Mode = "flow" | "ragdoll" | "rise";
+type Phase = "hero" | "drop" | "ring" | "walk";
+
+const smooth01 = (t: number) => {
+  const c = THREE.MathUtils.clamp(t, 0, 1);
+  return c * c * (3 - 2 * c);
+};
 
 export const createSmiskiWalker = () => {
-  // ── DOM: a fixed transparent strip along the bottom of the viewport ──
+  // ── DOM: a fixed transparent overlay covering the viewport ──
   const container = document.createElement("div");
   container.className = "smiski-walker";
   container.setAttribute("aria-hidden", "true");
@@ -37,6 +46,8 @@ export const createSmiskiWalker = () => {
   container.appendChild(bubble);
 
   document.body.appendChild(container);
+  // The ring in the intro section is CSS-hidden until the guide is live.
+  document.documentElement.classList.add("smiski-live");
 
   // ── Scene / camera (orthographic: world x,y map linearly to pixels) ──
   const scene = new THREE.Scene();
@@ -82,7 +93,31 @@ export const createSmiskiWalker = () => {
     if (child.userData.eye) eyes.push(child as THREE.Mesh);
   });
 
-  // Fake contact shadow — cheaper than shadow maps on a viewport-wide strip.
+  // ── The mossy perch he sits on during the hero ──
+  const moundMat = new THREE.MeshStandardMaterial({
+    color: 0x7d9c60,
+    roughness: 0.95,
+    transparent: true,
+  });
+  const bladeMat = new THREE.MeshStandardMaterial({
+    color: 0x95b46e,
+    roughness: 0.9,
+    transparent: true,
+  });
+  const mound = new THREE.Group();
+  const hill = new THREE.Mesh(new THREE.SphereGeometry(0.62, 24, 16), moundMat);
+  hill.scale.set(1, 0.42, 0.75);
+  mound.add(hill);
+  const bladeGeo = new THREE.ConeGeometry(0.022, 0.16, 5);
+  [-0.42, -0.3, 0.34, 0.46].forEach((bx, index) => {
+    const blade = new THREE.Mesh(bladeGeo, bladeMat);
+    blade.position.set(bx, 0.2 - Math.abs(bx) * 0.22, 0.1);
+    blade.rotation.z = (index % 2 ? -1 : 1) * (0.15 + index * 0.06);
+    mound.add(blade);
+  });
+  scene.add(mound);
+
+  // Fake contact shadow — cheaper than shadow maps on a viewport overlay.
   const shadowMat = new THREE.MeshBasicMaterial({
     color: 0x231e1b,
     transparent: true,
@@ -94,13 +129,16 @@ export const createSmiskiWalker = () => {
   scene.add(shadow);
 
   // ── Theme: glow in the dark like the lab scene ──
+  let shadowBase = 0.16;
   const applyTheme = () => {
     const explicit = document.documentElement.dataset.theme;
     const dark =
       explicit === "dark" ||
       (!explicit && window.matchMedia("(prefers-color-scheme: dark)").matches);
     rig.skin.emissiveIntensity = dark ? 0.5 : 0.18;
-    shadowMat.opacity = dark ? 0.3 : 0.16;
+    shadowBase = dark ? 0.3 : 0.16;
+    moundMat.emissive.setHex(dark ? 0x2b3a1e : 0x000000);
+    moundMat.emissiveIntensity = dark ? 0.35 : 0;
   };
   applyTheme();
   window
@@ -110,26 +148,49 @@ export const createSmiskiWalker = () => {
     attributeFilter: ["data-theme"],
   });
 
-  // ── Layout: sizes, scroll range, walkable range ──
-  let worldW = 1;
-  let heroH = 600;
-  let scrollEnd = 1;
+  // ── Layout: sizes, scroll thresholds for the three acts ──
+  const perchEl = document.querySelector<HTMLElement>("[data-smiski-perch]");
+  const ringEl = document.querySelector<HTMLElement>("[data-smiski-ring]");
+  const introEl = document.querySelector<HTMLElement>(".intro");
 
-  const measure = () => {
-    const width = window.innerWidth;
-    renderer.setSize(width, STRIP);
-    worldW = width / SCALE;
-    camera.right = worldW;
-    camera.top = STRIP / SCALE;
-    camera.updateProjectionMatrix();
-    wallL.position.set(0.2, 0, 0);
-    wallR.position.set(worldW - 0.2, 0, 0);
-    ceiling.position.set(0, STRIP / SCALE - 0.15, 0);
-    heroH = document.querySelector<HTMLElement>(".hero")?.offsetHeight ?? 600;
+  let viewW = 1;
+  let viewH = 1;
+  let worldW = 1;
+  let worldH = 1;
+  let scrollEnd = 1;
+  let dropStart = 400;
+  let dropEnd = 700;
+  let walkStart = 900;
+  let walkEnd = 1200;
+
+  const measureScroll = () => {
     scrollEnd = Math.max(
       1,
       document.documentElement.scrollHeight - window.innerHeight,
     );
+    if (!introEl) return;
+    const rect = introEl.getBoundingClientRect();
+    const introTop = rect.top + window.scrollY;
+    const introBottom = introTop + rect.height;
+    dropStart = introTop - viewH * 0.55;
+    dropEnd = introTop - viewH * 0.12;
+    walkStart = Math.max(introBottom - viewH * 0.5, dropEnd + 80);
+    walkEnd = Math.max(introBottom - viewH * 0.1, walkStart + 240);
+  };
+
+  const measure = () => {
+    viewW = window.innerWidth;
+    viewH = window.innerHeight;
+    renderer.setSize(viewW, viewH);
+    worldW = viewW / SCALE;
+    worldH = viewH / SCALE;
+    camera.right = worldW;
+    camera.top = worldH;
+    camera.updateProjectionMatrix();
+    wallL.position.set(0.2, 0, 0);
+    wallR.position.set(worldW - 0.2, 0, 0);
+    ceiling.position.set(0, worldH - 0.15, 0);
+    measureScroll();
   };
   measure();
   window.addEventListener("resize", measure);
@@ -137,6 +198,15 @@ export const createSmiskiWalker = () => {
   const restY = -rig.footY; // torso height with feet on the ground
   const xMin = () => EDGE_L;
   const xMax = () => Math.max(EDGE_L + 0.5, worldW - EDGE_R);
+
+  // Rect center of a DOM anchor in world coordinates.
+  const anchorWorld = (el: HTMLElement) => {
+    const rect = el.getBoundingClientRect();
+    return {
+      x: (rect.left + rect.width / 2) / SCALE,
+      y: (viewH - (rect.top + rect.height / 2)) / SCALE,
+    };
+  };
 
   // ── Kinematic pose: root transform + limb swings about their pivots ──
   const rootPos = new THREE.Vector3(xMin(), restY, 0);
@@ -151,31 +221,16 @@ export const createSmiskiWalker = () => {
     part: RigPart,
     pivot: [number, number, number],
     offset: [number, number, number],
-    swing: number,
+    swingX: number,
+    swingZ: number,
   ) => {
-    eulerT.set(swing, 0, 0);
+    eulerT.set(swingX, 0, swingZ);
     limbQ.setFromEuler(eulerT);
     meshQ.copy(rootQ).multiply(limbQ);
     offsetV.set(...offset).applyQuaternion(meshQ);
     pivotV.set(...pivot).applyQuaternion(rootQ);
     part.mesh.position.copy(rootPos).add(pivotV).add(offsetV);
     part.mesh.quaternion.copy(meshQ);
-  };
-
-  const applyPose = (yaw: number, lean: number, phase: number, gait: number) => {
-    eulerT.set(lean, yaw, 0, "YXZ");
-    rootQ.setFromEuler(eulerT);
-    const legSwing = Math.sin(phase) * 0.55 * gait;
-    const armSwing = Math.sin(phase) * 0.45 * gait;
-    const nod = Math.sin(phase * 2) * 0.045 * gait;
-    rig.byName.torso.mesh.position.copy(rootPos);
-    rig.byName.torso.mesh.quaternion.copy(rootQ);
-    poseLimb(rig.byName.head, [0, 0.3, 0], [0, 0.2, 0], nod);
-    poseLimb(rig.byName.armL, [-0.27, 0.18, 0], [0, -0.16, 0], -armSwing);
-    poseLimb(rig.byName.armR, [0.27, 0.18, 0], [0, -0.16, 0], armSwing);
-    poseLimb(rig.byName.legL, [-0.12, -0.28, 0], [0, -0.22, 0], legSwing);
-    poseLimb(rig.byName.legR, [0.12, -0.28, 0], [0, -0.22, 0], -legSwing);
-    rig.syncBodies();
   };
 
   // ── Speech bubbles: the guide narrates each section as it scrolls in ──
@@ -206,16 +261,21 @@ export const createSmiskiWalker = () => {
     noted.forEach((section) => noteObserver.observe(section));
   }
 
-  // ── Grab: hand the kinematic pose to physics and tether the grab point ──
+  // ── State ──
   const raycaster = new THREE.Raycaster();
   const pointerNdc = new THREE.Vector2();
   const grabAnchor = new CANNON.Body({ type: CANNON.Body.STATIC });
   world.addBody(grabAnchor);
   let dragConstraint: CANNON.PointToPointConstraint | null = null;
 
-  let mode: Mode = "walk";
-  let x = xMin();
-  let yaw = 0;
+  let mode: Mode = "flow";
+  let u = 0; // hero → ring scrub
+  let w = 0; // ring → walk scrub
+  let smoothX = 0;
+  let smoothY = 0;
+  let hasPose = false;
+  let xWalk = xMin();
+  let yaw = 0.22;
   let lastDir = 1;
   let phase = 0;
   let gait = 0;
@@ -229,6 +289,24 @@ export const createSmiskiWalker = () => {
     () => ({ pos: new THREE.Vector3(), quat: new THREE.Quaternion() }),
   );
 
+  // Ring spin (drag to rotate; idles back into a slow turn)
+  let ringDragging = false;
+  let lastPointerX = 0;
+  let yawVel = 0;
+  let sinceDrag = 10;
+
+  // Wave (hero act)
+  let waveT = 10; // seconds since the current wave started
+  let nextWave = 1.6;
+  const WAVE_LEN = 2.1;
+  const waveEnv = () => {
+    if (waveT >= WAVE_LEN) return 0;
+    return Math.min(smooth01(waveT / 0.35), smooth01((WAVE_LEN - waveT) / 0.45));
+  };
+
+  const phaseNow = (): Phase =>
+    w > 0 ? "walk" : u >= 1 ? "ring" : u <= 0 ? "hero" : "drop";
+
   const pointerToWorld = (event: PointerEvent) => {
     const rect = renderer.domElement.getBoundingClientRect();
     return {
@@ -240,6 +318,24 @@ export const createSmiskiWalker = () => {
   };
 
   const onPointerDown = (event: PointerEvent) => {
+    const act = phaseNow();
+    if (mode === "flow" && (act === "ring" || act === "drop")) {
+      // Spin him in place — no ragdoll inside the ring.
+      ringDragging = true;
+      sinceDrag = 0;
+      lastPointerX = event.clientX;
+      hitbox.setPointerCapture(event.pointerId);
+      hitbox.style.cursor = "grabbing";
+      event.preventDefault();
+      return;
+    }
+    if (mode === "flow" && act === "hero") {
+      // A poke earns a wave back.
+      waveT = 0;
+      showBubble("hi!", 1400);
+      event.preventDefault();
+      return;
+    }
     const point = pointerToWorld(event);
     pointerNdc.set(point.ndcX, point.ndcY);
     raycaster.setFromCamera(pointerNdc, camera);
@@ -268,23 +364,35 @@ export const createSmiskiWalker = () => {
   };
 
   const onPointerMove = (event: PointerEvent) => {
+    if (ringDragging) {
+      const dx = event.clientX - lastPointerX;
+      lastPointerX = event.clientX;
+      yaw += dx * 0.011;
+      yawVel = THREE.MathUtils.clamp(0.6 * yawVel + 0.4 * dx * 0.011 * 60, -7, 7);
+      return;
+    }
     if (!dragConstraint) return;
     const point = pointerToWorld(event);
     grabAnchor.position.set(
       THREE.MathUtils.clamp(point.x, 0.3, worldW - 0.3),
-      THREE.MathUtils.clamp(point.y, 0.2, STRIP / SCALE - 0.2),
+      THREE.MathUtils.clamp(point.y, 0.2, worldH - 0.2),
       0,
     );
     dragConstraint.bodyA.wakeUp();
   };
 
   const releasePointer = () => {
+    if (ringDragging) {
+      ringDragging = false;
+      hitbox.style.cursor = "grab";
+      return;
+    }
     if (!dragConstraint) return;
     world.removeConstraint(dragConstraint);
     dragConstraint = null;
     settleTime = 0;
     hitbox.style.cursor = "grab";
-    // Keep flings inside the strip.
+    // Keep flings inside the viewport.
     for (const part of rig.parts) {
       const speed = part.body.velocity.length();
       if (speed > 7) part.body.velocity.scale(7 / speed, part.body.velocity);
@@ -296,21 +404,174 @@ export const createSmiskiWalker = () => {
   hitbox.addEventListener("pointerup", releasePointer);
   hitbox.addEventListener("pointercancel", releasePointer);
 
+  // ── The flow act: everything scroll-choreographed and kinematic ──
+  let clock = 0;
+
+  const updateFlow = (dt: number, snap: boolean) => {
+    const scrollY = window.scrollY;
+    u = smooth01((scrollY - dropStart) / Math.max(1, dropEnd - dropStart));
+    w = smooth01((scrollY - walkStart) / Math.max(1, walkEnd - walkStart));
+    const sitW = 1 - u;
+    const spreadW = u * (1 - w);
+    const walkW = u * w;
+
+    // Walk-x easing runs every frame so the ring→walk blend lands where
+    // walking would put him.
+    const progress = THREE.MathUtils.clamp(
+      (scrollY - walkEnd) / Math.max(1, scrollEnd - walkEnd),
+      0,
+      1,
+    );
+    const targetX = xMin() + progress * (xMax() - xMin());
+    const prevX = xWalk;
+    xWalk += (targetX - xWalk) * (snap ? 1 : 1 - Math.exp(-dt * 2.4));
+    const speed = Math.abs(xWalk - prevX) / Math.max(dt, 1e-4);
+    const moving = w > 0.6 && Math.abs(targetX - xWalk) > 0.04 && speed > 0.02;
+    if (moving) lastDir = Math.sign(targetX - xWalk) || lastDir;
+    gait += ((moving ? Math.min(1, speed / 1.1) : 0) - gait) * Math.min(1, dt * 8);
+    phase += speed * dt * 9 * walkW;
+
+    // Anchor positions (world coords) for the three acts.
+    const perch = perchEl ? anchorWorld(perchEl) : { x: xMin(), y: restY };
+    const ringA = ringEl
+      ? anchorWorld(ringEl)
+      : { x: worldW / 2, y: worldH * 0.55 };
+    const pHero = { x: perch.x, y: perch.y + 0.4 + Math.sin(clock * 1.8) * 0.012 };
+    const pRing = { x: ringA.x, y: ringA.y - 0.06 + Math.sin(clock * 1.5) * 0.055 };
+    const bobWalk =
+      Math.abs(Math.sin(phase)) * 0.05 * gait +
+      Math.sin(clock * 1.8) * 0.008 * (1 - gait);
+    const pWalk = { x: xWalk, y: restY + bobWalk };
+
+    let tx: number;
+    let ty: number;
+    if (w > 0) {
+      tx = THREE.MathUtils.lerp(pRing.x, pWalk.x, w);
+      ty = THREE.MathUtils.lerp(pRing.y, pWalk.y, w);
+    } else {
+      // A small hop up out of the seat before he sinks into the ring.
+      tx = THREE.MathUtils.lerp(pHero.x, pRing.x, u);
+      ty = THREE.MathUtils.lerp(pHero.y, pRing.y, u) + Math.sin(u * Math.PI) * 0.3;
+    }
+    const k = snap ? 1 : 1 - Math.exp(-dt * 10);
+    if (!hasPose || snap) {
+      smoothX = tx;
+      smoothY = ty;
+      hasPose = true;
+    } else {
+      smoothX += (tx - smoothX) * k;
+      smoothY += (ty - smoothY) * k;
+    }
+
+    // Yaw per act: seated he faces you; the drop scrubs a full pirouette;
+    // in the ring he spins freely; walking faces where he's headed.
+    if (w > 0) {
+      yaw = THREE.MathUtils.euclideanModulo(yaw + Math.PI, Math.PI * 2) - Math.PI;
+      const targetYaw = moving ? lastDir * 0.85 : lastDir * 0.12;
+      yaw += (targetYaw - yaw) * Math.min(1, dt * 5);
+    } else if (u >= 1) {
+      sinceDrag += dt;
+      if (!ringDragging) {
+        yaw += yawVel * dt;
+        yawVel *= Math.exp(-dt * 1.6);
+        yaw += 0.4 * smooth01((sinceDrag - 1.2) / 1.5) * dt;
+      }
+    } else if (u > 0) {
+      yaw = 0.22 + u * Math.PI * 2;
+      yawVel = 0;
+    } else {
+      yaw += (0.22 - yaw) * Math.min(1, dt * 4);
+      // Schedule the next idle wave.
+      waveT += dt;
+      if (clock > nextWave && waveT > WAVE_LEN + 1) {
+        nextWave = clock + 6 + Math.random() * 4;
+        waveT = 0;
+      }
+    }
+
+    // Blend the three poses limb by limb.
+    const wave = sitW > 0.3 ? waveEnv() : 0;
+    const legSwing = Math.sin(phase) * 0.55 * gait;
+    const armSwing = Math.sin(phase) * 0.45 * gait;
+    const nod = Math.sin(phase * 2) * 0.045 * gait;
+    const sitArmRZ = THREE.MathUtils.lerp(
+      0.2,
+      2.55 + Math.sin(clock * 7.5) * 0.42,
+      wave,
+    );
+    const sitArmRX = THREE.MathUtils.lerp(-0.5, 0, wave);
+
+    const lean = sitW * -0.1 + walkW * 0.06 * gait;
+    eulerT.set(lean, yaw, 0, "YXZ");
+    rootQ.setFromEuler(eulerT);
+    rootPos.set(smoothX, smoothY, 0);
+
+    rig.byName.torso.mesh.position.copy(rootPos);
+    rig.byName.torso.mesh.quaternion.copy(rootQ);
+    poseLimb(
+      rig.byName.head,
+      [0, 0.3, 0],
+      [0, 0.2, 0],
+      sitW * 0.06 + walkW * nod,
+      sitW * wave * 0.14,
+    );
+    poseLimb(
+      rig.byName.armL,
+      [-0.27, 0.18, 0],
+      [0, -0.16, 0],
+      sitW * -0.5 + walkW * -armSwing,
+      sitW * -0.2 + spreadW * -2.1,
+    );
+    poseLimb(
+      rig.byName.armR,
+      [0.27, 0.18, 0],
+      [0, -0.16, 0],
+      sitW * sitArmRX + walkW * armSwing,
+      sitW * sitArmRZ + spreadW * 2.1,
+    );
+    poseLimb(
+      rig.byName.legL,
+      [-0.12, -0.28, 0],
+      [0, -0.22, 0],
+      sitW * -1.15 + walkW * legSwing,
+      sitW * -0.14 + spreadW * -0.5,
+    );
+    poseLimb(
+      rig.byName.legR,
+      [0.12, -0.28, 0],
+      [0, -0.22, 0],
+      sitW * -1.15 + walkW * -legSwing,
+      sitW * 0.14 + spreadW * 0.5,
+    );
+    rig.syncBodies();
+
+    // Perch mound melts away as soon as he lifts off — a half-faded blob
+    // hanging in the hero reads as a glitch.
+    const moundFade = 1 - smooth01(u / 0.35);
+    mound.position.set(perch.x, perch.y - 0.16, -0.3);
+    moundMat.opacity = moundFade;
+    bladeMat.opacity = moundFade;
+    mound.visible = moundFade > 0.02;
+
+    // Ground shadow only reads when he's actually near the ground.
+    shadowMat.opacity = shadowBase * walkW;
+  };
+
   const beginRise = () => {
     mode = "rise";
     riseT = 0;
     const torso = rig.byName.torso.body;
-    x = THREE.MathUtils.clamp(torso.position.x, xMin(), xMax());
-    rootPos.set(x, restY, 0);
-    yaw = 0;
+    xWalk = THREE.MathUtils.clamp(torso.position.x, xMin(), xMax());
     phase = 0;
     gait = 0;
+    yawVel = 0;
     rig.parts.forEach((part, index) => {
       riseFrom[index].pos.copy(part.body.position as unknown as THREE.Vector3);
       riseFrom[index].quat.copy(part.body.quaternion as unknown as THREE.Quaternion);
     });
-    // Capture the rest pose as the blend target.
-    applyPose(0, 0, 0, 0);
+    // The blend target is wherever the scroll choreography wants him now —
+    // standing at the bottom, or back up in the ring if the page scrolled.
+    updateFlow(1 / 60, true);
     rig.parts.forEach((part, index) => {
       riseTo[index].pos.copy(part.mesh.position);
       riseTo[index].quat.copy(part.mesh.quaternion);
@@ -338,9 +599,8 @@ export const createSmiskiWalker = () => {
 
   // ── Main loop ──
   let lastTime = performance.now();
-  let clock = 0;
-  let active = false;
   let frame = 0;
+  let lastCursorAct: Phase | null = null;
 
   const step = (now: number) => {
     requestAnimationFrame(step);
@@ -349,44 +609,22 @@ export const createSmiskiWalker = () => {
     clock += dt;
     frame += 1;
     if (frame % 180 === 0) {
-      // Page height can change after images/fonts load.
-      scrollEnd = Math.max(1, document.documentElement.scrollHeight - window.innerHeight);
+      // Page height and section offsets can change after images/fonts load.
+      measureScroll();
     }
 
-    const scrollY = window.scrollY;
-    const shouldShow = scrollY > heroH * 0.45;
-    if (shouldShow !== active) {
-      active = shouldShow;
-      container.classList.toggle("is-active", active);
-    }
-    if (!active && mode === "walk") return; // nothing to animate while hidden
-
-    if (mode === "walk") {
-      const start = heroH * 0.35;
-      const progress = THREE.MathUtils.clamp(
-        (scrollY - start) / Math.max(1, scrollEnd - start),
-        0,
-        1,
-      );
-      const targetX = xMin() + progress * (xMax() - xMin());
-      const prevX = x;
-      x += (targetX - x) * (1 - Math.exp(-dt * 2.4));
-      const speed = Math.abs(x - prevX) / Math.max(dt, 1e-4);
-      const moving = Math.abs(targetX - x) > 0.04 && speed > 0.02;
-      if (moving) lastDir = Math.sign(targetX - x) || lastDir;
-      gait += ((moving ? Math.min(1, speed / 1.1) : 0) - gait) * Math.min(1, dt * 8);
-      phase += speed * dt * 9;
-      // Face where he's headed while walking; drift back toward the
-      // viewer when he stops.
-      const targetYaw = moving ? lastDir * 0.85 : lastDir * 0.12;
-      yaw += (targetYaw - yaw) * Math.min(1, dt * 5);
-      const bob = Math.abs(Math.sin(phase)) * 0.05 * gait;
-      const breathe = Math.sin(clock * 1.8) * 0.008 * (1 - gait);
-      rootPos.set(x, restY + bob + breathe, 0);
-      applyPose(yaw, 0.06 * gait, phase, gait);
+    if (mode === "flow") {
+      updateFlow(dt, false);
+      const act = phaseNow();
+      if (act !== lastCursorAct && !ringDragging && !dragConstraint) {
+        hitbox.style.cursor = act === "hero" ? "pointer" : "grab";
+        lastCursorAct = act;
+      }
     } else if (mode === "ragdoll") {
       world.step(1 / 60, dt, 3);
       rig.syncMeshes();
+      shadowMat.opacity = shadowBase;
+      mound.visible = false;
       if (!dragConstraint) {
         const speed = Math.max(...rig.parts.map((part) => part.body.velocity.length()));
         settleTime = speed < 0.4 ? settleTime + dt : 0;
@@ -406,7 +644,7 @@ export const createSmiskiWalker = () => {
         );
       });
       rig.syncBodies();
-      if (riseT >= 1) mode = "walk";
+      if (riseT >= 1) mode = "flow";
     }
 
     // Contact shadow + hitbox + bubble all track the torso.
@@ -417,14 +655,19 @@ export const createSmiskiWalker = () => {
 
     const pxX = torsoPos.x * SCALE;
     const pxY = torsoPos.y * SCALE;
-    hitbox.style.transform = `translate(${pxX - 55}px, ${STRIP - pxY - 95}px)`;
-    bubble.style.left = `${THREE.MathUtils.clamp(pxX, 90, window.innerWidth - 90)}px`;
-    bubble.style.bottom = `${Math.min(pxY + 110, STRIP - 24)}px`;
+    hitbox.style.transform = `translate(${pxX - 60}px, ${viewH - pxY - 95}px)`;
+    bubble.style.left = `${THREE.MathUtils.clamp(pxX, 90, viewW - 90)}px`;
+    bubble.style.bottom = `${THREE.MathUtils.clamp(pxY + 110, 60, viewH - 30)}px`;
 
     updateBlink(dt, clock);
     renderer.render(scene, camera);
   };
 
-  applyPose(0, 0, 0, 0);
+  updateFlow(1 / 60, true);
+  container.classList.add("is-active");
+  window.setTimeout(
+    () => showBubble("hi! scroll down — i'll give you the tour.", 4200),
+    900,
+  );
   requestAnimationFrame(step);
 };

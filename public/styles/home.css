@@ -235,8 +235,104 @@ body.home {
 }
 
 .intro-photo {
+  position: relative;
   transform: rotate(-3deg);
   transition: transform var(--duration-base) var(--ease-out);
+}
+
+/* Where the smiski sits during the hero act. Just an invisible anchor —
+ * the 3D scene reads its rect and parks the mossy mound there. */
+.hero .hero-perch {
+  position: absolute;
+  left: clamp(24px, 9vw, 150px);
+  bottom: clamp(56px, 15vh, 170px);
+  width: 130px;
+  height: 100px;
+  pointer-events: none;
+}
+
+/* The pulsating ring of light the smiski floats in (Vitruvian pose) over
+ * the intro photo. Hidden until walker-scene.ts marks the guide live, so
+ * it never shows empty (mobile, reduced motion, no WebGL). */
+.hello-ring {
+  position: absolute;
+  left: 50%;
+  top: 52%;
+  width: min(66%, 250px);
+  aspect-ratio: 1;
+  transform: translate(-50%, -50%);
+  border-radius: 50%;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity var(--duration-slow) var(--ease-out);
+}
+
+html.smiski-live .hello-ring {
+  opacity: 1;
+}
+
+.hello-ring::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  border: 2px solid color-mix(in srgb, var(--status-success) 70%, white);
+  background: radial-gradient(
+    circle,
+    color-mix(in srgb, var(--status-success) 22%, transparent) 0%,
+    transparent 68%
+  );
+  box-shadow:
+    0 0 28px color-mix(in srgb, var(--status-success) 50%, transparent),
+    inset 0 0 34px color-mix(in srgb, var(--status-success) 30%, transparent);
+  animation: ring-pulse 2.4s var(--ease-in-out) infinite;
+}
+
+.hello-ring::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  border: 1.5px solid color-mix(in srgb, var(--status-success) 55%, transparent);
+  animation: ring-ripple 2.4s var(--ease-out) infinite;
+}
+
+/* The inscribed square — the Vitruvian Man's other frame. */
+.hello-ring-square {
+  position: absolute;
+  inset: 14.5%;
+  border: 1px solid color-mix(in srgb, var(--status-success) 35%, transparent);
+}
+
+@keyframes ring-pulse {
+  0%,
+  100% {
+    transform: scale(0.97);
+    opacity: 0.85;
+  }
+  50% {
+    transform: scale(1.04);
+    opacity: 1;
+  }
+}
+
+@keyframes ring-ripple {
+  0% {
+    transform: scale(0.92);
+    opacity: 0.9;
+  }
+  70%,
+  100% {
+    transform: scale(1.3);
+    opacity: 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hello-ring::before,
+  .hello-ring::after {
+    animation: none;
+  }
 }
 
 .intro-photo:hover {
@@ -663,15 +759,13 @@ body.has-modal {
   }
 }
 
-/* ── The resident smiski: walks the bottom edge as you scroll ──
- * Built by walker-scene.ts; the strip is pointer-transparent except for
+/* ── The resident smiski: sits on the hero, drops into the hello-world
+ * ring, then walks the bottom edge as you scroll ──
+ * Built by walker-scene.ts; the overlay is pointer-transparent except for
  * a small hitbox that tracks the figure, so the page stays clickable. */
 .smiski-walker {
   position: fixed;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  height: 340px;
+  inset: 0;
   z-index: 15;
   pointer-events: none;
   opacity: 0;
