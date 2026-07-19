@@ -212,6 +212,53 @@ body.home {
   }
 }
 
+/* ── Project panel: image-topped cards between intro and resume ── */
+.project-panel {
+  margin-top: var(--space-8);
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(210px, 1fr));
+  gap: var(--space-6);
+}
+
+.project-card {
+  display: flex;
+  flex-direction: column;
+  background: var(--surface-default);
+  border: 1px solid var(--border-default);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  box-shadow: var(--shadow-sm);
+  transition: transform var(--duration-base) var(--ease-out),
+    box-shadow var(--duration-base) var(--ease-out);
+}
+
+.project-card:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-lg);
+}
+
+.project-card-img {
+  display: block;
+  width: 100%;
+  aspect-ratio: 16 / 10;
+  object-fit: cover;
+  border-bottom: 1px solid var(--border-default);
+}
+
+.project-card-body {
+  padding: var(--space-4) var(--space-6) var(--space-6);
+}
+
+.project-card-body h3 {
+  font-size: var(--text-lg);
+}
+
+.project-card-body p {
+  margin-top: var(--space-2);
+  font-size: var(--text-sm);
+  color: var(--text-secondary);
+}
+
 /* ── About squiggle: draws itself in as the section scrolls into view ── */
 .squiggle {
   display: block;

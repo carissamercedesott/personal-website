@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 500" role="img" aria-label="Waddl placeholder">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#FBF2D9" />
+      <stop offset="1" stop-color="#FCD3B8" />
+    </linearGradient>
+  </defs>
+  <rect width="800" height="500" fill="url(#bg)" />
+  <circle cx="120" cy="90" r="120" fill="#F6E4B3" opacity="0.55" />
+  <circle cx="700" cy="430" r="150" fill="#F8B48A" opacity="0.3" />
+  <circle cx="660" cy="70" r="46" fill="#EDCF83" opacity="0.5" />
+  <text x="400" y="255" text-anchor="middle" font-size="130" dominant-baseline="middle">🐥</text>
+  <text x="400" y="392" text-anchor="middle" font-family="system-ui, -apple-system, sans-serif" font-size="34" font-weight="600" fill="#86682B" letter-spacing="1">Waddl</text>
+</svg>
