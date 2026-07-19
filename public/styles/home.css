@@ -145,22 +145,19 @@ body.home {
   }
 }
 
-/* ── Intro band: photo + vinyl stickers on a darker blush ── */
+/* ── Intro band: the hello-world act on quiet oat ── */
 :root {
-  --band-blush: var(--blush-200);
   --band-rose: var(--blush-100);
   --aurora-opacity: 0.75;
 }
 
 [data-theme="dark"] {
-  --band-blush: #3a2523;
   --band-rose: #322220;
   --aurora-opacity: 0.3;
 }
 
 @media (prefers-color-scheme: dark) {
   :root:not([data-theme="light"]) {
-    --band-blush: #3a2523;
     --band-rose: #322220;
     --aurora-opacity: 0.3;
   }
@@ -173,8 +170,8 @@ body.home {
   background: linear-gradient(
     180deg,
     transparent 0%,
-    var(--band-blush) 26%,
-    var(--band-blush) 72%,
+    var(--bg-subtle) 26%,
+    var(--bg-subtle) 72%,
     var(--surface-default) 100%
   );
 }

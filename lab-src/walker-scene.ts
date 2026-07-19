@@ -220,7 +220,8 @@ export const createSmiskiWalker = () => {
     part.mesh.scale.setScalar(poseScale);
   };
 
-  // ── Speech bubbles: the guide narrates each section as it scrolls in ──
+  // ── Speech bubbles: only the hero greeting and grab reactions — he
+  // doesn't narrate sections while you scroll. ──
   let bubbleTimer = 0;
   const showBubble = (text: string, holdMs = 4600) => {
     bubble.textContent = text;
@@ -231,22 +232,6 @@ export const createSmiskiWalker = () => {
       holdMs,
     );
   };
-
-  const seenNotes = new Set<Element>();
-  const noted = document.querySelectorAll("[data-smiski-note]");
-  if (noted.length && "IntersectionObserver" in window) {
-    const noteObserver = new IntersectionObserver(
-      (entries) => {
-        for (const entry of entries) {
-          if (!entry.isIntersecting || seenNotes.has(entry.target)) continue;
-          seenNotes.add(entry.target);
-          showBubble(entry.target.getAttribute("data-smiski-note") ?? "");
-        }
-      },
-      { rootMargin: "-35% 0px -55% 0px" },
-    );
-    noted.forEach((section) => noteObserver.observe(section));
-  }
 
   // ── State ──
   const raycaster = new THREE.Raycaster();
