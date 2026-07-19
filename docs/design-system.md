@@ -107,6 +107,7 @@ Figma naming: variables/styles grouped as `bg/*`, `surface/*`, `text/*`,
 | `accent/strong` | Blush/700 | Blush/300 | links, small text |
 | `accent/soft` | Blush/100 | Blush/500 @ 18% | pastel fills |
 | `accent-2/default` | Apricot/500 | Apricot/400 | secondary accent |
+| `accent-2/strong` | Apricot/600 | Apricot/300 | awards, metric text (AA) |
 | `accent-2/soft` | Apricot/100 | Apricot/500 @ 16% | secondary fills |
 | `focus/ring` | Blush/400 | Blush/300 | keyboard focus |
 | `status/success` | Sage/700 | Sage/300 | + soft fill variants |

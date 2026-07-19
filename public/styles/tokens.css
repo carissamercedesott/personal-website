@@ -150,6 +150,7 @@
   --accent-strong: var(--blush-700);   /* small text/links: AA on light bg */
   --accent-soft: var(--blush-100);     /* pastel fills behind dark text */
   --accent-2-default: var(--apricot-500);
+  --accent-2-strong: var(--apricot-600);  /* small text/awards: AA on light bg */
   --accent-2-soft: var(--apricot-100);
 
   --focus-ring: var(--blush-400);
@@ -196,6 +197,7 @@
   --accent-strong: var(--blush-300);
   --accent-soft: rgba(227, 106, 98, 0.18);
   --accent-2-default: var(--apricot-400);
+  --accent-2-strong: var(--apricot-300);
   --accent-2-soft: rgba(225, 119, 61, 0.16);
 
   --focus-ring: var(--blush-300);
@@ -240,6 +242,7 @@
     --accent-strong: var(--blush-300);
     --accent-soft: rgba(227, 106, 98, 0.18);
     --accent-2-default: var(--apricot-400);
+    --accent-2-strong: var(--apricot-300);
     --accent-2-soft: rgba(225, 119, 61, 0.16);
 
     --focus-ring: var(--blush-300);

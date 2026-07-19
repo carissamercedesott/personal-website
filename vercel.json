@@ -3,9 +3,10 @@
   "outputDirectory": "public",
   "cleanUrls": true,
   "redirects": [
+    { "source": "/work", "destination": "/#work" },
+    { "source": "/projects", "destination": "/#work" },
     { "source": "/experience", "destination": "/#experience" },
-    { "source": "/projects", "destination": "/#projects" },
-    { "source": "/about", "destination": "/#about" },
-    { "source": "/interests", "destination": "/#interests" }
+    { "source": "/about", "destination": "/#offclock" },
+    { "source": "/interests", "destination": "/#offclock" }
   ]
 }

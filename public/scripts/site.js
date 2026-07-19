@@ -88,31 +88,6 @@ function initScrollSpy() {
   }
 }
 
-function initCarousels() {
-  for (const carousel of document.querySelectorAll("[data-carousel]")) {
-    const track = carousel.querySelector(".carousel-track");
-    const prev = carousel.querySelector("[data-carousel-prev]");
-    const next = carousel.querySelector("[data-carousel-next]");
-    if (!track || !prev || !next) continue;
-
-    const measureStep = () => {
-      const card = track.querySelector(".carousel-card");
-      return card ? card.getBoundingClientRect().width + 24 : track.clientWidth;
-    };
-
-    const renderArrows = () => {
-      prev.disabled = track.scrollLeft <= 4;
-      next.disabled = track.scrollLeft >= track.scrollWidth - track.clientWidth - 4;
-    };
-
-    prev.addEventListener("click", () => track.scrollBy({ left: -measureStep(), behavior: "smooth" }));
-    next.addEventListener("click", () => track.scrollBy({ left: measureStep(), behavior: "smooth" }));
-    track.addEventListener("scroll", renderArrows, { passive: true });
-    window.addEventListener("resize", renderArrows);
-    renderArrows();
-  }
-}
-
 function initTypewriter() {
   const wordEl = document.getElementById("hero-type-word");
   if (!wordEl) return;
@@ -206,7 +181,6 @@ function initSiteChrome() {
   initThemeToggle();
   initReveal();
   initScrollSpy();
-  initCarousels();
   initTypewriter();
   initProjectModal();
 }

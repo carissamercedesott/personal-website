@@ -3,11 +3,27 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Carissa Ott — Software Engineer</title>
+    <title>Carissa Ott — Design Engineer</title>
     <meta
       name="description"
-      content="Carissa Ott — software engineer at Duolingo working across iOS and backend, with a cognitive science background."
+      content="Carissa Ott — design engineer at Duolingo. Interfaces, iOS, and design systems, with a cognitive science background."
     />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://carissaott.com" />
+    <meta property="og:title" content="Carissa Ott — Design Engineer" />
+    <meta
+      property="og:description"
+      content="Design engineer at Duolingo — interfaces that feel like instruments."
+    />
+    <meta property="og:image" content="https://carissaott.com/og.png" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Carissa Ott — Design Engineer" />
+    <meta
+      name="twitter:description"
+      content="Design engineer at Duolingo — interfaces that feel like instruments."
+    />
+    <meta name="twitter:image" content="https://carissaott.com/og.png" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
@@ -26,10 +42,10 @@
       <nav class="site-nav">
         <a class="site-logo" href="#top">Carissa Ott</a>
         <div class="site-links">
+          <a href="#work">Work</a>
           <a href="#experience">Experience</a>
-          <a href="#projects">Projects</a>
-          <a href="#about">About</a>
-          <a href="#interests">Interests</a>
+          <a href="#offclock">Off the clock</a>
+          <a href="/resume">Resume</a>
           <button class="theme-toggle" id="theme-toggle" type="button"></button>
         </div>
       </nav>
@@ -51,7 +67,7 @@
         </p>
         <nav class="hero-links">
           <a class="btn btn-primary" href="#experience">Experience</a>
-          <a class="btn btn-secondary" href="#projects">Projects</a>
+          <a class="btn btn-secondary" href="#work">Projects</a>
         </nav>
         <span class="hero-scroll-cue" aria-hidden="true">↓</span>
       </section>
@@ -79,7 +95,7 @@
           </div>
           <div class="sticker-scatter">
             <img class="sticker" src="/images/stickers/duolingo-sticker.png" alt="Duolingo" draggable="false" style="--tilt: -8deg; --size: 120px; top: 4%; left: 44%" />
-            <img class="sticker" src="/images/stickers/ucla-sticker.png" alt="UCLA Bruins" draggable="false" style="--tilt: 9deg; --size: 100px; top: 26%; left: 87%" />
+            <img class="sticker" src="/images/stickers/ucla-sticker.png" alt="UCLA Bruins" draggable="false" style="--tilt: 9deg; --size: 100px; top: 0%; left: 84%" />
             <img class="sticker" src="/images/stickers/apple-sticker.png" alt="Apple iOS" draggable="false" style="--tilt: -14deg; --size: 74px; top: 74%; left: 56%" />
           </div>
         </div>
@@ -88,52 +104,32 @@
         <svg viewBox="0 0 1440 64" preserveAspectRatio="none"><use href="#wave-path" fill="currentColor" /></svg>
       </div>
 
-      <section class="page-section band" id="featured">
+      <section class="page-section band" id="work">
         <div class="section-inner">
-          <span class="section-label">Featured</span>
-          <h2>Featured projects</h2>
-          <p class="section-lead">A few things I've built lately.</p>
-          <div class="project-panel">
-            <article class="project-card" data-reveal role="button" tabindex="0" aria-haspopup="dialog">
-              <img class="project-card-img" src="/images/projects/waddl-screenshot.webp" alt="Waddl — a mini desktop UI for Claude Code" />
-              <div class="project-card-body">
-                <h3>Waddl</h3>
-                <p>
-                  A cozy desktop companion for Claude Code — a mini Electron UI
-                  that lets you watch an AI agent waddle through your code.
-                </p>
-                <div class="project-card-details">
-                  <span class="tag-row">
-                    <span class="tag tag-sky">AI Agents</span>
-                    <span class="tag">Electron</span>
-                    <span class="tag tag-blush">TypeScript</span>
-                  </span>
-                  <p>
-                    Waddl is a pocket-sized desktop companion for Claude Code.
-                    Instead of a full terminal, you get a cozy little window
-                    where an AI agent waddles through your codebase — reading
-                    files, making edits, and narrating what it's up to as it
-                    goes.
-                  </p>
-                  <p>
-                    Built with Electron and TypeScript as a playground for
-                    exploring what a friendlier, more approachable agent UI
-                    could feel like.
-                  </p>
-                  <span class="card-award">🛠️ Personal project — in progress</span>
-                </div>
-              </div>
-            </article>
+          <span class="section-label">Work</span>
+          <h2>Selected work</h2>
+          <p class="section-lead">
+            Two builds I'd show first — then the rest of the shelf.
+          </p>
 
-            <article class="project-card" data-reveal role="button" tabindex="0" aria-haspopup="dialog">
+          <div class="flagships">
+            <article class="project-card project-card--flagship" data-reveal role="button" tabindex="0" aria-haspopup="dialog">
               <img class="project-card-img" src="/images/projects/cross-math-screenshot.png" alt="Cross Math — puzzle screens in the Duolingo iOS app" />
               <div class="project-card-body">
                 <h3>Cross Math</h3>
                 <p>
-                  A math puzzle game live in the Duolingo iOS app —
-                  constraint-programming puzzle generation, shipped to 100M+
-                  users.
+                  A math puzzle game live in the Duolingo iOS app.
+                  Constraint-programming puzzle generation, real-time backend
+                  puzzle shapes, and responsive Swift UI — pitched to senior
+                  leadership, approved by the CEO, launched to everyone.
                 </p>
+                <span class="tag-row">
+                  <span class="tag tag-blush">Swift</span>
+                  <span class="tag tag-sage">Algorithms</span>
+                  <span class="tag tag-sky">Product</span>
+                </span>
+                <span class="flagship-metric">📱 Live in Duolingo on iOS — 100M+ users</span>
+                <span class="flagship-more">More on the build →</span>
                 <div class="project-card-details">
                   <span class="tag-row">
                     <span class="tag tag-blush">Swift</span>
@@ -156,62 +152,147 @@
               </div>
             </article>
 
-            <article class="project-card" data-reveal role="button" tabindex="0" aria-haspopup="dialog">
-              <img class="project-card-img" src="/images/projects/conlang-creator-screenshot.png" alt="Conlang Creator — a custom language's vocabulary page" />
+            <article class="project-card project-card--flagship" data-reveal role="button" tabindex="0" aria-haspopup="dialog">
+              <img class="project-card-img" src="/images/projects/waddl-screenshot.webp" alt="Waddl — a mini desktop UI for Claude Code" />
               <div class="project-card-body">
-                <h3>Conlang Creator</h3>
+                <h3>Waddl</h3>
                 <p>
-                  A full-stack web app for building your own constructed
-                  language, with automatic translation to and from 40+ real
-                  languages.
+                  A cozy desktop companion for an AI coding agent — a mini
+                  Electron UI where Claude Code waddles through your codebase,
+                  narrating as it reads and edits.
                 </p>
-                <div class="project-card-details">
-                  <span class="tag-row">
-                    <span class="tag tag-sage">Python</span>
-                    <span class="tag tag-sky">ReactJS</span>
-                    <span class="tag">DynamoDB</span>
-                  </span>
-                  <p>
-                    A full-stack web app for inventing your own constructed
-                    language, designed and built with a team of four interns at
-                    Duolingo Thrive.
-                  </p>
-                  <p>
-                    Vocabulary, grammar, and an automatic translation algorithm
-                    that works to and from 40+ real languages — so your conlang
-                    is speakable from day one.
-                  </p>
-                  <span class="card-award">🌱 Built at Duolingo Thrive</span>
-                </div>
-              </div>
-            </article>
-
-            <article class="project-card" data-reveal role="button" tabindex="0" aria-haspopup="dialog">
-              <img class="project-card-img" src="/images/projects/theramind.svg" alt="Theramind preview" />
-              <div class="project-card-body">
-                <h3>Theramind</h3>
-                <p>
-                  AI agent workflow automation for therapists — less paperwork,
-                  more patient time. 2nd place at Stanford TreeHacks 2025.
-                </p>
+                <span class="tag-row">
+                  <span class="tag tag-sky">AI Agents</span>
+                  <span class="tag">Electron</span>
+                  <span class="tag tag-blush">TypeScript</span>
+                </span>
+                <span class="flagship-metric">🛠️ Personal project — agent UX, in progress</span>
+                <span class="flagship-more">More on the build →</span>
                 <div class="project-card-details">
                   <span class="tag-row">
                     <span class="tag tag-sky">AI Agents</span>
-                    <span class="tag">Automation</span>
+                    <span class="tag">Electron</span>
+                    <span class="tag tag-blush">TypeScript</span>
                   </span>
                   <p>
-                    AI agent workflow automation for therapists — cutting the
-                    administrative load of session notes and paperwork so
-                    clinicians can spend their time on patients, not admin.
+                    Waddl is a pocket-sized desktop companion for Claude Code.
+                    Instead of a full terminal, you get a cozy little window
+                    where an AI agent waddles through your codebase — reading
+                    files, making edits, and narrating what it's up to as it
+                    goes.
                   </p>
-                  <p>Designed and built in 36 hours at Stanford TreeHacks 2025.</p>
-                  <span class="card-award">
-                    🏆 2nd place, AI Agent Excellence &amp; Innovation Award —
-                    Stanford TreeHacks 2025 ($2.5k)
-                  </span>
+                  <p>
+                    Built with Electron and TypeScript as a playground for
+                    exploring what a friendlier, more approachable agent UI
+                    could feel like.
+                  </p>
+                  <span class="card-award">🛠️ Personal project — in progress</span>
                 </div>
               </div>
             </article>
+          </div>
+
+          <div class="subsection" data-reveal>
+            <span class="section-label">More builds</span>
+            <h2>The rest of the shelf</h2>
+            <div class="card-grid">
+              <article class="card">
+                <span class="tag-row">
+                  <span class="tag tag-sky">AI Agents</span>
+                  <span class="tag">Automation</span>
+                </span>
+                <h3>Theramind</h3>
+                <p>
+                  AI agent workflow automation for therapists — cutting the
+                  administrative load so clinicians can spend their time on
+                  patients, not paperwork.
+                </p>
+                <span class="card-award">
+                  🏆 2nd place, AI Agent Excellence &amp; Innovation Award —
+                  Stanford TreeHacks 2025 ($2.5k)
+                </span>
+              </article>
+
+              <article class="card">
+                <span class="tag-row">
+                  <span class="tag tag-sage">Python</span>
+                  <span class="tag tag-sky">ReactJS</span>
+                </span>
+                <h3>Conlang Creator</h3>
+                <p>
+                  A full-stack web app for building your own constructed
+                  language — vocabulary, grammar, and automatic translation to
+                  and from 40+ real languages.
+                </p>
+                <span class="card-award">🌱 Built at Duolingo Thrive</span>
+              </article>
+
+              <article class="card">
+                <span class="tag-row">
+                  <span class="tag tag-butter">Bioengineering</span>
+                  <span class="tag tag-sky">ML</span>
+                </span>
+                <h3>Vertiflex</h3>
+                <p>
+                  A soft robotic orthosis for progressive vertebrae
+                  rehabilitation — wearable, affordable, with ML-predicted
+                  spinal alignment and real-time feedback.
+                </p>
+                <span class="card-award">
+                  🏆 3rd place, SB3C National Bioengineering Conference ($3k
+                  NSF prize) · 1st place, BMES Technical Project Symposium
+                </span>
+              </article>
+
+              <article class="card">
+                <span class="tag-row">
+                  <span class="tag tag-sage">NLP</span>
+                  <span class="tag tag-sky">ML</span>
+                </span>
+                <h3>BuzzyBabbl</h3>
+                <p>
+                  An NLP and machine learning product for identifying
+                  developmental delays in children early, when intervention
+                  matters most.
+                </p>
+                <span class="card-award">
+                  🏆 2nd place, Sigma Eta Pi Create-a-thon Entrepreneurship
+                  Pitch Competition 2024
+                </span>
+              </article>
+            </div>
+          </div>
+
+          <div class="subsection" data-reveal>
+            <span class="section-label">Research</span>
+            <h2>Publications &amp; talks</h2>
+            <div class="pub-list">
+              <article class="pub-item">
+                <h3>Canonical Proportion as a Phonological Index</h3>
+                <p>
+                  "Connecting Preschoolers' Spontaneous Speech to Phonological
+                  Development: A Longitudinal Cohort Study of Canonical
+                  Proportion as a Phonological Index."
+                </p>
+                <span class="card-award">🎓 1st author · Poster, LabPhon 20 (Feb 2026)</span>
+              </article>
+              <article class="pub-item">
+                <h3>Automated Vocal Analysis</h3>
+                <p>
+                  "Can automated vocal analysis methods be used to predict
+                  speech-language development?" — full paper and poster.
+                </p>
+                <span class="card-award">🎓 1st author · Cognitive Science Society Proceedings 2025</span>
+              </article>
+              <article class="pub-item">
+                <h3>TEDx — "Building a Safer Headspace"</h3>
+                <p>
+                  A TED talk on Chronic Traumatic Encephalopathy — chosen out
+                  of 50 applicants.
+                </p>
+                <span class="card-award">🎤 3,300+ views on YouTube (2021)</span>
+              </article>
+            </div>
           </div>
         </div>
 
@@ -258,189 +339,40 @@
         <svg viewBox="0 0 1440 64" preserveAspectRatio="none"><use href="#wave-path" fill="currentColor" /></svg>
       </div>
 
-      <section class="page-section band" id="projects">
-        <div class="section-inner">
-          <span class="section-label">Projects</span>
-          <h2>Builds</h2>
-          <p class="section-lead">
-            Shipped products and award-winning builds — mostly where language,
-            learning, and machine learning meet.
-          </p>
-          <div class="carousel" data-carousel data-reveal>
-            <div class="carousel-track">
-              <article class="card carousel-card">
-                <span class="tag-row">
-                  <span class="tag tag-blush">Swift</span>
-                  <span class="tag tag-sage">Algorithms</span>
-                </span>
-                <h3>Cross Math</h3>
-                <p>
-                  A math puzzle game shipped inside the Duolingo iOS app. Built
-                  the constraint-programming algorithm for accurate puzzle
-                  generation, real-time backend puzzle shapes, and responsive
-                  Swift UI — then pitched it to senior leadership and launched
-                  to 100M+ users.
-                </p>
-                <span class="card-award">📱 Live in Duolingo on iOS</span>
-              </article>
-
-              <article class="card carousel-card">
-                <span class="tag-row">
-                  <span class="tag tag-sky">AI Agents</span>
-                  <span class="tag">Automation</span>
-                </span>
-                <h3>Theramind</h3>
-                <p>
-                  AI agent workflow automation for therapists — cutting the
-                  administrative load so clinicians can spend their time on
-                  patients, not paperwork.
-                </p>
-                <span class="card-award">
-                  🏆 2nd place, AI Agent Excellence &amp; Innovation Award —
-                  Stanford TreeHacks 2025 ($2.5k)
-                </span>
-              </article>
-
-              <article class="card carousel-card">
-                <span class="tag-row">
-                  <span class="tag tag-sage">NLP</span>
-                  <span class="tag tag-sky">ML</span>
-                </span>
-                <h3>BuzzyBabbl</h3>
-                <p>
-                  An NLP and machine learning product for identifying
-                  developmental delays in children early, when intervention
-                  matters most.
-                </p>
-                <span class="card-award">
-                  🏆 2nd place, Sigma Eta Pi Create-a-thon Entrepreneurship
-                  Pitch Competition 2024
-                </span>
-              </article>
-
-              <article class="card carousel-card">
-                <span class="tag-row">
-                  <span class="tag tag-butter">Bioengineering</span>
-                  <span class="tag tag-sky">ML</span>
-                </span>
-                <h3>Vertiflex</h3>
-                <p>
-                  A soft robotic orthosis for progressive vertebrae
-                  rehabilitation — wearable, affordable, with ML-predicted
-                  spinal alignment and real-time feedback.
-                </p>
-                <span class="card-award">
-                  🏆 3rd place, SB3C National Bioengineering Conference ($3k
-                  NSF prize) · 1st place, BMES Technical Project Symposium
-                </span>
-              </article>
-
-              <article class="card carousel-card">
-                <span class="tag-row">
-                  <span class="tag tag-sage">Python</span>
-                  <span class="tag tag-sky">ReactJS</span>
-                </span>
-                <h3>Conlang Creator</h3>
-                <p>
-                  A full-stack web app for building your own constructed
-                  language — vocabulary, grammar, and automatic translation to
-                  and from 40+ real languages.
-                </p>
-                <span class="card-award">🌱 Built at Duolingo Thrive</span>
-              </article>
-            </div>
-            <div class="carousel-nav">
-              <button class="carousel-arrow" type="button" data-carousel-prev aria-label="Previous builds">←</button>
-              <button class="carousel-arrow" type="button" data-carousel-next aria-label="More builds">→</button>
-            </div>
-          </div>
-
-          <div class="subsection" data-reveal>
-            <span class="section-label">Research output</span>
-            <h2>Research achievements</h2>
-            <p class="section-lead">Publications, posters, and talks.</p>
-            <div class="carousel" data-carousel>
-              <div class="carousel-track">
-                <article class="card carousel-card">
-                  <span class="tag-row">
-                    <span class="tag tag-sky">Publication</span>
-                  </span>
-                  <h3>Canonical Proportion as a Phonological Index</h3>
-                  <p>
-                    "Connecting Preschoolers' Spontaneous Speech to Phonological
-                    Development: A Longitudinal Cohort Study of Canonical
-                    Proportion as a Phonological Index."
-                  </p>
-                  <span class="card-award">🎓 1st author · Poster, LabPhon 20 (Feb 2026)</span>
-                </article>
-
-                <article class="card carousel-card">
-                  <span class="tag-row">
-                    <span class="tag tag-sky">Publication</span>
-                  </span>
-                  <h3>Automated Vocal Analysis</h3>
-                  <p>
-                    "Can automated vocal analysis methods be used to predict
-                    speech-language development?" — full paper and poster.
-                  </p>
-                  <span class="card-award">
-                    🎓 1st author · Cognitive Science Society Proceedings 2025
-                  </span>
-                </article>
-
-                <article class="card carousel-card">
-                  <span class="tag-row">
-                    <span class="tag tag-butter">Talk</span>
-                  </span>
-                  <h3>TEDx — "Building a Safer Headspace"</h3>
-                  <p>
-                    A TED talk on Chronic Traumatic Encephalopathy — chosen out
-                    of 50 applicants.
-                  </p>
-                  <span class="card-award">🎤 3,300+ views on YouTube (2021)</span>
-                </article>
-              </div>
-              <div class="carousel-nav">
-                <button class="carousel-arrow" type="button" data-carousel-prev aria-label="Previous research achievements">←</button>
-                <button class="carousel-arrow" type="button" data-carousel-next aria-label="More research achievements">→</button>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <section class="page-section band" id="about">
-        <div class="section-inner">
-          <span class="section-label">About</span>
-          <h2>About me</h2>
-          <svg class="squiggle" viewBox="0 0 320 28" fill="none" aria-hidden="true">
-            <path
-              pathLength="1"
-              d="M4 14 C 24 2, 44 26, 64 14 C 84 2, 104 26, 124 14 C 144 2, 164 26, 184 14 C 204 2, 224 26, 244 14 C 264 2, 284 26, 304 14"
-              stroke="var(--accent-default)"
-              stroke-width="5"
-              stroke-linecap="round"
-            />
-          </svg>
-          <p class="section-lead">The longer story — how I got here and what I care about.</p>
-          <div class="placeholder" data-reveal>
-            <h3>Coming soon</h3>
-            <p>This section is being written. Check back shortly!</p>
-          </div>
-        </div>
-      </section>
-
-      <section class="page-section band" id="interests">
+      <section class="page-section band" id="offclock">
         <div class="section-inner">
           <span class="section-label">Interests</span>
-          <h2>Hobbies &amp; tidbits</h2>
-          <p class="section-lead">Running, snowboarding, DJing — and more to come.</p>
-          <div class="placeholder" data-reveal>
-            <h3>Coming soon</h3>
-            <p>
-              A sneak peek: cookie baking expertise 🍪, a competitive poker
-              streak 🃏, and the lo-fi loop in the corner 🎧.
-            </p>
+          <h2>Off the clock</h2>
+          <div class="card-grid offclock-grid">
+            <article class="card" data-reveal>
+              <h3>DJing</h3>
+              <p>
+                The corner turntable is mine — a lo-fi loop synthesized from
+                scratch in Web Audio. Drag the BPM and the whole site keeps
+                time with it.
+              </p>
+            </article>
+            <article class="card" data-reveal>
+              <h3>Snowboarding</h3>
+              <p>
+                Powder days in the winter, running trails the rest of the
+                year. Both are just flow states with different footwear.
+              </p>
+            </article>
+            <article class="card" data-reveal>
+              <h3>Cookie science</h3>
+              <p>
+                Years of rigorous batch testing. Current finding: brown butter
+                is a statistically significant improvement.
+              </p>
+            </article>
+            <article class="card" data-reveal>
+              <h3>Poker</h3>
+              <p>
+                A competitive streak, applied — pot odds are just p-values
+                with snacks.
+              </p>
+            </article>
           </div>
         </div>
       </section>
@@ -450,6 +382,7 @@
       <div class="site-footer-inner">
         <span>© 2026 Carissa Ott</span>
         <span>
+          <a href="mailto:carissaott0809@gmail.com">Email</a> ·
           <a href="https://www.linkedin.com/in/carissa-ott">LinkedIn</a> ·
           <a href="https://github.com/carissamercedesott">GitHub</a> ·
           <a href="/design">Design system</a>

@@ -216,68 +216,6 @@
   margin-top: var(--space-16);
 }
 
-/* ── Carousels ── */
-.carousel {
-  margin-top: var(--space-6);
-}
-
-.carousel-track {
-  display: flex;
-  gap: var(--space-6);
-  overflow-x: auto;
-  scroll-snap-type: x mandatory;
-  padding: var(--space-2) var(--space-1) var(--space-6);
-  scrollbar-width: none;
-}
-
-.carousel-track::-webkit-scrollbar {
-  display: none;
-}
-
-.carousel-card {
-  flex: 0 0 320px;
-  scroll-snap-align: start;
-}
-
-@media (max-width: 480px) {
-  .carousel-card {
-    flex-basis: 260px;
-  }
-}
-
-.carousel-nav {
-  display: flex;
-  justify-content: flex-end;
-  gap: var(--space-2);
-}
-
-.carousel-arrow {
-  width: 40px;
-  height: 40px;
-  border-radius: var(--radius-full);
-  border: 1px solid var(--border-strong);
-  background: var(--surface-default);
-  color: var(--text-primary);
-  font-size: var(--text-md);
-  line-height: 1;
-  box-shadow: var(--shadow-sm);
-  transition: background-color var(--duration-fast) var(--ease-out),
-    color var(--duration-fast) var(--ease-out),
-    transform var(--duration-fast) var(--ease-out),
-    opacity var(--duration-fast) var(--ease-out);
-}
-
-.carousel-arrow:hover:not(:disabled) {
-  background: var(--accent-default);
-  color: var(--text-on-accent);
-  transform: translateY(-1px);
-}
-
-.carousel-arrow:disabled {
-  opacity: 0.35;
-  cursor: default;
-}
-
 /* ── Buttons ── */
 .btn {
   display: inline-block;
@@ -481,7 +419,7 @@
 .card-award {
   font-size: var(--text-sm);
   font-weight: var(--weight-medium);
-  color: var(--accent-2-default);
+  color: var(--accent-2-strong);
 }
 
 /* ── Simple list (publications, talks) ── */
@@ -508,18 +446,9 @@
   color: var(--text-secondary);
 }
 
-/* ── Placeholder pages ── */
-.placeholder {
-  margin-top: var(--space-12);
-  border: 1px dashed var(--border-strong);
-  border-radius: var(--radius-xl);
-  padding: var(--space-16) var(--space-6);
-  text-align: center;
-}
-
-.placeholder p {
+.pub-item .card-award {
+  display: block;
   margin-top: var(--space-2);
-  color: var(--text-muted);
 }
 
 /* ── Footer ── */

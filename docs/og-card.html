@@ -1,0 +1,107 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@500&display=swap" rel="stylesheet">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html, body { width: 1200px; height: 630px; overflow: hidden; }
+  body {
+    font-family: "IBM Plex Sans", system-ui, sans-serif;
+    background: #FAF7F5;
+    background-image: linear-gradient(135deg, #FDE2E0, #FEE8DA);
+    color: #231E1B;
+    display: flex;
+    align-items: center;
+    position: relative;
+  }
+  .copy { padding-left: 96px; max-width: 760px; }
+  .name {
+    font-size: 96px;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    line-height: 1.05;
+  }
+  .role {
+    margin-top: 28px;
+    font-size: 34px;
+    font-weight: 500;
+    color: #4E443F;
+    line-height: 1.35;
+  }
+  .role b { color: #A63B34; font-weight: 600; }
+  .meta {
+    margin-top: 44px;
+    font-family: "IBM Plex Mono", monospace;
+    font-size: 22px;
+    font-weight: 500;
+    color: #897971;
+  }
+  .meta span { color: #C94E46; }
+  .deck {
+    position: absolute;
+    right: 96px;
+    top: 50%;
+    transform: translateY(-50%) rotate(-4deg);
+    width: 340px;
+    height: 340px;
+    background: #FFFFFF;
+    border: 2px solid #E6DDD8;
+    border-radius: 56px;
+    box-shadow: 0 24px 64px rgba(35, 30, 27, 0.16);
+  }
+  .record {
+    position: absolute;
+    left: 38px;
+    top: 38px;
+    width: 264px;
+    height: 264px;
+    border-radius: 50%;
+    background: repeating-radial-gradient(circle at center, #2B2624 0 9px, #383230 9px 18px);
+  }
+  .label {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    width: 88px;
+    height: 88px;
+    border-radius: 50%;
+    background: #E36A62;
+    border: 5px solid #FFFFFF;
+  }
+  .arm {
+    position: absolute;
+    right: 26px;
+    top: 22px;
+    width: 15px;
+    height: 126px;
+    border-radius: 999px;
+    background: #897971;
+    transform: rotate(-28deg);
+    transform-origin: top center;
+  }
+  .url {
+    position: absolute;
+    left: 96px;
+    bottom: 56px;
+    font-family: "IBM Plex Mono", monospace;
+    font-size: 22px;
+    font-weight: 500;
+    color: #AF9F98;
+  }
+</style>
+</head>
+<body>
+  <div class="copy">
+    <div class="name">Carissa Ott</div>
+    <div class="role"><b>Design engineer</b> — building interfaces that feel like instruments.</div>
+    <div class="meta">duolingo <span>·</span> ios <span>·</span> design systems <span>·</span> ai&nbsp;agents</div>
+  </div>
+  <div class="deck">
+    <div class="record"><div class="label"></div></div>
+    <div class="arm"></div>
+  </div>
+  <div class="url">carissaott.com</div>
+</body>
+</html>

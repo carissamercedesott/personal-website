@@ -59,6 +59,16 @@ body.home {
   }
 }
 
+.hero-design-link {
+  justify-self: center;
+  margin-top: var(--space-3);
+  font-size: var(--text-sm);
+  font-weight: var(--weight-medium);
+  color: var(--accent-strong);
+  text-decoration-thickness: 1px;
+  text-underline-offset: 3px;
+}
+
 .hero-scroll-cue {
   justify-self: center;
   margin-top: var(--space-12);
@@ -287,18 +297,11 @@ body.home {
   }
 }
 
-/* ── Project panel: image-topped cards between intro and resume ── */
-.project-panel {
+/* ── Flagship rows: the two lead projects, image beside text ── */
+.flagships {
   margin-top: var(--space-8);
   display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: var(--space-6);
-}
-
-@media (max-width: 640px) {
-  .project-panel {
-    grid-template-columns: 1fr;
-  }
+  gap: var(--space-8);
 }
 
 .project-card {
@@ -346,6 +349,70 @@ body.home {
 
 .project-card-details {
   display: none;
+}
+
+/* Flagship variant: image beside text. Declared after the base card so the
+ * grid display wins the equal-specificity cascade. */
+.project-card--flagship {
+  display: grid;
+  grid-template-columns: minmax(0, 6fr) minmax(0, 5fr);
+  align-items: stretch;
+}
+
+.project-card--flagship .project-card-img {
+  height: 100%;
+  aspect-ratio: auto;
+  border-bottom: none;
+  border-right: 1px solid var(--border-default);
+}
+
+.project-card--flagship .project-card-body {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--space-3);
+  padding: var(--space-6) var(--space-8);
+}
+
+.project-card--flagship h3 {
+  font-size: var(--text-2xl);
+  letter-spacing: var(--tracking-tight);
+}
+
+.project-card--flagship .project-card-body p {
+  margin-top: 0;
+  font-size: var(--text-md);
+}
+
+.flagship-metric {
+  font-family: var(--font-mono);
+  font-size: var(--text-sm);
+  font-weight: var(--weight-medium);
+  color: var(--accent-2-strong);
+}
+
+.flagship-more {
+  margin-top: auto;
+  font-size: var(--text-sm);
+  font-weight: var(--weight-medium);
+  color: var(--accent-strong);
+}
+
+@media (max-width: 760px) {
+  .project-card--flagship {
+    grid-template-columns: 1fr;
+  }
+
+  .project-card--flagship .project-card-img {
+    height: auto;
+    aspect-ratio: 16 / 10;
+    border-right: none;
+    border-bottom: 1px solid var(--border-default);
+  }
+
+  .project-card--flagship .project-card-body {
+    padding: var(--space-4) var(--space-6) var(--space-6);
+  }
 }
 
 /* ── Project modal: a card expanded over the page ── */
@@ -454,47 +521,6 @@ body.has-modal {
   .project-modal-body {
     padding: var(--space-4) var(--space-6) var(--space-6);
   }
-}
-
-/* ── About squiggle: draws itself in as the section scrolls into view ── */
-.squiggle {
-  display: block;
-  width: min(320px, 70%);
-  height: 28px;
-  margin-top: var(--space-4);
-}
-
-@supports (animation-timeline: view()) {
-  .squiggle path {
-    stroke-dasharray: 1;
-    stroke-dashoffset: 1;
-    animation: draw-squiggle linear both;
-    animation-timeline: view();
-    animation-range: entry 10% cover 45%;
-  }
-
-  @keyframes draw-squiggle {
-    to {
-      stroke-dashoffset: 0;
-    }
-  }
-
-  @media (prefers-reduced-motion: reduce) {
-    .squiggle path {
-      animation: none;
-      stroke-dashoffset: 0;
-    }
-  }
-}
-
-.hero-design-link {
-  justify-self: center;
-  margin-top: var(--space-3);
-  font-size: var(--text-sm);
-  font-weight: var(--weight-medium);
-  color: var(--accent-strong);
-  text-decoration-thickness: 1px;
-  text-underline-offset: 3px;
 }
 
 .hero-subtitle {

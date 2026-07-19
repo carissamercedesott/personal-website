@@ -1,9 +1,8 @@
-// DJ mode: a persistent, draggable turntable on every page.
+// DJ mode: a persistent, draggable turntable.
 // - The lo-fi loop is synthesized with the Web Audio API (no audio files).
 // - A BPM slider rescales the site's --duration-* motion tokens.
-// - On the home page, a first visit starts with a needle-drop splash.
-// - Play state survives navigation; browsers block audio until the next
-//   interaction, so the deck arrives "armed" and resumes on first gesture.
+// - The deck arrives ambiently after load with a one-time hint; audio only
+//   ever starts from an explicit click on the deck (never a page gesture).
 
 (function initDj() {
   const root = document.documentElement;
@@ -278,7 +277,6 @@
 
   function startPlaying() {
     if (playing) return;
-    if (cancelArmedResume) cancelArmedResume();
     if (!audio) audio = createAudio();
     audio.ctx.resume();
     nextBeatTime = audio.ctx.currentTime + 0.08;
@@ -384,89 +382,39 @@
     if (playing) applyTempoTokens();
   });
 
-  // ── Resume across navigation ──
-  // Autoplay policy blocks audio until the visitor interacts with the new
-  // page, so arm the deck and resume on the first gesture anywhere.
-  let cancelArmedResume = null;
+  // ── Ambient arrival ──
+  // The deck springs up from the corner once per session; on later page
+  // loads within the session it's simply there.
+  if (readStorage(sessionStorage, "djDeckSeen") !== "1") {
+    dj.classList.add("is-entering");
+    writeStorage(sessionStorage, "djDeckSeen", "1");
+  }
 
-  function armResume() {
+  // A one-time hint for first-time visitors. Autoplay policy blocks audio
+  // after navigation anyway, so a previously-playing deck just pulses until
+  // it's clicked — never resuming from a stray page gesture or keypress.
+  function showHint() {
+    const hint = document.createElement("div");
+    hint.className = "dj-hint";
+    hint.textContent = "a lo-fi loop, synthesized in Web Audio — click to spin";
+    dj.prepend(hint);
+
+    let dismissed = false;
+    const dismiss = () => {
+      if (dismissed) return;
+      dismissed = true;
+      writeStorage(localStorage, "djHintSeen", "1");
+      hint.classList.add("is-leaving");
+      window.setTimeout(() => hint.remove(), 350);
+    };
+    toggle.addEventListener("pointerdown", dismiss, { once: true });
+    window.setTimeout(dismiss, 10000);
+  }
+
+  if (wasPlaying) {
     dj.classList.add("is-armed");
-    toggle.title = "Tap anywhere to resume the music 🎧";
-    const resumeOnGesture = (event) => {
-      // Gestures on the deck itself go through the normal click handler —
-      // otherwise pointerdown starts the music and the click instantly
-      // stops it again.
-      if (dj.contains(event.target)) return;
-      startPlaying();
-    };
-    window.addEventListener("pointerdown", resumeOnGesture);
-    window.addEventListener("keydown", resumeOnGesture);
-    cancelArmedResume = () => {
-      window.removeEventListener("pointerdown", resumeOnGesture);
-      window.removeEventListener("keydown", resumeOnGesture);
-      cancelArmedResume = null;
-    };
-  }
-
-  // ── Needle-drop splash (home page, once per session) ──
-  function createSplash() {
-    // The corner deck only appears once the flying record lands.
-    dj.classList.add("is-hidden");
-    const splash = document.createElement("div");
-    splash.className = "dj-splash";
-    splash.innerHTML = `
-      <div class="dj-splash-inner">
-        <button class="dj-deck" id="dj-splash-deck" type="button" aria-label="Drop the needle and enter">
-          <span class="dj-record"></span>
-          <span class="dj-arm"></span>
-        </button>
-        <div class="dj-splash-text">
-          <p class="dj-splash-hint">Drop the needle</p>
-          <p class="dj-splash-sub">click the record to come on in</p>
-        </div>
-        <button class="dj-splash-skip" type="button">enter quietly →</button>
-      </div>`;
-    document.body.appendChild(splash);
-    document.body.classList.add("has-splash");
-
-    const splashDeck = splash.querySelector("#dj-splash-deck");
-    splashDeck.focus();
-
-    function leaveSplash(withSound) {
-      writeStorage(sessionStorage, "djSplashSeen", "1");
-      document.body.classList.remove("has-splash");
-      splash.classList.add("is-leaving");
-      const revealDeck = () => {
-        dj.classList.remove("is-hidden");
-        splash.remove();
-      };
-      if (withSound) {
-        startPlaying();
-        const target = toggle.getBoundingClientRect();
-        const from = splashDeck.getBoundingClientRect();
-        const dx = target.left + target.width / 2 - (from.left + from.width / 2);
-        const dy = target.top + target.height / 2 - (from.top + from.height / 2);
-        splashDeck.style.transform = `translate(${dx}px, ${dy}px) scale(${target.width / from.width})`;
-        window.setTimeout(revealDeck, 750);
-      } else {
-        splashDeck.style.opacity = "0";
-        window.setTimeout(revealDeck, 550);
-      }
-    }
-
-    splashDeck.addEventListener("click", () => leaveSplash(true));
-    splash.querySelector(".dj-splash-skip").addEventListener("click", () => leaveSplash(false));
-    splash.addEventListener("keydown", (event) => {
-      if (event.key === "Escape") leaveSplash(false);
-    });
-  }
-
-  const onHomePage = location.pathname === "/" || location.pathname === "/index.html";
-  const splashSeen = readStorage(sessionStorage, "djSplashSeen") === "1";
-
-  if (onHomePage && !splashSeen && !wasPlaying) {
-    createSplash();
-  } else if (wasPlaying) {
-    armResume();
+    toggle.title = "Tap to resume the music 🎧";
+  } else if (readStorage(localStorage, "djHintSeen") !== "1") {
+    showHint();
   }
 })();
