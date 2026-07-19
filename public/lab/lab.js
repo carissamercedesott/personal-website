@@ -691,7 +691,7 @@ const ut = [{
 };
 Q(["click", "input", "keydown", "pointermove"]);
 var gt = /* @__PURE__ */ R('<div class=ghost-demo><div class=ghost-wrap><div class=ghost-underlay aria-hidden=true><span class=ghost-typed></span><span class=ghost-completion></span></div><input class=ghost-input type=text autocomplete=off aria-label="Ghost text demo input"aria-describedby=ghost-hint></div><p class=ghost-hint id=ghost-hint>try “inter…”, “tok…”, or “brown…” — <kbd>Tab</kbd> accepts, <kbd>Esc</kbd> dismisses</p><span class=visually-hidden role=status>');
-const mt = ["interfaces that feel like instruments", "tokens over values", "cross math", "waddl", "canonical proportion as a phonological index", "brown butter is a statistically significant improvement", "warm pastels, crisp surfaces, soft motion"], yt = () => {
+const mt = ["interfaces that speak fluent human", "tokens over values", "cross math", "waddl", "canonical proportion as a phonological index", "brown butter is a statistically significant improvement", "warm pastels, crisp surfaces, soft motion"], yt = () => {
   const [e, t] = A(""), [n, s] = A(!1), r = Y(() => {
     const i = e();
     if (n() || i.length === 0) return "";
@@ -1207,7 +1207,7 @@ export const fuzzyMatch = (query: string, target: string): FuzzyResult | null =>
 // Phrases from around this site — type a few letters and the rest appears
 // as editor-style ghost text.
 const CORPUS = [
-  "interfaces that feel like instruments",
+  "interfaces that speak fluent human",
   "tokens over values",
   "cross math",
   "waddl",

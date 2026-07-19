@@ -3,7 +3,7 @@ import { createMemo, createSignal } from "solid-js";
 // Phrases from around this site — type a few letters and the rest appears
 // as editor-style ghost text.
 const CORPUS = [
-  "interfaces that feel like instruments",
+  "interfaces that speak fluent human",
   "tokens over values",
   "cross math",
   "waddl",
