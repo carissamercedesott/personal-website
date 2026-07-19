@@ -94,19 +94,39 @@
           <h2>Featured projects</h2>
           <p class="section-lead">A few things I've built lately.</p>
           <div class="project-panel">
-            <article class="project-card" data-reveal>
-              <img class="project-card-img" src="/images/projects/waddl.svg" alt="Waddl preview" />
+            <article class="project-card" data-reveal role="button" tabindex="0" aria-haspopup="dialog">
+              <img class="project-card-img" src="/images/projects/waddl-screenshot.webp" alt="Waddl — a mini desktop UI for Claude Code" />
               <div class="project-card-body">
                 <h3>Waddl</h3>
                 <p>
                   A cozy desktop companion for Claude Code — a mini Electron UI
                   that lets you watch an AI agent waddle through your code.
                 </p>
+                <div class="project-card-details">
+                  <span class="tag-row">
+                    <span class="tag tag-sky">AI Agents</span>
+                    <span class="tag">Electron</span>
+                    <span class="tag tag-blush">TypeScript</span>
+                  </span>
+                  <p>
+                    Waddl is a pocket-sized desktop companion for Claude Code.
+                    Instead of a full terminal, you get a cozy little window
+                    where an AI agent waddles through your codebase — reading
+                    files, making edits, and narrating what it's up to as it
+                    goes.
+                  </p>
+                  <p>
+                    Built with Electron and TypeScript as a playground for
+                    exploring what a friendlier, more approachable agent UI
+                    could feel like.
+                  </p>
+                  <span class="card-award">🛠️ Personal project — in progress</span>
+                </div>
               </div>
             </article>
 
-            <article class="project-card" data-reveal>
-              <img class="project-card-img" src="/images/projects/cross-math.svg" alt="Cross Math preview" />
+            <article class="project-card" data-reveal role="button" tabindex="0" aria-haspopup="dialog">
+              <img class="project-card-img" src="/images/projects/cross-math-screenshot.png" alt="Cross Math — puzzle screens in the Duolingo iOS app" />
               <div class="project-card-body">
                 <h3>Cross Math</h3>
                 <p>
@@ -114,11 +134,30 @@
                   constraint-programming puzzle generation, shipped to 100M+
                   users.
                 </p>
+                <div class="project-card-details">
+                  <span class="tag-row">
+                    <span class="tag tag-blush">Swift</span>
+                    <span class="tag tag-sage">Algorithms</span>
+                    <span class="tag tag-sky">Product</span>
+                  </span>
+                  <p>
+                    A math puzzle game shipped inside the Duolingo iOS app. I
+                    built the constraint-programming algorithm that generates
+                    accurate puzzle numbers, the backend algorithm that
+                    produces random puzzle shapes in real time, and responsive
+                    Swift UI that scales across all iOS devices.
+                  </p>
+                  <p>
+                    I presented the business case to senior leadership, gained
+                    CEO approval, and launched it to Duolingo's full audience.
+                  </p>
+                  <span class="card-award">📱 Live in Duolingo on iOS — 100M+ users</span>
+                </div>
               </div>
             </article>
 
-            <article class="project-card" data-reveal>
-              <img class="project-card-img" src="/images/projects/conlang-creator.svg" alt="Conlang Creator preview" />
+            <article class="project-card" data-reveal role="button" tabindex="0" aria-haspopup="dialog">
+              <img class="project-card-img" src="/images/projects/conlang-creator-screenshot.png" alt="Conlang Creator — a custom language's vocabulary page" />
               <div class="project-card-body">
                 <h3>Conlang Creator</h3>
                 <p>
@@ -126,10 +165,28 @@
                   language, with automatic translation to and from 40+ real
                   languages.
                 </p>
+                <div class="project-card-details">
+                  <span class="tag-row">
+                    <span class="tag tag-sage">Python</span>
+                    <span class="tag tag-sky">ReactJS</span>
+                    <span class="tag">DynamoDB</span>
+                  </span>
+                  <p>
+                    A full-stack web app for inventing your own constructed
+                    language, designed and built with a team of four interns at
+                    Duolingo Thrive.
+                  </p>
+                  <p>
+                    Vocabulary, grammar, and an automatic translation algorithm
+                    that works to and from 40+ real languages — so your conlang
+                    is speakable from day one.
+                  </p>
+                  <span class="card-award">🌱 Built at Duolingo Thrive</span>
+                </div>
               </div>
             </article>
 
-            <article class="project-card" data-reveal>
+            <article class="project-card" data-reveal role="button" tabindex="0" aria-haspopup="dialog">
               <img class="project-card-img" src="/images/projects/theramind.svg" alt="Theramind preview" />
               <div class="project-card-body">
                 <h3>Theramind</h3>
@@ -137,10 +194,35 @@
                   AI agent workflow automation for therapists — less paperwork,
                   more patient time. 2nd place at Stanford TreeHacks 2025.
                 </p>
+                <div class="project-card-details">
+                  <span class="tag-row">
+                    <span class="tag tag-sky">AI Agents</span>
+                    <span class="tag">Automation</span>
+                  </span>
+                  <p>
+                    AI agent workflow automation for therapists — cutting the
+                    administrative load of session notes and paperwork so
+                    clinicians can spend their time on patients, not admin.
+                  </p>
+                  <p>Designed and built in 36 hours at Stanford TreeHacks 2025.</p>
+                  <span class="card-award">
+                    🏆 2nd place, AI Agent Excellence &amp; Innovation Award —
+                    Stanford TreeHacks 2025 ($2.5k)
+                  </span>
+                </div>
               </div>
             </article>
           </div>
         </div>
+
+        <dialog class="project-modal" id="project-modal" aria-labelledby="project-modal-title">
+          <button class="project-modal-close" type="button" aria-label="Close">×</button>
+          <img class="project-modal-img" src="" alt="" />
+          <div class="project-modal-body">
+            <h3 class="project-modal-title" id="project-modal-title"></h3>
+            <div class="project-modal-info"></div>
+          </div>
+        </dialog>
       </section>
 
       <section class="page-section band" id="experience">

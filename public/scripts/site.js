@@ -161,12 +161,54 @@ function initTypewriter() {
   typeTick();
 }
 
+function initProjectModal() {
+  const modal = document.getElementById("project-modal");
+  if (!modal) return;
+
+  const image = modal.querySelector(".project-modal-img");
+  const title = modal.querySelector(".project-modal-title");
+  const info = modal.querySelector(".project-modal-info");
+  let trigger = null;
+
+  function openModal(card) {
+    const cardImage = card.querySelector(".project-card-img");
+    image.src = cardImage.src;
+    image.alt = cardImage.alt;
+    title.textContent = card.querySelector("h3").textContent;
+    info.innerHTML = card.querySelector(".project-card-details")?.innerHTML ?? "";
+    trigger = card;
+    modal.showModal();
+    document.body.classList.add("has-modal");
+  }
+
+  for (const card of document.querySelectorAll(".project-card")) {
+    card.addEventListener("click", () => openModal(card));
+    card.addEventListener("keydown", (event) => {
+      if (event.key === "Enter" || event.key === " ") {
+        event.preventDefault();
+        openModal(card);
+      }
+    });
+  }
+
+  modal.querySelector(".project-modal-close").addEventListener("click", () => modal.close());
+  // A click on the backdrop targets the dialog itself, not its contents.
+  modal.addEventListener("click", (event) => {
+    if (event.target === modal) modal.close();
+  });
+  modal.addEventListener("close", () => {
+    document.body.classList.remove("has-modal");
+    trigger?.focus();
+  });
+}
+
 function initSiteChrome() {
   initThemeToggle();
   initReveal();
   initScrollSpy();
   initCarousels();
   initTypewriter();
+  initProjectModal();
 }
 
 window.initSiteChrome = initSiteChrome;
