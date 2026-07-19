@@ -1,0 +1,130 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>The Lab — Carissa Ott</title>
+    <meta
+      name="description"
+      content="Interaction experiments by Carissa Ott — a command palette, ghost-text autocomplete, an animated diff, a streaming token renderer, and a motion toy. TypeScript + Solid, view-source included."
+    />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="/styles/tokens.css" />
+    <link rel="stylesheet" href="/styles/base.css" />
+    <link rel="stylesheet" href="/styles/site.css" />
+    <link rel="stylesheet" href="/styles/lab.css" />
+    <script src="/scripts/theme.js"></script>
+  </head>
+  <body class="lab">
+    <header class="site-header">
+      <nav class="site-nav">
+        <a class="site-logo" href="/">Carissa Ott</a>
+        <div class="site-links">
+          <a href="/#research">Research</a>
+          <a href="/#work">Work</a>
+          <a href="/waddl">Waddl</a>
+          <a href="/lab" aria-current="page">Lab</a>
+          <a href="/#experience">Experience</a>
+          <a href="/resume">Resume</a>
+          <button class="theme-toggle" id="theme-toggle" type="button"></button>
+        </div>
+      </nav>
+    </header>
+
+    <main class="page">
+      <span class="section-label">Experiments</span>
+      <h1 class="page-title">The Lab</h1>
+      <p class="page-lead">
+        Small interaction experiments, fully working, built in TypeScript +
+        Solid on this site's design tokens. Every demo works with a keyboard
+        alone and respects reduced motion — and each one ships its own source,
+        right underneath.
+      </p>
+
+      <noscript>
+        <p class="section-lead">
+          The lab is the one page here that needs JavaScript — these are live
+          interactions, not screenshots. Everything else on the site works
+          without it.
+        </p>
+      </noscript>
+
+      <section class="experiment" id="palette">
+        <span class="section-label">01</span>
+        <h2>Command palette</h2>
+        <!-- TODO: Carissa — one line: what this experiment explores. -->
+        <p class="experiment-desc">
+          Fuzzy search over this site's pages — <kbd>⌘K</kbd> works anywhere
+          on this page, and it really navigates.
+        </p>
+        <div id="exp-palette"></div>
+      </section>
+
+      <section class="experiment" id="ghost-text">
+        <span class="section-label">02</span>
+        <h2>Ghost-text autocomplete</h2>
+        <!-- TODO: Carissa — one line: what this experiment explores. -->
+        <p class="experiment-desc">
+          Editor-style inline completions — the suggestion continues exactly
+          where your caret is, <kbd>Tab</kbd> accepts.
+        </p>
+        <div id="exp-ghost"></div>
+      </section>
+
+      <section class="experiment" id="animated-diff">
+        <span class="section-label">03</span>
+        <h2>Animated diff</h2>
+        <!-- TODO: Carissa — one line: what this experiment explores. -->
+        <p class="experiment-desc">
+          A code block that transitions between before and after, one line at
+          a time — removals fold away, additions slide in.
+        </p>
+        <div id="exp-diff"></div>
+      </section>
+
+      <section class="experiment" id="streaming">
+        <span class="section-label">04</span>
+        <h2>Streaming token renderer</h2>
+        <!-- TODO: Carissa — one line: what this experiment explores. -->
+        <p class="experiment-desc">
+          Text that arrives word by word with a cursor and a mid-stream
+          "thinking" pause — tune the speed and feel the character change.
+        </p>
+        <div id="exp-stream"></div>
+      </section>
+
+      <section class="experiment" id="motion-toy">
+        <span class="section-label">05</span>
+        <h2>Motion toy</h2>
+        <!-- TODO: Carissa — one line: what this experiment explores. -->
+        <p class="experiment-desc">
+          This site's easing and duration tokens, made touchable — drag the
+          card (or shove it with arrow keys) and compare curves against a real
+          spring.
+        </p>
+        <div id="exp-toy"></div>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <div class="site-footer-inner">
+        <span>© 2026 Carissa Ott</span>
+        <span>
+          <a href="mailto:carissaott0809@gmail.com">Email</a> ·
+          <a href="https://www.linkedin.com/in/carissa-ott">LinkedIn</a> ·
+          <a href="https://github.com/carissamercedesott">GitHub</a> ·
+          <a href="/design">Design system</a>
+        </span>
+      </div>
+    </footer>
+
+    <script src="/scripts/site.js"></script>
+    <script type="module" src="/lab/lab.js"></script>
+  </body>
+</html>

@@ -156,7 +156,7 @@ function initProjectModal() {
     document.body.classList.add("has-modal");
   }
 
-  for (const card of document.querySelectorAll(".project-card")) {
+  for (const card of document.querySelectorAll('.project-card[aria-haspopup="dialog"]')) {
     card.addEventListener("click", () => openModal(card));
     card.addEventListener("keydown", (event) => {
       if (event.key === "Enter" || event.key === " ") {

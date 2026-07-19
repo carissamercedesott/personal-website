@@ -1,0 +1,248 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Waddl — Carissa Ott</title>
+    <meta
+      name="description"
+      content="Waddl case study — making an AI coding agent's activity legible without a terminal. Streaming text, collapsible diffs, and error states, by Carissa Ott."
+    />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="/styles/tokens.css" />
+    <link rel="stylesheet" href="/styles/base.css" />
+    <link rel="stylesheet" href="/styles/site.css" />
+    <link rel="stylesheet" href="/styles/waddl.css" />
+    <script src="/scripts/theme.js"></script>
+  </head>
+  <body>
+    <header class="site-header">
+      <nav class="site-nav">
+        <a class="site-logo" href="/">Carissa Ott</a>
+        <div class="site-links">
+          <a href="/#research">Research</a>
+          <a href="/#work">Work</a>
+          <a href="/waddl" aria-current="page">Waddl</a>
+          <a href="/lab">Lab</a>
+          <a href="/#experience">Experience</a>
+          <a href="/resume">Resume</a>
+          <button class="theme-toggle" id="theme-toggle" type="button"></button>
+        </div>
+      </nav>
+    </header>
+
+    <main class="page">
+      <span class="section-label">Case study</span>
+      <h1 class="page-title">Waddl</h1>
+      <p class="page-lead">
+        A cozy desktop window where Claude Code waddles through your codebase,
+        narrating as it reads and edits. No terminal required — that's the
+        point.
+      </p>
+      <div class="tag-row" style="margin-top: var(--space-4)">
+        <span class="tag tag-sky">AI Agents</span>
+        <span class="tag">Electron</span>
+        <span class="tag tag-blush">TypeScript</span>
+        <span class="tag tag-butter">In progress</span>
+      </div>
+
+      <section id="problem">
+        <span class="section-label">01</span>
+        <h2>The problem</h2>
+        <!-- TODO: Carissa — refine this copy; it's scaffolding in roughly
+             your voice, not final. -->
+        <p>
+          An AI coding agent does most of its work where you can't see it: it
+          reads ten files, plans, edits three of them, and what you get is a
+          terminal scrolling by. That's fine if you live in terminals. Most
+          people don't.
+        </p>
+        <p>
+          Waddl is my running answer to one question: <strong>how do you make
+          an AI coding agent's activity legible without a terminal?</strong>
+          The bet is that legibility is an interface problem, not a logging
+          problem — the agent's activity needs to be <em>read</em>, the way a
+          progress bar or a diff is read, not scrolled.
+        </p>
+      </section>
+
+      <section id="demo">
+        <span class="section-label">02</span>
+        <h2>Demo</h2>
+        <!-- TODO: Carissa — record a 30–60s screen capture of Waddl and
+             replace the placeholder below with a <video> embed
+             (mp4/webm, muted, controls, poster frame). -->
+        <div class="video-slot" role="img" aria-label="Placeholder for the Waddl demo video — recording in progress">
+          <span class="video-slot-glyph" aria-hidden="true">▶</span>
+          <span class="video-slot-note">demo video — 60 seconds of Waddl waddling, coming soon</span>
+        </div>
+      </section>
+
+      <section id="interactions">
+        <span class="section-label">03</span>
+        <h2>Interaction breakdowns</h2>
+        <p class="section-lead">
+          Three patterns carry most of the interface. Each one below is a
+          live rebuild of the pattern in this site's stack — not a
+          screenshot. Try them.
+        </p>
+
+        <article class="breakdown">
+          <h3>Streaming text</h3>
+          <div class="waddl-window" aria-label="Demo: streaming agent narration">
+            <div class="waddl-titlebar">
+              <span class="waddl-dot" aria-hidden="true"></span>
+              <span class="waddl-title">waddl</span>
+              <span class="waddl-status" id="stream-status">idle</span>
+            </div>
+            <div class="waddl-body">
+              <p class="stream-output" id="stream-output" aria-live="polite"></p>
+            </div>
+            <div class="waddl-controls">
+              <button class="btn btn-secondary btn-sm" id="stream-play" type="button">Play narration</button>
+            </div>
+          </div>
+          <!-- TODO: Carissa — one short paragraph: why streaming narration
+               (vs. a static log)? What did you tune — chunk size, cadence,
+               the cursor? -->
+        </article>
+
+        <article class="breakdown">
+          <h3>Collapsible diffs</h3>
+          <div class="waddl-window" aria-label="Demo: collapsible diff">
+            <div class="waddl-titlebar">
+              <span class="waddl-dot" aria-hidden="true"></span>
+              <span class="waddl-title">waddl · edits</span>
+            </div>
+            <div class="waddl-body">
+              <button class="diff-file" id="diff-toggle" type="button" aria-expanded="false" aria-controls="diff-body">
+                <span class="diff-chevron" aria-hidden="true">›</span>
+                <span class="diff-name">src/greeting.ts</span>
+                <span class="diff-stats"><span class="diff-plus">+3</span> <span class="diff-minus">−2</span></span>
+              </button>
+              <div class="diff-body" id="diff-body" hidden>
+                <pre class="diff-code"><code><span class="diff-line diff-line-ctx">export function greet(name: string) {</span>
+<span class="diff-line diff-line-del">-  return "Hello, " + name;</span>
+<span class="diff-line diff-line-del">-}</span>
+<span class="diff-line diff-line-add">+  const time = new Date().getHours();</span>
+<span class="diff-line diff-line-add">+  const hi = time &lt; 12 ? "Good morning" : "Hello";</span>
+<span class="diff-line diff-line-add">+  return `${hi}, ${name}!`;</span>
+<span class="diff-line diff-line-ctx">}</span></code></pre>
+              </div>
+            </div>
+          </div>
+          <!-- TODO: Carissa — one short paragraph: why collapsed-by-default
+               diffs? What's the tradeoff between glanceability and losing
+               the detail? -->
+        </article>
+
+        <article class="breakdown">
+          <h3>Error states</h3>
+          <div class="waddl-window" aria-label="Demo: agent error state and recovery">
+            <div class="waddl-titlebar">
+              <span class="waddl-dot" aria-hidden="true"></span>
+              <span class="waddl-title">waddl · tasks</span>
+            </div>
+            <div class="waddl-body">
+              <div class="task-row" id="task-row" data-state="idle">
+                <span class="task-icon" id="task-icon" aria-hidden="true">○</span>
+                <span class="task-text" id="task-text">run the test suite</span>
+              </div>
+              <div class="task-error" id="task-error" hidden>
+                <p class="task-error-msg">2 tests failed in <code>greeting.test.ts</code> — expected "Good morning", got "Hello".</p>
+                <button class="btn btn-secondary btn-sm" id="task-retry" type="button">Let waddl fix it</button>
+              </div>
+            </div>
+            <div class="waddl-controls">
+              <button class="btn btn-secondary btn-sm" id="task-run" type="button">Run task</button>
+            </div>
+          </div>
+          <!-- TODO: Carissa — one short paragraph: how should an agent
+               *admit* failure? Why an inline card with a recovery action,
+               not a red toast? -->
+        </article>
+      </section>
+
+      <section id="decisions">
+        <span class="section-label">04</span>
+        <h2>Decisions &amp; rejected alternatives</h2>
+        <p class="section-lead">
+          <strong>The big one:</strong> shrink the agent from a full terminal
+          to a companion-sized window, so what it's doing reads at a glance
+          instead of scrolling past.
+        </p>
+        <div class="decision-grid">
+          <div class="decision-col decision-col-chose">
+            <h3>Chose</h3>
+            <ul>
+              <li>A companion-sized always-on-top window</li>
+              <!-- TODO: Carissa — 2–3 more decisions you committed to. -->
+              <li class="decision-todo">…</li>
+              <li class="decision-todo">…</li>
+            </ul>
+          </div>
+          <div class="decision-col decision-col-rejected">
+            <h3>Rejected</h3>
+            <ul>
+              <li>A full terminal UI — powerful, but it's the thing being escaped</li>
+              <!-- TODO: Carissa — the alternatives you walked away from,
+                   and (ideally) one clause on why. -->
+              <li class="decision-todo">…</li>
+              <li class="decision-todo">…</li>
+            </ul>
+          </div>
+        </div>
+        <!-- TODO: Carissa — a number for the case study when one exists:
+             sessions run, files touched, weeks in — anything honest. -->
+      </section>
+
+      <section id="build-log">
+        <span class="section-label">05</span>
+        <h2>Build log</h2>
+        <p class="section-lead">
+          Waddl is in progress, on purpose. Newest first.
+        </p>
+        <div class="log-list">
+          <!-- TODO: Carissa — fill in these three entries (date + a few
+               sentences each). Newest at the top; add more as you go. -->
+          <article class="log-entry">
+            <span class="log-date">— TODO date —</span>
+            <h3 class="log-title">— TODO: latest milestone —</h3>
+            <p class="log-body">…</p>
+          </article>
+          <article class="log-entry">
+            <span class="log-date">— TODO date —</span>
+            <h3 class="log-title">— TODO: earlier milestone —</h3>
+            <p class="log-body">…</p>
+          </article>
+          <article class="log-entry">
+            <span class="log-date">— TODO date —</span>
+            <h3 class="log-title">— TODO: where it started —</h3>
+            <p class="log-body">…</p>
+          </article>
+        </div>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <div class="site-footer-inner">
+        <span>© 2026 Carissa Ott</span>
+        <span>
+          <a href="mailto:carissaott0809@gmail.com">Email</a> ·
+          <a href="https://www.linkedin.com/in/carissa-ott">LinkedIn</a> ·
+          <a href="https://github.com/carissamercedesott">GitHub</a> ·
+          <a href="/design">Design system</a>
+        </span>
+      </div>
+    </footer>
+
+    <script src="/scripts/site.js"></script>
+    <script src="/scripts/waddl.js"></script>
+  </body>
+</html>

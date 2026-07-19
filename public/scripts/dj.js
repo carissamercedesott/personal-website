@@ -417,4 +417,17 @@
   } else if (readStorage(localStorage, "djHintSeen") !== "1") {
     showHint();
   }
+
+  // The hero's "find the turntable" cue points at the deck: pulse it and
+  // hand it keyboard focus so the connection is unmissable.
+  const bpmCue = document.getElementById("hero-bpm-cue");
+  if (bpmCue) {
+    bpmCue.addEventListener("click", () => {
+      if (!playing) dj.classList.add("is-armed");
+      toggle.focus();
+      window.setTimeout(() => {
+        if (!playing) dj.classList.remove("is-armed");
+      }, 4000);
+    });
+  }
 })();

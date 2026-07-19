@@ -1,0 +1,546 @@
+/* Lab page — five interaction experiments (Solid, built to /lab/lab.js).
+ * Everything here consumes semantic tokens; no raw palette values. */
+
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+}
+
+body.lab kbd {
+  font-family: var(--font-mono);
+  font-size: var(--text-xs);
+  padding: 0 var(--space-1);
+  background: var(--bg-subtle);
+  border: 1px solid var(--border-default);
+  border-bottom-width: 2px;
+  border-radius: var(--radius-sm);
+}
+
+.btn-sm {
+  padding: var(--space-2) var(--space-4);
+  font-size: var(--text-xs);
+}
+
+.btn-ghost {
+  background: transparent;
+  color: var(--text-primary);
+  border: 1px solid var(--border-strong);
+}
+
+.btn:disabled {
+  opacity: 0.5;
+  cursor: default;
+  transform: none;
+}
+
+/* ── Experiment shell ── */
+.experiment-desc {
+  margin-top: var(--space-3);
+  max-width: 60ch;
+  color: var(--text-secondary);
+}
+
+.experiment-desc:empty {
+  display: none;
+}
+
+.experiment-body {
+  margin-top: var(--space-6);
+}
+
+.experiment-demo {
+  background: var(--surface-default);
+  border: 1px solid var(--border-default);
+  border-radius: var(--radius-xl);
+  padding: var(--space-8);
+  box-shadow: var(--shadow-sm);
+}
+
+.experiment-source {
+  margin-top: var(--space-3);
+}
+
+.experiment-source summary {
+  display: inline-block;
+  cursor: pointer;
+  font-family: var(--font-mono);
+  font-size: var(--text-sm);
+  color: var(--accent-strong);
+  padding: var(--space-1) var(--space-2);
+  border-radius: var(--radius-sm);
+}
+
+.experiment-source summary:hover {
+  color: var(--accent-hover);
+}
+
+.experiment-code {
+  margin-top: var(--space-2);
+  max-height: 26rem;
+  overflow: auto;
+  background: var(--bg-subtle);
+  border: 1px solid var(--border-default);
+  border-radius: var(--radius-md);
+  padding: var(--space-4);
+  font-family: var(--font-mono);
+  font-size: var(--text-xs);
+  line-height: var(--leading-normal);
+  tab-size: 2;
+}
+
+/* ── Shared keyframes ── */
+@keyframes lab-fade-in {
+  from {
+    opacity: 0;
+  }
+}
+
+@keyframes lab-fade-out {
+  to {
+    opacity: 0;
+  }
+}
+
+@keyframes lab-pop-in {
+  from {
+    opacity: 0;
+    transform: translateY(-8px) scale(0.98);
+  }
+}
+
+@keyframes lab-blink {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0;
+  }
+}
+
+@keyframes lab-pulse {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.45;
+  }
+}
+
+/* ── 01 · Command palette ── */
+.palette-kbd {
+  margin-left: var(--space-2);
+  font-family: var(--font-mono);
+  font-size: var(--text-xs);
+}
+
+.palette-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 60;
+  background: var(--scrim);
+  backdrop-filter: blur(3px);
+  -webkit-backdrop-filter: blur(3px);
+  display: grid;
+  justify-items: center;
+  align-items: start;
+  padding: 12vh var(--space-4) var(--space-4);
+  animation: lab-fade-in var(--duration-fast) var(--ease-out);
+}
+
+.palette-backdrop.is-leaving {
+  animation: lab-fade-out var(--duration-fast) var(--ease-out) forwards;
+}
+
+.palette {
+  width: min(560px, 100%);
+  background: var(--surface-raised);
+  border: 1px solid var(--border-default);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-lg);
+  overflow: hidden;
+  animation: lab-pop-in var(--duration-fast) var(--ease-out);
+}
+
+.palette-input {
+  width: 100%;
+  padding: var(--space-4);
+  background: transparent;
+  border: none;
+  border-bottom: 1px solid var(--border-default);
+  border-radius: 0;
+  font: inherit;
+  color: var(--text-primary);
+  caret-color: var(--accent-default);
+}
+
+/* The input is the palette's only focus stop; the caret and the dialog
+ * frame carry the focus signal, so the ring would just double up. */
+.palette-input:focus-visible {
+  outline: none;
+}
+
+.palette-input::placeholder {
+  color: var(--text-muted);
+}
+
+.palette-list {
+  list-style: none;
+  margin: 0;
+  padding: var(--space-2);
+  max-height: 20rem;
+  overflow: auto;
+}
+
+.palette-item {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--space-4);
+  padding: var(--space-2) var(--space-3);
+  border-radius: var(--radius-sm);
+  font-size: var(--text-sm);
+  cursor: pointer;
+}
+
+.palette-item.is-active {
+  background: var(--accent-soft);
+}
+
+.palette-hit {
+  color: var(--accent-strong);
+  font-weight: var(--weight-semibold);
+}
+
+.palette-hint {
+  flex: none;
+  font-family: var(--font-mono);
+  font-size: var(--text-xs);
+  color: var(--text-muted);
+}
+
+.palette-empty {
+  padding: var(--space-4);
+  text-align: center;
+  font-size: var(--text-sm);
+  color: var(--text-muted);
+}
+
+.palette-footer {
+  display: flex;
+  gap: var(--space-4);
+  padding: var(--space-2) var(--space-4);
+  border-top: 1px solid var(--border-default);
+  font-size: var(--text-xs);
+  color: var(--text-muted);
+}
+
+/* ── 02 · Ghost text ── */
+.ghost-wrap {
+  position: relative;
+  width: min(480px, 100%);
+  background: var(--surface-default);
+  border: 1px solid var(--border-strong);
+  border-radius: var(--radius-md);
+}
+
+.ghost-wrap:focus-within {
+  outline: 2px solid var(--focus-ring);
+  outline-offset: 2px;
+}
+
+.ghost-input,
+.ghost-underlay {
+  font-family: var(--font-mono);
+  font-size: var(--text-md);
+  line-height: var(--leading-normal);
+  padding: var(--space-3) var(--space-4);
+}
+
+.ghost-underlay {
+  position: absolute;
+  inset: 0;
+  white-space: pre;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+/* The underlay mirrors the typed text invisibly so the completion starts
+ * exactly where the caret is; the input sits on top with no background. */
+.ghost-typed {
+  color: transparent;
+}
+
+.ghost-completion {
+  color: var(--text-muted);
+}
+
+.ghost-input {
+  position: relative;
+  width: 100%;
+  background: transparent;
+  border: none;
+  color: var(--text-primary);
+  caret-color: var(--accent-default);
+}
+
+.ghost-input:focus-visible {
+  outline: none; /* the wrap's focus-within ring covers it */
+}
+
+.ghost-hint {
+  margin-top: var(--space-3);
+  font-size: var(--text-sm);
+  color: var(--text-muted);
+}
+
+/* ── 03 · Animated diff ── */
+.adiff-toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-4);
+  margin-bottom: var(--space-3);
+}
+
+.adiff-file {
+  font-family: var(--font-mono);
+  font-size: var(--text-sm);
+  color: var(--text-secondary);
+}
+
+.adiff-code {
+  background: var(--bg-subtle);
+  border: 1px solid var(--border-default);
+  border-radius: var(--radius-md);
+  padding: var(--space-4) 0;
+  overflow-x: auto;
+  font-family: var(--font-mono);
+  font-size: var(--text-xs);
+  line-height: var(--leading-normal);
+}
+
+.adiff-line {
+  display: flex;
+  gap: var(--space-2);
+  padding: 0 var(--space-4);
+  max-height: 2em;
+  transition: max-height var(--duration-base) var(--ease-out),
+    opacity var(--duration-base) var(--ease-out),
+    transform var(--duration-base) var(--ease-out),
+    padding var(--duration-base) var(--ease-out);
+  transition-delay: calc(var(--line-index) * 45ms);
+}
+
+.adiff-line.is-hidden {
+  max-height: 0;
+  opacity: 0;
+  transform: translateX(-8px);
+  overflow: hidden;
+}
+
+.adiff-gutter {
+  flex: none;
+  width: 1.5ch;
+  text-align: center;
+  color: var(--text-muted);
+  user-select: none;
+}
+
+.adiff-line-add {
+  background: var(--status-success-soft);
+}
+
+.adiff-line-add .adiff-gutter {
+  color: var(--status-success);
+}
+
+.adiff-line-del {
+  background: var(--status-error-soft);
+}
+
+.adiff-line-del .adiff-gutter {
+  color: var(--status-error);
+}
+
+.adiff-caption {
+  margin-top: var(--space-3);
+  font-family: var(--font-mono);
+  font-size: var(--text-sm);
+  color: var(--text-muted);
+}
+
+/* ── 04 · Streaming tokens ── */
+.stream-stage {
+  position: relative;
+  min-height: 10rem;
+  background: var(--bg-subtle);
+  border-radius: var(--radius-lg);
+  padding: var(--space-6);
+}
+
+.stream-text {
+  max-width: 60ch;
+}
+
+.stream-caret {
+  display: inline-block;
+  width: 0.55ch;
+  height: 1.05em;
+  margin-left: 2px;
+  vertical-align: text-bottom;
+  background: var(--accent-default);
+  animation: lab-blink 1.1s steps(1) infinite;
+}
+
+.stream-caret.is-thinking {
+  background: var(--accent-2-default);
+  animation: lab-pulse 1.1s var(--ease-in-out) infinite;
+}
+
+.stream-thinking-chip {
+  display: inline-block;
+  margin-left: var(--space-2);
+  padding: var(--space-1) var(--space-2);
+  border-radius: var(--radius-full);
+  background: var(--accent-2-soft);
+  color: var(--accent-2-strong);
+  font-family: var(--font-mono);
+  font-size: var(--text-xs);
+  animation: lab-pulse 1.4s var(--ease-in-out) infinite;
+}
+
+.stream-placeholder {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  font-family: var(--font-mono);
+  font-size: var(--text-sm);
+  color: var(--text-muted);
+}
+
+.stream-controls {
+  margin-top: var(--space-4);
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-3);
+}
+
+.stream-speed {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  font-family: var(--font-mono);
+  font-size: var(--text-xs);
+  color: var(--text-secondary);
+}
+
+.stream-speed input[type="range"] {
+  width: 10rem;
+  accent-color: var(--accent-default);
+}
+
+.stream-speed-value {
+  min-width: 5ch;
+}
+
+/* ── 05 · Motion toy ── */
+.toy-arena {
+  display: grid;
+  place-items: center;
+  min-height: 15rem;
+  border: 1px solid var(--border-default);
+  border-radius: var(--radius-lg);
+  background-image: radial-gradient(var(--border-default) 1px, transparent 1px);
+  background-size: var(--space-4) var(--space-4);
+}
+
+.toy-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-1);
+  padding: var(--space-6) var(--space-8);
+  background: var(--surface-raised);
+  border: 1px solid var(--border-default);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-md);
+  cursor: grab;
+  touch-action: none;
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+.toy-card.is-dragging {
+  cursor: grabbing;
+  box-shadow: var(--shadow-lg);
+}
+
+.toy-card-title {
+  font-weight: var(--weight-semibold);
+}
+
+.toy-card-sub {
+  font-size: var(--text-sm);
+  color: var(--text-muted);
+}
+
+.toy-controls {
+  margin-top: var(--space-6);
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-4);
+}
+
+.toy-group {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-3);
+  border: 1px solid var(--border-default);
+  border-radius: var(--radius-md);
+  padding: var(--space-2) var(--space-4) var(--space-3);
+}
+
+.toy-group[disabled] {
+  opacity: 0.5;
+}
+
+.toy-group legend {
+  padding: 0 var(--space-1);
+  font-family: var(--font-mono);
+  font-size: var(--text-xs);
+  color: var(--text-muted);
+}
+
+.toy-radio {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-1);
+  font-family: var(--font-mono);
+  font-size: var(--text-xs);
+  cursor: pointer;
+}
+
+.toy-radio input {
+  accent-color: var(--accent-default);
+}
+
+.toy-readout {
+  margin-top: var(--space-3);
+  font-size: var(--text-xs);
+  color: var(--text-muted);
+}
+
+.toy-readout code {
+  font-family: var(--font-mono);
+}
