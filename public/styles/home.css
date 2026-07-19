@@ -385,15 +385,15 @@ html.smiski-live .hello-ring {
   position: absolute;
   inset: 0;
   border-radius: 50%;
-  border: 2px solid color-mix(in srgb, var(--status-success) 70%, white);
+  border: 2px solid color-mix(in srgb, var(--accent-2-default) 60%, white);
   background: radial-gradient(
     circle,
-    color-mix(in srgb, var(--status-success) 22%, transparent) 0%,
+    color-mix(in srgb, var(--accent-2-default) 20%, transparent) 0%,
     transparent 68%
   );
   box-shadow:
-    0 0 28px color-mix(in srgb, var(--status-success) 50%, transparent),
-    inset 0 0 34px color-mix(in srgb, var(--status-success) 30%, transparent);
+    0 0 28px color-mix(in srgb, var(--accent-2-default) 45%, transparent),
+    inset 0 0 34px color-mix(in srgb, var(--accent-2-default) 28%, transparent);
   animation: ring-pulse 2.4s var(--ease-in-out) infinite;
 }
 
@@ -402,7 +402,7 @@ html.smiski-live .hello-ring {
   position: absolute;
   inset: 0;
   border-radius: 50%;
-  border: 1.5px solid color-mix(in srgb, var(--status-success) 55%, transparent);
+  border: 1.5px solid color-mix(in srgb, var(--accent-2-default) 50%, transparent);
   animation: ring-ripple 2.4s var(--ease-out) infinite;
 }
 
