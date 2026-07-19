@@ -166,7 +166,7 @@ body.lab kbd {
   border-radius: var(--radius-lg);
   box-shadow: var(--shadow-lg);
   overflow: hidden;
-  animation: lab-pop-in var(--duration-fast) var(--ease-out);
+  animation: lab-pop-in var(--duration-base) var(--ease-spring);
 }
 
 .palette-input {

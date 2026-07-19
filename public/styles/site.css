@@ -58,6 +58,7 @@
 .theme-toggle {
   border: 1px solid var(--border-default);
   background: var(--surface-default);
+  color: var(--text-primary);
   border-radius: var(--radius-full);
   width: 36px;
   height: 36px;
@@ -69,6 +70,23 @@
 
 .theme-toggle:hover {
   border-color: var(--border-strong);
+}
+
+.theme-toggle:active .icon {
+  transform: scale(0.9);
+}
+
+.theme-toggle .icon {
+  vertical-align: middle;
+  transition: transform var(--duration-press) var(--ease-out);
+  animation: icon-arrive var(--duration-base) var(--ease-spring);
+}
+
+@keyframes icon-arrive {
+  from {
+    transform: rotate(-90deg);
+    opacity: 0;
+  }
 }
 
 /* Phones: logo on its own row with the toggle pinned to the corner, and
@@ -156,21 +174,6 @@
   background: var(--surface-default);
 }
 
-.wave {
-  color: var(--surface-default);
-  line-height: 0;
-}
-
-.wave svg {
-  display: block;
-  width: 100%;
-  height: clamp(36px, 6vw, 72px);
-}
-
-.wave-flip svg {
-  transform: rotate(180deg);
-}
-
 /* Sections rise in as they enter the viewport (scroll-driven animation;
  * browsers without support simply show them static). */
 @supports (animation-timeline: view()) {
@@ -252,35 +255,28 @@
   color: var(--accent-strong);
 }
 
-/* ── Tags ── */
+/* ── Tags — one taxonomy, three kinds (see tokens.css) ── */
 .tag {
   display: inline-block;
   padding: var(--space-1) var(--space-3);
   border-radius: var(--radius-full);
   font-size: var(--text-xs);
   font-weight: var(--weight-semibold);
-  background: var(--accent-2-soft);
-  color: var(--accent-2-default);
 }
 
-.tag-blush {
-  background: var(--accent-soft);
-  color: var(--accent-strong);
+.tag--platform {
+  background: var(--tag-platform-bg);
+  color: var(--tag-platform-fg);
 }
 
-.tag-sage {
-  background: var(--status-success-soft);
-  color: var(--status-success);
+.tag--discipline {
+  background: var(--tag-discipline-bg);
+  color: var(--tag-discipline-fg);
 }
 
-.tag-sky {
-  background: var(--status-info-soft);
-  color: var(--status-info);
-}
-
-.tag-butter {
-  background: var(--status-warning-soft);
-  color: var(--status-warning);
+.tag--recognition {
+  background: var(--tag-recognition-bg);
+  color: var(--tag-recognition-fg);
 }
 
 .tag-row {
@@ -401,9 +397,17 @@
     box-shadow var(--duration-base) var(--ease-out);
 }
 
+/* "Settle": lift arrives fast, lands soft — hover overrides the duration
+ * on the way in; the base rule carries the slower way back. */
 .card:hover {
   transform: translateY(-4px);
   box-shadow: var(--shadow-lg);
+  transition-duration: var(--duration-fast);
+}
+
+.card:active {
+  transform: translateY(-2px) scale(0.98);
+  transition-duration: var(--duration-press);
 }
 
 .card h3 {
@@ -420,6 +424,11 @@
   font-size: var(--text-sm);
   font-weight: var(--weight-medium);
   color: var(--accent-2-strong);
+}
+
+.card-award .icon,
+.flagship-metric .icon {
+  margin-right: var(--space-1);
 }
 
 /* ── Simple list (publications, talks) ── */
@@ -474,11 +483,12 @@
 }
 
 /* ── Scroll reveal ── */
+/* "Rise": entrances settle with a slight spring on the transform only. */
 [data-reveal] {
   opacity: 0;
   transform: translateY(16px);
   transition: opacity var(--duration-slow) var(--ease-out),
-    transform var(--duration-slow) var(--ease-out);
+    transform var(--duration-slow) var(--ease-spring);
 }
 
 [data-reveal].is-revealed {

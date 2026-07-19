@@ -284,3 +284,8 @@ body.home.is-djing::before {
     animation: none;
   }
 }
+
+.dj-deck:active {
+  transform: scale(0.96);
+  transition-duration: var(--duration-press);
+}

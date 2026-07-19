@@ -153,13 +153,16 @@ body.home {
   }
 }
 
-.wave-into-blush {
-  color: var(--band-blush);
+/* Bands meet on 1px hairlines — atmosphere comes from the palette,
+ * not shaped edges. */
+.intro,
+.band,
+.band-rose {
+  border-top: 1px solid var(--border-default);
 }
 
-.wave-out-blush {
-  background: var(--band-blush);
-  color: var(--surface-default);
+#offclock {
+  border-bottom: 1px solid var(--border-default);
 }
 
 /* The resume and everything below sit on plain surface. */
@@ -251,16 +254,6 @@ body.home {
 }
 
 /* ── Experience: a sticker sheet on its own rose band ── */
-.wave-into-rose {
-  background: var(--surface-default);
-  color: var(--band-rose);
-}
-
-.wave-out-rose {
-  background: var(--band-rose);
-  color: var(--surface-default);
-}
-
 .band-rose {
   background: var(--band-rose);
 }
@@ -344,6 +337,12 @@ body.home {
 .project-card:hover {
   transform: translateY(-4px);
   box-shadow: var(--shadow-lg);
+  transition-duration: var(--duration-fast);
+}
+
+.project-card:active {
+  transform: translateY(-2px) scale(0.99);
+  transition-duration: var(--duration-press);
 }
 
 .project-card-img {
@@ -355,7 +354,7 @@ body.home {
 }
 
 .project-card-body {
-  padding: var(--space-4) var(--space-6) var(--space-6);
+  padding: var(--space-6);
 }
 
 .project-card-body h3 {
@@ -376,6 +375,13 @@ body.home {
 a.project-card {
   color: inherit;
   text-decoration: none;
+}
+
+/* Shared element: the Waddl card's title glides into the case-study h1
+ * via the cross-document view transition already enabled site-wide
+ * (waddl.css names the h1 to match). */
+.project-card--waddl h3 {
+  view-transition-name: waddl-title;
 }
 
 a.project-card:hover {
@@ -493,14 +499,22 @@ body.has-modal {
   -webkit-backdrop-filter: blur(3px);
 }
 
+/* "Pop": dialogs scale in on the spring so they land, not stop. */
 .project-modal[open] {
-  animation: modal-pop var(--duration-base) var(--ease-out);
+  animation: modal-pop var(--duration-base) var(--ease-spring);
+}
+
+/* When a shared-element view transition carries the card into the modal,
+ * the pop would fight the morph — the transition is the entrance. */
+.project-modal[data-vt][open],
+.project-modal[data-vt][open]::backdrop {
+  animation: none;
 }
 
 @keyframes modal-pop {
   from {
     opacity: 0;
-    transform: translateY(16px) scale(0.94);
+    transform: translateY(16px) scale(0.96);
   }
 }
 
@@ -538,6 +552,15 @@ body.has-modal {
 
 .project-modal-close:hover {
   background: var(--surface-hover);
+}
+
+.project-modal-close .icon {
+  vertical-align: middle;
+  transition: transform var(--duration-fast) var(--ease-out);
+}
+
+.project-modal-close:hover .icon {
+  transform: rotate(90deg);
 }
 
 .project-modal-img {

@@ -2,6 +2,9 @@
 // initSiteChrome is exposed globally so soft navigation (nav.js) can
 // re-bind after swapping in a new page's content.
 
+const prefersReducedMotion = () =>
+  window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
 function initThemeToggle() {
   const root = document.documentElement;
   const toggle = document.getElementById("theme-toggle");
@@ -15,15 +18,30 @@ function initThemeToggle() {
 
   function renderToggle() {
     const dark = resolveTheme() === "dark";
-    toggle.textContent = dark ? "☀️" : "🌙";
+    toggle.innerHTML = `<svg class="icon" aria-hidden="true"><use href="/images/icons.svg#${dark ? "sun" : "moon"}"></use></svg>`;
     toggle.setAttribute("aria-label", dark ? "Switch to light mode" : "Switch to dark mode");
+  }
+
+  function applyTheme(next) {
+    root.dataset.theme = next;
+    localStorage.setItem("theme", next);
+    renderToggle();
   }
 
   function toggleTheme() {
     const next = resolveTheme() === "dark" ? "light" : "dark";
-    root.dataset.theme = next;
-    localStorage.setItem("theme", next);
-    renderToggle();
+    if (!document.startViewTransition || prefersReducedMotion()) {
+      applyTheme(next);
+      return;
+    }
+    // Radial wipe from the toggle (rules in base.css). The data attribute
+    // scopes the wipe so navigation transitions keep their crossfade.
+    const rect = toggle.getBoundingClientRect();
+    root.style.setProperty("--wipe-x", `${rect.left + rect.width / 2}px`);
+    root.style.setProperty("--wipe-y", `${rect.top + rect.height / 2}px`);
+    root.setAttribute("data-theme-wipe", "");
+    const transition = document.startViewTransition(() => applyTheme(next));
+    transition.finished.finally(() => root.removeAttribute("data-theme-wipe"));
   }
 
   toggle.addEventListener("click", toggleTheme);
@@ -145,15 +163,46 @@ function initProjectModal() {
   const info = modal.querySelector(".project-modal-info");
   let trigger = null;
 
+  // The card's screenshot morphs into the modal's (and back on close)
+  // via a same-document view transition; without support it's the pop.
+  function morph(fromImage, toImage, update) {
+    if (!document.startViewTransition || prefersReducedMotion()) {
+      update();
+      return;
+    }
+    modal.dataset.vt = "1";
+    fromImage.style.viewTransitionName = "project-media";
+    const transition = document.startViewTransition(() => {
+      fromImage.style.viewTransitionName = "";
+      toImage.style.viewTransitionName = "project-media";
+      update();
+    });
+    transition.finished.finally(() => {
+      toImage.style.viewTransitionName = "";
+      delete modal.dataset.vt;
+    });
+  }
+
   function openModal(card) {
     const cardImage = card.querySelector(".project-card-img");
-    image.src = cardImage.src;
-    image.alt = cardImage.alt;
-    title.textContent = card.querySelector("h3").textContent;
-    info.innerHTML = card.querySelector(".project-card-details")?.innerHTML ?? "";
     trigger = card;
-    modal.showModal();
-    document.body.classList.add("has-modal");
+    morph(cardImage, image, () => {
+      image.src = cardImage.src;
+      image.alt = cardImage.alt;
+      title.textContent = card.querySelector("h3").textContent;
+      info.innerHTML = card.querySelector(".project-card-details")?.innerHTML ?? "";
+      modal.showModal();
+      document.body.classList.add("has-modal");
+    });
+  }
+
+  function closeModal() {
+    const cardImage = trigger?.querySelector(".project-card-img");
+    if (!cardImage) {
+      modal.close();
+      return;
+    }
+    morph(image, cardImage, () => modal.close());
   }
 
   for (const card of document.querySelectorAll('.project-card[aria-haspopup="dialog"]')) {
@@ -166,10 +215,10 @@ function initProjectModal() {
     });
   }
 
-  modal.querySelector(".project-modal-close").addEventListener("click", () => modal.close());
+  modal.querySelector(".project-modal-close").addEventListener("click", closeModal);
   // A click on the backdrop targets the dialog itself, not its contents.
   modal.addEventListener("click", (event) => {
-    if (event.target === modal) modal.close();
+    if (event.target === modal) closeModal();
   });
   modal.addEventListener("close", () => {
     document.body.classList.remove("has-modal");

@@ -120,11 +120,19 @@
   --radius-full: 999px;
 
   /* ── Motion ── */
+  --duration-press: 80ms;  /* pressed states */
   --duration-fast: 150ms;  /* hovers, toggles */
   --duration-base: 250ms;  /* most transitions */
   --duration-slow: 400ms;  /* entrances, page-level */
   --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
   --ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);
+  /* Gentle spring (~8% overshoot) for entrances that should settle, not
+   * just stop. Transform-only — never on opacity or color. */
+  --ease-spring: linear(
+    0, 0.063, 0.226, 0.443, 0.66, 0.838, 0.964,
+    1.041, 1.077, 1.083, 1.068, 1.042, 1.019,
+    1.004, 0.996, 0.995, 0.998, 1
+  );
 
   /* ── Semantic tokens — LIGHT (default) ── */
   color-scheme: light;
@@ -154,6 +162,17 @@
   --accent-2-soft: var(--apricot-100);
 
   --focus-ring: var(--blush-400);
+
+  /* Tag taxonomy — every tag is one of three kinds, always the same color:
+   * platform (what it's built with), discipline (what kind of work),
+   * recognition (awards, status). Aliases of semantic tokens, so they
+   * remap between themes for free. */
+  --tag-platform-bg: var(--accent-soft);
+  --tag-platform-fg: var(--accent-strong);
+  --tag-discipline-bg: var(--status-info-soft);
+  --tag-discipline-fg: var(--status-info);
+  --tag-recognition-bg: var(--status-warning-soft);
+  --tag-recognition-fg: var(--status-warning);
 
   --status-success: var(--sage-700);
   --status-success-soft: var(--sage-100);

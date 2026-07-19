@@ -115,6 +115,12 @@
       .swatch:hover {
         transform: translateY(-2px);
         box-shadow: var(--shadow-md);
+        transition-duration: var(--duration-fast);
+      }
+
+      .swatch:active {
+        transform: scale(0.97);
+        transition-duration: var(--duration-press);
       }
 
       .swatch-chip {
@@ -285,6 +291,144 @@
         font-weight: var(--weight-semibold);
       }
 
+      .tag--platform {
+        background: var(--tag-platform-bg);
+        color: var(--tag-platform-fg);
+      }
+
+      .tag--discipline {
+        background: var(--tag-discipline-bg);
+        color: var(--tag-discipline-fg);
+      }
+
+      .tag--recognition {
+        background: var(--tag-recognition-bg);
+        color: var(--tag-recognition-fg);
+      }
+
+      /* ── Motion demos ── */
+      .motion-list {
+        margin-top: var(--space-6);
+        display: grid;
+        gap: var(--space-3);
+      }
+
+      .motion-row {
+        display: flex;
+        align-items: center;
+        gap: var(--space-6);
+        border: 1px solid var(--border-default);
+        border-radius: var(--radius-md);
+        background: var(--surface-default);
+        padding: var(--space-3) var(--space-4);
+        width: 100%;
+        font: inherit;
+        text-align: left;
+        color: var(--text-primary);
+        cursor: pointer;
+      }
+
+      .motion-label {
+        flex: none;
+        width: 200px;
+        font-family: var(--font-mono);
+        font-size: var(--text-xs);
+        color: var(--text-muted);
+      }
+
+      .motion-track {
+        flex: 1;
+        position: relative;
+        height: 16px;
+      }
+
+      .motion-dot {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 16px;
+        height: 16px;
+        border-radius: var(--radius-full);
+        background: var(--accent-default);
+      }
+
+      .motion-row.is-played .motion-dot {
+        transform: translateX(var(--travel, 0px));
+      }
+
+      .moves {
+        margin-top: var(--space-6);
+        display: flex;
+        flex-wrap: wrap;
+        gap: var(--space-4);
+      }
+
+      .move {
+        width: 168px;
+        border: 1px solid var(--border-default);
+        border-radius: var(--radius-lg);
+        background: var(--surface-default);
+        box-shadow: var(--shadow-sm);
+        padding: var(--space-6) var(--space-4);
+        display: grid;
+        justify-items: center;
+        gap: var(--space-3);
+        cursor: pointer;
+        font: inherit;
+        text-align: center;
+        color: var(--text-primary);
+      }
+
+      .move-chip {
+        width: 56px;
+        height: 40px;
+        border-radius: var(--radius-md);
+        background: var(--accent-soft);
+        border: 1px solid var(--accent-default);
+      }
+
+      .move-name {
+        font-family: var(--font-mono);
+        font-size: var(--text-xs);
+        font-weight: var(--weight-semibold);
+      }
+
+      .move-note {
+        font-size: var(--text-xs);
+        color: var(--text-muted);
+      }
+
+      .move--rise.is-playing .move-chip {
+        animation: demo-rise var(--duration-slow) var(--ease-spring);
+      }
+
+      @keyframes demo-rise {
+        from {
+          opacity: 0;
+          transform: translateY(16px);
+        }
+      }
+
+      .move--settle .move-chip {
+        transition: transform var(--duration-base) var(--ease-out);
+      }
+
+      .move--settle:hover .move-chip {
+        transform: translateY(-4px);
+        transition-duration: var(--duration-fast);
+      }
+
+      .move--pop.is-playing .move-chip {
+        animation: demo-pop var(--duration-base) var(--ease-spring);
+      }
+
+      @keyframes demo-pop {
+        from {
+          opacity: 0;
+          transform: scale(0.96);
+        }
+      }
+
       .demo-card {
         margin-top: var(--space-6);
         max-width: 420px;
@@ -346,6 +490,11 @@
           Warm pastels, crisp surfaces, soft motion. Two token layers: named
           color sets (primitives) that never change, and semantic tokens that
           remap between light and dark. Click any swatch to copy its hex.
+        </p>
+        <p>
+          This isn't a spec page next to a website — every page on this site
+          renders from these exact tokens.
+          <a href="https://github.com/carissamercedesott/personal-website">View the source</a>.
         </p>
       </div>
 
@@ -435,6 +584,36 @@
         </div>
       </section>
 
+      <section id="motion">
+        <h2>Motion</h2>
+        <p>
+          Four durations, three easings, three named moves — <strong>rise</strong>
+          for entrances, <strong>settle</strong> for hovers (fast in, soft out),
+          <strong>pop</strong> for dialogs. Springs ride a
+          <code>linear()</code> curve, transform-only. With
+          <code>prefers-reduced-motion</code> set, everything on this site
+          renders in place — including these demos.
+        </p>
+        <div class="motion-list" id="motion-list"></div>
+        <div class="moves">
+          <button class="move move--rise" type="button">
+            <span class="move-chip" aria-hidden="true"></span>
+            <span class="move-name">rise</span>
+            <span class="move-note">entrances · slow + spring</span>
+          </button>
+          <button class="move move--settle" type="button">
+            <span class="move-chip" aria-hidden="true"></span>
+            <span class="move-name">settle</span>
+            <span class="move-note">hover me · fast in, base out</span>
+          </button>
+          <button class="move move--pop" type="button">
+            <span class="move-chip" aria-hidden="true"></span>
+            <span class="move-name">pop</span>
+            <span class="move-note">dialogs · base + spring</span>
+          </button>
+        </div>
+      </section>
+
       <section id="components">
         <h2>Components in the system</h2>
         <p>Buttons, tags, and a project card assembled purely from semantic tokens.</p>
@@ -443,12 +622,15 @@
           <button class="btn btn-secondary" type="button">Secondary</button>
           <button class="btn btn-ghost" type="button">Ghost</button>
         </div>
+        <p>
+          Tags follow one taxonomy — every tag is a <em>platform</em>,
+          a <em>discipline</em>, or a <em>recognition</em>, and each kind
+          keeps one color everywhere on the site.
+        </p>
         <div class="component-row">
-          <span class="tag" style="background: var(--accent-soft); color: var(--accent-strong)">Design</span>
-          <span class="tag" style="background: var(--accent-2-soft); color: var(--accent-2-default)">TypeScript</span>
-          <span class="tag" style="background: var(--status-success-soft); color: var(--status-success)">SolidJS</span>
-          <span class="tag" style="background: var(--status-info-soft); color: var(--status-info)">React</span>
-          <span class="tag" style="background: var(--status-warning-soft); color: var(--status-warning)">Animation</span>
+          <span class="tag tag--platform">Swift · platform</span>
+          <span class="tag tag--discipline">Algorithms · discipline</span>
+          <span class="tag tag--recognition">In progress · recognition</span>
         </div>
         <article class="demo-card">
           <span class="tag" style="background: var(--accent-2-soft); color: var(--accent-2-default)">Project</span>
@@ -494,6 +676,10 @@
         ["--accent-2-default", "secondary accent"],
         ["--accent-2-strong", "awards, metrics on light"],
         ["--focus-ring", "keyboard focus"],
+        ["--scrim", "overlay behind dialogs"],
+        ["--tag-platform-bg", "platform tags"],
+        ["--tag-discipline-bg", "discipline tags"],
+        ["--tag-recognition-bg", "recognition tags"],
         ["--status-success", "success text"],
         ["--status-error", "error text"],
         ["--status-info", "info text"],
@@ -576,9 +762,62 @@
         }
       }
 
+      function renderMotionRows() {
+        const container = document.getElementById("motion-list");
+        const rows = [
+          ["--duration-press", "--ease-out", "80ms · pressed states"],
+          ["--duration-fast", "--ease-out", "150ms · hovers, toggles"],
+          ["--duration-base", "--ease-out", "250ms · most transitions"],
+          ["--duration-slow", "--ease-out", "400ms · entrances"],
+          ["--duration-base", "--ease-in-out", "looping motion"],
+          ["--duration-slow", "--ease-spring", "entrances that settle"],
+        ];
+        for (const [duration, ease, note] of rows) {
+          const row = document.createElement("button");
+          row.className = "motion-row";
+          row.type = "button";
+          row.setAttribute("aria-label", `Play ${duration} with ${ease}`);
+          row.innerHTML =
+            '<span class="motion-label">' + duration + "<br>" + ease + '</span>' +
+            '<span class="motion-track"><span class="motion-dot" style="transition: transform var(' +
+            duration + ") var(" + ease + ')"></span></span>' +
+            '<span class="motion-label" style="width: auto">' + note + "</span>";
+          // Hover to play, hover off to return; click/Enter replays too.
+          row.addEventListener("mouseenter", () => row.classList.add("is-played"));
+          row.addEventListener("mouseleave", () => row.classList.remove("is-played"));
+          row.addEventListener("click", () => row.classList.toggle("is-played"));
+          container.appendChild(row);
+        }
+
+        // The dot travels the track's live width (a custom property, so
+        // the CSS transition stays declarative).
+        const measure = () => {
+          for (const track of container.querySelectorAll(".motion-track")) {
+            const dot = track.querySelector(".motion-dot");
+            dot.style.setProperty("--travel", `${track.clientWidth - dot.clientWidth}px`);
+          }
+        };
+        measure();
+        window.addEventListener("resize", measure);
+      }
+
+      function initMoveDemos() {
+        for (const move of document.querySelectorAll(".move--rise, .move--pop")) {
+          const replay = () => {
+            move.classList.remove("is-playing");
+            void move.offsetWidth; // restart the animation
+            move.classList.add("is-playing");
+          };
+          move.addEventListener("mouseenter", replay);
+          move.addEventListener("click", replay);
+        }
+      }
+
       renderFamilies();
       renderSemanticTokens();
       renderSpacing();
+      renderMotionRows();
+      initMoveDemos();
     </script>
   </body>
 </html>

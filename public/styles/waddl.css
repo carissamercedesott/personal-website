@@ -392,3 +392,8 @@
   font-size: var(--text-sm);
   color: var(--text-secondary);
 }
+
+/* Shared element: matches the homepage Waddl card title (home.css). */
+.page-title {
+  view-transition-name: waddl-title;
+}
