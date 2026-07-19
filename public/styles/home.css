@@ -698,6 +698,17 @@ a.project-card:hover {
   color: var(--accent-strong);
 }
 
+/* Flagships alternate: the second card flips its image to the right. */
+.project-card--waddl {
+  grid-template-columns: minmax(0, 5fr) minmax(0, 6fr);
+}
+
+.project-card--waddl .project-card-img {
+  order: 1;
+  border-right: none;
+  border-left: 1px solid var(--border-default);
+}
+
 @media (max-width: 760px) {
   .project-card--flagship {
     grid-template-columns: 1fr;
@@ -708,6 +719,12 @@ a.project-card:hover {
     aspect-ratio: 16 / 10;
     border-right: none;
     border-bottom: 1px solid var(--border-default);
+  }
+
+  /* Stacked layout: image back on top for every flagship. */
+  .project-card--waddl .project-card-img {
+    order: 0;
+    border-left: none;
   }
 
   .project-card--flagship .project-card-body {
