@@ -177,8 +177,9 @@ function initProjectModal() {
   function openModal(card) {
     const cardImage = card.querySelector(".project-card-img");
     trigger = card;
-    image.src = cardImage.src;
-    image.alt = cardImage.alt;
+    image.hidden = !cardImage;
+    image.src = cardImage?.src ?? "";
+    image.alt = cardImage?.alt ?? "";
     title.textContent = card.querySelector("h3").textContent;
     info.innerHTML = card.querySelector(".project-card-details")?.innerHTML ?? "";
     modal.showModal();
@@ -247,7 +248,7 @@ function initProjectModal() {
     });
   }
 
-  for (const card of document.querySelectorAll('.project-card[aria-haspopup="dialog"]')) {
+  for (const card of document.querySelectorAll('.project-card[aria-haspopup="dialog"], .card[aria-haspopup="dialog"]')) {
     card.addEventListener("click", () => openModal(card));
     card.addEventListener("keydown", (event) => {
       if (event.key === "Enter" || event.key === " ") {

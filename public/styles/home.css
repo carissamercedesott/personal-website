@@ -659,13 +659,29 @@ a.project-card:hover {
 }
 
 .project-card--flagship h3 {
-  font-size: var(--text-2xl);
+  font-size: var(--text-3xl);
   letter-spacing: var(--tracking-tight);
 }
 
 .project-card--flagship .project-card-body p {
   margin-top: 0;
+  font-size: var(--text-lg);
+  line-height: var(--leading-normal);
+}
+
+/* Work-section shelf cards read big and bare; the detail lives in the modal. */
+#work .card h3 {
+  font-size: var(--text-2xl);
+  letter-spacing: var(--tracking-tight);
+}
+
+#work .card > p {
   font-size: var(--text-md);
+  line-height: var(--leading-normal);
+}
+
+#work .card {
+  cursor: pointer;
 }
 
 .flagship-metric {
@@ -776,6 +792,11 @@ body.has-modal {
   aspect-ratio: 2 / 1;
   object-fit: cover;
   border-bottom: 1px solid var(--border-default);
+}
+
+/* Image-less cards (the shelf) open as text-only modals. */
+.project-modal-img[hidden] {
+  display: none;
 }
 
 .project-modal-body {
