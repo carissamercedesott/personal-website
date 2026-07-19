@@ -915,3 +915,52 @@ body.has-modal {
     display: none;
   }
 }
+
+/* ── Lab preview: live experiments embedded from /lab ── */
+.lab-preview {
+  margin-top: var(--space-8);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-10);
+}
+
+.lab-preview-item h3 {
+  font-size: var(--text-xl);
+}
+
+/* ── Design system teaser: real tokens, worn as chips ── */
+.token-strip {
+  margin-top: var(--space-6);
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-3);
+}
+
+.token-swatch {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  padding: var(--space-1) var(--space-3);
+  background: var(--surface-default);
+  border: 1px solid var(--border-default);
+  border-radius: var(--radius-full);
+  box-shadow: var(--shadow-sm);
+  font-family: var(--font-mono);
+  font-size: var(--text-xs);
+  color: var(--text-secondary);
+  transition: transform var(--duration-fast) var(--ease-out),
+    box-shadow var(--duration-fast) var(--ease-out);
+}
+
+.token-swatch:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-md);
+}
+
+.token-swatch i {
+  width: 14px;
+  height: 14px;
+  border-radius: var(--radius-full);
+  background: var(--swatch);
+  border: 1px solid var(--border-default);
+}

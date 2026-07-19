@@ -34,6 +34,7 @@
     <link rel="stylesheet" href="/styles/base.css" />
     <link rel="stylesheet" href="/styles/site.css" />
     <link rel="stylesheet" href="/styles/home.css" />
+    <link rel="stylesheet" href="/styles/lab.css" />
     <link rel="stylesheet" href="/styles/dj.css" />
     <script src="/scripts/theme.js"></script>
   </head>
@@ -42,10 +43,10 @@
       <nav class="site-nav">
         <a class="site-logo" href="#top">Carissa Ott</a>
         <div class="site-links">
-          <a href="#research">Research</a>
           <a href="#work">Work</a>
+          <a href="#lab-preview">Lab</a>
           <a href="/waddl">Waddl</a>
-          <a href="/lab">Lab</a>
+          <a href="#research">Research</a>
           <a href="#experience">Experience</a>
           <a href="/resume">Resume</a>
           <button class="theme-toggle" id="theme-toggle" type="button"></button>
@@ -101,55 +102,10 @@
         </div>
       </section>
 
-      <section class="page-section band" id="research">
-        <div class="section-inner">
-          <span class="section-label">01 · Research</span>
-          <h2>I think about how people think</h2>
-          <p class="section-lead">
-            Before I wrote production Swift, I studied cognitive science —
-            how preschoolers learn to talk, how brains process language. It's
-            still the lens I design through.
-          </p>
-          <div class="pub-list">
-            <article class="pub-item">
-              <h3>Canonical Proportion as a Phonological Index</h3>
-              <p>
-                "Connecting Preschoolers' Spontaneous Speech to Phonological
-                Development: A Longitudinal Cohort Study of Canonical
-                Proportion as a Phonological Index."
-              </p>
-              <span class="card-award"><svg class="icon" aria-hidden="true"><use href="/images/icons.svg#grad-cap"></use></svg> 1st author · Poster, LabPhon 20 (Feb 2026)</span>
-            </article>
-            <article class="pub-item">
-              <h3>Automated Vocal Analysis</h3>
-              <p>
-                "Can automated vocal analysis methods be used to predict
-                speech-language development?" — full paper and poster.
-              </p>
-              <span class="card-award"><svg class="icon" aria-hidden="true"><use href="/images/icons.svg#grad-cap"></use></svg> 1st author · Cognitive Science Society Proceedings 2025</span>
-            </article>
-            <article class="pub-item">
-              <h3>TEDx — "Building a Safer Headspace"</h3>
-              <p>
-                A TED talk on Chronic Traumatic Encephalopathy — chosen out
-                of 50 applicants.
-              </p>
-              <span class="card-award"><svg class="icon" aria-hidden="true"><use href="/images/icons.svg#mic"></use></svg> 3,300+ views on YouTube (2021)</span>
-            </article>
-          </div>
-          <p class="handoff">
-            <svg class="icon" aria-hidden="true"><use href="/images/icons.svg#arrow-down"></use></svg>
-            That's the research half of the loop: figuring out how people
-            take language in. The build half is what happens when you ship
-            that curiosity.
-          </p>
-        </div>
-      </section>
-
       <section class="page-section band" id="work">
         <div class="section-inner">
-          <span class="section-label">02 · Work</span>
-          <h2>So I build products that teach</h2>
+          <span class="section-label">01 · Work</span>
+          <h2>I build products that teach</h2>
           <p class="section-lead">
             Two builds I'd show first — then the rest of the shelf.
           </p>
@@ -300,6 +256,12 @@
             </div>
           </div>
 
+          <p class="handoff">
+            <svg class="icon" aria-hidden="true"><use href="/images/icons.svg#arrow-down"></use></svg>
+            That's what shipped. The lab is where I sharpen the instruments —
+            and two of its experiments are running right here.
+          </p>
+
         </div>
 
         <dialog class="project-modal" id="project-modal" aria-labelledby="project-modal-title">
@@ -312,9 +274,99 @@
         </dialog>
       </section>
 
+      <section class="page-section band-rose" id="lab-preview">
+        <div class="section-inner">
+          <span class="section-label">02 · Lab</span>
+          <h2>Live from the lab</h2>
+          <p class="section-lead">
+            Interaction experiments, running right on this page — TypeScript +
+            Solid on this site's design tokens. Keyboard-first, reduced-motion
+            aware, and each one ships its own source, right underneath.
+          </p>
+          <div class="lab-preview">
+            <article class="lab-preview-item" data-reveal>
+              <h3>Ghost-text autocomplete</h3>
+              <p class="experiment-desc">
+                Editor-style inline completions — the suggestion continues
+                exactly where your caret is, <kbd>Tab</kbd> accepts.
+              </p>
+              <div id="exp-ghost"></div>
+            </article>
+            <article class="lab-preview-item" data-reveal>
+              <h3>Animated diff</h3>
+              <p class="experiment-desc">
+                A code block that transitions between before and after, one
+                line at a time — removals fold away, additions slide in.
+              </p>
+              <div id="exp-diff"></div>
+            </article>
+          </div>
+          <a class="resume-link" href="/lab">Play with all six experiments →</a>
+        </div>
+      </section>
+
+      <section class="page-section band" id="design-system">
+        <div class="section-inner">
+          <span class="section-label">03 · Design system</span>
+          <h2>One system under all of it</h2>
+          <p class="section-lead">
+            Everything above runs on the same tokens — color, type, spacing,
+            radius, elevation, motion. This site is the system's first
+            customer.
+          </p>
+          <div class="token-strip" data-reveal>
+            <span class="token-swatch"><i style="--swatch: var(--blush-300)"></i>--blush-300</span>
+            <span class="token-swatch"><i style="--swatch: var(--blush-500)"></i>--blush-500</span>
+            <span class="token-swatch"><i style="--swatch: var(--apricot-300)"></i>--apricot-300</span>
+            <span class="token-swatch"><i style="--swatch: var(--sage-300)"></i>--sage-300</span>
+            <span class="token-swatch"><i style="--swatch: var(--oat-200)"></i>--oat-200</span>
+            <span class="token-swatch token-swatch--motion">hover · --ease-out / --duration-fast</span>
+          </div>
+          <a class="resume-link" href="/design">Explore the full design system →</a>
+        </div>
+      </section>
+
+      <section class="page-section band" id="research">
+        <div class="section-inner">
+          <span class="section-label">04 · Research</span>
+          <h2>I think about how people think</h2>
+          <p class="section-lead">
+            Before I wrote production Swift, I studied cognitive science —
+            how preschoolers learn to talk, how brains process language. It's
+            still the lens I design through.
+          </p>
+          <div class="pub-list">
+            <article class="pub-item">
+              <h3>Canonical Proportion as a Phonological Index</h3>
+              <p>
+                A longitudinal cohort study connecting preschoolers'
+                spontaneous speech to their phonological development.
+              </p>
+              <span class="card-award"><svg class="icon" aria-hidden="true"><use href="/images/icons.svg#grad-cap"></use></svg> 1st author · Poster, LabPhon 20 (Feb 2026)</span>
+            </article>
+            <article class="pub-item">
+              <h3>Automated Vocal Analysis</h3>
+              <p>
+                Can automated vocal analysis methods predict speech-language
+                development? Full paper and poster.
+              </p>
+              <span class="card-award"><svg class="icon" aria-hidden="true"><use href="/images/icons.svg#grad-cap"></use></svg> 1st author · Cognitive Science Society Proceedings 2025</span>
+            </article>
+            <article class="pub-item">
+              <h3>TEDx — "Building a Safer Headspace"</h3>
+              <p>
+                A TED talk on Chronic Traumatic Encephalopathy — chosen out
+                of 50 applicants.
+              </p>
+              <span class="card-award"><svg class="icon" aria-hidden="true"><use href="/images/icons.svg#mic"></use></svg> 3,300+ views on YouTube (2021)</span>
+            </article>
+          </div>
+        </div>
+      </section>
+
       <section class="page-section band-rose" id="experience">
         <div class="section-inner">
-          <span class="section-label">03 · Experience</span>
+          <span class="section-label">05 · Experience</span>
           <h2>What I do</h2>
           <a class="resume-link" href="/resume">See full resume →</a>
           <div class="exp-stickers">
@@ -341,7 +393,7 @@
 
       <section class="page-section band" id="offclock">
         <div class="section-inner">
-          <span class="section-label">04 · Interests</span>
+          <span class="section-label">06 · Interests</span>
           <h2>Off the clock</h2>
           <div class="card-grid offclock-grid">
             <article class="card" data-reveal>
@@ -376,6 +428,63 @@
           </div>
         </div>
       </section>
+
+      <section class="page-section band" id="colophon">
+        <div class="section-inner">
+          <span class="section-label">07 · Colophon</span>
+          <h2>How this site is built</h2>
+          <p class="section-lead">
+            The site is its own case study — every choice below is one I'd
+            defend in a design review.
+          </p>
+          <div class="pub-list">
+            <article class="pub-item">
+              <h3>Static first, framework never</h3>
+              <p>
+                Every page is hand-written HTML and CSS. Nothing hydrates,
+                and nothing ships that isn't used — the fastest JavaScript
+                is the JavaScript that never loads.
+              </p>
+            </article>
+            <article class="pub-item">
+              <h3>One token sheet under everything</h3>
+              <p>
+                Color, type, spacing, radii, elevation, and motion all live
+                in tokens.css. The design-system page renders its palette by
+                reading those variables live in the browser, so the docs
+                physically can't drift from the source.
+              </p>
+            </article>
+            <article class="pub-item">
+              <h3>Interactivity as Solid islands</h3>
+              <p>
+                The lab demos are TypeScript + Solid components, compiled
+                with Vite and mounted only where they appear. The 3D smiski
+                goes further — three.js and its physics engine load lazily,
+                and only if you scroll to him.
+              </p>
+            </article>
+            <article class="pub-item">
+              <h3>Motion with manners</h3>
+              <p>
+                Every animation runs on the easing and duration tokens and
+                steps aside for prefers-reduced-motion — and every
+                interaction works with a keyboard alone.
+              </p>
+            </article>
+            <article class="pub-item">
+              <h3>A turntable, synthesized</h3>
+              <p>
+                The corner record player's lo-fi loop is pure Web Audio —
+                oscillators, filtered noise, vinyl crackle from a sparse
+                noise buffer. No samples. Drag the BPM and the whole site
+                keeps time.
+              </p>
+            </article>
+          </div>
+          <a class="resume-link" href="https://github.com/carissamercedesott/personal-website">Read the source →</a>
+        </div>
+      </section>
     </main>
 
     <footer class="site-footer">
@@ -394,5 +503,6 @@
     <script src="/scripts/keys.js"></script>
     <script src="/scripts/dj.js"></script>
     <script type="module" src="/lab/walker.js"></script>
+    <script type="module" src="/lab/lab.js"></script>
   </body>
 </html>

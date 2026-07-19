@@ -12,7 +12,8 @@
   white-space: nowrap;
 }
 
-body.lab kbd {
+body.lab kbd,
+.lab-preview kbd {
   font-family: var(--font-mono);
   font-size: var(--text-xs);
   padding: 0 var(--space-1);
