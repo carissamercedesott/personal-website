@@ -52,7 +52,7 @@ const k = 92, re = 0.9, Xe = 2.6, j = (w) => {
       document.documentElement.scrollHeight - window.innerHeight
     ), !qt) return;
     const t = qt.getBoundingClientRect(), e = t.top + window.scrollY, o = e + t.height;
-    ht = e - d * 0.72, ut = e - d * 0.34, _ = Math.max(o - d * 0.5, ut + 80), U = Math.max(o - d * 0.1, _ + 240);
+    ht = e - d * 0.68, ut = e - d * 0.05, _ = Math.max(o - d * 0.5, ut + 80), U = Math.max(o - d * 0.1, _ + 240);
   }, Rt = () => {
     G = window.innerWidth, d = window.innerHeight, y.setSize(G, d), q = G / k, Y = d / k, T.right = q, T.top = Y, T.updateProjectionMatrix(), ce.position.set(0.2, 0, 0), le.position.set(q - 0.2, 0, 0), pe.position.set(0, Y - 0.15, 0), At();
   };

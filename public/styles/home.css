@@ -94,12 +94,36 @@ body.home {
   text-underline-offset: 3px;
 }
 
-.hero-scroll-cue {
-  justify-self: center;
-  margin-top: var(--space-12);
-  color: var(--text-muted);
-  font-size: var(--text-lg);
+/* The way onward: a round button on the right, sitting at the same
+ * height as the smiski's perch on the left. Clicking it smooth-scrolls
+ * to #intro, and the scroll is what swings him into the ring. */
+.hero .hero-next {
+  position: absolute;
+  right: clamp(24px, 9vw, 150px);
+  bottom: clamp(56px, 15vh, 170px);
+  display: grid;
+  place-items: center;
+  width: 56px;
+  height: 56px;
+  border-radius: var(--radius-full);
+  background: var(--surface-raised);
+  border: 1px solid var(--border-default);
+  color: var(--accent-strong);
+  box-shadow: var(--shadow-sm);
   animation: cue-float 2.2s var(--ease-in-out) infinite;
+  transition: box-shadow var(--duration-fast) var(--ease-out),
+    background var(--duration-fast) var(--ease-out);
+}
+
+.hero-next .icon {
+  width: 22px;
+  height: 22px;
+}
+
+.hero-next:hover {
+  background: var(--surface-hover);
+  box-shadow: var(--shadow-md);
+  color: var(--accent-hover);
 }
 
 @keyframes cue-float {
@@ -114,7 +138,7 @@ body.home {
 
 @media (prefers-reduced-motion: reduce) {
   .hero-type-cursor,
-  .hero-scroll-cue {
+  .hero-next {
     animation: none;
   }
 }
@@ -296,6 +320,19 @@ html:not(.smiski-live) .hello-stage {
   display: none;
 }
 
+/* With the guide running, hello-world is a full-screen act of its own:
+ * the section fills the viewport so the smiski is settled and spinning
+ * in the ring exactly when the section is centered on screen. */
+html.smiski-live .intro {
+  min-height: 100svh;
+  display: flex;
+  align-items: center;
+}
+
+html.smiski-live .intro > .section-inner {
+  width: 100%;
+}
+
 /* Where the smiski sits during the hero act. Just an invisible anchor —
  * the 3D scene reads its rect and parks the mossy mound there. */
 .hero .hero-perch {
@@ -353,13 +390,6 @@ html.smiski-live .hello-ring {
   animation: ring-ripple 2.4s var(--ease-out) infinite;
 }
 
-/* The inscribed square — the Vitruvian Man's other frame. */
-.hello-ring-square {
-  position: absolute;
-  inset: 14.5%;
-  border: 1px solid color-mix(in srgb, var(--status-success) 35%, transparent);
-}
-
 @keyframes ring-pulse {
   0%,
   100% {
@@ -402,45 +432,6 @@ html.smiski-live .hello-ring {
   margin-top: var(--space-2);
   font-size: var(--text-4xl);
   letter-spacing: var(--tracking-tight);
-}
-
-/* Vinyl stickers: logo cutouts with a white die-cut border (stacked
- * drop-shadows follow the cutout's silhouette), scattered sporadically. */
-.sticker-scatter {
-  position: absolute;
-  inset: 0;
-  pointer-events: none;
-}
-
-.sticker {
-  position: absolute;
-  width: var(--size, 90px);
-  height: auto;
-  pointer-events: auto;
-  transform: rotate(var(--tilt, 0deg));
-  filter: drop-shadow(0 8px 10px rgba(35, 30, 27, 0.25));
-  transition: transform var(--duration-base) var(--ease-out);
-}
-
-.sticker:hover {
-  transform: rotate(0deg) scale(1.12);
-}
-
-@media (max-width: 720px) {
-  .sticker-scatter {
-    position: static;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: var(--space-4);
-    margin-top: var(--space-4);
-  }
-
-  /* Scaled down from the scattered desktop sizes so all three fit one row. */
-  .sticker {
-    position: static;
-    width: calc(var(--size, 90px) * 0.75);
-  }
 }
 
 /* ── Experience: a sticker sheet on its own rose band ── */

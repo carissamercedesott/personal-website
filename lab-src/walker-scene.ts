@@ -150,10 +150,11 @@ export const createSmiskiWalker = () => {
     const rect = introEl.getBoundingClientRect();
     const introTop = rect.top + window.scrollY;
     const introBottom = introTop + rect.height;
-    // The drop completes while the intro is still entering, so by the
-    // time the section rests in view he's already floating in the ring.
-    dropStart = introTop - viewH * 0.72;
-    dropEnd = introTop - viewH * 0.34;
+    // The intro is a full-viewport act: the drop scrubs while it slides
+    // in and finishes right as it fills the screen, so he's settled and
+    // spinning in the ring exactly when the section is centered.
+    dropStart = introTop - viewH * 0.68;
+    dropEnd = introTop - viewH * 0.05;
     walkStart = Math.max(introBottom - viewH * 0.5, dropEnd + 80);
     walkEnd = Math.max(introBottom - viewH * 0.1, walkStart + 240);
   };
