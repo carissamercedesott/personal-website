@@ -114,7 +114,14 @@ body.home {
   box-shadow: var(--shadow-sm);
   animation: cue-float 2.2s var(--ease-in-out) infinite;
   transition: box-shadow var(--duration-fast) var(--ease-out),
-    background var(--duration-fast) var(--ease-out);
+    background var(--duration-fast) var(--ease-out),
+    opacity var(--duration-base) var(--ease-out);
+}
+
+/* site.js stamps is-spent once the visitor starts scrolling. */
+.hero .hero-next.is-spent {
+  opacity: 0;
+  pointer-events: none;
 }
 
 .hero-next .icon {

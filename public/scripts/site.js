@@ -327,6 +327,18 @@ function initHeroGrid() {
   });
 }
 
+// The hero's scroll cue is a teaching device, not navigation: once the
+// visitor scrolls it has done its job, so it fades out rather than
+// sitting half-cut at the fold.
+function initHeroCue() {
+  const cue = document.querySelector(".hero-next");
+  if (!cue) return;
+
+  const update = () => cue.classList.toggle("is-spent", window.scrollY > 40);
+  window.addEventListener("scroll", update, { passive: true });
+  update();
+}
+
 function initSiteChrome() {
   initThemeToggle();
   initReveal();
@@ -334,6 +346,7 @@ function initSiteChrome() {
   initTypewriter();
   initProjectModal();
   initHeroGrid();
+  initHeroCue();
 }
 
 window.initSiteChrome = initSiteChrome;
