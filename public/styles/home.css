@@ -175,8 +175,7 @@ body.home {
 }
 
 .intro::before,
-.band-rose::before,
-.hero::before {
+.band-rose::before {
   content: "";
   position: absolute;
   inset: -25%;
@@ -213,6 +212,56 @@ body.home {
 
 .hero > * {
   position: relative;
+}
+
+/* Grid paper: the hero trades the aurora for a dot lattice riding the
+ * wash. A second, darker dot layer is masked to a circle around the
+ * cursor (initHeroGrid feeds --grid-x/y), so the dots ink in as the
+ * mouse passes over them. */
+.hero {
+  --grid-x: 50%;
+  --grid-y: 45%;
+}
+
+.hero::before,
+.hero::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background-image: radial-gradient(
+    circle,
+    color-mix(in srgb, var(--text-primary) 17%, transparent) 1.1px,
+    transparent 1.9px
+  );
+  background-size: 26px 26px;
+  background-position: 12px 14px;
+}
+
+.hero::after {
+  background-image: radial-gradient(
+    circle,
+    color-mix(in srgb, var(--text-primary) 62%, transparent) 1.3px,
+    transparent 2.1px
+  );
+  -webkit-mask-image: radial-gradient(
+    circle 170px at var(--grid-x) var(--grid-y),
+    #000 0%,
+    rgba(0, 0, 0, 0.45) 55%,
+    transparent 100%
+  );
+  mask-image: radial-gradient(
+    circle 170px at var(--grid-x) var(--grid-y),
+    #000 0%,
+    rgba(0, 0, 0, 0.45) 55%,
+    transparent 100%
+  );
+  opacity: 0;
+  transition: opacity var(--duration-base) var(--ease-out);
+}
+
+.hero.is-inked::after {
+  opacity: 1;
 }
 
 /* The resume and everything below sit on plain surface. */

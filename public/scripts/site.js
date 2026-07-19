@@ -274,12 +274,66 @@ function initProjectModal() {
   });
 }
 
+function initHeroGrid() {
+  const hero = document.querySelector(".hero");
+  if (!hero || window.matchMedia("(pointer: coarse)").matches) return;
+
+  // The darkening circle trails the cursor slightly (a soft "inking in"
+  // feel) — unless the visitor prefers reduced motion, then it sticks
+  // to the cursor directly.
+  let targetX = 0;
+  let targetY = 0;
+  let x = 0;
+  let y = 0;
+  let raf = 0;
+
+  const apply = () => {
+    hero.style.setProperty("--grid-x", `${x.toFixed(1)}px`);
+    hero.style.setProperty("--grid-y", `${y.toFixed(1)}px`);
+  };
+
+  const tick = () => {
+    x += (targetX - x) * 0.22;
+    y += (targetY - y) * 0.22;
+    apply();
+    if (Math.abs(targetX - x) + Math.abs(targetY - y) > 0.5) {
+      raf = requestAnimationFrame(tick);
+    } else {
+      raf = 0;
+    }
+  };
+
+  hero.addEventListener("pointermove", (event) => {
+    const rect = hero.getBoundingClientRect();
+    targetX = event.clientX - rect.left;
+    targetY = event.clientY - rect.top;
+    if (!hero.classList.contains("is-inked")) {
+      // First contact: start at the cursor instead of sweeping in.
+      x = targetX;
+      y = targetY;
+      hero.classList.add("is-inked");
+    }
+    if (prefersReducedMotion()) {
+      x = targetX;
+      y = targetY;
+      apply();
+    } else if (!raf) {
+      raf = requestAnimationFrame(tick);
+    }
+  });
+
+  hero.addEventListener("pointerleave", () => {
+    hero.classList.remove("is-inked");
+  });
+}
+
 function initSiteChrome() {
   initThemeToggle();
   initReveal();
   initScrollSpy();
   initTypewriter();
   initProjectModal();
+  initHeroGrid();
 }
 
 window.initSiteChrome = initSiteChrome;
