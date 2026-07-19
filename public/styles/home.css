@@ -450,6 +450,21 @@ html.smiski-live .hello-ring {
   letter-spacing: var(--tracking-tight);
 }
 
+.intro-bio {
+  margin-top: var(--space-4);
+  max-width: 44ch;
+  font-size: var(--text-lg);
+  color: var(--text-secondary);
+}
+
+.intro-bio + .intro-bio {
+  margin-top: var(--space-3);
+}
+
+.intro-bio strong {
+  color: var(--text-primary);
+}
+
 /* ── Experience: a sticker sheet on its own rose band ── */
 .band-rose {
   background: linear-gradient(
