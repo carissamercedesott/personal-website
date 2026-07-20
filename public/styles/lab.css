@@ -86,8 +86,12 @@ body.lab kbd,
   margin-top: var(--space-6);
 }
 
+/* Raised, not default: in dark mode --surface-default collapses to the same
+ * oat-900 as the bands these demos sit on (the homepage embeds them in a
+ * band-oat section), so a default-surface card would vanish into its band.
+ * --surface-raised (oat-800) keeps the card's edge; in light both are oat-0. */
 .experiment-demo {
-  background: var(--surface-default);
+  background: var(--surface-raised);
   border: 1px solid var(--border-default);
   border-radius: var(--radius-xl);
   padding: var(--space-8);
@@ -124,7 +128,7 @@ body.lab kbd,
   margin-top: var(--space-2);
   border: 1px solid var(--border-default);
   border-radius: var(--radius-md);
-  background: var(--surface-default);
+  background: var(--surface-raised);
   overflow: hidden;
   box-shadow: var(--shadow-sm);
 }

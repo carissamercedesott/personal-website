@@ -655,7 +655,9 @@ html.smiski-live .hello-ring {
 .project-card {
   display: flex;
   flex-direction: column;
-  background: var(--surface-default);
+  /* Raised so the flagship cards keep separation from the oat-900 #work band
+   * in dark mode (matches .card / .experiment-demo); no change in light. */
+  background: var(--surface-raised);
   border: 1px solid var(--border-default);
   border-radius: var(--radius-lg);
   overflow: hidden;
@@ -842,7 +844,7 @@ body.has-modal {
 }
 
 .project-modal::backdrop {
-  background: rgba(23, 19, 16, 0.45);
+  background: var(--scrim);
   backdrop-filter: blur(3px);
   -webkit-backdrop-filter: blur(3px);
 }
@@ -1261,6 +1263,123 @@ body.has-modal {
 @media (max-width: 640px) {
   .about-nav {
     display: none;
+  }
+}
+
+/* ── Contact: the closer. One card, one obvious action (email), the rest
+ * one hop away. Availability chip borrows the hero-duo's success voice. ── */
+.contact-card {
+  margin-top: var(--space-8);
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--space-6);
+  max-width: 620px;
+  padding: var(--space-8);
+  background: var(--surface-raised);
+  border: 1px solid var(--border-default);
+  border-radius: var(--radius-xl);
+  box-shadow: var(--shadow-md);
+}
+
+.contact-status {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  padding: 4px var(--space-3);
+  border-radius: var(--radius-full);
+  font-family: var(--font-mono);
+  font-size: var(--text-xs);
+  font-weight: var(--weight-semibold);
+  color: var(--status-success);
+  background: var(--status-success-soft);
+  border: 1px solid color-mix(in srgb, var(--status-success) 30%, transparent);
+}
+
+.contact-status-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: var(--radius-full);
+  background: var(--status-success);
+  animation: contact-pulse 2.4s var(--ease-in-out) infinite;
+}
+
+/* A soft sonar ring so "open to what's next" reads as a live signal. */
+@keyframes contact-pulse {
+  0% {
+    box-shadow: 0 0 0 0 color-mix(in srgb, var(--status-success) 55%, transparent);
+  }
+  70%,
+  100% {
+    box-shadow: 0 0 0 7px transparent;
+  }
+}
+
+/* The email: the biggest, most obvious action on the page's last screen.
+ * Address shown in full and in mono — copyable at a glance. */
+.contact-email {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-3);
+  padding: var(--space-4) var(--space-6);
+  font-family: var(--font-mono);
+  font-size: var(--text-md);
+  border-radius: var(--radius-lg);
+}
+
+.contact-email .icon {
+  width: 20px;
+  height: 20px;
+}
+
+.contact-channels {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-3);
+}
+
+.contact-channel {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  padding: var(--space-2) var(--space-4);
+  border-radius: var(--radius-full);
+  background: var(--surface-default);
+  border: 1px solid var(--border-default);
+  color: var(--text-secondary);
+  font-size: var(--text-sm);
+  font-weight: var(--weight-medium);
+  text-decoration: none;
+  box-shadow: var(--shadow-sm);
+  transition: color var(--duration-fast) var(--ease-out),
+    border-color var(--duration-fast) var(--ease-out),
+    transform var(--duration-fast) var(--ease-out);
+}
+
+.contact-channel:hover {
+  color: var(--accent-strong);
+  border-color: var(--accent-strong);
+  transform: translateY(-2px);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .contact-status-dot {
+    animation: none;
+  }
+
+  .contact-channel:hover {
+    transform: none;
+  }
+}
+
+@media (max-width: 640px) {
+  .contact-card {
+    padding: var(--space-6);
+    gap: var(--space-4);
+  }
+
+  .contact-email {
+    font-size: var(--text-sm);
   }
 }
 

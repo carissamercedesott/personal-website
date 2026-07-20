@@ -475,7 +475,9 @@ a.card {
   display: flex;
   flex-direction: column;
   gap: var(--space-3);
-  background: var(--surface-default);
+  /* Raised (oat-800 in dark) so cards keep an edge against the oat-900 bands
+   * they sit on; identical to --surface-default (oat-0) in light. */
+  background: var(--surface-raised);
   border: 1px solid var(--border-default);
   border-radius: var(--radius-lg);
   padding: var(--space-6);
