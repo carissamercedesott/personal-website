@@ -353,18 +353,18 @@ function initPrinciplesFlow() {
 
   const ctx = canvas.getContext("2d");
   const styles = getComputedStyle(canvas);
-  const SAMPLES = 56;
+  const SAMPLES = 72;
   const PULSE_MS = 2400; // the hello-ring's cadence
 
-  // Fixed per-strand wave recipes: layered sines drifting at different
-  // speeds read as fabric, and identical hue keeps it one stream.
+  // Fixed per-strand wave recipes: layered slow sines read as fabric, and
+  // a single hue keeps it one stream.
   const strands = Array.from({ length: 14 }, () => ({
     amp1: 0.03 + Math.random() * 0.05,
-    amp2: 0.012 + Math.random() * 0.025,
+    amp2: 0.008 + Math.random() * 0.016,
     f1: (1.1 + Math.random() * 0.9) * Math.PI * 2,
-    f2: (2.2 + Math.random() * 1.7) * Math.PI * 2,
-    s1: (Math.random() > 0.5 ? 1 : -1) * (0.00008 + Math.random() * 0.00014),
-    s2: (Math.random() > 0.5 ? 1 : -1) * (0.00005 + Math.random() * 0.0001),
+    f2: (2.2 + Math.random() * 1.5) * Math.PI * 2,
+    s1: (Math.random() > 0.5 ? 1 : -1) * (0.00006 + Math.random() * 0.0001),
+    s2: (Math.random() > 0.5 ? 1 : -1) * (0.00004 + Math.random() * 0.00008),
     p1: Math.random() * Math.PI * 2,
     p2: Math.random() * Math.PI * 2,
     alpha: 0.2 + Math.random() * 0.45,
@@ -372,7 +372,7 @@ function initPrinciplesFlow() {
   }));
 
   const sparkles = Array.from({ length: 26 }, () => ({
-    v: 0.04 + Math.random() * 0.92,
+    v: 0.06 + Math.random() * 0.88,
     off: (Math.random() - 0.5) * 0.16,
     r: 0.8 + Math.random() * 1.7,
     p: Math.random() * Math.PI * 2,
@@ -395,10 +395,32 @@ function initPrinciplesFlow() {
 
   // Centerline mirrors the braid's S: pockets around the three laws.
   const centerX = (v) => w * (0.5 + 0.28 * Math.sin(3 * Math.PI * v));
+  // Strands fan apart near the ends so the stream disperses instead of
+  // stopping on a hard edge.
+  const spread = (v) => {
+    const edge = v < 0.2 ? (0.2 - v) / 0.2 : v > 0.8 ? (v - 0.8) / 0.2 : 0;
+    return 1 + edge * edge * 1.2;
+  };
   const strandX = (strand, v, t) =>
     centerX(v) +
-    w * strand.amp1 * Math.sin(v * strand.f1 + t * strand.s1 + strand.p1) +
-    w * strand.amp2 * Math.sin(v * strand.f2 + t * strand.s2 + strand.p2);
+    spread(v) *
+      (w * strand.amp1 * Math.sin(v * strand.f1 + t * strand.s1 + strand.p1) +
+        w * strand.amp2 * Math.sin(v * strand.f2 + t * strand.s2 + strand.p2));
+
+  const hexToRgb = (hex) => {
+    const n = parseInt(hex.slice(1), 16);
+    return [(n >> 16) & 255, (n >> 8) & 255, n & 255];
+  };
+  // Vertical alpha ramp: the stream fades in from nothing and dissolves
+  // out, which the taper + spread together read as dispersal.
+  const taperGradient = ([r, g, b]) => {
+    const grad = ctx.createLinearGradient(0, 0, 0, h);
+    grad.addColorStop(0, `rgba(${r},${g},${b},0)`);
+    grad.addColorStop(0.16, `rgba(${r},${g},${b},1)`);
+    grad.addColorStop(0.84, `rgba(${r},${g},${b},1)`);
+    grad.addColorStop(1, `rgba(${r},${g},${b},0)`);
+    return grad;
+  };
 
   const draw = (t) => {
     const dark =
@@ -408,11 +430,19 @@ function initPrinciplesFlow() {
     const strandColor = styles.getPropertyValue("--flow-strand").trim();
     const glowColor = styles.getPropertyValue("--flow-glow").trim();
     const strength = parseFloat(styles.getPropertyValue("--flow-strength")) || 0.8;
-    const pulse = 0.78 + 0.22 * Math.sin((t / PULSE_MS) * Math.PI * 2);
+    const pulse = 0.8 + 0.2 * Math.sin((t / PULSE_MS) * Math.PI * 2);
+    const coreGrad = taperGradient(hexToRgb(strandColor));
+    const glowGrad = taperGradient(hexToRgb(glowColor));
+    // Dark wants restraint (additive stacks fast); light needs the bloom
+    // pushed hard to register on a bright wash.
+    const bloom = dark
+      ? { alpha: 0.22, widthMul: 6, blur: 30 }
+      : { alpha: 0.6, widthMul: 7, blur: 32 };
+    const core = dark
+      ? { alpha: 0.6, blur: 16 }
+      : { alpha: 0.85, blur: 12 };
 
     ctx.clearRect(0, 0, w, h);
-    // Additive light in the dark theme; warm silk over the light wash.
-    ctx.globalCompositeOperation = dark ? "lighter" : "source-over";
     ctx.lineCap = "round";
     ctx.lineJoin = "round";
     ctx.shadowColor = glowColor;
@@ -426,34 +456,40 @@ function initPrinciplesFlow() {
         if (i === 0) ctx.moveTo(x, y);
         else ctx.lineTo(x, y);
       }
-      // Bloom pass: fat, faint, heavily blurred.
-      ctx.strokeStyle = glowColor;
-      ctx.globalAlpha = strand.alpha * 0.5 * strength * pulse;
-      ctx.lineWidth = strand.width * 7;
-      ctx.shadowBlur = 26;
+      // Bloom pass: fat, faint, heavily blurred — additive in both themes
+      // so the halo reads as light, not paint.
+      ctx.globalCompositeOperation = "lighter";
+      ctx.strokeStyle = glowGrad;
+      ctx.globalAlpha = strand.alpha * bloom.alpha * strength * pulse;
+      ctx.lineWidth = strand.width * bloom.widthMul;
+      ctx.shadowBlur = bloom.blur;
       ctx.stroke();
       // Core pass: the bright filament.
-      ctx.strokeStyle = strandColor;
-      ctx.globalAlpha = strand.alpha * strength * pulse;
+      ctx.globalCompositeOperation = dark ? "lighter" : "source-over";
+      ctx.strokeStyle = coreGrad;
+      ctx.globalAlpha = strand.alpha * core.alpha * strength * pulse;
       ctx.lineWidth = strand.width;
-      ctx.shadowBlur = 12;
+      ctx.shadowBlur = core.blur;
       ctx.stroke();
     }
 
     // Sparks drifting with the stream, twinkling out of phase.
+    ctx.globalCompositeOperation = "lighter";
     ctx.shadowBlur = 8;
     ctx.fillStyle = strandColor;
     for (const spark of sparkles) {
       const x = centerX(spark.v) + w * spark.off;
       const y = spark.v * h;
+      const fade = Math.min(1, Math.min(spark.v, 1 - spark.v) / 0.16);
       ctx.globalAlpha =
-        Math.abs(Math.sin(spark.p + t * spark.s)) * 0.7 * strength * pulse;
+        Math.abs(Math.sin(spark.p + t * spark.s)) * 0.6 * fade * strength * pulse;
       ctx.beginPath();
       ctx.arc(x, y, spark.r, 0, Math.PI * 2);
       ctx.fill();
     }
     ctx.globalAlpha = 1;
     ctx.shadowBlur = 0;
+    ctx.globalCompositeOperation = "source-over";
   };
 
   let running = false;

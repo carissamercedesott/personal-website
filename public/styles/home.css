@@ -1161,8 +1161,8 @@ body.has-modal {
  * the canvas obeys the same theme tokens as everything else. */
 .principles-canvas {
   --flow-strand: var(--apricot-500);
-  --flow-glow: var(--apricot-400);
-  --flow-strength: 0.75;
+  --flow-glow: var(--apricot-300);
+  --flow-strength: 0.85;
   position: absolute;
   inset: 0;
   width: 100%;
