@@ -13,13 +13,18 @@
 
 .demo-embed {
   position: relative;
+  /* Break out wider than the 960px prose column so the three-panel app
+   * isn't cramped; centred on the viewport and capped to stay on-screen. */
+  width: min(1200px, 94vw);
+  margin-left: 50%;
+  transform: translateX(-50%);
   margin-top: var(--space-6);
-  aspect-ratio: 16 / 10;
+  aspect-ratio: 16 / 9;
   overflow: hidden;
   border: 1px solid var(--border-default);
   border-radius: var(--radius-xl);
   background: var(--bg-subtle);
-  box-shadow: var(--shadow-md);
+  box-shadow: var(--shadow-lg);
 }
 
 .demo-frame {

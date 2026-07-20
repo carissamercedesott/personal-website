@@ -10,8 +10,20 @@
       href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:ital,wght@0,400;0,500;0,600;1,400&family=IBM+Plex+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400&display=swap"
       rel="stylesheet"
     />
-    <script type="module" crossorigin src="/waddl-app/assets/index-jfAyvk5K.js"></script>
-    <link rel="stylesheet" crossorigin href="/waddl-app/assets/index-CBFQlMzJ.css">
+        <!-- Default the demo to dark on first load. The app reads "waddl-mode"
+         from localStorage and otherwise follows the OS; seeding it here (only
+         when unset) makes dark the default while the in-app toggle still
+         persists a visitor's own choice. Runs before the deferred bundle.
+         NOTE: the waddl-app source lives outside this repo, so re-add this
+         after any rebuild that regenerates index.html. -->
+    <script>
+      try {
+        if (!localStorage.getItem("waddl-mode"))
+          localStorage.setItem("waddl-mode", "dark");
+      } catch (e) {}
+    </script>
+    <script type="module" crossorigin src="/waddl-app/assets/index-seemzBXJ.js"></script>
+    <link rel="stylesheet" crossorigin href="/waddl-app/assets/index-C4mfOkHU.css">
   </head>
   <body>
     <div id="root"></div>
