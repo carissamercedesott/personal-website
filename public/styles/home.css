@@ -926,7 +926,7 @@ body.has-modal {
 }
 
 .project-modal {
-  width: min(560px, calc(100vw - var(--space-8)));
+  width: min(600px, calc(100vw - var(--space-8)));
   max-height: min(85vh, 85svh);
   margin: auto;
   border: 1px solid var(--border-default);
@@ -1031,6 +1031,19 @@ body.has-modal {
 /* Image-less cards (the shelf) open as text-only modals. */
 .project-modal-img[hidden] {
   display: none;
+}
+
+/* Cross Math reopens with its live phone-framed clip (cloned by openModal)
+ * instead of a still poster. The card slot divides on the right; stacked in
+ * the modal it divides on the bottom, and the phone gets room to breathe. */
+.project-modal-media {
+  border-right: none;
+  border-bottom: 1px solid var(--border-default);
+  padding-block: var(--space-8);
+}
+
+.project-modal-media .phone {
+  height: clamp(280px, 46vh, 380px);
 }
 
 .project-modal-body {

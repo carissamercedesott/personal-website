@@ -164,15 +164,34 @@ function initProjectModal() {
 
   function openModal(card) {
     const cardImage = card.querySelector(".project-card-img");
-    // Cards with a video preview (Cross Math) have no <img> — fall back to
-    // the clip's poster so the modal still opens with an image.
+    const cardMedia = card.querySelector(".card-media--phone");
     const cardVideo = card.querySelector(".card-video");
-    const src = cardImage?.src ?? cardVideo?.getAttribute("poster") ?? "";
-    const alt = cardImage?.alt ?? cardVideo?.getAttribute("aria-label") ?? "";
     trigger = card;
-    image.hidden = !src;
-    image.src = src;
-    image.alt = alt;
+
+    // A fresh clone per open; the close handler removes it again.
+    modal.querySelector(".project-modal-media")?.remove();
+
+    if (cardMedia && !prefersReducedMotion()) {
+      // Cross Math reopens with the same phone-framed clip, still playing —
+      // continue from wherever the card's hover preview left off.
+      image.hidden = true;
+      const media = cardMedia.cloneNode(true);
+      media.classList.add("project-modal-media");
+      media.querySelector(".card-preview-hint")?.remove();
+      modal.insertBefore(media, image);
+      const video = media.querySelector("video");
+      if (video) {
+        if (cardVideo && !cardVideo.paused) video.currentTime = cardVideo.currentTime;
+        video.play().catch(() => {});
+      }
+    } else {
+      // Image cards — and reduced motion — get a still poster.
+      const src = cardImage?.src ?? cardVideo?.getAttribute("poster") ?? "";
+      image.hidden = !src;
+      image.src = src;
+      image.alt = cardImage?.alt ?? cardVideo?.getAttribute("aria-label") ?? "";
+    }
+
     title.textContent = card.querySelector("h3").textContent;
     info.innerHTML = card.querySelector(".project-card-details")?.innerHTML ?? "";
     modal.showModal();
@@ -226,6 +245,9 @@ function initProjectModal() {
   });
   modal.addEventListener("close", () => {
     document.body.classList.remove("has-modal");
+    const media = modal.querySelector(".project-modal-media");
+    media?.querySelector("video")?.pause();
+    media?.remove();
     trigger?.focus();
   });
 }
