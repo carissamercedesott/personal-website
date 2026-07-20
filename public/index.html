@@ -58,7 +58,7 @@
         <div class="hero-corner">
           <nav class="hero-contact" aria-label="Contact">
             <a class="hero-duo" href="https://www.duolingo.com" aria-label="Currently building iOS at Duolingo">
-              <svg class="icon" aria-hidden="true"><use href="/images/icons.svg#duo"></use></svg>
+              <svg class="icon" aria-hidden="true"><use href="/images/icons.svg#laptop"></use></svg>
               <span class="hero-duo-tip" role="tooltip">Currently building iOS at <strong>Duolingo</strong>!</span>
             </a>
             <a href="mailto:carissaott0809@gmail.com" aria-label="Email" title="Email"><svg class="icon" aria-hidden="true"><use href="/images/icons.svg#email"></use></svg></a>
@@ -197,72 +197,9 @@
         </dialog>
       </section>
 
-      <section class="page-section band-oat" id="lab-preview">
-        <div class="section-inner">
-          <span class="section-label" data-reveal><span class="section-label-num">02</span>Experiments</span>
-          <h2>I experiment, constantly</h2>
-          <p class="section-lead">
-            Interaction experiments, running right on this page — TypeScript +
-            Solid on this site's design tokens. Keyboard-first, reduced-motion
-            aware, and each one ships its own source, right underneath.
-          </p>
-          <div class="lab-preview">
-            <article class="lab-preview-item" data-reveal>
-              <h3>Ghost-text autocomplete</h3>
-              <p class="experiment-desc">
-                Editor-style inline completion — the interface finishes your
-                sentence without ever stealing your caret.
-              </p>
-              <p class="experiment-try">
-                <span class="try-label">try it</span>
-                <span>Type “inter…” in the box and the rest appears in grey —
-                <kbd>Tab</kbd> accepts, <kbd>Esc</kbd> dismisses.</span>
-              </p>
-              <div id="exp-ghost"></div>
-            </article>
-            <article class="lab-preview-item" data-reveal>
-              <h3>Animated diff</h3>
-              <p class="experiment-desc">
-                Code change as motion — instead of two walls of red and
-                green, the block plays the edit: removals fold away,
-                additions slide in.
-              </p>
-              <p class="experiment-try">
-                <span class="try-label">try it</span>
-                <span>Click “Apply the diff”, watch the edit play, then run
-                it backward.</span>
-              </p>
-              <div id="exp-diff"></div>
-            </article>
-          </div>
-          <a class="resume-link" href="/playground">Play with all six experiments →</a>
-        </div>
-      </section>
-
-      <section class="page-section band" id="design-system">
-        <div class="section-inner">
-          <span class="section-label" data-reveal><span class="section-label-num">03</span>Design system</span>
-          <h2>One system under all of it</h2>
-          <p class="section-lead">
-            Everything above runs on the same tokens — color, type, spacing,
-            radius, elevation, motion. This site is the system's first
-            customer.
-          </p>
-          <div class="token-strip" data-reveal>
-            <span class="token-swatch"><i style="--swatch: var(--blush-300)"></i>--blush-300</span>
-            <span class="token-swatch"><i style="--swatch: var(--blush-500)"></i>--blush-500</span>
-            <span class="token-swatch"><i style="--swatch: var(--apricot-300)"></i>--apricot-300</span>
-            <span class="token-swatch"><i style="--swatch: var(--sage-300)"></i>--sage-300</span>
-            <span class="token-swatch"><i style="--swatch: var(--oat-200)"></i>--oat-200</span>
-            <span class="token-swatch token-swatch--motion">hover · --ease-out / --duration-fast</span>
-          </div>
-          <a class="resume-link" href="/design">Explore the full design system →</a>
-        </div>
-      </section>
-
       <section class="page-section band-oat" id="principles">
         <div class="section-inner">
-          <span class="section-label" data-reveal><span class="section-label-num">04</span>Principles</span>
+          <span class="section-label" data-reveal><span class="section-label-num">02</span>Principles</span>
           <h2>How I build</h2>
           <p class="section-lead">Three laws I don't break.</p>
           <div class="principles-board" data-reveal>
@@ -333,6 +270,69 @@
             </ol>
           </div>
           <a class="resume-link" href="/resume">See full resume →</a>
+        </div>
+      </section>
+
+      <section class="page-section band" id="design-system">
+        <div class="section-inner">
+          <span class="section-label" data-reveal><span class="section-label-num">03</span>Design system</span>
+          <h2>One system under all of it</h2>
+          <p class="section-lead">
+            Everything above runs on the same tokens — color, type, spacing,
+            radius, elevation, motion. This site is the system's first
+            customer.
+          </p>
+          <div class="token-strip" data-reveal>
+            <span class="token-swatch"><i style="--swatch: var(--blush-300)"></i>--blush-300</span>
+            <span class="token-swatch"><i style="--swatch: var(--blush-500)"></i>--blush-500</span>
+            <span class="token-swatch"><i style="--swatch: var(--apricot-300)"></i>--apricot-300</span>
+            <span class="token-swatch"><i style="--swatch: var(--sage-300)"></i>--sage-300</span>
+            <span class="token-swatch"><i style="--swatch: var(--oat-200)"></i>--oat-200</span>
+            <span class="token-swatch token-swatch--motion">hover · --ease-out / --duration-fast</span>
+          </div>
+          <a class="resume-link" href="/design">Explore the full design system →</a>
+        </div>
+      </section>
+
+      <section class="page-section band-oat" id="lab-preview">
+        <div class="section-inner">
+          <span class="section-label" data-reveal><span class="section-label-num">04</span>Experiments</span>
+          <h2>I experiment, constantly</h2>
+          <p class="section-lead">
+            Interaction experiments, running right on this page — TypeScript +
+            Solid on this site's design tokens. Keyboard-first, reduced-motion
+            aware, and each one ships its own source, right underneath.
+          </p>
+          <div class="lab-preview">
+            <article class="lab-preview-item" data-reveal>
+              <h3>Ghost-text autocomplete</h3>
+              <p class="experiment-desc">
+                Editor-style inline completion — the interface finishes your
+                sentence without ever stealing your caret.
+              </p>
+              <p class="experiment-try">
+                <span class="try-label">try it</span>
+                <span>Type “inter…” in the box and the rest appears in grey —
+                <kbd>Tab</kbd> accepts, <kbd>Esc</kbd> dismisses.</span>
+              </p>
+              <div id="exp-ghost"></div>
+            </article>
+            <article class="lab-preview-item" data-reveal>
+              <h3>Animated diff</h3>
+              <p class="experiment-desc">
+                Code change as motion — instead of two walls of red and
+                green, the block plays the edit: removals fold away,
+                additions slide in.
+              </p>
+              <p class="experiment-try">
+                <span class="try-label">try it</span>
+                <span>Click “Apply the diff”, watch the edit play, then run
+                it backward.</span>
+              </p>
+              <div id="exp-diff"></div>
+            </article>
+          </div>
+          <a class="resume-link" href="/playground">Play with all six experiments →</a>
         </div>
       </section>
 
