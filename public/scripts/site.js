@@ -334,6 +334,52 @@ function initHeroGrid() {
 // The hero's scroll cue is a teaching device, not navigation: once the
 // visitor scrolls it has done its job, so it fades out rather than
 // sitting half-cut at the fold.
+function initDisclosures() {
+  for (const toggle of document.querySelectorAll("[aria-controls].principle-toggle")) {
+    const region = document.getElementById(toggle.getAttribute("aria-controls"));
+    if (!region) continue;
+    toggle.addEventListener("click", () => {
+      const open = toggle.getAttribute("aria-expanded") === "true";
+      toggle.setAttribute("aria-expanded", String(!open));
+      region.classList.toggle("is-open", !open);
+    });
+  }
+}
+
+function initPrinciplesFlow() {
+  const flow = document.querySelector(".principles-flow");
+  if (!flow) return;
+
+  const paths = [...flow.querySelectorAll(".principles-path path")];
+  const lengths = paths.map((path) => path.getTotalLength());
+  paths.forEach((path, i) => {
+    path.style.strokeDasharray = String(lengths[i]);
+  });
+
+  if (prefersReducedMotion()) {
+    paths.forEach((path) => {
+      path.style.strokeDashoffset = "0";
+    });
+    return;
+  }
+
+  // The stream draws in as the section crosses the viewport.
+  const update = () => {
+    const rect = flow.getBoundingClientRect();
+    const vh = window.innerHeight;
+    const progress = Math.min(
+      1,
+      Math.max(0, (vh * 0.85 - rect.top) / (rect.height + vh * 0.35))
+    );
+    paths.forEach((path, i) => {
+      path.style.strokeDashoffset = String(lengths[i] * (1 - progress));
+    });
+  };
+  window.addEventListener("scroll", update, { passive: true });
+  window.addEventListener("resize", update, { passive: true });
+  update();
+}
+
 function initScrollCue() {
   const cue = document.getElementById("scroll-cue");
   if (!cue) return;
@@ -402,6 +448,8 @@ function initSiteChrome() {
   initTypewriter();
   initProjectModal();
   initHeroGrid();
+  initDisclosures();
+  initPrinciplesFlow();
   initScrollCue();
   initAboutCarousel();
 }

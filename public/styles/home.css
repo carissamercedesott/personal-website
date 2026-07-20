@@ -1149,3 +1149,171 @@ body.has-modal {
     display: none;
   }
 }
+
+/* ── Principles: a stream of light weaving between the three laws ── */
+:root {
+  --flow-halo-opacity: 0.5;
+}
+
+[data-theme="dark"] {
+  --flow-halo-opacity: 0.85;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --flow-halo-opacity: 0.85;
+  }
+}
+
+.principles-flow {
+  position: relative;
+  max-width: 880px;
+  margin: var(--space-12) auto 0;
+}
+
+.principles-path {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+  pointer-events: none;
+}
+
+.principles-path path {
+  fill: none;
+  stroke-linecap: round;
+}
+
+/* Wide blurred pass reads as glow; the crisp core carries the gradient. */
+.flow-halo {
+  stroke: var(--apricot-400);
+  stroke-width: 7;
+  opacity: var(--flow-halo-opacity);
+  filter: blur(7px);
+}
+
+.flow-core {
+  stroke: url(#flow-grad);
+  stroke-width: 2.5;
+}
+
+.principles-list {
+  position: relative;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  grid-template-rows: repeat(3, minmax(130px, auto));
+  column-gap: var(--space-12);
+  row-gap: clamp(64px, 12vh, 140px);
+  list-style: none;
+  margin: 0;
+  padding: var(--space-8) 0 var(--space-12);
+}
+
+.principle {
+  align-self: center;
+}
+
+/* One law per bend: explicit rows keep the grid from packing two laws
+ * side by side. */
+.principle:nth-child(1) {
+  grid-row: 1;
+}
+
+.principle:nth-child(2) {
+  grid-row: 2;
+}
+
+.principle:nth-child(3) {
+  grid-row: 3;
+}
+
+.principle--left {
+  grid-column: 1;
+}
+
+.principle--right {
+  grid-column: 2;
+}
+
+.principle h3 {
+  font-size: var(--text-2xl);
+  letter-spacing: var(--tracking-tight);
+}
+
+.principle-toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  border: none;
+  background: none;
+  padding: 0;
+  font: inherit;
+  color: inherit;
+  text-align: left;
+  cursor: pointer;
+}
+
+.principle-toggle:hover {
+  color: var(--accent-strong);
+}
+
+.principle-toggle .disclosure-chevron {
+  width: 20px;
+  height: 20px;
+  flex: none;
+  color: var(--accent-strong);
+  transition: transform var(--duration-base) var(--ease-out);
+}
+
+.principle-toggle[aria-expanded="true"] .disclosure-chevron {
+  transform: rotate(180deg);
+}
+
+/* Dropdown: the description unrolls beneath the law. */
+.disclosure {
+  display: grid;
+  grid-template-rows: 0fr;
+  transition: grid-template-rows var(--duration-slow) var(--ease-out);
+}
+
+.disclosure.is-open {
+  grid-template-rows: 1fr;
+}
+
+.disclosure-inner {
+  overflow: hidden;
+  min-height: 0;
+}
+
+.disclosure-inner p {
+  margin-top: var(--space-3);
+  max-width: 44ch;
+  color: var(--text-secondary);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .disclosure,
+  .principle-toggle .disclosure-chevron {
+    transition: none;
+  }
+}
+
+@media (max-width: 760px) {
+  .principles-list {
+    grid-template-columns: 1fr;
+    row-gap: var(--space-12);
+  }
+
+  .principle--left,
+  .principle--right {
+    grid-column: 1;
+  }
+
+  /* The stream slims to a margin thread beside stacked laws. */
+  .principles-path {
+    left: auto;
+    right: 0;
+    width: 32px;
+  }
+}

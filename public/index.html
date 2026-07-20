@@ -281,35 +281,79 @@
           <span class="section-label">05 · Principles</span>
           <h2>How I build</h2>
           <p class="section-lead">Three laws I don't break.</p>
-          <div class="card-grid">
-            <article class="card" data-reveal>
-              <h3>Design with empathy</h3>
-              <p>
-                Software should meet people where they are. Everything I ship
-                works with a keyboard alone and respects reduced motion — and
-                my first industry work was assistive-communication software
-                for a BCI headset. Access isn't a feature; it's the floor.
-              </p>
-            </article>
-            <article class="card" data-reveal>
-              <h3>UI backed by science</h3>
-              <p>
-                Interfaces are cognitive artifacts. I studied how minds take
-                in information — attention, working memory, chunking — and
-                design to those limits instead of fighting them. When a
-                screen feels effortless, that's the science working.
-              </p>
-            </article>
-            <article class="card" data-reveal>
-              <h3>Worlds with consistent laws</h3>
-              <p>
-                Every product is a small world, and worlds need physics. One
-                token sheet, one motion grammar, one component language —
-                systems that scale without breaking character. On this site,
-                even the turntable's BPM bends the same tokens everything
-                else obeys.
-              </p>
-            </article>
+          <div class="principles-flow">
+            <!-- The stream: a glow pass under a gradient core, both drawn
+                 in by scroll (initPrinciplesFlow). -->
+            <svg class="principles-path" viewBox="0 0 100 300" preserveAspectRatio="none" aria-hidden="true">
+              <defs>
+                <linearGradient id="flow-grad" x1="0" y1="0" x2="0" y2="1">
+                  <stop offset="0" style="stop-color: var(--apricot-400)" />
+                  <stop offset="0.5" style="stop-color: var(--blush-500)" />
+                  <stop offset="1" style="stop-color: var(--apricot-500)" />
+                </linearGradient>
+              </defs>
+              <path class="flow-halo" d="M 50,-5 C 80,25 80,55 50,85 C 20,115 20,145 50,175 C 80,205 80,235 50,265 L 50,305" vector-effect="non-scaling-stroke" />
+              <path class="flow-core" d="M 50,-5 C 80,25 80,55 50,85 C 20,115 20,145 50,175 C 80,205 80,235 50,265 L 50,305" vector-effect="non-scaling-stroke" />
+            </svg>
+            <ol class="principles-list">
+              <li class="principle principle--left" data-reveal>
+                <h3>
+                  <button class="principle-toggle" type="button" aria-expanded="false" aria-controls="principle-empathy">
+                    Design with empathy
+                    <svg class="icon disclosure-chevron" aria-hidden="true"><use href="/images/icons.svg#arrow-down"></use></svg>
+                  </button>
+                </h3>
+                <div class="disclosure" id="principle-empathy">
+                  <div class="disclosure-inner">
+                    <p>
+                      Software should meet people where they are. Everything
+                      I ship works with a keyboard alone and respects reduced
+                      motion — and my first industry work was
+                      assistive-communication software for a BCI headset.
+                      Access isn't a feature; it's the floor.
+                    </p>
+                  </div>
+                </div>
+              </li>
+              <li class="principle principle--right" data-reveal>
+                <h3>
+                  <button class="principle-toggle" type="button" aria-expanded="false" aria-controls="principle-science">
+                    UI backed by science
+                    <svg class="icon disclosure-chevron" aria-hidden="true"><use href="/images/icons.svg#arrow-down"></use></svg>
+                  </button>
+                </h3>
+                <div class="disclosure" id="principle-science">
+                  <div class="disclosure-inner">
+                    <p>
+                      Interfaces are cognitive artifacts. I studied how minds
+                      take in information — attention, working memory,
+                      chunking — and design to those limits instead of
+                      fighting them. When a screen feels effortless, that's
+                      the science working.
+                    </p>
+                  </div>
+                </div>
+              </li>
+              <li class="principle principle--left" data-reveal>
+                <h3>
+                  <button class="principle-toggle" type="button" aria-expanded="false" aria-controls="principle-laws">
+                    Worlds with consistent laws
+                    <svg class="icon disclosure-chevron" aria-hidden="true"><use href="/images/icons.svg#arrow-down"></use></svg>
+                  </button>
+                </h3>
+                <div class="disclosure" id="principle-laws">
+                  <div class="disclosure-inner">
+                    <p>
+                      Every product is a small world, and worlds need
+                      physics. One token sheet, one motion grammar, one
+                      component language — systems that scale without
+                      breaking character. On this site, even the turntable's
+                      BPM bends the same tokens everything else obeys.
+                    </p>
+                  </div>
+                </div>
+              </li>
+            </ol>
           </div>
           <a class="resume-link" href="/resume">See full resume →</a>
         </div>
