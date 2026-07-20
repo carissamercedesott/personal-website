@@ -68,22 +68,6 @@ body.home {
   line-height: var(--leading-snug);
 }
 
-.hero-bpm-cue {
-  justify-self: center;
-  margin-top: var(--space-8);
-  border: none;
-  background: none;
-  padding: var(--space-1) var(--space-2);
-  font-family: var(--font-mono);
-  font-size: var(--text-xs);
-  color: var(--text-muted);
-  transition: color var(--duration-fast) var(--ease-out);
-}
-
-.hero-bpm-cue:hover {
-  color: var(--accent-strong);
-}
-
 .hero-design-link {
   justify-self: center;
   margin-top: var(--space-3);
@@ -1001,4 +985,160 @@ body.has-modal {
   border-radius: var(--radius-full);
   background: var(--swatch);
   border: 1px solid var(--border-default);
+}
+
+/* ── About me: a photo reel wrapped in the same pulsating light that
+ * guides the smiski — the glow frame breathes behind the track. ── */
+.about-carousel {
+  position: relative;
+  margin-top: var(--space-8);
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+}
+
+/* Border + outer glow only — a background tint here would wash over the
+ * slides, since the pseudo paints above the static track. */
+.about-carousel::before {
+  content: "";
+  position: absolute;
+  inset: -6px;
+  border-radius: calc(var(--radius-xl) + 6px);
+  border: 2px solid color-mix(in srgb, var(--accent-2-default) 55%, white);
+  box-shadow: 0 0 30px color-mix(in srgb, var(--accent-2-default) 40%, transparent);
+  animation: ring-pulse 2.4s var(--ease-in-out) infinite;
+  pointer-events: none;
+}
+
+.about-carousel::after {
+  content: "";
+  position: absolute;
+  inset: -6px;
+  border-radius: calc(var(--radius-xl) + 6px);
+  border: 1.5px solid color-mix(in srgb, var(--accent-2-default) 45%, transparent);
+  animation: ring-ripple 2.4s var(--ease-out) infinite;
+  pointer-events: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .about-carousel::before,
+  .about-carousel::after {
+    animation: none;
+  }
+}
+
+.about-track {
+  flex: 1;
+  display: flex;
+  gap: var(--space-4);
+  margin: 0;
+  padding: var(--space-4);
+  list-style: none;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  scroll-padding-inline: var(--space-4);
+  border-radius: var(--radius-xl);
+  scrollbar-width: none;
+}
+
+.about-track::-webkit-scrollbar {
+  display: none;
+}
+
+.about-track:focus-visible {
+  outline: 2px solid var(--accent-default);
+  outline-offset: 2px;
+}
+
+.about-slide {
+  flex: 0 0 auto;
+  width: min(300px, 72vw);
+  scroll-snap-align: center;
+  border-radius: var(--radius-lg);
+  background: var(--surface-default);
+  border: 1px solid var(--border-default);
+  box-shadow: var(--shadow-sm);
+  overflow: hidden;
+}
+
+.about-slide--photo figure {
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.about-slide--photo img {
+  width: 100%;
+  aspect-ratio: 4 / 5;
+  object-fit: cover;
+  display: block;
+}
+
+.about-slide--photo figcaption {
+  padding: var(--space-3) var(--space-4);
+  font-family: var(--font-mono);
+  font-size: var(--text-xs);
+  color: var(--text-muted);
+  text-align: center;
+}
+
+.about-slide--note {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: var(--space-3);
+  padding: var(--space-6);
+}
+
+.about-slide--note h3 {
+  font-size: var(--text-xl);
+}
+
+.about-slide--note p {
+  color: var(--text-secondary);
+  font-size: var(--text-sm);
+  line-height: var(--leading-relaxed);
+}
+
+.about-nav {
+  flex: 0 0 auto;
+  z-index: 1;
+  width: 38px;
+  height: 38px;
+  display: grid;
+  place-items: center;
+  border: 1px solid var(--border-default);
+  border-radius: var(--radius-full);
+  background: var(--surface-default);
+  color: var(--text-secondary);
+  box-shadow: var(--shadow-sm);
+  cursor: pointer;
+  transition: color var(--duration-fast) var(--ease-out),
+    box-shadow var(--duration-fast) var(--ease-out),
+    transform var(--duration-fast) var(--ease-out);
+}
+
+.about-nav svg {
+  width: 16px;
+  height: 16px;
+}
+
+.about-nav:hover {
+  color: var(--accent-strong);
+  box-shadow: var(--shadow-md);
+  transform: translateY(-1px);
+}
+
+.about-nav:disabled {
+  opacity: 0.35;
+  cursor: default;
+  transform: none;
+  box-shadow: var(--shadow-sm);
+}
+
+@media (max-width: 640px) {
+  .about-nav {
+    display: none;
+  }
 }

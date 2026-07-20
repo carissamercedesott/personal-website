@@ -343,6 +343,34 @@ function initHeroCue() {
   update();
 }
 
+// The about-me reel scrolls natively (snap points); the arrows just nudge
+// it one slide at a time and dim at the ends.
+function initAboutCarousel() {
+  const track = document.querySelector(".about-track");
+  if (!track) return;
+  const prev = document.querySelector(".about-nav--prev");
+  const next = document.querySelector(".about-nav--next");
+  const slideStep = () => {
+    const slide = track.querySelector(".about-slide");
+    return slide ? slide.getBoundingClientRect().width + 16 : 300;
+  };
+  const nudge = (dir) =>
+    track.scrollBy({
+      left: dir * slideStep(),
+      behavior: prefersReducedMotion() ? "auto" : "smooth",
+    });
+  prev.addEventListener("click", () => nudge(-1));
+  next.addEventListener("click", () => nudge(1));
+  const updateEnds = () => {
+    prev.disabled = track.scrollLeft <= 4;
+    next.disabled =
+      track.scrollLeft >= track.scrollWidth - track.clientWidth - 4;
+  };
+  track.addEventListener("scroll", updateEnds, { passive: true });
+  window.addEventListener("resize", updateEnds);
+  updateEnds();
+}
+
 function initSiteChrome() {
   initThemeToggle();
   initReveal();
@@ -351,6 +379,7 @@ function initSiteChrome() {
   initProjectModal();
   initHeroGrid();
   initHeroCue();
+  initAboutCarousel();
 }
 
 window.initSiteChrome = initSiteChrome;

@@ -289,6 +289,19 @@ export const createSmiskiWalker = () => {
     };
   };
 
+  // Hero pointerdown position, pending the tap-or-toss decision.
+  let heroPending: { x: number; y: number } | null = null;
+
+  // Capture can throw for pointers that are already gone (or synthetic
+  // events); losing capture only degrades the drag, so don't die on it.
+  const capturePointer = (pointerId: number) => {
+    try {
+      hitbox.setPointerCapture(pointerId);
+    } catch {
+      /* no active pointer to capture */
+    }
+  };
+
   const onPointerDown = (event: PointerEvent) => {
     const act = phaseNow();
     if (mode === "flow" && (act === "ring" || act === "drop")) {
@@ -296,18 +309,23 @@ export const createSmiskiWalker = () => {
       ringDragging = true;
       sinceDrag = 0;
       lastPointerX = event.clientX;
-      hitbox.setPointerCapture(event.pointerId);
+      capturePointer(event.pointerId);
       hitbox.style.cursor = "grabbing";
       event.preventDefault();
       return;
     }
     if (mode === "flow" && act === "hero") {
-      // A poke earns a wave back.
-      waveT = 0;
-      showBubble("hi!", 1400);
+      // A tap earns a wave; dragging past a few px picks him up for a
+      // toss (the rise blend later floats him back to his seat).
+      heroPending = { x: event.clientX, y: event.clientY };
+      capturePointer(event.pointerId);
       event.preventDefault();
       return;
     }
+    startGrab(event);
+  };
+
+  const startGrab = (event: PointerEvent) => {
     const point = pointerToWorld(event);
     pointerNdc.set(point.ndcX, point.ndcY);
     raycaster.setFromCamera(pointerNdc, camera);
@@ -332,13 +350,24 @@ export const createSmiskiWalker = () => {
       40,
     );
     world.addConstraint(dragConstraint);
-    hitbox.setPointerCapture(event.pointerId);
+    capturePointer(event.pointerId);
     hitbox.style.cursor = "grabbing";
     showBubble("!!", 900);
     event.preventDefault();
   };
 
   const onPointerMove = (event: PointerEvent) => {
+    if (heroPending) {
+      const moved = Math.hypot(
+        event.clientX - heroPending.x,
+        event.clientY - heroPending.y,
+      );
+      if (moved > 8) {
+        heroPending = null;
+        startGrab(event);
+      }
+      return;
+    }
     if (ringDragging) {
       const dx = event.clientX - lastPointerX;
       lastPointerX = event.clientX;
@@ -357,6 +386,12 @@ export const createSmiskiWalker = () => {
   };
 
   const releasePointer = () => {
+    if (heroPending) {
+      heroPending = null;
+      waveT = 0;
+      showBubble("hi!", 1400);
+      return;
+    }
     if (ringDragging) {
       ringDragging = false;
       hitbox.style.cursor = "grab";
@@ -594,7 +629,7 @@ export const createSmiskiWalker = () => {
       updateFlow(dt, false);
       const act = phaseNow();
       if (act !== lastCursorAct && !ringDragging && !dragConstraint) {
-        hitbox.style.cursor = act === "hero" ? "pointer" : "grab";
+        hitbox.style.cursor = "grab";
         lastCursorAct = act;
       }
     } else if (mode === "ragdoll") {
@@ -620,7 +655,10 @@ export const createSmiskiWalker = () => {
         );
       });
       rig.syncBodies();
-      if (riseT >= 1) mode = "flow";
+      if (riseT >= 1) {
+        mode = "flow";
+        if (phaseNow() === "hero") showBubble("phew!", 1600);
+      }
     }
 
     // Contact shadow + hitbox + bubble all track the torso.

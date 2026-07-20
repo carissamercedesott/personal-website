@@ -5,7 +5,7 @@
   "redirects": [
     { "source": "/work", "destination": "/#work" },
     { "source": "/experience", "destination": "/#experience" },
-    { "source": "/about", "destination": "/#offclock" },
-    { "source": "/interests", "destination": "/#offclock" }
+    { "source": "/about", "destination": "/#about" },
+    { "source": "/interests", "destination": "/#about" }
   ]
 }
