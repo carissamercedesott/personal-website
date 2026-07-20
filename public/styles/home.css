@@ -357,13 +357,11 @@ html.smiski-live .intro > .section-inner {
 }
 
 /* Where the smiski sits during the hero act. Just an invisible anchor —
- * the 3D scene reads its rect and parks the mossy mound there. Anchored
- * to the CTA row so he reads as the tour guide beside "Play in the lab",
- * not a bystander floating in the corner. */
+ * the 3D scene reads its rect and parks the mossy mound there. */
 .hero .hero-perch {
   position: absolute;
-  left: calc(100% + var(--space-3));
-  bottom: -10px;
+  left: clamp(24px, 9vw, 150px);
+  bottom: clamp(56px, 15vh, 170px);
   width: 130px;
   height: 100px;
   pointer-events: none;
@@ -995,7 +993,6 @@ body.has-modal {
 }
 
 .hero-links {
-  position: relative;
   margin-top: var(--space-8);
   display: flex;
   gap: var(--space-4);
