@@ -146,17 +146,20 @@ body.home {
 /* ── Intro band: the hello-world act on quiet oat ── */
 :root {
   --band-rose: var(--blush-100);
+  --band-oat: var(--oat-200);
   --aurora-opacity: 0.75;
 }
 
 [data-theme="dark"] {
   --band-rose: #322220;
+  --band-oat: var(--oat-800);
   --aurora-opacity: 0.3;
 }
 
 @media (prefers-color-scheme: dark) {
   :root:not([data-theme="light"]) {
     --band-rose: #322220;
+    --band-oat: var(--oat-800);
     --aurora-opacity: 0.3;
   }
 }
@@ -190,7 +193,8 @@ body.home {
  * aurora layer keeps the color fields gently in motion. */
 .intro,
 .band,
-.band-rose {
+.band-rose,
+.band-oat {
   position: relative;
   overflow: hidden;
 }
@@ -226,7 +230,8 @@ body.home {
  * positioning, so only the inner wrappers move up). */
 .intro > .section-inner,
 .band > .section-inner,
-.band-rose > .section-inner {
+.band-rose > .section-inner,
+.band-oat > .section-inner {
   position: relative;
 }
 
@@ -470,6 +475,17 @@ html.smiski-live .hello-ring {
     var(--surface-default) 0%,
     var(--band-rose) 24%,
     var(--band-rose) 76%,
+    var(--surface-default) 100%
+  );
+}
+
+/* Principles sit on quiet oat — a sheet of grid paper. */
+.band-oat {
+  background: linear-gradient(
+    180deg,
+    var(--surface-default) 0%,
+    var(--band-oat) 24%,
+    var(--band-oat) 76%,
     var(--surface-default) 100%
   );
 }
@@ -1166,7 +1182,7 @@ body.has-modal {
   pointer-events: none;
   background-image: radial-gradient(
     circle,
-    color-mix(in srgb, var(--accent-default) 30%, transparent) 1.1px,
+    color-mix(in srgb, var(--oat-500) 55%, transparent) 1.1px,
     transparent 1.9px
   );
   background-size: 26px 26px;
