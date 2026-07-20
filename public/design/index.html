@@ -57,17 +57,17 @@
         font-size: var(--text-xl);
       }
 
-      /* Palette — a summary row per family; the full ramp lives behind a
-       * disclosure so the page leads with hierarchy, not inventory. */
-      .family {
-        margin-top: var(--space-4);
-        border: 1px solid var(--border-default);
-        border-radius: var(--radius-lg);
-        background: var(--surface-default);
+      /* Palette — Pantone-style chips: the naming sits above the color, and
+       * the full ramp expands under the row you clicked. */
+      .palette-grid {
+        margin-top: var(--space-6);
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+        gap: var(--space-4);
       }
 
-      .family--support {
-        margin-top: var(--space-3);
+      .palette-grid--support {
+        grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
       }
 
       .families-divider {
@@ -79,119 +79,163 @@
         color: var(--text-muted);
       }
 
-      .family-summary {
+      .swatch-card {
         display: flex;
-        align-items: center;
-        gap: var(--space-4);
-        padding: var(--space-4) var(--space-5);
+        flex-direction: column;
+        border: 1px solid var(--border-default);
+        border-radius: var(--radius-lg);
+        padding: 0;
+        overflow: hidden;
+        background: var(--surface-default);
+        text-align: left;
         cursor: pointer;
-        list-style: none;
+        transition: transform var(--duration-fast) var(--ease-out),
+          box-shadow var(--duration-fast) var(--ease-out);
       }
 
-      .family-summary::-webkit-details-marker {
-        display: none;
+      .swatch-card:hover {
+        transform: translateY(-2px);
+        box-shadow: var(--shadow-md, 0 6px 16px rgba(35, 30, 27, 0.1));
       }
 
-      .family-chip {
-        flex: none;
-        width: 44px;
-        height: 44px;
-        border-radius: var(--radius-md);
-        box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.06);
-      }
-
-      .family--support .family-chip {
-        width: 32px;
-        height: 32px;
-      }
-
-      .family-head {
+      /* Labels flex so the color bands line up across a row, whatever the
+       * role text runs to. */
+      .swatch-card__label {
         flex: 1;
-        min-width: 0;
+        display: flex;
+        flex-direction: column;
+        gap: var(--space-1);
+        padding: var(--space-4) var(--space-4) var(--space-3);
       }
 
-      .family-name {
+      .swatch-card__name {
         font-family: var(--font-display);
         font-size: var(--text-lg);
         font-weight: var(--weight-semibold);
+        line-height: var(--leading-tight);
       }
 
-      .family--support .family-name {
+      .palette-grid--support .swatch-card__name {
         font-size: var(--text-md);
       }
 
-      .family-role {
-        display: block;
+      .swatch-card__role {
         font-size: var(--text-sm);
+        line-height: 1.45;
         color: var(--text-secondary);
       }
 
-      .family-toggle {
+      .swatch-card__color {
+        position: relative;
+        display: block;
         flex: none;
+        height: 140px;
+        border-top: 1px solid var(--border-default);
+      }
+
+      .palette-grid--support .swatch-card__color {
+        height: 104px;
+      }
+
+      .swatch-card__meta {
+        position: absolute;
+        inset: auto var(--space-3) var(--space-3) var(--space-3);
+        display: flex;
+        justify-content: space-between;
+        gap: var(--space-2);
+        font-family: var(--font-mono);
+        font-size: var(--text-xs);
+      }
+
+      .swatch-card[aria-expanded="true"] {
+        border-color: var(--text-primary);
+      }
+
+      .swatch-card__meta .count::after {
+        content: " ▾";
+      }
+
+      .swatch-card[aria-expanded="true"] .count::after {
+        content: " ▴";
+      }
+
+      /* The expanded ramp spans the grid and sits under the clicked row. */
+      .ramp-panel {
+        grid-column: 1 / -1;
+        border: 1px solid var(--border-default);
+        border-radius: var(--radius-lg);
+        padding: var(--space-4);
+        background: var(--bg-subtle);
+      }
+
+      .ramp-panel__head {
+        margin-bottom: var(--space-4);
         font-family: var(--font-mono);
         font-size: var(--text-xs);
         color: var(--text-muted);
       }
 
-      details[open] > .family-summary .family-toggle::after {
-        content: " ▴";
+      .shade-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(96px, 1fr));
+        gap: var(--space-3);
       }
 
-      .family-toggle::after {
-        content: " ▾";
-      }
-
-      .ramp {
-        padding: 0 var(--space-5) var(--space-5);
-      }
-
-      .ramp-strip {
+      .shade-card {
         display: flex;
-        gap: 2px;
-      }
-
-      .ramp-step {
-        flex: 1;
-        height: 48px;
-        border: none;
+        flex-direction: column;
+        border: 1px solid var(--border-default);
+        border-radius: var(--radius-md);
         padding: 0;
-        font-family: var(--font-mono);
-        font-size: 10px;
+        overflow: hidden;
+        background: var(--surface-default);
+        text-align: left;
         cursor: pointer;
         transition: transform var(--duration-fast) var(--ease-out);
       }
 
-      .family--support .ramp-step {
-        height: 36px;
-      }
-
-      .ramp-step:first-child {
-        border-radius: var(--radius-md) 0 0 var(--radius-md);
-      }
-
-      .ramp-step:last-child {
-        border-radius: 0 var(--radius-md) var(--radius-md) 0;
-      }
-
-      .ramp-step:hover {
+      .shade-card:hover {
         transform: translateY(-3px);
+      }
+
+      .shade-card__label {
+        display: flex;
+        flex-direction: column;
+        gap: 2px;
+        padding: var(--space-2) var(--space-3);
+        font-family: var(--font-mono);
+        font-size: var(--text-xs);
+      }
+
+      .shade-card__hex {
+        color: var(--text-muted);
+      }
+
+      .shade-card__color {
+        display: block;
+        height: 64px;
+        border-top: 1px solid var(--border-default);
       }
 
       .ramp-zones {
         display: flex;
-        gap: 2px;
-        margin-top: var(--space-2);
+        flex-wrap: wrap;
+        gap: var(--space-2) var(--space-6);
+        margin-top: var(--space-4);
+        padding-top: var(--space-3);
+        border-top: 1px solid var(--border-default);
       }
 
       .ramp-zone {
-        flex-basis: 0;
-        min-width: 0;
-        border-top: 1px solid var(--border-strong);
-        padding-top: var(--space-1);
-        font-size: 11px;
-        line-height: 1.3;
-        text-align: center;
+        font-size: var(--text-xs);
+        line-height: 1.4;
         color: var(--text-muted);
+      }
+
+      .ramp-zone b {
+        font-family: var(--font-mono);
+        font-weight: var(--weight-medium);
+        color: var(--text-secondary);
       }
 
       .semantic-grid {
@@ -720,7 +764,7 @@
       // Zones annotate WHY a ramp has its steps (fills vs. AA text vs. dark
       // mode); span = how many steps the zone covers.
       const FAMILIES = [
-        { name: "Blush", prefix: "blush", tier: "core", anchor: 500, open: true,
+        { name: "Blush", prefix: "blush", tier: "core", anchor: 500,
           steps: [50, 100, 200, 300, 400, 500, 600, 700, 800, 900],
           role: "Primary — buttons, links, focus, the site's signature.",
           zones: [
@@ -817,70 +861,118 @@
         return 0.299 * r + 0.587 * g + 0.114 * b < 150;
       }
 
+      // The panel spans the grid, so it has to land after the last card in the
+      // clicked card's row — otherwise it splits the row it belongs to.
+      function insertAfterRow(grid, card, panel) {
+        const cards = [...grid.querySelectorAll(".swatch-card")];
+        const columns = getComputedStyle(grid).gridTemplateColumns.split(" ").length;
+        const rowEnd = (Math.floor(cards.indexOf(card) / columns) + 1) * columns - 1;
+        const anchor = cards[Math.min(rowEnd, cards.length - 1)];
+        anchor.after(panel);
+      }
+
+      function buildRampPanel(family) {
+        const panel = document.createElement("div");
+        panel.className = "ramp-panel";
+
+        const head = document.createElement("p");
+        head.className = "ramp-panel__head";
+        head.textContent = family.name + " — " + family.steps.length +
+          " shades · click one to copy its hex";
+        panel.appendChild(head);
+
+        const grid = document.createElement("div");
+        grid.className = "shade-grid";
+        for (const step of family.steps) {
+          const hex = readToken("--" + family.prefix + "-" + step).toUpperCase();
+          const button = document.createElement("button");
+          button.type = "button";
+          button.className = "shade-card";
+          button.setAttribute("aria-label", "Copy " + family.name + " " + step + ", " + hex);
+          button.innerHTML =
+            '<span class="shade-card__label">' +
+            "<span>" + family.name + "/" + step + "</span>" +
+            '<span class="shade-card__hex">' + hex + "</span>" +
+            "</span>" +
+            '<span class="shade-card__color" style="background:' + hex + '"></span>';
+          button.addEventListener("click", () => {
+            navigator.clipboard.writeText(hex);
+            showToast("Copied " + hex);
+          });
+          grid.appendChild(button);
+        }
+        panel.appendChild(grid);
+
+        // Zones explain why the ramp has the steps it does; label each with the
+        // range of shades it covers.
+        const zones = document.createElement("div");
+        zones.className = "ramp-zones";
+        let cursor = 0;
+        for (const zone of family.zones) {
+          const covered = family.steps.slice(cursor, cursor + zone.span);
+          cursor += zone.span;
+          if (!covered.length) continue;
+          const span = document.createElement("span");
+          span.className = "ramp-zone";
+          const range = covered.length > 1
+            ? covered[0] + "–" + covered[covered.length - 1]
+            : String(covered[0]);
+          span.innerHTML = "<b>" + range + "</b> " + zone.label;
+          zones.appendChild(span);
+        }
+        panel.appendChild(zones);
+        return panel;
+      }
+
       function renderFamilies() {
         const container = document.getElementById("families");
         container.innerHTML = "";
-        let supportDividerAdded = false;
-        for (const family of FAMILIES) {
-          if (family.tier === "support" && !supportDividerAdded) {
+
+        const grids = {};
+        for (const tier of ["core", "support"]) {
+          if (tier === "support") {
             const divider = document.createElement("p");
             divider.className = "families-divider";
             divider.textContent = "Support families — small doses only";
             container.appendChild(divider);
-            supportDividerAdded = true;
           }
+          const grid = document.createElement("div");
+          grid.className = "palette-grid palette-grid--" + tier;
+          container.appendChild(grid);
+          grids[tier] = grid;
+        }
 
-          const details = document.createElement("details");
-          details.className = "family family--" + family.tier;
-          if (family.open) details.open = true;
-
+        for (const family of FAMILIES) {
+          const grid = grids[family.tier];
           const anchorHex = readToken("--" + family.prefix + "-" + family.anchor).toUpperCase();
-          const summary = document.createElement("summary");
-          summary.className = "family-summary";
-          summary.innerHTML =
-            '<span class="family-chip" style="background:' + anchorHex + '"></span>' +
-            '<span class="family-head">' +
-            '<span class="family-name">' + family.name + '</span>' +
-            '<span class="family-role">' + family.role + '</span>' +
-            '</span>' +
-            '<span class="family-toggle">' + family.steps.length + ' shades</span>';
-          details.appendChild(summary);
+          const card = document.createElement("button");
+          card.type = "button";
+          card.className = "swatch-card";
+          card.setAttribute("aria-expanded", "false");
+          card.innerHTML =
+            '<span class="swatch-card__label">' +
+            '<span class="swatch-card__name">' + family.name + "</span>" +
+            '<span class="swatch-card__role">' + family.role + "</span>" +
+            "</span>" +
+            '<span class="swatch-card__color" style="background:' + anchorHex + '">' +
+            '<span class="swatch-card__meta" style="color:' +
+            (isDarkHex(anchorHex) ? "rgba(255,255,255,0.9)" : "rgba(35,30,27,0.7)") + '">' +
+            "<span>" + anchorHex + "</span>" +
+            '<span class="count">' + family.steps.length + " shades</span>" +
+            "</span></span>";
 
-          const ramp = document.createElement("div");
-          ramp.className = "ramp";
-          const strip = document.createElement("div");
-          strip.className = "ramp-strip";
-          for (const step of family.steps) {
-            const hex = readToken("--" + family.prefix + "-" + step).toUpperCase();
-            const button = document.createElement("button");
-            button.type = "button";
-            button.className = "ramp-step";
-            button.style.background = hex;
-            button.style.color = isDarkHex(hex) ? "rgba(255,255,255,0.85)" : "rgba(35,30,27,0.6)";
-            button.title = family.name + "/" + step + " · " + hex + " — click to copy";
-            button.setAttribute("aria-label", "Copy " + family.name + " " + step + ", " + hex);
-            button.textContent = step;
-            button.addEventListener("click", () => {
-              navigator.clipboard.writeText(hex);
-              showToast("Copied " + hex);
-            });
-            strip.appendChild(button);
-          }
-          ramp.appendChild(strip);
+          card.addEventListener("click", () => {
+            const isOpen = card.getAttribute("aria-expanded") === "true";
+            // One panel at a time, across both grids.
+            container.querySelectorAll(".ramp-panel").forEach((p) => p.remove());
+            container.querySelectorAll('[aria-expanded="true"]')
+              .forEach((c) => c.setAttribute("aria-expanded", "false"));
+            if (isOpen) return;
+            card.setAttribute("aria-expanded", "true");
+            insertAfterRow(grid, card, buildRampPanel(family));
+          });
 
-          const zones = document.createElement("div");
-          zones.className = "ramp-zones";
-          for (const zone of family.zones) {
-            const span = document.createElement("span");
-            span.className = "ramp-zone";
-            span.style.flexGrow = zone.span;
-            span.textContent = zone.label;
-            zones.appendChild(span);
-          }
-          ramp.appendChild(zones);
-
-          details.appendChild(ramp);
-          container.appendChild(details);
+          grid.appendChild(card);
         }
       }
 
