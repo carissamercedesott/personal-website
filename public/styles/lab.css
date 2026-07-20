@@ -41,6 +41,10 @@ body.lab kbd,
 }
 
 /* ── Experiment shell ── */
+.experiment + .experiment {
+  margin-top: var(--space-24);
+}
+
 .experiment-desc {
   margin-top: var(--space-3);
   max-width: 60ch;
