@@ -649,7 +649,7 @@ html.smiski-live .hello-ring {
 .flagships {
   margin-top: var(--space-8);
   display: grid;
-  gap: var(--space-8);
+  gap: var(--space-16);
 }
 
 .project-card {
@@ -711,31 +711,6 @@ a.project-card:hover {
   color: inherit;
 }
 
-/* Narrative hand-offs: one-sentence bridges between sections, narrated
- * by the resident smiski (his icon leads each one). */
-.handoff {
-  display: flex;
-  align-items: flex-start;
-  gap: var(--space-2);
-  margin-top: var(--space-12);
-  max-width: 60ch;
-  font-family: var(--font-mono);
-  font-size: var(--text-sm);
-  line-height: var(--leading-normal);
-  color: var(--text-secondary);
-}
-
-.handoff > .icon {
-  width: 18px;
-  height: 18px;
-  margin-top: 2px;
-  color: var(--status-success);
-}
-
-.flagships .handoff {
-  margin-top: 0;
-}
-
 .project-card-details {
   display: none;
 }
@@ -789,18 +764,29 @@ a.project-card:hover {
   cursor: pointer;
 }
 
-.flagship-metric {
-  font-family: var(--font-mono);
-  font-size: var(--text-sm);
-  font-weight: var(--weight-medium);
-  color: var(--accent-2-strong);
+/* Title row: name of the build, then a badge for the one fact worth
+ * knowing before reading anything (platform, or that it's still moving). */
+.flagship-head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-3);
 }
 
-.flagship-more {
+.flagship-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-1);
+}
+
+/* Pushed to the bottom so both flagships' CTAs line up. */
+.flagship-cta {
   margin-top: auto;
-  font-size: var(--text-sm);
-  font-weight: var(--weight-medium);
-  color: var(--accent-strong);
+}
+
+/* The whole card is the hit target, so the CTA lights up with it. */
+.project-card:hover .flagship-cta {
+  background: var(--accent-hover);
 }
 
 /* Flagships alternate: the second card flips its image to the right. */
@@ -861,10 +847,37 @@ body.has-modal {
   -webkit-backdrop-filter: blur(3px);
 }
 
-/* Entrance transform comes from the FLIP in site.js; only the backdrop
- * animates in CSS. */
+/* The modal settles in place rather than growing out of the card: the card is
+ * a wide two-column tile and the modal is a tall single column, so morphing
+ * one rect into the other stretched the artwork and squashed the text. */
+.project-modal[open] {
+  animation: modal-in 200ms var(--ease-out);
+}
+
 .project-modal[open]::backdrop {
-  animation: backdrop-fade var(--duration-base) var(--ease-out);
+  animation: backdrop-fade 200ms var(--ease-out);
+}
+
+.project-modal.is-closing {
+  animation: modal-out 140ms var(--ease-out) forwards;
+}
+
+.project-modal.is-closing::backdrop {
+  animation: backdrop-fade 140ms var(--ease-out) reverse forwards;
+}
+
+@keyframes modal-in {
+  from {
+    opacity: 0;
+    transform: scale(0.97);
+  }
+}
+
+@keyframes modal-out {
+  to {
+    opacity: 0;
+    transform: scale(0.98);
+  }
 }
 
 @keyframes backdrop-fade {
@@ -875,7 +888,9 @@ body.has-modal {
 
 @media (prefers-reduced-motion: reduce) {
   .project-modal[open],
-  .project-modal[open]::backdrop {
+  .project-modal[open]::backdrop,
+  .project-modal.is-closing,
+  .project-modal.is-closing::backdrop {
     animation: none;
   }
 }
@@ -1010,7 +1025,6 @@ body.has-modal {
   background: var(--surface-raised);
   border: 1px solid var(--sage-300);
   border-radius: var(--radius-lg);
-  font-family: var(--font-mono);
   font-size: var(--text-xs);
   color: var(--text-primary);
   text-align: center;

@@ -156,27 +156,11 @@ function initProjectModal() {
   const image = modal.querySelector(".project-modal-img");
   const title = modal.querySelector(".project-modal-title");
   const info = modal.querySelector(".project-modal-info");
-  const body = modal.querySelector(".project-modal-body");
   let trigger = null;
   let closing = false;
-  let openAnim = null;
-  let closeFills = [];
 
-  // The card grows into the modal (and shrinks back on close) via a FLIP
-  // animation. Transform/opacity only: view transitions were dropped here
-  // because snapshotting the whole page stuttered on open and close.
-  const OPEN_MS = 340;
-  const CLOSE_MS = 240;
-  const EASE_OUT = "cubic-bezier(0.22, 1, 0.36, 1)";
-
-  // Transform that lays the modal's final rect over the card's.
-  function transformToCard(card) {
-    const from = card.getBoundingClientRect();
-    const to = modal.getBoundingClientRect();
-    const x = from.left + from.width / 2 - (to.left + to.width / 2);
-    const y = from.top + from.height / 2 - (to.top + to.height / 2);
-    return `translate(${x}px, ${y}px) scale(${from.width / to.width}, ${from.height / to.height})`;
-  }
+  // Matches the .project-modal.is-closing animation in home.css.
+  const CLOSE_MS = 140;
 
   function openModal(card) {
     const cardImage = card.querySelector(".project-card-img");
@@ -188,72 +172,35 @@ function initProjectModal() {
     info.innerHTML = card.querySelector(".project-card-details")?.innerHTML ?? "";
     modal.showModal();
     document.body.classList.add("has-modal");
-    if (prefersReducedMotion()) return;
-
-    // Hide the card so the modal reads as the card itself expanding.
-    card.style.visibility = "hidden";
-    const grow = modal.animate(
-      [{ transform: transformToCard(card) }, { transform: "none" }],
-      { duration: OPEN_MS, easing: EASE_OUT }
-    );
-    body.animate([{ opacity: 0 }, { opacity: 0, offset: 0.4 }, { opacity: 1 }], {
-      duration: OPEN_MS + 60,
-      easing: "ease-out",
-    });
-    openAnim = grow;
-    grow.finished
-      .finally(() => {
-        if (openAnim === grow) openAnim = null;
-        if (!closing) card.style.visibility = "";
-      })
-      .catch(() => {}); // finished rejects when the close cancels the entrance
-
   }
 
   function closeModal() {
     if (closing) return;
-    const card = trigger;
-    if (prefersReducedMotion() || !card) {
+    if (prefersReducedMotion()) {
       modal.close();
       return;
     }
     closing = true;
-    // Cancel a still-running entrance so the exit measures the true rect.
-    openAnim?.cancel();
-    card.style.visibility = "hidden";
-    const shrink = modal.animate(
-      [{ transform: "none" }, { transform: transformToCard(card) }],
-      { duration: CLOSE_MS, easing: "cubic-bezier(0.4, 0, 0.2, 1)" }
-    );
-    closeFills.push(
-      body.animate([{ opacity: 1 }, { opacity: 0 }], {
-        duration: CLOSE_MS / 2,
-        fill: "forwards",
-      })
-    );
-    try {
-      closeFills.push(
-        modal.animate([{ opacity: 1 }, { opacity: 0 }], {
-          duration: CLOSE_MS,
-          pseudoElement: "::backdrop",
-          fill: "forwards",
-        })
-      );
-    } catch {
-      // Older engines can't target ::backdrop; it pops out instead.
-    }
-    shrink.finished.finally(() => {
+    modal.classList.add("is-closing");
+    // A timer rather than animationend: a backgrounded tab freezes animations,
+    // and a close that never fires would leave the modal stuck at opacity 0.
+    setTimeout(() => {
+      modal.classList.remove("is-closing");
       closing = false;
-      card.style.visibility = "";
       modal.close();
-      // Drop the forwards fills so the next open isn't stuck at opacity 0.
-      closeFills.forEach((anim) => anim.cancel());
-      closeFills = [];
-    });
+    }, CLOSE_MS);
   }
 
-  for (const card of document.querySelectorAll('.project-card[aria-haspopup="dialog"], .card[aria-haspopup="dialog"]')) {
-    card.addEventListener("click", () => openModal(card));
+  // The trigger is either the card itself (shelf cards) or a "See more"
+  // button inside it (flagships). The listener sits on the card either way, so
+  // clicking anywhere on it opens the modal.
+  for (const trigger of document.querySelectorAll('[aria-haspopup="dialog"]')) {
+    const card = trigger.closest(".project-card, .card") ?? trigger;
+    card.addEventListener("click", () => {
+      if (!modal.open) openModal(card);
+    });
+    // A real <button> already fires click on Enter/Space; role="button" doesn't.
+    if (trigger !== card) continue;
     card.addEventListener("keydown", (event) => {
       if (event.key === "Enter" || event.key === " ") {
         event.preventDefault();
