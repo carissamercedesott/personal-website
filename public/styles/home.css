@@ -146,20 +146,19 @@ body.home {
 /* ── Intro band: the hello-world act on quiet oat ── */
 :root {
   --band-rose: var(--blush-100);
-  --band-oat: var(--oat-200);
+  /* The intro's quiet-oat tone — bg-subtle remaps itself in dark. */
+  --band-oat: var(--bg-subtle);
   --aurora-opacity: 0.75;
 }
 
 [data-theme="dark"] {
   --band-rose: #322220;
-  --band-oat: var(--oat-800);
   --aurora-opacity: 0.3;
 }
 
 @media (prefers-color-scheme: dark) {
   :root:not([data-theme="light"]) {
     --band-rose: #322220;
-    --band-oat: var(--oat-800);
     --aurora-opacity: 0.3;
   }
 }
