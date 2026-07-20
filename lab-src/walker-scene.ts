@@ -443,9 +443,11 @@ export const createSmiskiWalker = () => {
     if (studyEl && w >= 1 && mode === "flow") {
       const rect = studyEl.getBoundingClientRect();
       const mid = (rect.top + rect.height / 2) / viewH;
-      studyTarget = smooth01(1 - Math.abs(mid - 0.52) / 0.34);
+      // Wide band + steep falloff: he commits to the board early and
+      // steps off promptly once it leaves.
+      studyTarget = smooth01((1 - Math.abs(mid - 0.5) / 0.55) * 1.6);
     }
-    studyW += (studyTarget - studyW) * Math.min(1, dt * (snap ? 60 : 3.2));
+    studyW += (studyTarget - studyW) * Math.min(1, dt * (snap ? 60 : 7));
     if (studyW > 0.75 && !studied) {
       studied = true;
       showBubble("hmm — the laws.", 2200);

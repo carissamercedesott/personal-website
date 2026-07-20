@@ -163,9 +163,9 @@ const v = 92, he = 0.9, Ge = 2.6, Q = (w) => {
     let ce = 0;
     if (K && h >= 1 && g === "flow") {
       const P = K.getBoundingClientRect(), Wt = (P.top + P.height / 2) / d;
-      ce = Q(1 - Math.abs(Wt - 0.52) / 0.34);
+      ce = Q((1 - Math.abs(Wt - 0.5) / 0.55) * 1.6);
     }
-    c += (ce - c) * Math.min(1, t * (e ? 60 : 3.2)), c > 0.75 && !St ? (St = !0, at("hmm — the laws.", 2200)) : c < 0.1 && (St = !1);
+    c += (ce - c) * Math.min(1, t * (e ? 60 : 7)), c > 0.75 && !St ? (St = !0, at("hmm — the laws.", 2200)) : c < 0.1 && (St = !1);
     let F, I;
     if (h > 0) {
       if (F = a.lerp(dt.x, re.x, h), I = a.lerp(dt.y, re.y, h), c > 1e-3 && K) {
