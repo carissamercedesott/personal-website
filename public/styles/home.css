@@ -21,12 +21,16 @@ body.home {
 }
 
 /* Same pill language as .section-label, but no uppercase — "iOS" has to
- * keep its casing. */
-.hero-status {
+ * keep its casing. Pinned to the hero's top-left corner (the walker owns
+ * bottom-left, the DJ deck top-right), owl mark in place of the dot. */
+.hero .hero-status {
+  position: absolute;
+  top: var(--space-6);
+  left: var(--space-6);
+  max-width: calc(100% - 2 * var(--space-6));
   display: inline-flex;
   align-items: center;
   gap: var(--space-2);
-  margin-bottom: var(--space-4);
   font-family: var(--font-mono);
   font-size: var(--text-xs);
   font-weight: var(--weight-semibold);
@@ -38,12 +42,9 @@ body.home {
   padding: 2px var(--space-3);
 }
 
-.hero-status::before {
-  content: "";
-  width: 6px;
-  height: 6px;
-  border-radius: var(--radius-full);
-  background: var(--status-success);
+.hero-status .icon {
+  width: 14px;
+  height: 14px;
 }
 
 .hero-title {
