@@ -20,39 +20,13 @@ body.home {
   animation: rise-in var(--duration-slow) var(--ease-out) both;
 }
 
-/* Status pill + contact chips, pinned to the hero's top-left corner (the
- * walker owns bottom-left, the DJ deck top-right). */
+/* Contact chips, pinned to the hero's top-left corner (the walker owns
+ * bottom-left, the DJ deck top-right). */
 .hero .hero-corner {
   position: absolute;
   top: var(--space-6);
   left: var(--space-6);
   max-width: calc(100% - 2 * var(--space-6));
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  gap: var(--space-3);
-}
-
-/* Same pill language as .section-label, but no uppercase — "iOS" has to
- * keep its casing. */
-.hero-status {
-  display: inline-flex;
-  align-items: center;
-  gap: var(--space-2);
-  font-family: var(--font-mono);
-  font-size: var(--text-xs);
-  font-weight: var(--weight-semibold);
-  letter-spacing: var(--tracking-wide);
-  color: var(--status-success);
-  background: var(--status-success-soft);
-  border: 1px solid color-mix(in srgb, var(--status-success) 30%, transparent);
-  border-radius: var(--radius-full);
-  padding: 3px var(--space-3);
-}
-
-.hero-status .icon {
-  width: 18px;
-  height: 18px;
 }
 
 .hero-contact {
@@ -79,6 +53,56 @@ body.home {
   color: var(--accent-strong);
   border-color: var(--accent-strong);
   transform: translateY(-2px);
+}
+
+/* The Duolingo chip keeps the old status pill's success-green voice… */
+.hero-contact .hero-duo {
+  position: relative;
+  color: var(--status-success);
+  background: var(--status-success-soft);
+  border-color: color-mix(in srgb, var(--status-success) 30%, transparent);
+}
+
+.hero-contact .hero-duo:hover,
+.hero-contact .hero-duo:focus-visible {
+  color: var(--status-success);
+  border-color: var(--status-success);
+}
+
+/* …and the pill itself lives on as a popup under the chip. */
+.hero-duo-tip {
+  position: absolute;
+  top: calc(100% + var(--space-2));
+  left: 0;
+  white-space: nowrap;
+  font-family: var(--font-mono);
+  font-size: var(--text-xs);
+  font-weight: var(--weight-semibold);
+  letter-spacing: var(--tracking-wide);
+  color: var(--status-success);
+  background: var(--status-success-soft);
+  border: 1px solid color-mix(in srgb, var(--status-success) 30%, transparent);
+  border-radius: var(--radius-full);
+  padding: 3px var(--space-3);
+  opacity: 0;
+  transform: translateY(-4px) scale(0.96);
+  transform-origin: top left;
+  pointer-events: none;
+  transition: opacity var(--duration-fast) var(--ease-out),
+    transform var(--duration-fast) var(--ease-out);
+}
+
+.hero-duo:hover .hero-duo-tip,
+.hero-duo:focus-visible .hero-duo-tip {
+  opacity: 1;
+  transform: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hero-duo-tip {
+    transition: opacity var(--duration-fast) var(--ease-out);
+    transform: none;
+  }
 }
 
 .hero-title {
