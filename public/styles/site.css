@@ -402,6 +402,48 @@
   gap: var(--space-6);
 }
 
+/* Gallery variant: a fixed two-across grid so full rows stay even. */
+.card-grid--two {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+@media (max-width: 640px) {
+  .card-grid--two {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* Cards that navigate instead of opening the modal. */
+a.card {
+  color: inherit;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+/* The gallery's way back: arrow-down turned to point left. */
+.page-back {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-1);
+  margin-bottom: var(--space-6);
+  font-family: var(--font-mono);
+  font-size: var(--text-sm);
+  font-weight: var(--weight-medium);
+  color: var(--accent-strong);
+  text-decoration: none;
+}
+
+.page-back:hover {
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.page-back .icon {
+  width: 16px;
+  height: 16px;
+  transform: rotate(90deg);
+}
+
 .card {
   display: flex;
   flex-direction: column;
