@@ -334,13 +334,37 @@ function initHeroGrid() {
 // The hero's scroll cue is a teaching device, not navigation: once the
 // visitor scrolls it has done its job, so it fades out rather than
 // sitting half-cut at the fold.
-function initHeroCue() {
-  const cue = document.querySelector(".hero-next");
+function initScrollCue() {
+  const cue = document.getElementById("scroll-cue");
   if (!cue) return;
 
-  const update = () => cue.classList.toggle("is-spent", window.scrollY > 40);
-  window.addEventListener("scroll", update, { passive: true });
-  update();
+  // Rests while you read, hides while you scroll, retires at the end.
+  let idleTimer = 0;
+  const atEnd = () =>
+    window.scrollY + window.innerHeight >=
+    document.documentElement.scrollHeight - 160;
+  const settle = () => cue.classList.toggle("is-hidden", atEnd());
+
+  window.addEventListener(
+    "scroll",
+    () => {
+      cue.classList.add("is-hidden");
+      window.clearTimeout(idleTimer);
+      idleTimer = window.setTimeout(settle, 350);
+    },
+    { passive: true }
+  );
+
+  cue.addEventListener("click", () => {
+    const next = [...document.querySelectorAll("main section[id]")].find(
+      (section) => section.getBoundingClientRect().top > 80
+    );
+    next?.scrollIntoView({
+      behavior: prefersReducedMotion() ? "auto" : "smooth",
+    });
+  });
+
+  settle();
 }
 
 // The about-me reel scrolls natively (snap points); the arrows just nudge
@@ -378,7 +402,7 @@ function initSiteChrome() {
   initTypewriter();
   initProjectModal();
   initHeroGrid();
-  initHeroCue();
+  initScrollCue();
   initAboutCarousel();
 }
 

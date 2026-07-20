@@ -78,15 +78,14 @@ body.home {
   text-underline-offset: 3px;
 }
 
-/* The way onward: a round button on the right, sitting at the same
- * height as the smiski's perch on the left. Clicking it smooth-scrolls
- * to #intro, and the scroll is what swings him into the ring. */
-.hero .hero-next {
-  position: absolute;
-  /* Above the dot-lattice pseudo layers, which otherwise paint over it. */
-  z-index: 1;
+/* The way onward: a round button pinned to the viewport. It rests while
+ * you read, steps aside the moment you scroll, and retires at the page's
+ * end. Clicking it carries you to the next section. */
+.scroll-cue {
+  position: fixed;
+  z-index: 20;
   right: clamp(24px, 9vw, 150px);
-  bottom: clamp(56px, 15vh, 170px);
+  bottom: clamp(56px, 12vh, 120px);
   display: grid;
   place-items: center;
   width: 56px;
@@ -96,27 +95,35 @@ body.home {
   border: 1px solid var(--border-default);
   color: var(--accent-strong);
   box-shadow: var(--shadow-sm);
+  cursor: pointer;
   animation: cue-float 2.2s var(--ease-in-out) infinite;
   transition: box-shadow var(--duration-fast) var(--ease-out),
     background var(--duration-fast) var(--ease-out),
     opacity var(--duration-base) var(--ease-out);
 }
 
-/* site.js stamps is-spent once the visitor starts scrolling. */
-.hero .hero-next.is-spent {
+/* Hidden mid-scroll and at the end of the page. */
+.scroll-cue.is-hidden {
   opacity: 0;
   pointer-events: none;
 }
 
-.hero-next .icon {
+.scroll-cue .icon {
   width: 22px;
   height: 22px;
 }
 
-.hero-next:hover {
+.scroll-cue:hover {
   background: var(--surface-hover);
   box-shadow: var(--shadow-md);
   color: var(--accent-hover);
+}
+
+/* Small screens: the cue crowds the turntable and the walker's floor. */
+@media (max-width: 640px) {
+  .scroll-cue {
+    display: none;
+  }
 }
 
 @keyframes cue-float {
@@ -131,7 +138,7 @@ body.home {
 
 @media (prefers-reduced-motion: reduce) {
   .hero-type-cursor,
-  .hero-next {
+  .scroll-cue {
     animation: none;
   }
 }
