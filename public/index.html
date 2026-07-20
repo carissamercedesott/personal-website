@@ -370,62 +370,6 @@
         </div>
       </section>
 
-      <section class="page-section band" id="colophon">
-        <div class="section-inner">
-          <span class="section-label">06 · Colophon</span>
-          <h2>How this site is built</h2>
-          <p class="section-lead">
-            The site is its own case study — every choice below is one I'd
-            defend in a design review.
-          </p>
-          <div class="pub-list">
-            <article class="pub-item">
-              <h3>Static first, framework never</h3>
-              <p>
-                Every page is hand-written HTML and CSS. Nothing hydrates,
-                and nothing ships that isn't used — the fastest JavaScript
-                is the JavaScript that never loads.
-              </p>
-            </article>
-            <article class="pub-item">
-              <h3>One token sheet under everything</h3>
-              <p>
-                Color, type, spacing, radii, elevation, and motion all live
-                in tokens.css. The design-system page renders its palette by
-                reading those variables live in the browser, so the docs
-                physically can't drift from the source.
-              </p>
-            </article>
-            <article class="pub-item">
-              <h3>Interactivity as Solid islands</h3>
-              <p>
-                The playground demos are TypeScript + Solid components, compiled
-                with Vite and mounted only where they appear. The 3D smiski
-                goes further — three.js and its physics engine load lazily,
-                and only if you scroll to him.
-              </p>
-            </article>
-            <article class="pub-item">
-              <h3>Motion with manners</h3>
-              <p>
-                Every animation runs on the easing and duration tokens and
-                steps aside for prefers-reduced-motion — and every
-                interaction works with a keyboard alone.
-              </p>
-            </article>
-            <article class="pub-item">
-              <h3>A turntable, synthesized</h3>
-              <p>
-                The corner record player's lo-fi loop is pure Web Audio —
-                oscillators, filtered noise, vinyl crackle from a sparse
-                noise buffer. No samples. Drag the BPM and the whole site
-                keeps time.
-              </p>
-            </article>
-          </div>
-          <a class="resume-link" href="https://github.com/carissamercedesott/personal-website">Read the source →</a>
-        </div>
-      </section>
     </main>
 
     <button class="scroll-cue" id="scroll-cue" type="button" aria-label="Scroll to the next section"><svg class="icon" aria-hidden="true"><use href="/images/icons.svg#arrow-down"></use></svg></button>
