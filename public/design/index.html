@@ -13,50 +13,13 @@
     />
     <link rel="stylesheet" href="/styles/tokens.css" />
     <link rel="stylesheet" href="/styles/base.css" />
+    <link rel="stylesheet" href="/styles/site.css" />
     <script src="/scripts/theme.js"></script>
     <style>
       .page {
         max-width: 960px;
         margin: 0 auto;
         padding: var(--space-6) var(--space-6) var(--space-24);
-      }
-
-      /* Sticky so the theme toggle stays in reach — flipping light/dark
-       * mid-palette is the whole point of this page. */
-      .page-header {
-        position: sticky;
-        top: 0;
-        z-index: 10;
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        gap: var(--space-4);
-        margin: 0 calc(-1 * var(--space-6));
-        padding: var(--space-4) var(--space-6);
-        background: color-mix(in srgb, var(--bg-default) 85%, transparent);
-        -webkit-backdrop-filter: blur(10px);
-        backdrop-filter: blur(10px);
-      }
-
-      .page-header a {
-        font-size: var(--text-sm);
-        text-decoration: none;
-      }
-
-      .theme-toggle {
-        border: 1px solid var(--border-default);
-        background: var(--surface-default);
-        color: var(--text-primary);
-        border-radius: var(--radius-full);
-        padding: var(--space-2) var(--space-4);
-        font-size: var(--text-sm);
-        font-weight: var(--weight-medium);
-        box-shadow: var(--shadow-sm);
-        transition: border-color var(--duration-fast) var(--ease-out);
-      }
-
-      .theme-toggle:hover {
-        border-color: var(--border-strong);
       }
 
       .intro {
@@ -487,11 +450,21 @@
     </style>
   </head>
   <body>
+    <header class="site-header">
+      <nav class="site-nav">
+        <a class="site-logo" href="/">Carissa Ott</a>
+        <div class="site-links">
+          <a href="/projects">Work</a>
+          <a href="/lab">Lab</a>
+          <a href="/design" aria-current="page">Design</a>
+          <a href="/resume">Resume</a>
+          <button class="theme-toggle" id="theme-toggle" type="button"></button>
+        </div>
+      </nav>
+    </header>
+
     <div class="page">
-      <header class="page-header">
-        <a href="/">&larr; carissaott.com</a>
-        <button class="theme-toggle" id="theme-toggle" type="button"></button>
-      </header>
+      <a class="page-back" href="/"><svg class="icon" aria-hidden="true"><use href="/images/icons.svg#arrow-down"></use></svg> Back home</a>
 
       <div class="intro">
         <h1>Design system</h1>
@@ -655,6 +628,7 @@
     <div class="toast" id="toast">Copied</div>
 
     <script src="/scripts/site.js"></script>
+    <script src="/scripts/keys.js"></script>
     <script>
       const root = document.documentElement;
 
