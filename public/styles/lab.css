@@ -82,13 +82,17 @@ body.lab kbd,
   cursor: pointer;
   font-family: var(--font-mono);
   font-size: var(--text-sm);
+  font-weight: var(--weight-medium);
   color: var(--accent-strong);
-  padding: var(--space-1) var(--space-2);
-  border-radius: var(--radius-sm);
+  background: var(--accent-soft);
+  padding: var(--space-1) var(--space-3);
+  border-radius: var(--radius-full);
+  transition: background var(--duration-fast) var(--ease-out);
 }
 
 .experiment-source summary:hover {
   color: var(--accent-hover);
+  background: color-mix(in srgb, var(--accent-soft) 70%, var(--accent-default) 12%);
 }
 
 .code-window {

@@ -545,7 +545,7 @@ const ot = (e, t) => {
   }
   return o < n.length ? null : { score: a - Math.floor(s.length / 8), indexes: r };
 };
-var rt = /* @__PURE__ */ R('<button class="btn btn-secondary"type=button>Open the palette<kbd class=palette-kbd>K'), at = /* @__PURE__ */ R("<li class=palette-empty>nothing matches “<!>” — try “work” or “lab”"), lt = /* @__PURE__ */ R('<div class=palette-backdrop><div class=palette role=dialog aria-modal=true aria-label="Site command palette"><input class=palette-input type=text placeholder="Where to? Try “design” or “waddl”…"aria-label="Search pages and sections"role=combobox aria-expanded=true aria-controls=palette-list><ul class=palette-list id=palette-list role=listbox></ul><div class=palette-footer aria-hidden=true><span><kbd>↑↓</kbd> navigate</span><span><kbd>↵</kbd> go</span><span><kbd>esc</kbd> close'), ct = /* @__PURE__ */ R("<li class=palette-item role=option><span class=palette-label></span><span class=palette-hint>"), dt = /* @__PURE__ */ R("<span>");
+var rt = /* @__PURE__ */ R('<button class="btn btn-secondary"type=button>Open the palette<kbd class=palette-kbd>K'), at = /* @__PURE__ */ R("<li class=palette-empty>nothing matches “<!>” — try “work” or “playground”"), lt = /* @__PURE__ */ R('<div class=palette-backdrop><div class=palette role=dialog aria-modal=true aria-label="Site command palette"><input class=palette-input type=text placeholder="Where to? Try “design” or “waddl”…"aria-label="Search pages and sections"role=combobox aria-expanded=true aria-controls=palette-list><ul class=palette-list id=palette-list role=listbox></ul><div class=palette-footer aria-hidden=true><span><kbd>↑↓</kbd> navigate</span><span><kbd>↵</kbd> go</span><span><kbd>esc</kbd> close'), ct = /* @__PURE__ */ R("<li class=palette-item role=option><span class=palette-label></span><span class=palette-hint>"), dt = /* @__PURE__ */ R("<span>");
 const ut = [{
   label: "Home",
   hint: "page",
@@ -559,9 +559,9 @@ const ut = [{
   hint: "page",
   href: "/waddl"
 }, {
-  label: "The Lab",
+  label: "The Playground",
   hint: "page",
-  href: "/lab"
+  href: "/playground"
 }, {
   label: "Design system",
   hint: "page",
@@ -1003,7 +1003,7 @@ const ITEMS: Item[] = [
   { label: "Home", hint: "page", href: "/" },
   { label: "Work — all projects", hint: "page", href: "/projects" },
   { label: "Waddl case study", hint: "page", href: "/waddl" },
-  { label: "The Lab", hint: "page", href: "/lab" },
+  { label: "The Playground", hint: "page", href: "/playground" },
   { label: "Design system", hint: "page", href: "/design" },
   { label: "Resume", hint: "page", href: "/resume" },
   { label: "Research — how people think", hint: "section", href: "/#research" },
@@ -1158,7 +1158,7 @@ export const CommandPalette = () => {
                 )}
               </For>
               <Show when={results().length === 0}>
-                <li class="palette-empty">nothing matches “{query()}” — try “work” or “lab”</li>
+                <li class="palette-empty">nothing matches “{query()}” — try “work” or “playground”</li>
               </Show>
             </ul>
             <div class="palette-footer" aria-hidden="true">

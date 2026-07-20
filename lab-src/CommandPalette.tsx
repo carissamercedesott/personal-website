@@ -7,7 +7,7 @@ const ITEMS: Item[] = [
   { label: "Home", hint: "page", href: "/" },
   { label: "Work — all projects", hint: "page", href: "/projects" },
   { label: "Waddl case study", hint: "page", href: "/waddl" },
-  { label: "The Lab", hint: "page", href: "/lab" },
+  { label: "The Playground", hint: "page", href: "/playground" },
   { label: "Design system", hint: "page", href: "/design" },
   { label: "Resume", hint: "page", href: "/resume" },
   { label: "Research — how people think", hint: "section", href: "/#research" },
@@ -162,7 +162,7 @@ export const CommandPalette = () => {
                 )}
               </For>
               <Show when={results().length === 0}>
-                <li class="palette-empty">nothing matches “{query()}” — try “work” or “lab”</li>
+                <li class="palette-empty">nothing matches “{query()}” — try “work” or “playground”</li>
               </Show>
             </ul>
             <div class="palette-footer" aria-hidden="true">

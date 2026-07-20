@@ -25,13 +25,13 @@
   // somewhere else, so the sheet stays honest per page.
   const SHORTCUTS = [
     { group: "Navigate", combo: ["⌘K"], label: "Command palette", external: true,
-      note: () => (document.body.classList.contains("lab") ? "" : "in the Lab") },
+      note: () => (document.body.classList.contains("lab") ? "" : "in the Playground") },
     { group: "Navigate", combo: ["j"], label: "Next section", run: () => hopSection(1) },
     { group: "Navigate", combo: ["k"], label: "Previous section", run: () => hopSection(-1) },
     { group: "Go to", combo: ["g", "h"], label: "Home", run: navigate("/") },
     { group: "Go to", combo: ["g", "p"], label: "Work — all projects", run: navigate("/projects") },
     { group: "Go to", combo: ["g", "w"], label: "Waddl case study", run: navigate("/waddl") },
-    { group: "Go to", combo: ["g", "l"], label: "The Lab", run: navigate("/lab") },
+    { group: "Go to", combo: ["g", "l"], label: "The Playground", run: navigate("/playground") },
     { group: "Go to", combo: ["g", "d"], label: "Design system", run: navigate("/design") },
     { group: "Go to", combo: ["g", "r"], label: "Resume", run: navigate("/resume") },
     { group: "Do", combo: ["t"], label: "Toggle theme",

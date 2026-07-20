@@ -3,6 +3,7 @@
   "outputDirectory": "public",
   "cleanUrls": true,
   "redirects": [
+    { "source": "/lab", "destination": "/playground" },
     { "source": "/work", "destination": "/#work" },
     { "source": "/experience", "destination": "/#experience" },
     { "source": "/about", "destination": "/#about" },

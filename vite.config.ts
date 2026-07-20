@@ -1,8 +1,9 @@
 import { defineConfig } from "vite";
 import solid from "vite-plugin-solid";
 
-// Builds two ES-module entries into public/lab/: lab.js (the /lab
-// experiments) and walker.js (the homepage's walking smiski guide).
+// Builds two ES-module entries into public/playground/: lab.js (the
+// /playground experiments) and walker.js (the homepage's walking smiski
+// guide).
 // The pages are hand-written static HTML, so emptyOutDir must stay off.
 export default defineConfig({
   plugins: [solid()],
@@ -17,7 +18,7 @@ export default defineConfig({
       formats: ["es"],
       fileName: (_format, entryName) => `${entryName}.js`,
     },
-    outDir: "public/lab",
+    outDir: "public/playground",
     emptyOutDir: false,
     target: "es2020",
     // Lazy chunks (three + cannon behind the ragdoll demo) get stable names —
