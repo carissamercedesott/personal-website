@@ -155,8 +155,9 @@
   align-items: center;
   gap: var(--space-3);
   font-family: var(--font-mono);
-  font-size: var(--text-xs);
-  font-weight: var(--weight-medium);
+  font-size: var(--text-sm);
+  /* Semibold, not bold — Plex Mono ships no 700, so bold would be faked. */
+  font-weight: var(--weight-semibold);
   letter-spacing: 0.1em;
   text-transform: uppercase;
   color: var(--label-fg);
@@ -164,7 +165,6 @@
 
 .section-label-num {
   order: -1;
-  font-weight: var(--weight-semibold);
   font-variant-numeric: tabular-nums;
 }
 

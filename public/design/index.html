@@ -98,16 +98,6 @@
         box-shadow: var(--shadow-md, 0 6px 16px rgba(35, 30, 27, 0.1));
       }
 
-      /* The mascot has no ramp to open, so it shouldn't offer to be clicked. */
-      .swatch-card--static {
-        cursor: default;
-      }
-
-      .swatch-card--static:hover {
-        transform: none;
-        box-shadow: none;
-      }
-
       /* Labels flex so the color bands line up across a row, whatever the
        * role text runs to. */
       .swatch-card__label {
@@ -1088,8 +1078,8 @@
         if (openFamily) openers.get(openFamily)?.(false);
       }
 
-      // One fixed value with no ramp behind it, so this card is a plain div:
-      // nothing to expand, nothing to click.
+      // One fixed value with no ramp behind it: this card copies its hex like
+      // a shade chip, but there's nothing to expand.
       function renderMascot(container) {
         const hex = readToken("--smiski-green").toUpperCase();
 
@@ -1100,8 +1090,15 @@
 
         const grid = document.createElement("div");
         grid.className = "palette-grid palette-grid--support";
-        const card = document.createElement("div");
-        card.className = "swatch-card swatch-card--static";
+        const card = document.createElement("button");
+        card.type = "button";
+        card.className = "swatch-card";
+        card.title = "Copy " + hex;
+        card.setAttribute("aria-label", "Copy Smiski " + hex);
+        card.addEventListener("click", () => {
+          navigator.clipboard.writeText(hex);
+          showToast("Copied " + hex);
+        });
         card.innerHTML =
           '<span class="swatch-card__label">' +
           '<span class="swatch-card__name">Smiski</span>' +

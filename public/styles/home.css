@@ -232,28 +232,17 @@ body.home {
   --band-rose: var(--blush-100);
   /* The intro's quiet-oat tone — bg-subtle remaps itself in dark. */
   --band-oat: var(--bg-subtle);
-  /* Where a band meets its neighbors. Bands fade to this at both ends, so
-   * it has to match whatever the untinted sections show. */
-  --band-edge: var(--surface-default);
   --aurora-opacity: 0.75;
 }
 
-/* In dark, bg-subtle and surface-default are the same oat step, so a band
- * left on bg-subtle would swallow the cards sitting on it. Sitting the band
- * between the page and the card surface keeps demos raised here exactly as
- * they are on their own pages. */
 [data-theme="dark"] {
   --band-rose: #322220;
-  --band-oat: #1C1815;
-  --band-edge: var(--bg-default);
   --aurora-opacity: 0.3;
 }
 
 @media (prefers-color-scheme: dark) {
   :root:not([data-theme="light"]) {
     --band-rose: #322220;
-    --band-oat: #1C1815;
-    --band-edge: var(--bg-default);
     --aurora-opacity: 0.3;
   }
 }
@@ -261,13 +250,13 @@ body.home {
 .intro {
   padding: var(--space-16) var(--space-6);
   /* Top stays transparent so the hero's fixed wash flows in; the bottom
-   * lands on whatever the next section shows — no seam. */
+   * lands on the surface color the next band uses — no seam. */
   background: linear-gradient(
     180deg,
     transparent 0%,
-    var(--band-oat) 26%,
-    var(--band-oat) 72%,
-    var(--band-edge) 100%
+    var(--bg-subtle) 26%,
+    var(--bg-subtle) 72%,
+    var(--surface-default) 100%
   );
 }
 
@@ -581,10 +570,10 @@ html.smiski-live .hello-ring {
 .band-rose {
   background: linear-gradient(
     180deg,
-    var(--band-edge) 0%,
+    var(--surface-default) 0%,
     var(--band-rose) 24%,
     var(--band-rose) 76%,
-    var(--band-edge) 100%
+    var(--surface-default) 100%
   );
 }
 
@@ -592,10 +581,10 @@ html.smiski-live .hello-ring {
 .band-oat {
   background: linear-gradient(
     180deg,
-    var(--band-edge) 0%,
+    var(--surface-default) 0%,
     var(--band-oat) 24%,
     var(--band-oat) 76%,
-    var(--band-edge) 100%
+    var(--surface-default) 100%
   );
 }
 
