@@ -1050,7 +1050,7 @@ body.has-modal {
   margin-top: var(--space-8);
   display: flex;
   flex-direction: column;
-  gap: var(--space-10);
+  gap: var(--space-12);
 }
 
 .lab-preview-item h3 {
