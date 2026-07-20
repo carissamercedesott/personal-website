@@ -104,6 +104,9 @@ function initTypewriter() {
 
   const WORDS = [
     "design engineer",
+    "cognitive scientist",
+    "HCI enthusiast",
+    "UI/UX specialist",
     "researcher",
     "writer",
     "snowboarder",
@@ -339,12 +342,68 @@ function initHeroCue() {
   update();
 }
 
+function initScrollVideo() {
+  const frames = document.querySelectorAll("[data-scroll-video]");
+  if (!frames.length) return;
+
+  for (const frame of frames) {
+    const video = frame.querySelector("video");
+    const playButton = frame.querySelector(".device-play");
+    if (!video) continue;
+
+    // Reduced motion: no autoplay — the poster waits behind a play button.
+    if (prefersReducedMotion()) {
+      if (playButton) {
+        playButton.hidden = false;
+        playButton.addEventListener("click", () => {
+          if (video.paused) {
+            video.play().catch(() => {});
+            playButton.hidden = true;
+          }
+        });
+        video.addEventListener("click", () => {
+          video.pause();
+          playButton.hidden = false;
+        });
+      }
+      continue;
+    }
+
+    // Plays while it holds the viewport, pauses the moment it leaves —
+    // motion is the pitch, but only when someone is actually looking.
+    const observer = new IntersectionObserver(
+      (entries) => {
+        for (const entry of entries) {
+          if (entry.isIntersecting) video.play().catch(() => {});
+          else video.pause();
+        }
+      },
+      { threshold: 0.6 }
+    );
+    observer.observe(frame);
+  }
+}
+
+function initDisclosures() {
+  for (const toggle of document.querySelectorAll(".disclosure-toggle")) {
+    const region = document.getElementById(toggle.getAttribute("aria-controls"));
+    if (!region) continue;
+    toggle.addEventListener("click", () => {
+      const open = toggle.getAttribute("aria-expanded") === "true";
+      toggle.setAttribute("aria-expanded", String(!open));
+      region.classList.toggle("is-open", !open);
+    });
+  }
+}
+
 function initSiteChrome() {
   initThemeToggle();
   initReveal();
   initScrollSpy();
   initTypewriter();
   initProjectModal();
+  initScrollVideo();
+  initDisclosures();
   initHeroGrid();
   initHeroCue();
 }

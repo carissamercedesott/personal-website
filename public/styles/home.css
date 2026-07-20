@@ -357,11 +357,13 @@ html.smiski-live .intro > .section-inner {
 }
 
 /* Where the smiski sits during the hero act. Just an invisible anchor —
- * the 3D scene reads its rect and parks the mossy mound there. */
+ * the 3D scene reads its rect and parks the mossy mound there. Anchored
+ * to the CTA row so he reads as the tour guide beside "Play in the lab",
+ * not a bystander floating in the corner. */
 .hero .hero-perch {
   position: absolute;
-  left: clamp(24px, 9vw, 150px);
-  bottom: clamp(56px, 15vh, 170px);
+  left: calc(100% + var(--space-3));
+  bottom: -10px;
   width: 130px;
   height: 100px;
   pointer-events: none;
@@ -698,6 +700,146 @@ a.project-card:hover {
   color: var(--accent-strong);
 }
 
+/* ── Flagship feature: a device-framed demo beside big type, no card
+ * chrome — the phone floats on the section background. ── */
+.flagship-feature {
+  display: grid;
+  grid-template-columns: minmax(0, 5fr) minmax(0, 7fr);
+  gap: var(--space-12);
+  align-items: center;
+}
+
+.flagship-feature-body {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--space-3);
+}
+
+.flagship-feature h3 {
+  font-size: var(--text-3xl);
+  letter-spacing: var(--tracking-tight);
+}
+
+.flagship-feature-body > p {
+  font-size: var(--text-lg);
+  line-height: var(--leading-normal);
+  color: var(--text-secondary);
+}
+
+/* The bezel is CSS: dark rim, deep radius, one shadow. Stays dark in both
+ * themes — it's a phone, not a surface. */
+.device-frame {
+  position: relative;
+  width: min(280px, 100%);
+  aspect-ratio: 9 / 19.5;
+  margin-inline: auto;
+  border: 10px solid #17130f;
+  border-radius: 44px;
+  background: #17130f;
+  box-shadow: var(--shadow-lg);
+  overflow: hidden;
+}
+
+.device-video {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 34px;
+}
+
+.device-play {
+  position: absolute;
+  inset: 0;
+  margin: auto;
+  width: 64px;
+  height: 64px;
+  display: grid;
+  place-items: center;
+  border: 1px solid var(--border-default);
+  border-radius: 50%;
+  background: var(--surface-raised);
+  color: var(--text-primary);
+  cursor: pointer;
+  box-shadow: var(--shadow-md);
+}
+
+.device-play .icon {
+  width: 24px;
+  height: 24px;
+}
+
+.device-play[hidden] {
+  display: none;
+}
+
+/* Inline disclosure: the build story expands in place. */
+.disclosure-toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-1);
+  border: none;
+  background: none;
+  padding: 0;
+  font: inherit;
+  font-size: var(--text-sm);
+  font-weight: var(--weight-medium);
+  color: var(--accent-strong);
+  cursor: pointer;
+}
+
+.disclosure-chevron {
+  width: 16px;
+  height: 16px;
+  transition: transform var(--duration-base) var(--ease-out);
+}
+
+.disclosure-toggle[aria-expanded="true"] .disclosure-chevron {
+  transform: rotate(180deg);
+}
+
+.disclosure {
+  display: grid;
+  grid-template-rows: 0fr;
+  transition: grid-template-rows var(--duration-slow) var(--ease-out);
+}
+
+.disclosure.is-open {
+  grid-template-rows: 1fr;
+}
+
+.disclosure-inner {
+  overflow: hidden;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+}
+
+.disclosure-inner p {
+  font-size: var(--text-sm);
+  color: var(--text-secondary);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .disclosure,
+  .disclosure-chevron {
+    transition: none;
+  }
+}
+
+@media (max-width: 760px) {
+  .flagship-feature {
+    grid-template-columns: 1fr;
+    gap: var(--space-6);
+  }
+
+  .device-frame {
+    width: min(240px, 80%);
+  }
+}
+
 /* Flagships alternate: the second card flips its image to the right. */
 .project-card--waddl {
   grid-template-columns: minmax(0, 5fr) minmax(0, 6fr);
@@ -853,6 +995,7 @@ body.has-modal {
 }
 
 .hero-links {
+  position: relative;
   margin-top: var(--space-8);
   display: flex;
   gap: var(--space-4);

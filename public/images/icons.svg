@@ -1,6 +1,12 @@
 <svg xmlns="http://www.w3.org/2000/svg" style="display: none">
   <!-- Site icon set: 24px grid, 1.5px stroke, round caps — tinted via
        currentColor so every icon themes for free. -->
+  <symbol id="play" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M8.5 5.75v12.5l10-6.25z" />
+  </symbol>
+  <symbol id="pause" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M9 5.75v12.5M15 5.75v12.5" />
+  </symbol>
   <symbol id="sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
     <circle cx="12" cy="12" r="4" />
     <path d="M12 2.75v2M12 19.25v2M2.75 12h2M19.25 12h2M5.28 5.28l1.42 1.42M17.3 17.3l1.42 1.42M18.72 5.28 17.3 6.7M6.7 17.3l-1.42 1.42" />
