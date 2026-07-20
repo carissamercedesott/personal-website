@@ -1154,8 +1154,8 @@ body.has-modal {
  * the middle to study them ── */
 .principles-board {
   position: relative;
-  max-width: 880px;
-  margin: var(--space-12) auto 0;
+  max-width: 960px;
+  margin: var(--space-8) auto 0;
 }
 
 /* Same dot lattice as the hero — the section is a sheet of grid paper. */
@@ -1196,16 +1196,19 @@ body.has-modal {
   color: var(--accent-2-strong);
 }
 
+/* Three columns: laws alternate down the outer two while the middle
+ * stays clear for the smiski — compact enough that all three laws share
+ * the frame with him. */
 .principles-list {
   position: relative;
   display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  grid-template-rows: repeat(3, minmax(130px, auto));
-  column-gap: var(--space-12);
-  row-gap: clamp(64px, 12vh, 140px);
+  grid-template-columns: minmax(0, 1fr) minmax(150px, 180px) minmax(0, 1fr);
+  grid-template-rows: repeat(3, auto);
+  column-gap: var(--space-4);
+  row-gap: clamp(28px, 5vh, 56px);
   list-style: none;
   margin: 0;
-  padding: var(--space-8) 0 var(--space-12);
+  padding: var(--space-6) 0 var(--space-8);
 }
 
 .principle {
@@ -1231,7 +1234,7 @@ body.has-modal {
 }
 
 .principle--right {
-  grid-column: 2;
+  grid-column: 3;
 }
 
 .principle h3 {
@@ -1300,7 +1303,7 @@ body.has-modal {
 @media (max-width: 760px) {
   .principles-list {
     grid-template-columns: 1fr;
-    row-gap: var(--space-12);
+    row-gap: var(--space-8);
   }
 
   .principle--left,
@@ -1308,10 +1311,8 @@ body.has-modal {
     grid-column: 1;
   }
 
-  /* The stream slims to a margin thread beside stacked laws. */
-  .principles-path {
-    left: auto;
-    right: 0;
-    width: 32px;
+  /* No walker on small screens — the stage would just be a hole. */
+  .principles-stage {
+    display: none;
   }
 }
