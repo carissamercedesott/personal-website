@@ -55,6 +55,31 @@ body.lab kbd,
   display: none;
 }
 
+/* The "try it" hint — the one line that tells a visitor what to actually
+ * do with each demo. */
+.experiment-try {
+  margin-top: var(--space-3);
+  display: flex;
+  align-items: baseline;
+  gap: var(--space-2);
+  max-width: 60ch;
+  font-size: var(--text-sm);
+  color: var(--text-secondary);
+}
+
+.try-label {
+  flex: none;
+  font-family: var(--font-mono);
+  font-size: var(--text-xs);
+  font-weight: var(--weight-semibold);
+  letter-spacing: var(--tracking-wide);
+  text-transform: uppercase;
+  color: var(--status-success);
+  background: var(--status-success-soft);
+  padding: 0 var(--space-2);
+  border-radius: var(--radius-full);
+}
+
 .experiment-body {
   margin-top: var(--space-6);
 }

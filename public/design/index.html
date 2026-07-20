@@ -57,70 +57,141 @@
         font-size: var(--text-xl);
       }
 
+      /* Palette — a summary row per family; the full ramp lives behind a
+       * disclosure so the page leads with hierarchy, not inventory. */
       .family {
+        margin-top: var(--space-4);
+        border: 1px solid var(--border-default);
+        border-radius: var(--radius-lg);
+        background: var(--surface-default);
+      }
+
+      .family--support {
+        margin-top: var(--space-3);
+      }
+
+      .families-divider {
         margin-top: var(--space-8);
+        font-size: var(--text-xs);
+        font-weight: var(--weight-semibold);
+        letter-spacing: var(--tracking-wide);
+        text-transform: uppercase;
+        color: var(--text-muted);
+      }
+
+      .family-summary {
+        display: flex;
+        align-items: center;
+        gap: var(--space-4);
+        padding: var(--space-4) var(--space-5);
+        cursor: pointer;
+        list-style: none;
+      }
+
+      .family-summary::-webkit-details-marker {
+        display: none;
+      }
+
+      .family-chip {
+        flex: none;
+        width: 44px;
+        height: 44px;
+        border-radius: var(--radius-md);
+        box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.06);
+      }
+
+      .family--support .family-chip {
+        width: 32px;
+        height: 32px;
+      }
+
+      .family-head {
+        flex: 1;
+        min-width: 0;
       }
 
       .family-name {
-        font-size: var(--text-xl);
-      }
-
-      .family-note {
-        margin-top: var(--space-1);
-        font-size: var(--text-sm);
-        color: var(--text-muted);
-      }
-
-      .swatches {
-        margin-top: var(--space-4);
-        display: grid;
-        grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
-        gap: var(--space-3);
-      }
-
-      .swatch {
-        border: 1px solid var(--border-default);
-        border-radius: var(--radius-md);
-        overflow: hidden;
-        background: var(--surface-default);
-        text-align: left;
-        padding: 0;
-        transition: transform var(--duration-fast) var(--ease-out),
-          box-shadow var(--duration-fast) var(--ease-out);
-      }
-
-      .swatch:hover {
-        transform: translateY(-2px);
-        box-shadow: var(--shadow-md);
-        transition-duration: var(--duration-fast);
-      }
-
-      .swatch:active {
-        transform: scale(0.97);
-        transition-duration: var(--duration-press);
-      }
-
-      .swatch-chip {
-        height: 56px;
-      }
-
-      .swatch-meta {
-        padding: var(--space-2) var(--space-3);
-        display: block;
-      }
-
-      .swatch-name {
-        display: block;
-        font-size: var(--text-xs);
+        font-family: var(--font-display);
+        font-size: var(--text-lg);
         font-weight: var(--weight-semibold);
       }
 
-      .swatch-hex {
+      .family--support .family-name {
+        font-size: var(--text-md);
+      }
+
+      .family-role {
         display: block;
+        font-size: var(--text-sm);
+        color: var(--text-secondary);
+      }
+
+      .family-toggle {
+        flex: none;
         font-family: var(--font-mono);
         font-size: var(--text-xs);
         color: var(--text-muted);
-        text-transform: uppercase;
+      }
+
+      details[open] > .family-summary .family-toggle::after {
+        content: " ▴";
+      }
+
+      .family-toggle::after {
+        content: " ▾";
+      }
+
+      .ramp {
+        padding: 0 var(--space-5) var(--space-5);
+      }
+
+      .ramp-strip {
+        display: flex;
+        gap: 2px;
+      }
+
+      .ramp-step {
+        flex: 1;
+        height: 48px;
+        border: none;
+        padding: 0;
+        font-family: var(--font-mono);
+        font-size: 10px;
+        cursor: pointer;
+        transition: transform var(--duration-fast) var(--ease-out);
+      }
+
+      .family--support .ramp-step {
+        height: 36px;
+      }
+
+      .ramp-step:first-child {
+        border-radius: var(--radius-md) 0 0 var(--radius-md);
+      }
+
+      .ramp-step:last-child {
+        border-radius: 0 var(--radius-md) var(--radius-md) 0;
+      }
+
+      .ramp-step:hover {
+        transform: translateY(-3px);
+      }
+
+      .ramp-zones {
+        display: flex;
+        gap: 2px;
+        margin-top: var(--space-2);
+      }
+
+      .ramp-zone {
+        flex-basis: 0;
+        min-width: 0;
+        border-top: 1px solid var(--border-strong);
+        padding-top: var(--space-1);
+        font-size: 11px;
+        line-height: 1.3;
+        text-align: center;
+        color: var(--text-muted);
       }
 
       .semantic-grid {
@@ -491,11 +562,16 @@
       <section id="palette">
         <h2>Color palette</h2>
         <p>
-          Figma naming: <code>Blush/500</code>, <code>Oat/100</code>, &hellip;
-          Pastel steps (100&ndash;300) are fills behind dark text; 600&ndash;700
-          are the accessible text steps on light backgrounds.
+          Seven families, one job each — three core families carry the site,
+          four support families exist for tags and status. Expand a family
+          for its full ramp: every shade is there for a reason, and the
+          reason is usually contrast. Click any shade to copy its hex.
         </p>
-        <p>Click any swatch to copy its hex!</p>
+        <p>
+          Components never use these values directly — they go through the
+          <a href="#semantic">semantic tokens</a> below. Figma naming:
+          <code>Blush/500</code>, <code>Oat/100</code>, &hellip;
+        </p>
         <div id="families"></div>
       </section>
 
@@ -640,15 +716,62 @@
 
       // Palette families rendered from tokens.css itself, so the guide can
       // never drift from the source of truth.
+      // Zones annotate WHY a ramp has its steps (fills vs. AA text vs. dark
+      // mode); span = how many steps the zone covers.
       const FAMILIES = [
-        { name: "Blush", prefix: "blush", steps: [50, 100, 200, 300, 400, 500, 600, 700, 800, 900], note: "Primary — pastel pink with reddish undertones." },
-        { name: "Apricot", prefix: "apricot", steps: [50, 100, 200, 300, 400, 500, 600, 700, 800, 900], note: "Secondary — pastel orange." },
-        { name: "Oat", prefix: "oat", steps: [0, 50, 100, 200, 300, 400, 500, 600, 700, 800, 900, 950], note: "Neutrals — warm greige, never pure gray." },
-        { name: "Sage", prefix: "sage", steps: [100, 200, 300, 500, 700], note: "Support — tags, success." },
-        { name: "Sky", prefix: "sky", steps: [100, 200, 300, 500, 700], note: "Support — tags, info." },
-        { name: "Lilac", prefix: "lilac", steps: [100, 200, 300, 500, 700], note: "Support — tags, playful accents." },
-        { name: "Butter", prefix: "butter", steps: [100, 200, 300, 500, 700], note: "Support — tags, warning." },
+        { name: "Blush", prefix: "blush", tier: "core", anchor: 500, open: true,
+          steps: [50, 100, 200, 300, 400, 500, 600, 700, 800, 900],
+          role: "Primary — buttons, links, focus, the site's signature.",
+          zones: [
+            { span: 4, label: "pastel fills & washes" },
+            { span: 2, label: "accent core" },
+            { span: 2, label: "AA text on light" },
+            { span: 2, label: "dark-mode depths" },
+          ] },
+        { name: "Apricot", prefix: "apricot", tier: "core", anchor: 500,
+          steps: [50, 100, 200, 300, 400, 500, 600, 700, 800, 900],
+          role: "Secondary — awards, metrics, warm highlights.",
+          zones: [
+            { span: 4, label: "pastel fills & washes" },
+            { span: 2, label: "accent core" },
+            { span: 2, label: "AA text on light" },
+            { span: 2, label: "dark-mode depths" },
+          ] },
+        { name: "Oat", prefix: "oat", tier: "core", anchor: 500,
+          steps: [0, 50, 100, 200, 300, 400, 500, 600, 700, 800, 900, 950],
+          role: "Neutrals — every background, border, and line of text. Warm greige, never pure gray.",
+          zones: [
+            { span: 3, label: "paper — backgrounds & surfaces" },
+            { span: 2, label: "borders" },
+            { span: 3, label: "muted & secondary text" },
+            { span: 4, label: "primary text & dark-mode surfaces" },
+          ] },
+        { name: "Sage", prefix: "sage", tier: "support", anchor: 500,
+          steps: [100, 200, 300, 500, 700],
+          role: "Success states — and the smiski.",
+          zones: SUPPORT_ZONES() },
+        { name: "Sky", prefix: "sky", tier: "support", anchor: 500,
+          steps: [100, 200, 300, 500, 700],
+          role: "Info states and discipline tags.",
+          zones: SUPPORT_ZONES() },
+        { name: "Lilac", prefix: "lilac", tier: "support", anchor: 500,
+          steps: [100, 200, 300, 500, 700],
+          role: "Playful accents.",
+          zones: SUPPORT_ZONES() },
+        { name: "Butter", prefix: "butter", tier: "support", anchor: 500,
+          steps: [100, 200, 300, 500, 700],
+          role: "Warnings and recognition tags.",
+          zones: SUPPORT_ZONES() },
       ];
+
+      function SUPPORT_ZONES() {
+        return [
+          { span: 2, label: "soft fills" },
+          { span: 1, label: "text on dark" },
+          { span: 1, label: "core" },
+          { span: 1, label: "text on light" },
+        ];
+      }
 
       const SEMANTIC_TOKENS = [
         ["--bg-default", "page background"],
@@ -686,38 +809,77 @@
         showToast.timer = setTimeout(() => toast.classList.remove("is-visible"), 1200);
       }
 
+      // Step labels need to read on their own chip, whatever its lightness.
+      function isDarkHex(hex) {
+        const n = parseInt(hex.slice(1), 16);
+        const r = (n >> 16) & 255, g = (n >> 8) & 255, b = n & 255;
+        return 0.299 * r + 0.587 * g + 0.114 * b < 150;
+      }
+
       function renderFamilies() {
         const container = document.getElementById("families");
         container.innerHTML = "";
+        let supportDividerAdded = false;
         for (const family of FAMILIES) {
-          const section = document.createElement("div");
-          section.className = "family";
-          section.innerHTML =
-            '<h3 class="family-name">' + family.name + '</h3>' +
-            '<p class="family-note">' + family.note + '</p>';
-          const grid = document.createElement("div");
-          grid.className = "swatches";
+          if (family.tier === "support" && !supportDividerAdded) {
+            const divider = document.createElement("p");
+            divider.className = "families-divider";
+            divider.textContent = "Support families — small doses only";
+            container.appendChild(divider);
+            supportDividerAdded = true;
+          }
+
+          const details = document.createElement("details");
+          details.className = "family family--" + family.tier;
+          if (family.open) details.open = true;
+
+          const anchorHex = readToken("--" + family.prefix + "-" + family.anchor).toUpperCase();
+          const summary = document.createElement("summary");
+          summary.className = "family-summary";
+          summary.innerHTML =
+            '<span class="family-chip" style="background:' + anchorHex + '"></span>' +
+            '<span class="family-head">' +
+            '<span class="family-name">' + family.name + '</span>' +
+            '<span class="family-role">' + family.role + '</span>' +
+            '</span>' +
+            '<span class="family-toggle">' + family.steps.length + ' shades</span>';
+          details.appendChild(summary);
+
+          const ramp = document.createElement("div");
+          ramp.className = "ramp";
+          const strip = document.createElement("div");
+          strip.className = "ramp-strip";
           for (const step of family.steps) {
-            const token = "--" + family.prefix + "-" + step;
-            const hex = readToken(token).toUpperCase();
-            const swatch = document.createElement("button");
-            swatch.className = "swatch";
-            swatch.type = "button";
-            swatch.title = "Copy " + hex;
-            swatch.innerHTML =
-              '<div class="swatch-chip" style="background:' + hex + '"></div>' +
-              '<span class="swatch-meta">' +
-              '<span class="swatch-name">' + family.name + "/" + step + '</span>' +
-              '<span class="swatch-hex">' + hex + '</span>' +
-              '</span>';
-            swatch.addEventListener("click", () => {
+            const hex = readToken("--" + family.prefix + "-" + step).toUpperCase();
+            const button = document.createElement("button");
+            button.type = "button";
+            button.className = "ramp-step";
+            button.style.background = hex;
+            button.style.color = isDarkHex(hex) ? "rgba(255,255,255,0.85)" : "rgba(35,30,27,0.6)";
+            button.title = family.name + "/" + step + " · " + hex + " — click to copy";
+            button.setAttribute("aria-label", "Copy " + family.name + " " + step + ", " + hex);
+            button.textContent = step;
+            button.addEventListener("click", () => {
               navigator.clipboard.writeText(hex);
               showToast("Copied " + hex);
             });
-            grid.appendChild(swatch);
+            strip.appendChild(button);
           }
-          section.appendChild(grid);
-          container.appendChild(section);
+          ramp.appendChild(strip);
+
+          const zones = document.createElement("div");
+          zones.className = "ramp-zones";
+          for (const zone of family.zones) {
+            const span = document.createElement("span");
+            span.className = "ramp-zone";
+            span.style.flexGrow = zone.span;
+            span.textContent = zone.label;
+            zones.appendChild(span);
+          }
+          ramp.appendChild(zones);
+
+          details.appendChild(ramp);
+          container.appendChild(details);
         }
       }
 
