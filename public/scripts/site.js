@@ -164,10 +164,15 @@ function initProjectModal() {
 
   function openModal(card) {
     const cardImage = card.querySelector(".project-card-img");
+    // Cards with a video preview (Cross Math) have no <img> — fall back to
+    // the clip's poster so the modal still opens with an image.
+    const cardVideo = card.querySelector(".card-video");
+    const src = cardImage?.src ?? cardVideo?.getAttribute("poster") ?? "";
+    const alt = cardImage?.alt ?? cardVideo?.getAttribute("aria-label") ?? "";
     trigger = card;
-    image.hidden = !cardImage;
-    image.src = cardImage?.src ?? "";
-    image.alt = cardImage?.alt ?? "";
+    image.hidden = !src;
+    image.src = src;
+    image.alt = alt;
     title.textContent = card.querySelector("h3").textContent;
     info.innerHTML = card.querySelector(".project-card-details")?.innerHTML ?? "";
     modal.showModal();
@@ -355,6 +360,56 @@ function initAboutCarousel() {
   updateEnds();
 }
 
+// Flagship cards can preview a muted screen recording. Desktop plays on
+// hover/focus (preview on intent); touch plays while the card is in view.
+// Reduced motion leaves the poster still — no autoplay at all.
+function initCardVideo() {
+  const medias = document.querySelectorAll(".card-media--phone");
+  if (medias.length === 0 || prefersReducedMotion()) return;
+
+  const hoverCapable = window.matchMedia("(hover: hover)").matches;
+
+  for (const media of medias) {
+    const video = media.querySelector("video");
+    if (!video) continue;
+
+    const play = () => {
+      // preload="none": the first play() is what fetches the clip.
+      const started = video.play();
+      const mark = () => media.classList.add("is-playing");
+      if (started && started.then) started.then(mark).catch(() => {});
+      else mark();
+    };
+    const stop = () => {
+      video.pause();
+      video.currentTime = 0;
+      media.classList.remove("is-playing");
+    };
+
+    if (hoverCapable) {
+      const card = media.closest(".project-card") ?? media;
+      card.addEventListener("pointerenter", play);
+      card.addEventListener("pointerleave", stop);
+      // Keyboard: playing while any control inside the card holds focus.
+      card.addEventListener("focusin", play);
+      card.addEventListener("focusout", (event) => {
+        if (!card.contains(event.relatedTarget)) stop();
+      });
+    } else if ("IntersectionObserver" in window) {
+      const observer = new IntersectionObserver(
+        (entries) => {
+          for (const entry of entries) {
+            if (entry.isIntersecting) play();
+            else stop();
+          }
+        },
+        { threshold: 0.6 }
+      );
+      observer.observe(media);
+    }
+  }
+}
+
 function initPageBack() {
   const back = document.querySelector(".page-back");
   if (!back) return;
@@ -378,6 +433,7 @@ function initSiteChrome() {
   initDisclosures();
   initScrollCue();
   initAboutCarousel();
+  initCardVideo();
   initPageBack();
 }
 

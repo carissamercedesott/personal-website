@@ -558,6 +558,19 @@ html.smiski-live .hello-ring {
   color: var(--text-primary);
 }
 
+.intro-wave {
+  font-style: normal;
+  white-space: nowrap;
+}
+
+.intro-bio-icon {
+  width: 1.15em;
+  height: 1.15em;
+  color: var(--accent-strong);
+  vertical-align: -0.22em;
+  margin-right: 0.15em;
+}
+
 .intro-thesis {
   margin-top: var(--space-4);
   max-width: 44ch;
@@ -822,6 +835,88 @@ a.project-card:hover {
 
   .project-card--flagship .project-card-body {
     padding: var(--space-4) var(--space-6) var(--space-6);
+  }
+}
+
+/* ── Flagship media: the Cross Math card plays a muted screen recording
+ * framed as a phone. Hover previews on desktop, in-view on touch, and it
+ * stays a static poster under reduced motion (see initCardVideo). ── */
+.card-media--phone {
+  position: relative;
+  display: grid;
+  place-items: center;
+  overflow: hidden;
+  padding: var(--space-6);
+  border-right: 1px solid var(--border-default);
+  /* Warm glow over the raised surface so the dark phone reads in both
+   * themes; the tokens remap, so no dark-mode override needed. */
+  background:
+    radial-gradient(120% 90% at 50% -10%, var(--accent-soft), transparent 60%),
+    var(--surface-raised);
+}
+
+/* The device: a plain dark bezel. The recording already carries its own
+ * iOS status bar and home indicator, so there's no notch overlay. The body
+ * color is intentionally theme-independent, like a real phone. */
+.phone {
+  position: relative;
+  height: clamp(240px, 30vw, 312px);
+  aspect-ratio: 512 / 1080;
+  padding: 5px;
+  border-radius: 26px;
+  background: #14110f;
+  box-shadow:
+    inset 0 0 0 1px rgba(255, 255, 255, 0.09),
+    0 16px 38px -14px rgba(0, 0, 0, 0.55),
+    0 4px 10px rgba(0, 0, 0, 0.28);
+}
+
+.card-video {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 21px;
+  background: #000;
+}
+
+/* "Preview" cue — decorative, so pointer-events stay off and a click still
+ * opens the card's modal. Fades out once the clip is playing. */
+.card-preview-hint {
+  position: absolute;
+  left: var(--space-4);
+  bottom: var(--space-4);
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 4px var(--space-3);
+  border-radius: var(--radius-full);
+  background: rgba(20, 17, 15, 0.62);
+  color: #fff;
+  -webkit-backdrop-filter: blur(6px);
+  backdrop-filter: blur(6px);
+  font-family: var(--font-mono);
+  font-size: var(--text-xs);
+  font-weight: var(--weight-semibold);
+  pointer-events: none;
+  transition: opacity var(--duration-base) var(--ease-out);
+}
+
+.card-preview-hint .icon {
+  width: 13px;
+  height: 13px;
+}
+
+.card-media--phone.is-playing .card-preview-hint {
+  opacity: 0;
+}
+
+/* Stacked layout: media on top, so trade the right divider for a bottom
+ * one — matches the flagship image rules. */
+@media (max-width: 760px) {
+  .project-card--flagship .card-media--phone {
+    border-right: none;
+    border-bottom: 1px solid var(--border-default);
   }
 }
 
@@ -1266,120 +1361,92 @@ body.has-modal {
   }
 }
 
-/* ── Contact: the closer. One card, one obvious action (email), the rest
- * one hop away. Availability chip borrows the hero-duo's success voice. ── */
-.contact-card {
+/* ── Contact: the closer. A warm hello and a little constellation of
+ * logos that bob in place — no card, no clutter. ── */
+.contact-inner {
+  text-align: center;
+}
+
+.contact-inner .section-label {
+  /* Center the label + hairline in a normally left-aligned block. */
+  justify-content: center;
+}
+
+.contact-lead {
+  margin-left: auto;
+  margin-right: auto;
+  font-size: var(--text-lg);
+}
+
+/* The floating logos. Each is a round chip that idles with a slow bob,
+ * staggered so the row breathes rather than pulses in unison. */
+.contact-orbit {
   margin-top: var(--space-8);
   display: flex;
-  flex-direction: column;
-  align-items: flex-start;
+  flex-wrap: wrap;
+  justify-content: center;
   gap: var(--space-6);
-  max-width: 620px;
-  padding: var(--space-8);
+}
+
+.contact-orb {
+  display: grid;
+  place-items: center;
+  width: 56px;
+  height: 56px;
+  border-radius: var(--radius-full);
   background: var(--surface-raised);
   border: 1px solid var(--border-default);
-  border-radius: var(--radius-xl);
-  box-shadow: var(--shadow-md);
-}
-
-.contact-status {
-  display: inline-flex;
-  align-items: center;
-  gap: var(--space-2);
-  padding: 4px var(--space-3);
-  border-radius: var(--radius-full);
-  font-family: var(--font-mono);
-  font-size: var(--text-xs);
-  font-weight: var(--weight-semibold);
-  color: var(--status-success);
-  background: var(--status-success-soft);
-  border: 1px solid color-mix(in srgb, var(--status-success) 30%, transparent);
-}
-
-.contact-status-dot {
-  width: 8px;
-  height: 8px;
-  border-radius: var(--radius-full);
-  background: var(--status-success);
-  animation: contact-pulse 2.4s var(--ease-in-out) infinite;
-}
-
-/* A soft sonar ring so "open to what's next" reads as a live signal. */
-@keyframes contact-pulse {
-  0% {
-    box-shadow: 0 0 0 0 color-mix(in srgb, var(--status-success) 55%, transparent);
-  }
-  70%,
-  100% {
-    box-shadow: 0 0 0 7px transparent;
-  }
-}
-
-/* The email: the biggest, most obvious action on the page's last screen.
- * Address shown in full and in mono — copyable at a glance. */
-.contact-email {
-  display: inline-flex;
-  align-items: center;
-  gap: var(--space-3);
-  padding: var(--space-4) var(--space-6);
-  font-family: var(--font-mono);
-  font-size: var(--text-md);
-  border-radius: var(--radius-lg);
-}
-
-.contact-email .icon {
-  width: 20px;
-  height: 20px;
-}
-
-.contact-channels {
-  display: flex;
-  flex-wrap: wrap;
-  gap: var(--space-3);
-}
-
-.contact-channel {
-  display: inline-flex;
-  align-items: center;
-  gap: var(--space-2);
-  padding: var(--space-2) var(--space-4);
-  border-radius: var(--radius-full);
-  background: var(--surface-default);
-  border: 1px solid var(--border-default);
   color: var(--text-secondary);
-  font-size: var(--text-sm);
-  font-weight: var(--weight-medium);
-  text-decoration: none;
-  box-shadow: var(--shadow-sm);
+  box-shadow: var(--shadow-md);
+  animation: orb-float 3.6s var(--ease-in-out) infinite;
   transition: color var(--duration-fast) var(--ease-out),
     border-color var(--duration-fast) var(--ease-out),
-    transform var(--duration-fast) var(--ease-out);
+    box-shadow var(--duration-fast) var(--ease-out);
 }
 
-.contact-channel:hover {
+.contact-orb .icon {
+  width: 22px;
+  height: 22px;
+}
+
+/* Stagger the bob so the logos drift out of sync. */
+.contact-orb:nth-child(1) { animation-delay: 0s; }
+.contact-orb:nth-child(2) { animation-delay: 0.45s; }
+.contact-orb:nth-child(3) { animation-delay: 0.9s; }
+.contact-orb:nth-child(4) { animation-delay: 1.35s; }
+
+.contact-orb:hover {
   color: var(--accent-strong);
   border-color: var(--accent-strong);
-  transform: translateY(-2px);
+  box-shadow: var(--shadow-lg);
+  /* Pause the bob and lift on hover so the target holds still. */
+  animation-play-state: paused;
+}
+
+@keyframes orb-float {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-7px);
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .contact-status-dot {
+  .contact-orb {
     animation: none;
-  }
-
-  .contact-channel:hover {
-    transform: none;
   }
 }
 
 @media (max-width: 640px) {
-  .contact-card {
-    padding: var(--space-6);
+  .contact-orbit {
     gap: var(--space-4);
   }
 
-  .contact-email {
-    font-size: var(--text-sm);
+  .contact-orb {
+    width: 50px;
+    height: 50px;
   }
 }
 
