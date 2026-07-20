@@ -1181,7 +1181,7 @@ body.has-modal {
   pointer-events: none;
   background-image: radial-gradient(
     circle,
-    color-mix(in srgb, var(--oat-500) 55%, transparent) 1.1px,
+    color-mix(in srgb, var(--oat-400) 45%, transparent) 1.1px,
     transparent 1.9px
   );
   background-size: 26px 26px;
