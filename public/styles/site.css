@@ -267,14 +267,20 @@
   transform: scale(0.97);
 }
 
+/* Tonal, not solid: a filled blush block was the heaviest thing on a card
+ * that's otherwise all air. Soft fill with strong text also clears
+ * contrast comfortably, which a lighter fill under white text can't. */
+/* The border is what separates it from a tag — tag--platform sits on the
+ * same soft fill, and without it the action and the label weigh the same. */
 .btn-primary {
-  background: var(--accent-default);
-  color: var(--text-on-accent);
+  background: var(--accent-soft);
+  color: var(--accent-strong);
+  border-color: color-mix(in srgb, var(--accent-default) 38%, transparent);
 }
 
 .btn-primary:hover {
-  background: var(--accent-hover);
-  color: var(--text-on-accent);
+  background: color-mix(in srgb, var(--accent-soft) 78%, var(--accent-default) 14%);
+  color: var(--accent-strong);
 }
 
 /* A real surface, not accent-soft — that pale blush disappears against

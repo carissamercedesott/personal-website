@@ -786,7 +786,7 @@ a.project-card:hover {
 
 /* The whole card is the hit target, so the CTA lights up with it. */
 .project-card:hover .flagship-cta {
-  background: var(--accent-hover);
+  background: color-mix(in srgb, var(--accent-soft) 78%, var(--accent-default) 14%);
 }
 
 /* Flagships alternate: the second card flips its image to the right. */
