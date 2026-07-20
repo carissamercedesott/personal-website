@@ -52,6 +52,11 @@
         max-width: 65ch;
       }
 
+      section > h3 {
+        margin-top: var(--space-8);
+        font-size: var(--text-xl);
+      }
+
       .family {
         margin-top: var(--space-8);
       }
@@ -469,16 +474,19 @@
       <div class="intro">
         <h1>Design system</h1>
         <p>
-          Warm pastels, crisp surfaces, soft motion. Two token layers: named
-          color sets (primitives) that never change, and semantic tokens that
-          remap between light and dark. Click any swatch to copy its hex.
-        </p>
-        <p>
-          This isn't a spec page next to a website — every page on this site
-          renders from these exact tokens.
+          Every page on this site renders from these exact tokens!
           <a href="https://github.com/carissamercedesott/personal-website">View the source</a>.
         </p>
       </div>
+
+      <section id="concept">
+        <h2>Concept</h2>
+        <p>Warm pastels, crisp surfaces, soft motion.</p>
+        <p>
+          Two token layers: named color sets (primitives) that never change,
+          and semantic tokens that remap between light and dark.
+        </p>
+      </section>
 
       <section id="palette">
         <h2>Color palette</h2>
@@ -487,6 +495,7 @@
           Pastel steps (100&ndash;300) are fills behind dark text; 600&ndash;700
           are the accessible text steps on light backgrounds.
         </p>
+        <p>Click any swatch to copy its hex!</p>
         <div id="families"></div>
       </section>
 
@@ -597,18 +606,15 @@
       </section>
 
       <section id="components">
-        <h2>Components in the system</h2>
-        <p>Buttons, tags, and a project card assembled purely from semantic tokens.</p>
+        <h2>Components</h2>
+        <p>Buttons, tags, and a project card assembled from semantic tokens.</p>
+        <h3>Buttons</h3>
         <div class="component-row">
           <button class="btn btn-primary" type="button">Primary</button>
           <button class="btn btn-secondary" type="button">Secondary</button>
           <button class="btn btn-ghost" type="button">Ghost</button>
         </div>
-        <p>
-          Tags follow one taxonomy — every tag is a <em>platform</em>,
-          a <em>discipline</em>, or a <em>recognition</em>, and each kind
-          keeps one color everywhere on the site.
-        </p>
+        <h3>Tags</h3>
         <div class="component-row">
           <span class="tag tag--platform">Swift · platform</span>
           <span class="tag tag--discipline">Algorithms · discipline</span>
