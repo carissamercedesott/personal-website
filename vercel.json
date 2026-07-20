@@ -4,7 +4,6 @@
   "cleanUrls": true,
   "redirects": [
     { "source": "/work", "destination": "/#work" },
-    { "source": "/projects", "destination": "/#work" },
     { "source": "/experience", "destination": "/#experience" },
     { "source": "/about", "destination": "/#offclock" },
     { "source": "/interests", "destination": "/#offclock" }
