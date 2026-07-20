@@ -20,14 +20,22 @@ body.home {
   animation: rise-in var(--duration-slow) var(--ease-out) both;
 }
 
-/* Same pill language as .section-label, but no uppercase — "iOS" has to
- * keep its casing. Pinned to the hero's top-left corner (the walker owns
- * bottom-left, the DJ deck top-right), owl mark in place of the dot. */
-.hero .hero-status {
+/* Status pill + contact chips, pinned to the hero's top-left corner (the
+ * walker owns bottom-left, the DJ deck top-right). */
+.hero .hero-corner {
   position: absolute;
   top: var(--space-6);
   left: var(--space-6);
   max-width: calc(100% - 2 * var(--space-6));
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--space-3);
+}
+
+/* Same pill language as .section-label, but no uppercase — "iOS" has to
+ * keep its casing. */
+.hero-status {
   display: inline-flex;
   align-items: center;
   gap: var(--space-2);
@@ -39,12 +47,38 @@ body.home {
   background: var(--status-success-soft);
   border: 1px solid color-mix(in srgb, var(--status-success) 30%, transparent);
   border-radius: var(--radius-full);
-  padding: 2px var(--space-3);
+  padding: 3px var(--space-3);
 }
 
 .hero-status .icon {
-  width: 14px;
-  height: 14px;
+  width: 18px;
+  height: 18px;
+}
+
+.hero-contact {
+  display: flex;
+  gap: var(--space-2);
+}
+
+.hero-contact a {
+  display: grid;
+  place-items: center;
+  width: 34px;
+  height: 34px;
+  border-radius: var(--radius-full);
+  background: var(--surface-default);
+  border: 1px solid var(--border-default);
+  color: var(--text-secondary);
+  box-shadow: var(--shadow-sm);
+  transition: color var(--duration-fast) var(--ease-out),
+    border-color var(--duration-fast) var(--ease-out),
+    transform var(--duration-fast) var(--ease-out);
+}
+
+.hero-contact a:hover {
+  color: var(--accent-strong);
+  border-color: var(--accent-strong);
+  transform: translateY(-2px);
 }
 
 .hero-title {
@@ -494,6 +528,14 @@ html.smiski-live .hello-ring {
   color: var(--text-primary);
 }
 
+.intro-thesis {
+  margin-top: var(--space-4);
+  max-width: 44ch;
+  font-size: var(--text-lg);
+  font-weight: var(--weight-medium);
+  color: var(--text-primary);
+}
+
 /* ── Experience: a sticker sheet on its own rose band ── */
 .band-rose {
   background: linear-gradient(
@@ -876,13 +918,6 @@ body.has-modal {
   .project-modal-body {
     padding: var(--space-4) var(--space-6) var(--space-6);
   }
-}
-
-.hero-subtitle {
-  margin-top: var(--space-3);
-  max-width: 46ch;
-  font-size: var(--text-lg);
-  color: var(--text-secondary);
 }
 
 .hero-links {

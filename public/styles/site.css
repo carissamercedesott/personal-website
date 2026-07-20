@@ -264,13 +264,18 @@
   color: var(--text-on-accent);
 }
 
+/* A real surface, not accent-soft — that pale blush disappears against
+ * the hero's blush wash. */
 .btn-secondary {
-  background: var(--accent-soft);
+  background: var(--surface-default);
   color: var(--accent-strong);
+  border: 1px solid var(--border-strong);
+  box-shadow: var(--shadow-sm);
 }
 
 .btn-secondary:hover {
   color: var(--accent-strong);
+  border-color: var(--accent-strong);
 }
 
 /* ── Tags — one taxonomy, three kinds (see tokens.css) ── */
@@ -420,9 +425,11 @@ a.card {
   cursor: pointer;
 }
 
-/* The gallery's way back: arrow-down turned to point left. */
+/* The gallery's way back: arrow-down turned to point left. Flex (not
+ * inline-flex) so it owns its line even when an inline pill follows. */
 .page-back {
-  display: inline-flex;
+  display: flex;
+  width: fit-content;
   align-items: center;
   gap: var(--space-1);
   margin-bottom: var(--space-6);

@@ -408,6 +408,19 @@ function initAboutCarousel() {
   updateEnds();
 }
 
+function initPageBack() {
+  const back = document.querySelector(".page-back");
+  if (!back) return;
+  // Return to the page the visitor actually came from (home, the Work
+  // gallery, …); the href is the fallback for direct visits.
+  back.addEventListener("click", (event) => {
+    if (document.referrer.startsWith(window.location.origin) && window.history.length > 1) {
+      event.preventDefault();
+      window.history.back();
+    }
+  });
+}
+
 function initSiteChrome() {
   initThemeToggle();
   initReveal();
@@ -418,6 +431,7 @@ function initSiteChrome() {
   initDisclosures();
   initScrollCue();
   initAboutCarousel();
+  initPageBack();
 }
 
 window.initSiteChrome = initSiteChrome;
