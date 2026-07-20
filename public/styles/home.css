@@ -1185,17 +1185,49 @@ body.has-modal {
   stroke-linecap: round;
 }
 
-/* Wide blurred pass reads as glow; the crisp core carries the gradient. */
+/* Wide blurred pass reads as glow — same accent and 2.4s cadence as the
+ * hello-ring, so the two glows feel like one light source. Three crisp
+ * strands weave over it as the braid. */
 .flow-halo {
-  stroke: var(--apricot-400);
-  stroke-width: 7;
+  stroke: color-mix(in srgb, var(--accent-2-default) 60%, transparent);
+  stroke-width: 12;
   opacity: var(--flow-halo-opacity);
-  filter: blur(7px);
+  filter: blur(9px);
+  animation: flow-pulse 2.4s var(--ease-in-out) infinite;
 }
 
-.flow-core {
-  stroke: url(#flow-grad);
+@keyframes flow-pulse {
+  0%,
+  100% {
+    opacity: calc(var(--flow-halo-opacity) * 0.55);
+  }
+  50% {
+    opacity: var(--flow-halo-opacity);
+  }
+}
+
+.flow-strand {
   stroke-width: 2.5;
+}
+
+.flow-strand--a {
+  stroke: url(#flow-grad);
+}
+
+.flow-strand--b {
+  stroke: var(--apricot-400);
+  opacity: 0.85;
+}
+
+.flow-strand--c {
+  stroke: var(--blush-400);
+  opacity: 0.85;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .flow-halo {
+    animation: none;
+  }
 }
 
 .principles-list {

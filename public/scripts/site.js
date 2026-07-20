@@ -350,33 +350,64 @@ function initPrinciplesFlow() {
   const flow = document.querySelector(".principles-flow");
   if (!flow) return;
 
-  const paths = [...flow.querySelectorAll(".principles-path path")];
-  const lengths = paths.map((path) => path.getTotalLength());
-  paths.forEach((path, i) => {
-    path.style.strokeDasharray = String(lengths[i]);
-  });
+  const svg = flow.querySelector(".principles-path");
+  const paths = [...svg.querySelectorAll("path")];
+  let lengths = null;
 
-  if (prefersReducedMotion()) {
-    paths.forEach((path) => {
-      path.style.strokeDashoffset = "0";
+  // Non-scaling strokes dash in screen pixels, so each path is measured in
+  // screen space — viewBox units would tile the dash and cut the stream.
+  const measure = () => {
+    const rect = svg.getBoundingClientRect();
+    if (!rect.width || !rect.height) return null;
+    const box = svg.viewBox.baseVal;
+    const sx = rect.width / box.width;
+    const sy = rect.height / box.height;
+    return paths.map((path) => {
+      const total = path.getTotalLength();
+      let length = 0;
+      let prev = path.getPointAtLength(0);
+      const steps = 64;
+      for (let i = 1; i <= steps; i++) {
+        const point = path.getPointAtLength((total * i) / steps);
+        length += Math.hypot((point.x - prev.x) * sx, (point.y - prev.y) * sy);
+        prev = point;
+      }
+      return length + 4; // overshoot so the tail never shows a seam
     });
-    return;
-  }
+  };
+
+  const apply = (progress) => {
+    if (!lengths) return;
+    paths.forEach((path, i) => {
+      path.style.strokeDasharray = String(lengths[i]);
+      path.style.strokeDashoffset = String(lengths[i] * (1 - progress));
+    });
+  };
 
   // The stream draws in as the section crosses the viewport.
   const update = () => {
+    if (!lengths) lengths = measure();
+    if (prefersReducedMotion()) {
+      apply(1);
+      return;
+    }
     const rect = flow.getBoundingClientRect();
     const vh = window.innerHeight;
     const progress = Math.min(
       1,
       Math.max(0, (vh * 0.85 - rect.top) / (rect.height + vh * 0.35))
     );
-    paths.forEach((path, i) => {
-      path.style.strokeDashoffset = String(lengths[i] * (1 - progress));
-    });
+    apply(progress);
   };
   window.addEventListener("scroll", update, { passive: true });
-  window.addEventListener("resize", update, { passive: true });
+  window.addEventListener(
+    "resize",
+    () => {
+      lengths = measure();
+      update();
+    },
+    { passive: true }
+  );
   update();
 }
 
