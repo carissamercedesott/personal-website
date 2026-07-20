@@ -98,6 +98,16 @@
         box-shadow: var(--shadow-md, 0 6px 16px rgba(35, 30, 27, 0.1));
       }
 
+      /* The mascot has no ramp to open, so it shouldn't offer to be clicked. */
+      .swatch-card--static {
+        cursor: default;
+      }
+
+      .swatch-card--static:hover {
+        transform: none;
+        box-shadow: none;
+      }
+
       /* Labels flex so the color bands line up across a row, whatever the
        * role text runs to. */
       .swatch-card__label {
@@ -645,9 +655,9 @@
         <h2>Color palette</h2>
         <p>
           Seven families, one job each — three core families carry the site,
-          four support families exist for tags and status. Each card shows the
-          shade this mode actually leans on, so it remaps when you switch
-          themes. Expand a family for its full ramp: every shade is there for a
+          four support families exist for tags and status. Each card wears a
+          pastel step so you read the family's character, not its working
+          value. Expand a family for its full ramp: every shade is there for a
           reason, and the reason is usually contrast. Click any shade to copy
           its hex.
         </p>
@@ -803,7 +813,7 @@
       // Zones annotate WHY a ramp has its steps (fills vs. AA text vs. dark
       // mode); span = how many steps the zone covers.
       const FAMILIES = [
-        { name: "Blush", prefix: "blush", tier: "core", anchor: "--accent-default",
+        { name: "Blush", prefix: "blush", tier: "core", anchorSteps: { light: 200, dark: 300 },
           steps: [50, 100, 200, 300, 400, 500, 600, 700, 800, 900],
           role: "Primary — buttons, links, focus, the site's signature.",
           zones: [
@@ -812,7 +822,7 @@
             { span: 2, label: "AA text on light" },
             { span: 2, label: "dark-mode depths" },
           ] },
-        { name: "Apricot", prefix: "apricot", tier: "core", anchor: "--accent-2-default",
+        { name: "Apricot", prefix: "apricot", tier: "core", anchorSteps: { light: 200, dark: 300 },
           steps: [50, 100, 200, 300, 400, 500, 600, 700, 800, 900],
           role: "Secondary — awards, metrics, warm highlights.",
           zones: [
@@ -821,7 +831,7 @@
             { span: 2, label: "AA text on light" },
             { span: 2, label: "dark-mode depths" },
           ] },
-        { name: "Oat", prefix: "oat", tier: "core", anchor: "--bg-default",
+        { name: "Oat", prefix: "oat", tier: "core", anchorSteps: { light: 200, dark: 300 },
           steps: [0, 50, 100, 200, 300, 400, 500, 600, 700, 800, 900, 950],
           role: "Neutrals — every background, border, and line of text. Warm greige, never pure gray.",
           zones: [
@@ -830,21 +840,19 @@
             { span: 3, label: "muted & secondary text" },
             { span: 4, label: "primary text & dark-mode surfaces" },
           ] },
-        { name: "Sage", prefix: "sage", tier: "support", anchor: "--status-success",
+        { name: "Sage", prefix: "sage", tier: "support", anchorSteps: { light: 200, dark: 300 },
           steps: [100, 200, 300, 500, 700],
-          role: "Success states — and the smiski.",
+          role: "Success states.",
           zones: SUPPORT_ZONES() },
-        { name: "Sky", prefix: "sky", tier: "support", anchor: "--status-info",
+        { name: "Sky", prefix: "sky", tier: "support", anchorSteps: { light: 200, dark: 300 },
           steps: [100, 200, 300, 500, 700],
           role: "Info states and discipline tags.",
           zones: SUPPORT_ZONES() },
-        // Lilac has no semantic token of its own, so its anchor is stated per
-        // mode the way the other support families' tokens resolve.
-        { name: "Lilac", prefix: "lilac", tier: "support", anchorSteps: { light: 500, dark: 300 },
+        { name: "Lilac", prefix: "lilac", tier: "support", anchorSteps: { light: 200, dark: 300 },
           steps: [100, 200, 300, 500, 700],
-          role: "Playful accents.",
+          role: "Section eyebrows — wayfinding, kept clear of the accents.",
           zones: SUPPORT_ZONES() },
-        { name: "Butter", prefix: "butter", tier: "support", anchor: "--status-warning",
+        { name: "Butter", prefix: "butter", tier: "support", anchorSteps: { light: 200, dark: 300 },
           steps: [100, 200, 300, 500, 700],
           role: "Warnings and recognition tags.",
           zones: SUPPORT_ZONES() },
@@ -874,6 +882,7 @@
         ["--accent-2-default", "secondary accent"],
         ["--accent-2-strong", "awards, metrics on light"],
         ["--focus-ring", "keyboard focus"],
+        ["--label-fg", "section eyebrows"],
         ["--scrim", "overlay behind dialogs"],
         ["--tag-platform-bg", "platform tags"],
         ["--tag-discipline-bg", "discipline tags"],
@@ -902,8 +911,9 @@
         return 0.299 * r + 0.587 * g + 0.114 * b < 150;
       }
 
-      // A family's card shows the shade the theme actually leans on: resolve
-      // its semantic token, then find which step of the ramp that landed on.
+      // The card cover shows the family's character rather than its working
+      // shade — a pastel step, lightened in dark so the tint stays readable
+      // against a dark card instead of going muddy.
       function resolveAnchor(family) {
         const hex = family.anchor
           ? readToken(family.anchor).toUpperCase()
@@ -1070,10 +1080,40 @@
           openers.set(family.name, open);
         }
 
+        renderMascot(container);
+
         // Re-renders (theme changes) shouldn't collapse what the reader opened.
         // Deferred until every card exists, so the panel lands after its row,
         // and shown without animating — it was already open.
         if (openFamily) openers.get(openFamily)?.(false);
+      }
+
+      // One fixed value with no ramp behind it, so this card is a plain div:
+      // nothing to expand, nothing to click.
+      function renderMascot(container) {
+        const hex = readToken("--smiski-green").toUpperCase();
+
+        const divider = document.createElement("p");
+        divider.className = "families-divider";
+        divider.textContent = "The mascot — one value, no ramp";
+        container.appendChild(divider);
+
+        const grid = document.createElement("div");
+        grid.className = "palette-grid palette-grid--support";
+        const card = document.createElement("div");
+        card.className = "swatch-card swatch-card--static";
+        card.innerHTML =
+          '<span class="swatch-card__label">' +
+          '<span class="swatch-card__name">Smiski</span>' +
+          '<span class="swatch-card__role">The resident smiski, mixed in three.js rather than CSS.</span>' +
+          "</span>" +
+          '<span class="swatch-card__color" style="background:' + hex + '">' +
+          '<span class="swatch-card__meta" style="color:' +
+          (isDarkHex(hex) ? "rgba(255,255,255,0.9)" : "rgba(35,30,27,0.7)") + '">' +
+          "<span>" + hex + "</span>" +
+          "</span></span>";
+        grid.appendChild(card);
+        container.appendChild(grid);
       }
 
       function renderSemanticTokens() {

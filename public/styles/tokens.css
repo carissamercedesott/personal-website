@@ -72,6 +72,12 @@
   --butter-500: #C8A24B;
   --butter-700: #86682B;
 
+  /* The smiski's body color. A single fixed value, not a ramp — nothing in
+   * the UI is painted with it; it's the three.js material in
+   * lab-src/smiski-rig.ts (SMISKI_GREEN), kept here so the palette page can
+   * document it. Change both together. */
+  --smiski-green: #D9E6A6;
+
   /* ── Typography ── */
   --font-display: "IBM Plex Sans", system-ui, -apple-system, sans-serif;
   --font-body: "IBM Plex Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
@@ -165,6 +171,11 @@
   /* 500, not 400 — focus indicators need 3:1 against the page bg. */
   --focus-ring: var(--blush-500);
 
+  /* Section eyebrows. Lilac is the one family with no other job, so it
+   * reads as wayfinding rather than competing with the blush accent. */
+  --label-fg: var(--lilac-700);
+  --label-rule: color-mix(in srgb, var(--lilac-500) 40%, transparent);
+
   /* Tag taxonomy — every tag is one of three kinds, always the same color:
    * platform (what it's built with), discipline (what kind of work),
    * recognition (awards, status). Aliases of semantic tokens, so they
@@ -226,6 +237,9 @@
 
   --focus-ring: var(--blush-300);
 
+  --label-fg: var(--lilac-300);
+  --label-rule: color-mix(in srgb, var(--lilac-300) 35%, transparent);
+
   --status-success: var(--sage-300);
   --status-success-soft: rgba(103, 155, 118, 0.18);
   --status-info: var(--sky-300);
@@ -272,6 +286,9 @@
     --accent-2-soft: rgba(225, 119, 61, 0.16);
 
     --focus-ring: var(--blush-300);
+
+    --label-fg: var(--lilac-300);
+    --label-rule: color-mix(in srgb, var(--lilac-300) 35%, transparent);
 
     --status-success: var(--sage-300);
     --status-success-soft: rgba(103, 155, 118, 0.18);

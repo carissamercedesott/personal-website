@@ -147,23 +147,24 @@
 
 /* Specimen tags: section labels read like the little green stickers on
  * lab jars — mono, sage, with a status dot. Part of the smiski-lab motif. */
-/* Section eyebrow: a numeral, a hairline, and the section name. Set in the
- * body face rather than mono — this labels the page, it isn't data. The
- * numeral carries the only color so the accent threads down the page. */
+/* Section eyebrow: a numeral, a hairline, and the section name. Mono and
+ * uppercase so it reads as a plate marking the page rather than prose.
+ * Mono is already wide, so it carries less tracking than a sans would. */
 .section-label {
   display: inline-flex;
   align-items: center;
   gap: var(--space-3);
+  font-family: var(--font-mono);
   font-size: var(--text-xs);
-  font-weight: var(--weight-semibold);
-  letter-spacing: 0.16em;
+  font-weight: var(--weight-medium);
+  letter-spacing: 0.1em;
   text-transform: uppercase;
-  color: var(--text-muted);
+  color: var(--label-fg);
 }
 
 .section-label-num {
   order: -1;
-  color: var(--accent-default);
+  font-weight: var(--weight-semibold);
   font-variant-numeric: tabular-nums;
 }
 
@@ -173,7 +174,7 @@
   content: "";
   width: 2.5rem;
   height: 1px;
-  background: var(--border-strong);
+  background: var(--label-rule);
   transform-origin: left;
   transition: transform var(--duration-slow) var(--ease-out) 120ms;
 }

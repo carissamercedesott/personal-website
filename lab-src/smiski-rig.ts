@@ -9,6 +9,8 @@ import * as CANNON from "cannon-es";
 // sits directly on the shoulders (no visible neck), wide-set oval eyes low
 // on the face, a dot mouth, stubby limbs, matte pale yellow-green.
 
+// Mirrored as --smiski-green in tokens.css so the palette page can document
+// it; change both together.
 export const SMISKI_GREEN = 0xd9e6a6;
 export const SMISKI_GLOW = 0xb5d97e;
 const FACE_INK = 0x2f3526;
