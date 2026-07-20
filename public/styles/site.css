@@ -240,7 +240,9 @@
 /* ── Buttons ── */
 .btn {
   display: inline-block;
-  border: none;
+  /* Transparent, not none — keeps bordered variants (.btn-secondary) the
+   * same box size as borderless ones. */
+  border: 1px solid transparent;
   border-radius: var(--radius-md);
   padding: var(--space-3) var(--space-6);
   font-size: var(--text-sm);

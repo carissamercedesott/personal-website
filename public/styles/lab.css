@@ -71,6 +71,12 @@ body.lab kbd,
   margin-top: var(--space-3);
 }
 
+/* Padding (not margin) so the extra room below an opened source block
+ * can't collapse away against the next section's margin. */
+.experiment-source[open] {
+  padding-bottom: var(--space-8);
+}
+
 .experiment-source summary {
   display: inline-block;
   cursor: pointer;
@@ -89,7 +95,7 @@ body.lab kbd,
   margin-top: var(--space-2);
   border: 1px solid var(--border-default);
   border-radius: var(--radius-md);
-  background: var(--bg-subtle);
+  background: var(--surface-default);
   overflow: hidden;
   box-shadow: var(--shadow-sm);
 }
@@ -99,7 +105,7 @@ body.lab kbd,
   align-items: center;
   gap: var(--space-3);
   padding: var(--space-2) var(--space-3);
-  background: var(--surface-default);
+  background: var(--bg-subtle);
   border-bottom: 1px solid var(--border-default);
 }
 
