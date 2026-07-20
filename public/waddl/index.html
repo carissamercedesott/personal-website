@@ -75,26 +75,52 @@
       <section id="demo">
         <span class="section-label" data-reveal><span class="section-label-num">02</span></span>
         <h2>Demo</h2>
-        <!-- TODO: Carissa — record a 30–60s screen capture of Waddl and
-             replace the placeholder below with a <video> embed
-             (mp4/webm, muted, controls, poster frame). -->
-        <div class="video-slot" role="img" aria-label="Placeholder for the Waddl demo video — recording in progress">
-          <span class="video-slot-glyph" aria-hidden="true">▶</span>
-          <span class="video-slot-note">demo video — 60 seconds of Waddl waddling, coming soon</span>
+        <p class="demo-intro">
+          The real thing, running live below — not a recording. Try the theme
+          switcher (top-right), the project folders in the sidebar, and start a
+          chat to watch the thought process stream and the revert rail appear.
+        </p>
+        <div class="demo-embed">
+          <iframe
+            class="demo-frame"
+            src="/waddl-app/"
+            title="Waddl — live interactive demo"
+            loading="lazy"
+            allow="clipboard-write"
+          ></iframe>
+          <div class="demo-fallback" aria-hidden="true">
+            <span class="video-slot-glyph">▶</span>
+            <span class="video-slot-note">Waddl is a desktop-scale app — best viewed on a wider screen.</span>
+          </div>
         </div>
+        <p class="demo-caption">
+          <a class="demo-fullscreen" href="/waddl-app/" target="_blank" rel="noopener">Open the full demo ↗</a>
+        </p>
       </section>
 
       <section id="interactions">
         <span class="section-label" data-reveal><span class="section-label-num">03</span></span>
-        <h2>Interaction breakdowns</h2>
+        <h2>Three problems, three fixes</h2>
         <p class="section-lead">
-          Three patterns carry most of the interface. Each one below is a
-          live rebuild of the pattern in this site's stack — not a
-          screenshot. Try them.
+          The thesis breaks into three concrete problems — the specific
+          places an agent stops being legible. Here's each one, and the
+          interaction Waddl uses to fix it. Every fix below is a live
+          rebuild in this site's stack, not a screenshot — try them.
         </p>
 
         <article class="breakdown">
-          <h3>Streaming text</h3>
+          <h3>You only see the answer</h3>
+          <p>
+            A coding agent does its thinking silently and hands you a
+            finished result. When it's wrong, you can't tell where it went
+            off — you never saw the reasoning.
+          </p>
+          <p>
+            <span class="breakdown-label">Waddl's fix</span>
+            <strong>Streaming narration.</strong> It types out what it's
+            reading, deciding, and changing as it happens — so the thought
+            process is something you watch, not reconstruct.
+          </p>
           <div class="waddl-window" aria-label="Demo: streaming agent narration">
             <div class="waddl-titlebar">
               <span class="waddl-dot" aria-hidden="true"></span>
@@ -108,13 +134,20 @@
               <button class="btn btn-secondary btn-sm" id="stream-play" type="button">Play narration</button>
             </div>
           </div>
-          <!-- TODO: Carissa — one short paragraph: why streaming narration
-               (vs. a static log)? What did you tune — chunk size, cadence,
-               the cursor? -->
         </article>
 
         <article class="breakdown">
-          <h3>Collapsible diffs</h3>
+          <h3>Edits arrive as a wall of diff</h3>
+          <p>
+            Ten files of red and green is technically shown, but it isn't
+            legible — the one line that matters is buried in the noise.
+          </p>
+          <p>
+            <span class="breakdown-label">Waddl's fix</span>
+            <strong>Collapsible diffs.</strong> Every file collapses to a
+            one-line summary you can scan, and opens only when you want the
+            detail. Glance first; dig in on demand.
+          </p>
           <div class="waddl-window" aria-label="Demo: collapsible diff">
             <div class="waddl-titlebar">
               <span class="waddl-dot" aria-hidden="true"></span>
@@ -137,13 +170,21 @@
               </div>
             </div>
           </div>
-          <!-- TODO: Carissa — one short paragraph: why collapsed-by-default
-               diffs? What's the tradeoff between glanceability and losing
-               the detail? -->
         </article>
 
         <article class="breakdown">
-          <h3>Error states</h3>
+          <h3>Failure, with no way forward</h3>
+          <p>
+            When an agent breaks, most tools throw a red error and stop.
+            You're left to reverse-engineer what happened and what to do
+            next.
+          </p>
+          <p>
+            <span class="breakdown-label">Waddl's fix</span>
+            <strong>Inline recovery.</strong> Waddl says what failed in
+            plain language, right where you're looking, with the fix
+            attached — one click to let it try again.
+          </p>
           <div class="waddl-window" aria-label="Demo: agent error state and recovery">
             <div class="waddl-titlebar">
               <span class="waddl-dot" aria-hidden="true"></span>
@@ -163,9 +204,6 @@
               <button class="btn btn-secondary btn-sm" id="task-run" type="button">Run task</button>
             </div>
           </div>
-          <!-- TODO: Carissa — one short paragraph: how should an agent
-               *admit* failure? Why an inline card with a recovery action,
-               not a red toast? -->
         </article>
       </section>
 
