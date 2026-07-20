@@ -129,6 +129,7 @@ export const createSmiskiWalker = () => {
   // ── Layout: sizes, scroll thresholds for the three acts ──
   const perchEl = document.querySelector<HTMLElement>("[data-smiski-perch]");
   const ringEl = document.querySelector<HTMLElement>("[data-smiski-ring]");
+  const studyEl = document.querySelector<HTMLElement>("[data-smiski-study]");
   const introEl = document.querySelector<HTMLElement>(".intro");
 
   let viewW = 1;
@@ -266,6 +267,10 @@ export const createSmiskiWalker = () => {
   let lastPointerX = 0;
   let yawVel = 0;
   let sinceDrag = 10;
+
+  // Study (principles act): how settled he is at the study anchor.
+  let studyW = 0;
+  let studied = false;
 
   // Wave (hero act)
   let waveT = 10; // seconds since the current wave started
@@ -432,11 +437,36 @@ export const createSmiskiWalker = () => {
       Math.sin(clock * 1.8) * 0.008 * (1 - gait);
     const pWalk = { x: xWalk, y: restY + bobWalk };
 
+    // Study act: while the principles board is centered on screen, he
+    // steps off the floor onto the board and thinks the laws over.
+    let studyTarget = 0;
+    if (studyEl && w >= 1 && mode === "flow") {
+      const rect = studyEl.getBoundingClientRect();
+      const mid = (rect.top + rect.height / 2) / viewH;
+      studyTarget = smooth01(1 - Math.abs(mid - 0.52) / 0.34);
+    }
+    studyW += (studyTarget - studyW) * Math.min(1, dt * (snap ? 60 : 3.2));
+    if (studyW > 0.75 && !studied) {
+      studied = true;
+      showBubble("hmm — the laws.", 2200);
+    } else if (studyW < 0.1) {
+      studied = false;
+    }
+
     let tx: number;
     let ty: number;
     if (w > 0) {
       tx = THREE.MathUtils.lerp(pRing.x, pWalk.x, w);
       ty = THREE.MathUtils.lerp(pRing.y, pWalk.y, w);
+      if (studyW > 0.001 && studyEl) {
+        const study = anchorWorld(studyEl);
+        tx = THREE.MathUtils.lerp(tx, study.x, studyW);
+        ty = THREE.MathUtils.lerp(
+          ty,
+          study.y + Math.sin(clock * 1.6) * 0.015,
+          studyW,
+        );
+      }
     } else {
       // A small hop up out of the seat before he sinks into the ring.
       tx = THREE.MathUtils.lerp(pHero.x, pRing.x, u);
@@ -456,7 +486,9 @@ export const createSmiskiWalker = () => {
     // in the ring he spins freely; walking faces where he's headed.
     if (w > 0) {
       yaw = THREE.MathUtils.euclideanModulo(yaw + Math.PI, Math.PI * 2) - Math.PI;
-      const targetYaw = moving ? lastDir * 0.85 : lastDir * 0.12;
+      const walkYaw = moving ? lastDir * 0.85 : lastDir * 0.12;
+      // Studying, he squares up to face the reader.
+      const targetYaw = THREE.MathUtils.lerp(walkYaw, 0.1, studyW);
       yaw += (targetYaw - yaw) * Math.min(1, dt * 5);
     } else if (u >= 1) {
       sinceDrag += dt;
@@ -499,26 +531,29 @@ export const createSmiskiWalker = () => {
     rig.byName.torso.mesh.position.copy(rootPos);
     rig.byName.torso.mesh.quaternion.copy(rootQ);
     rig.byName.torso.mesh.scale.setScalar(poseScale);
+    // Thinking pose while studying: head tilts, right hand comes up to
+    // the chin, left arm settles across the front.
+    const think = walkW * studyW;
     poseLimb(
       rig.byName.head,
       [0, 0.3, 0],
       [0, 0.2, 0],
-      sitW * 0.06 + walkW * nod,
-      sitW * wave * 0.14,
+      sitW * 0.06 + walkW * nod + think * 0.12,
+      sitW * wave * 0.14 + think * 0.16,
     );
     poseLimb(
       rig.byName.armL,
       [-0.27, 0.18, 0],
       [0, -0.16, 0],
-      sitW * -0.5 + walkW * -armSwing,
-      sitW * -0.2 + spreadW * -2.1,
+      sitW * -0.5 + walkW * -armSwing * (1 - studyW) + think * -0.18,
+      sitW * -0.2 + spreadW * -2.1 + think * -0.28,
     );
     poseLimb(
       rig.byName.armR,
       [0.27, 0.18, 0],
       [0, -0.16, 0],
-      sitW * sitArmRX + walkW * armSwing,
-      sitW * sitArmRZ + spreadW * 2.1,
+      sitW * sitArmRX + walkW * armSwing * (1 - studyW) + think * -0.42,
+      sitW * sitArmRZ + spreadW * 2.1 + think * 2.3,
     );
     poseLimb(
       rig.byName.legL,
@@ -539,8 +574,19 @@ export const createSmiskiWalker = () => {
     // Soft contact shadow: under his seat on the hero, on the floor while
     // walking, gone while he floats in the ring.
     if (w > 0) {
-      shadow.position.y = 0.05;
-      setShadowSize(THREE.MathUtils.clamp(1.2 - (smoothY - restY) * 0.45, 0.35, 1.2));
+      // Studying, the shadow rides up to sit under his feet on the board.
+      shadow.position.y = THREE.MathUtils.lerp(
+        0.05,
+        smoothY + rig.footY + 0.03,
+        studyW,
+      );
+      setShadowSize(
+        THREE.MathUtils.clamp(
+          THREE.MathUtils.lerp(1.2 - (smoothY - restY) * 0.45, 1.0, studyW),
+          0.35,
+          1.2,
+        ),
+      );
     } else {
       shadow.position.y = perch.y - 0.38;
       setShadowSize(1.05);

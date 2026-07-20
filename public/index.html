@@ -281,12 +281,13 @@
           <span class="section-label">05 · Principles</span>
           <h2>How I build</h2>
           <p class="section-lead">Three laws I don't break.</p>
-          <div class="principles-flow">
-            <!-- The stream: canvas ribbons of golden light, animated by
-                 initPrinciplesFlow — always present, gently waving. -->
-            <canvas class="principles-canvas" aria-hidden="true"></canvas>
+          <div class="principles-board" data-reveal>
+            <!-- Where the smiski stands to study the laws (walker-scene
+                 reads this anchor's rect). -->
+            <div class="principles-stage" data-smiski-study aria-hidden="true"></div>
             <ol class="principles-list">
               <li class="principle principle--left" data-reveal>
+                <span class="principle-num" aria-hidden="true">01</span>
                 <h3>
                   <button class="principle-toggle" type="button" aria-expanded="false" aria-controls="principle-empathy">
                     Design with empathy
@@ -306,6 +307,7 @@
                 </div>
               </li>
               <li class="principle principle--right" data-reveal>
+                <span class="principle-num" aria-hidden="true">02</span>
                 <h3>
                   <button class="principle-toggle" type="button" aria-expanded="false" aria-controls="principle-science">
                     UI backed by science
@@ -325,6 +327,7 @@
                 </div>
               </li>
               <li class="principle principle--left" data-reveal>
+                <span class="principle-num" aria-hidden="true">03</span>
                 <h3>
                   <button class="principle-toggle" type="button" aria-expanded="false" aria-controls="principle-laws">
                     Worlds with consistent laws
