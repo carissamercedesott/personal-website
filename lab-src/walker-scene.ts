@@ -289,9 +289,6 @@ export const createSmiskiWalker = () => {
     };
   };
 
-  // Hero pointerdown position, pending the tap-or-toss decision.
-  let heroPending: { x: number; y: number } | null = null;
-
   // Capture can throw for pointers that are already gone (or synthetic
   // events); losing capture only degrades the drag, so don't die on it.
   const capturePointer = (pointerId: number) => {
@@ -315,10 +312,9 @@ export const createSmiskiWalker = () => {
       return;
     }
     if (mode === "flow" && act === "hero") {
-      // A tap earns a wave; dragging past a few px picks him up for a
-      // toss (the rise blend later floats him back to his seat).
-      heroPending = { x: event.clientX, y: event.clientY };
-      capturePointer(event.pointerId);
+      // A poke earns a wave back.
+      waveT = 0;
+      showBubble("hi!", 1400);
       event.preventDefault();
       return;
     }
@@ -357,17 +353,6 @@ export const createSmiskiWalker = () => {
   };
 
   const onPointerMove = (event: PointerEvent) => {
-    if (heroPending) {
-      const moved = Math.hypot(
-        event.clientX - heroPending.x,
-        event.clientY - heroPending.y,
-      );
-      if (moved > 8) {
-        heroPending = null;
-        startGrab(event);
-      }
-      return;
-    }
     if (ringDragging) {
       const dx = event.clientX - lastPointerX;
       lastPointerX = event.clientX;
@@ -386,12 +371,6 @@ export const createSmiskiWalker = () => {
   };
 
   const releasePointer = () => {
-    if (heroPending) {
-      heroPending = null;
-      waveT = 0;
-      showBubble("hi!", 1400);
-      return;
-    }
     if (ringDragging) {
       ringDragging = false;
       hitbox.style.cursor = "grab";
@@ -629,7 +608,7 @@ export const createSmiskiWalker = () => {
       updateFlow(dt, false);
       const act = phaseNow();
       if (act !== lastCursorAct && !ringDragging && !dragConstraint) {
-        hitbox.style.cursor = "grab";
+        hitbox.style.cursor = act === "hero" ? "pointer" : "grab";
         lastCursorAct = act;
       }
     } else if (mode === "ragdoll") {
@@ -655,10 +634,7 @@ export const createSmiskiWalker = () => {
         );
       });
       rig.syncBodies();
-      if (riseT >= 1) {
-        mode = "flow";
-        if (phaseNow() === "hero") showBubble("phew!", 1600);
-      }
+      if (riseT >= 1) mode = "flow";
     }
 
     // Contact shadow + hitbox + bubble all track the torso.
