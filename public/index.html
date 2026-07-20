@@ -113,58 +113,38 @@
           </p>
 
           <div class="flagships">
-            <article class="flagship-feature" data-reveal>
-              <div class="device-frame" data-scroll-video>
-                <!-- Drop a portrait screen recording at
-                     /images/projects/cross-math-demo.mp4 and it plays as
-                     you scroll; until then the poster frame shows. -->
-                <video
-                  class="device-video"
-                  src="/images/projects/cross-math-demo.mp4"
-                  poster="/images/projects/cross-math-poster.png"
-                  muted
-                  loop
-                  playsinline
-                  preload="metadata"
-                  aria-label="Screen recording of a Cross Math round in the Duolingo iOS app"
-                ></video>
-                <button class="device-play" type="button" aria-label="Play the Cross Math demo" hidden>
-                  <svg class="icon" aria-hidden="true"><use href="/images/icons.svg#play"></use></svg>
-                </button>
-              </div>
-              <div class="flagship-feature-body">
+            <article class="project-card project-card--flagship" data-reveal role="button" tabindex="0" aria-haspopup="dialog">
+              <img class="project-card-img" src="/images/projects/cross-math-screenshot.png" alt="Cross Math — puzzle screens in the Duolingo iOS app" />
+              <div class="project-card-body">
                 <h3>Cross Math</h3>
                 <p>
                   A math puzzle game inside the Duolingo iOS app — every
                   board generated on the fly.
                 </p>
                 <span class="flagship-metric"><svg class="icon" aria-hidden="true"><use href="/images/icons.svg#phone"></use></svg> Live in Duolingo on iOS — 100M+ users</span>
-                <button class="disclosure-toggle" type="button" aria-expanded="false" aria-controls="cross-math-build">
-                  More on the build <svg class="icon disclosure-chevron" aria-hidden="true"><use href="/images/icons.svg#arrow-down"></use></svg>
-                </button>
-                <div class="disclosure" id="cross-math-build">
-                  <div class="disclosure-inner">
-                    <span class="tag-row">
-                      <span class="tag tag--platform">Swift</span>
-                      <span class="tag tag--discipline">Algorithms</span>
-                      <span class="tag tag--discipline">Product</span>
-                    </span>
-                    <p>
-                      <strong>The decision:</strong> generate every puzzle live
-                      instead of authoring them — a constraint-programming
-                      algorithm keeps the numbers honest while the backend
-                      produces fresh puzzle shapes in real time, and the Swift
-                      UI flexes across every iOS device.
-                    </p>
-                    <!-- TODO: Carissa — the tradeoff: what did live generation
-                         cost you? (latency budget, harder QA, gnarly edge
-                         cases…) Replace this comment with one sentence. -->
-                    <p>
-                      <strong>The number:</strong> pitched to senior leadership,
-                      approved by the CEO, live for 100M+ users — all inside one
-                      intern summer.
-                    </p>
-                  </div>
+                <span class="flagship-more">More on the build →</span>
+                <div class="project-card-details">
+                  <span class="tag-row">
+                    <span class="tag tag--platform">Swift</span>
+                    <span class="tag tag--discipline">Algorithms</span>
+                    <span class="tag tag--discipline">Product</span>
+                  </span>
+                  <p>
+                    <strong>The decision:</strong> generate every puzzle live
+                    instead of authoring them — a constraint-programming
+                    algorithm keeps the numbers honest while the backend
+                    produces fresh puzzle shapes in real time, and the Swift
+                    UI flexes across every iOS device.
+                  </p>
+                  <!-- TODO: Carissa — the tradeoff: what did live generation
+                       cost you? (latency budget, harder QA, gnarly edge
+                       cases…) Replace this comment with one sentence. -->
+                  <p>
+                    <strong>The number:</strong> pitched to senior leadership,
+                    approved by the CEO, live for 100M+ users — all inside one
+                    intern summer.
+                  </p>
+                  <span class="card-award"><svg class="icon" aria-hidden="true"><use href="/images/icons.svg#phone"></use></svg> Live in Duolingo on iOS — 100M+ users</span>
                 </div>
               </div>
             </article>
