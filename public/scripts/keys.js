@@ -84,8 +84,7 @@
       '<button class="keys-close" type="button" aria-label="Close">' +
       '<svg class="icon" aria-hidden="true"><use href="/images/icons.svg#x"></use></svg>' +
       "</button></div>" +
-      `<div class="keys-body">${body}</div>` +
-      '<p class="keys-footnote">rendered from the keymap registry — this sheet can’t drift</p>';
+      `<div class="keys-body">${body}</div>`;
     sheet.querySelector(".keys-close").addEventListener("click", () => sheet.close());
   }
 

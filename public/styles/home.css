@@ -353,10 +353,15 @@ body.home {
 }
 
 /* The lattice dissolves before the intro band starts — a hard row of
- * dots at the section seam reads as a cut line. */
+ * dots at the section seam reads as a cut line — and clears out from
+ * under the contact chips in the top-left corner. */
 .hero::before {
-  -webkit-mask-image: linear-gradient(180deg, #000 calc(100% - 260px), transparent 100%);
-  mask-image: linear-gradient(180deg, #000 calc(100% - 260px), transparent 100%);
+  -webkit-mask-image: linear-gradient(180deg, #000 calc(100% - 260px), transparent 100%),
+    radial-gradient(ellipse 400px 200px at 160px 64px, transparent 50%, #000 100%);
+  -webkit-mask-composite: source-in;
+  mask-image: linear-gradient(180deg, #000 calc(100% - 260px), transparent 100%),
+    radial-gradient(ellipse 400px 200px at 160px 64px, transparent 50%, #000 100%);
+  mask-composite: intersect;
 }
 
 .hero::after {
@@ -372,7 +377,8 @@ body.home {
       transparent 100%
     ),
     linear-gradient(180deg, #000 calc(100% - 260px), transparent 100%),
-    radial-gradient(ellipse 52% 46% at 50% 52%, transparent 55%, #000 100%);
+    radial-gradient(ellipse 52% 46% at 50% 52%, transparent 55%, #000 100%),
+    radial-gradient(ellipse 400px 200px at 160px 64px, transparent 50%, #000 100%);
   -webkit-mask-composite: source-in;
   mask-image: radial-gradient(
       circle 170px at var(--grid-x) var(--grid-y),
@@ -381,7 +387,8 @@ body.home {
       transparent 100%
     ),
     linear-gradient(180deg, #000 calc(100% - 260px), transparent 100%),
-    radial-gradient(ellipse 52% 46% at 50% 52%, transparent 55%, #000 100%);
+    radial-gradient(ellipse 52% 46% at 50% 52%, transparent 55%, #000 100%),
+    radial-gradient(ellipse 400px 200px at 160px 64px, transparent 50%, #000 100%);
   mask-composite: intersect;
   opacity: 0;
   transition: opacity var(--duration-base) var(--ease-out);
