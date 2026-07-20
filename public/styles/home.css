@@ -75,10 +75,9 @@ body.home {
   top: calc(100% + var(--space-2));
   left: 0;
   white-space: nowrap;
-  font-family: var(--font-mono);
+  font-family: var(--font-body);
   font-size: var(--text-xs);
   font-weight: var(--weight-semibold);
-  letter-spacing: var(--tracking-wide);
   color: var(--status-success);
   background: var(--status-success-soft);
   border: 1px solid color-mix(in srgb, var(--status-success) 30%, transparent);
@@ -949,13 +948,6 @@ body.has-modal {
   .project-modal-body {
     padding: var(--space-4) var(--space-6) var(--space-6);
   }
-}
-
-.hero-links {
-  margin-top: var(--space-8);
-  display: flex;
-  gap: var(--space-4);
-  justify-content: center;
 }
 
 @keyframes rise-in {
