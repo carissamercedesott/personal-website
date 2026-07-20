@@ -598,9 +598,9 @@ body.lab kbd,
   color: var(--text-secondary);
 }
 
+/* Colors and thumb come from the shared input[type="range"] rule in base.css. */
 .stream-speed input[type="range"] {
   width: 10rem;
-  accent-color: var(--accent-default);
 }
 
 .stream-speed-value {

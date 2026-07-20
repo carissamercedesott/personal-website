@@ -72,7 +72,7 @@
     const min = Number(bpmInput.min);
     const max = Number(bpmInput.max);
     const fill = ((bpm - min) / (max - min)) * 100;
-    bpmInput.style.setProperty("--dj-bpm-fill", `${fill}%`);
+    bpmInput.style.setProperty("--slider-fill", `${fill}%`);
   }
 
   renderBpm();

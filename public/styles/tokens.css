@@ -40,7 +40,7 @@
   --oat-200: #E6DDD8;
   --oat-300: #D2C5BF;
   --oat-400: #AF9F98;
-  --oat-500: #897971;
+  --oat-500: #7D6E66; /* 4.5:1 on oat-50 — muted text stays AA at small sizes */
   --oat-600: #695C55;
   --oat-700: #4E443F;
   --oat-800: #352E2A;
@@ -153,15 +153,17 @@
   --text-muted: var(--oat-500);
   --text-on-accent: var(--oat-0);
 
-  --accent-default: var(--blush-500);
-  --accent-hover: var(--blush-600);
+  /* 600, not 500 — white button text needs 4.5:1 (blush-500 is 3.2). */
+  --accent-default: var(--blush-600);
+  --accent-hover: var(--blush-700);
   --accent-strong: var(--blush-700);   /* small text/links: AA on light bg */
   --accent-soft: var(--blush-100);     /* pastel fills behind dark text */
   --accent-2-default: var(--apricot-500);
-  --accent-2-strong: var(--apricot-600);  /* small text/awards: AA on light bg */
+  --accent-2-strong: var(--apricot-700);  /* small text/awards: AA on light bg */
   --accent-2-soft: var(--apricot-100);
 
-  --focus-ring: var(--blush-400);
+  /* 500, not 400 — focus indicators need 3:1 against the page bg. */
+  --focus-ring: var(--blush-500);
 
   /* Tag taxonomy — every tag is one of three kinds, always the same color:
    * platform (what it's built with), discipline (what kind of work),

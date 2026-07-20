@@ -9,6 +9,8 @@ const TEXT =
 
 const WORDS = TEXT.split(" ");
 const THINK_MS = 1400;
+const MIN_WPS = 3;
+const MAX_WPS = 24;
 
 const reducedMotion = () => window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
@@ -106,10 +108,11 @@ export const StreamRenderer = () => {
           <span>speed</span>
           <input
             type="range"
-            min="3"
-            max="24"
+            min={MIN_WPS}
+            max={MAX_WPS}
             step="1"
             value={wps()}
+            style={{ "--slider-fill": `${((wps() - MIN_WPS) / (MAX_WPS - MIN_WPS)) * 100}%` }}
             aria-label="Streaming speed, words per second"
             onInput={(event) => setWps(Number(event.currentTarget.value))}
           />
