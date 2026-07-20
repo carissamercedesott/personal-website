@@ -103,10 +103,11 @@ function initTypewriter() {
   if (!wordEl) return;
 
   const WORDS = [
+    "software engineer",
     "design engineer",
-    "cognitive scientist",
-    "HCI enthusiast",
     "UI/UX specialist",
+    "HCI enthusiast",
+    "cognitive scientist",
     "researcher",
     "writer",
     "snowboarder",
