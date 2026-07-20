@@ -282,21 +282,9 @@
           <h2>How I build</h2>
           <p class="section-lead">Three laws I don't break.</p>
           <div class="principles-flow">
-            <!-- The stream: a glow pass under a gradient core, both drawn
-                 in by scroll (initPrinciplesFlow). -->
-            <svg class="principles-path" viewBox="0 0 100 300" preserveAspectRatio="none" aria-hidden="true">
-              <defs>
-                <linearGradient id="flow-grad" x1="0" y1="0" x2="0" y2="1">
-                  <stop offset="0" style="stop-color: var(--apricot-400)" />
-                  <stop offset="0.5" style="stop-color: var(--blush-500)" />
-                  <stop offset="1" style="stop-color: var(--apricot-500)" />
-                </linearGradient>
-              </defs>
-              <path class="flow-halo" d="M 50,-5 C 80,25 80,55 50,85 C 20,115 20,145 50,175 C 80,205 80,235 50,265 L 50,305" vector-effect="non-scaling-stroke" />
-              <path class="flow-strand flow-strand--a" d="M 50,-5 C 80,25 80,55 50,85 C 20,115 20,145 50,175 C 80,205 80,235 50,265 L 50,305" vector-effect="non-scaling-stroke" />
-              <path class="flow-strand flow-strand--b" d="M 46,-5 C 88,20 70,60 46,88 C 14,110 30,150 54,172 C 86,200 66,240 46,268 L 46,305" vector-effect="non-scaling-stroke" />
-              <path class="flow-strand flow-strand--c" d="M 54,-5 C 72,30 90,50 54,82 C 26,120 10,140 46,178 C 74,210 90,230 54,262 L 54,305" vector-effect="non-scaling-stroke" />
-            </svg>
+            <!-- The stream: canvas ribbons of golden light, animated by
+                 initPrinciplesFlow — always present, gently waving. -->
+            <canvas class="principles-canvas" aria-hidden="true"></canvas>
             <ol class="principles-list">
               <li class="principle principle--left" data-reveal>
                 <h3>

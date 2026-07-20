@@ -348,67 +348,164 @@ function initDisclosures() {
 
 function initPrinciplesFlow() {
   const flow = document.querySelector(".principles-flow");
-  if (!flow) return;
+  const canvas = flow?.querySelector(".principles-canvas");
+  if (!canvas) return;
 
-  const svg = flow.querySelector(".principles-path");
-  const paths = [...svg.querySelectorAll("path")];
-  let lengths = null;
+  const ctx = canvas.getContext("2d");
+  const styles = getComputedStyle(canvas);
+  const SAMPLES = 56;
+  const PULSE_MS = 2400; // the hello-ring's cadence
 
-  // Non-scaling strokes dash in screen pixels, so each path is measured in
-  // screen space — viewBox units would tile the dash and cut the stream.
-  const measure = () => {
-    const rect = svg.getBoundingClientRect();
-    if (!rect.width || !rect.height) return null;
-    const box = svg.viewBox.baseVal;
-    const sx = rect.width / box.width;
-    const sy = rect.height / box.height;
-    return paths.map((path) => {
-      const total = path.getTotalLength();
-      let length = 0;
-      let prev = path.getPointAtLength(0);
-      const steps = 64;
-      for (let i = 1; i <= steps; i++) {
-        const point = path.getPointAtLength((total * i) / steps);
-        length += Math.hypot((point.x - prev.x) * sx, (point.y - prev.y) * sy);
-        prev = point;
-      }
-      return length + 4; // overshoot so the tail never shows a seam
-    });
-  };
+  // Fixed per-strand wave recipes: layered sines drifting at different
+  // speeds read as fabric, and identical hue keeps it one stream.
+  const strands = Array.from({ length: 14 }, () => ({
+    amp1: 0.03 + Math.random() * 0.05,
+    amp2: 0.012 + Math.random() * 0.025,
+    f1: (1.1 + Math.random() * 0.9) * Math.PI * 2,
+    f2: (2.2 + Math.random() * 1.7) * Math.PI * 2,
+    s1: (Math.random() > 0.5 ? 1 : -1) * (0.00008 + Math.random() * 0.00014),
+    s2: (Math.random() > 0.5 ? 1 : -1) * (0.00005 + Math.random() * 0.0001),
+    p1: Math.random() * Math.PI * 2,
+    p2: Math.random() * Math.PI * 2,
+    alpha: 0.2 + Math.random() * 0.45,
+    width: 0.9 + Math.random() * 1.7,
+  }));
 
-  const apply = (progress) => {
-    if (!lengths) return;
-    paths.forEach((path, i) => {
-      path.style.strokeDasharray = String(lengths[i]);
-      path.style.strokeDashoffset = String(lengths[i] * (1 - progress));
-    });
-  };
+  const sparkles = Array.from({ length: 26 }, () => ({
+    v: 0.04 + Math.random() * 0.92,
+    off: (Math.random() - 0.5) * 0.16,
+    r: 0.8 + Math.random() * 1.7,
+    p: Math.random() * Math.PI * 2,
+    s: 0.0008 + Math.random() * 0.0016,
+  }));
 
-  // The stream draws in as the section crosses the viewport.
-  const update = () => {
-    if (!lengths) lengths = measure();
-    if (prefersReducedMotion()) {
-      apply(1);
-      return;
-    }
+  let w = 0;
+  let h = 0;
+  const resize = () => {
     const rect = flow.getBoundingClientRect();
-    const vh = window.innerHeight;
-    const progress = Math.min(
-      1,
-      Math.max(0, (vh * 0.85 - rect.top) / (rect.height + vh * 0.35))
-    );
-    apply(progress);
+    if (!rect.width || !rect.height) return false;
+    const dpr = Math.min(2, window.devicePixelRatio || 1);
+    w = rect.width;
+    h = rect.height;
+    canvas.width = Math.round(w * dpr);
+    canvas.height = Math.round(h * dpr);
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    return true;
   };
-  window.addEventListener("scroll", update, { passive: true });
+
+  // Centerline mirrors the braid's S: pockets around the three laws.
+  const centerX = (v) => w * (0.5 + 0.28 * Math.sin(3 * Math.PI * v));
+  const strandX = (strand, v, t) =>
+    centerX(v) +
+    w * strand.amp1 * Math.sin(v * strand.f1 + t * strand.s1 + strand.p1) +
+    w * strand.amp2 * Math.sin(v * strand.f2 + t * strand.s2 + strand.p2);
+
+  const draw = (t) => {
+    const dark =
+      document.documentElement.dataset.theme === "dark" ||
+      (document.documentElement.dataset.theme !== "light" &&
+        window.matchMedia("(prefers-color-scheme: dark)").matches);
+    const strandColor = styles.getPropertyValue("--flow-strand").trim();
+    const glowColor = styles.getPropertyValue("--flow-glow").trim();
+    const strength = parseFloat(styles.getPropertyValue("--flow-strength")) || 0.8;
+    const pulse = 0.78 + 0.22 * Math.sin((t / PULSE_MS) * Math.PI * 2);
+
+    ctx.clearRect(0, 0, w, h);
+    // Additive light in the dark theme; warm silk over the light wash.
+    ctx.globalCompositeOperation = dark ? "lighter" : "source-over";
+    ctx.lineCap = "round";
+    ctx.lineJoin = "round";
+    ctx.shadowColor = glowColor;
+
+    for (const strand of strands) {
+      ctx.beginPath();
+      for (let i = 0; i <= SAMPLES; i++) {
+        const v = i / SAMPLES;
+        const x = strandX(strand, v, t);
+        const y = v * h;
+        if (i === 0) ctx.moveTo(x, y);
+        else ctx.lineTo(x, y);
+      }
+      // Bloom pass: fat, faint, heavily blurred.
+      ctx.strokeStyle = glowColor;
+      ctx.globalAlpha = strand.alpha * 0.5 * strength * pulse;
+      ctx.lineWidth = strand.width * 7;
+      ctx.shadowBlur = 26;
+      ctx.stroke();
+      // Core pass: the bright filament.
+      ctx.strokeStyle = strandColor;
+      ctx.globalAlpha = strand.alpha * strength * pulse;
+      ctx.lineWidth = strand.width;
+      ctx.shadowBlur = 12;
+      ctx.stroke();
+    }
+
+    // Sparks drifting with the stream, twinkling out of phase.
+    ctx.shadowBlur = 8;
+    ctx.fillStyle = strandColor;
+    for (const spark of sparkles) {
+      const x = centerX(spark.v) + w * spark.off;
+      const y = spark.v * h;
+      ctx.globalAlpha =
+        Math.abs(Math.sin(spark.p + t * spark.s)) * 0.7 * strength * pulse;
+      ctx.beginPath();
+      ctx.arc(x, y, spark.r, 0, Math.PI * 2);
+      ctx.fill();
+    }
+    ctx.globalAlpha = 1;
+    ctx.shadowBlur = 0;
+  };
+
+  let running = false;
+  let rafId = 0;
+  const tick = (now) => {
+    draw(now);
+    if (running) rafId = requestAnimationFrame(tick);
+  };
+  const start = () => {
+    if (running || prefersReducedMotion()) return;
+    running = true;
+    rafId = requestAnimationFrame(tick);
+  };
+  const stop = () => {
+    running = false;
+    cancelAnimationFrame(rafId);
+  };
+
+  const boot = () => {
+    if (!resize()) return false;
+    draw(performance.now());
+    return true;
+  };
+  if (!boot()) {
+    // Layout wasn't ready (display: none ancestors, zero-width pane);
+    // try again on the next resize.
+    window.addEventListener("resize", () => {
+      if (!w) boot();
+    });
+  }
   window.addEventListener(
     "resize",
     () => {
-      lengths = measure();
-      update();
+      if (resize()) draw(performance.now());
     },
     { passive: true }
   );
-  update();
+
+  // Animate only while the stream is on screen.
+  if ("IntersectionObserver" in window) {
+    new IntersectionObserver(
+      (entries) => {
+        for (const entry of entries) {
+          if (entry.isIntersecting) start();
+          else stop();
+        }
+      },
+      { rootMargin: "80px" }
+    ).observe(flow);
+  } else {
+    start();
+  }
 }
 
 function initScrollCue() {

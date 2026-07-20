@@ -1151,82 +1151,36 @@ body.has-modal {
 }
 
 /* ── Principles: a stream of light weaving between the three laws ── */
-:root {
-  --flow-halo-opacity: 0.5;
-}
-
-[data-theme="dark"] {
-  --flow-halo-opacity: 0.85;
-}
-
-@media (prefers-color-scheme: dark) {
-  :root:not([data-theme="light"]) {
-    --flow-halo-opacity: 0.85;
-  }
-}
-
 .principles-flow {
   position: relative;
   max-width: 880px;
   margin: var(--space-12) auto 0;
 }
 
-.principles-path {
+/* The ribbon field reads its palette and strength from these props, so
+ * the canvas obeys the same theme tokens as everything else. */
+.principles-canvas {
+  --flow-strand: var(--apricot-500);
+  --flow-glow: var(--apricot-400);
+  --flow-strength: 0.75;
   position: absolute;
   inset: 0;
   width: 100%;
   height: 100%;
-  overflow: visible;
   pointer-events: none;
 }
 
-.principles-path path {
-  fill: none;
-  stroke-linecap: round;
+[data-theme="dark"] .principles-canvas {
+  --flow-strand: var(--apricot-300);
+  --flow-glow: var(--apricot-300);
+  --flow-strength: 1;
 }
 
-/* Wide blurred pass reads as glow — same accent and 2.4s cadence as the
- * hello-ring, so the two glows feel like one light source. Three crisp
- * strands weave over it as the braid. */
-.flow-halo {
-  stroke: color-mix(in srgb, var(--accent-2-default) 60%, transparent);
-  stroke-width: 12;
-  opacity: var(--flow-halo-opacity);
-  filter: blur(9px);
-  animation: flow-pulse 2.4s var(--ease-in-out) infinite;
-}
-
-@keyframes flow-pulse {
-  0%,
-  100% {
-    opacity: calc(var(--flow-halo-opacity) * 0.55);
-  }
-  50% {
-    opacity: var(--flow-halo-opacity);
-  }
-}
-
-.flow-strand {
-  stroke-width: 2.5;
-}
-
-.flow-strand--a {
-  stroke: url(#flow-grad);
-}
-
-.flow-strand--b {
-  stroke: var(--apricot-400);
-  opacity: 0.85;
-}
-
-.flow-strand--c {
-  stroke: var(--blush-400);
-  opacity: 0.85;
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .flow-halo {
-    animation: none;
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) .principles-canvas {
+    --flow-strand: var(--apricot-300);
+    --flow-glow: var(--apricot-300);
+    --flow-strength: 1;
   }
 }
 
