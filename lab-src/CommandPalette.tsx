@@ -5,13 +5,13 @@ type Item = { label: string; hint: string; href: string };
 
 const ITEMS: Item[] = [
   { label: "Home", hint: "page", href: "/" },
-  { label: "Research — how people think", hint: "section", href: "/#research" },
-  { label: "Work — Cross Math & Waddl", hint: "section", href: "/#work" },
+  { label: "Work — all projects", hint: "page", href: "/projects" },
   { label: "Waddl case study", hint: "page", href: "/waddl" },
   { label: "The Lab", hint: "page", href: "/lab" },
   { label: "Design system", hint: "page", href: "/design" },
   { label: "Resume", hint: "page", href: "/resume" },
-  { label: "Off the clock", hint: "section", href: "/#offclock" },
+  { label: "Research — how people think", hint: "section", href: "/#research" },
+  { label: "Principles — how I build", hint: "section", href: "/#principles" },
   { label: "Email Carissa", hint: "action", href: "mailto:carissaott0809@gmail.com" },
   { label: "GitHub", hint: "link", href: "https://github.com/carissamercedesott" },
   { label: "LinkedIn", hint: "link", href: "https://www.linkedin.com/in/carissa-ott" },

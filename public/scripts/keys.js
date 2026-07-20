@@ -29,6 +29,7 @@
     { group: "Navigate", combo: ["j"], label: "Next section", run: () => hopSection(1) },
     { group: "Navigate", combo: ["k"], label: "Previous section", run: () => hopSection(-1) },
     { group: "Go to", combo: ["g", "h"], label: "Home", run: navigate("/") },
+    { group: "Go to", combo: ["g", "p"], label: "Work — all projects", run: navigate("/projects") },
     { group: "Go to", combo: ["g", "w"], label: "Waddl case study", run: navigate("/waddl") },
     { group: "Go to", combo: ["g", "l"], label: "The Lab", run: navigate("/lab") },
     { group: "Go to", combo: ["g", "d"], label: "Design system", run: navigate("/design") },
