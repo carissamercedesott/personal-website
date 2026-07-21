@@ -710,9 +710,9 @@ html.smiski-live .hello-ring {
 }
 
 /* ── Screen 1: the thesis, set like a title page ──
- * Three corners do three jobs: the label says where you are, the note says
- * how she works, the index says what's coming. The headline holds the middle
- * on its own — the screen is "empty" the way a title page is empty. */
+ * The label says where you are, the index says what's coming, and the
+ * headline and its note hold the middle together — the screen is "empty" the
+ * way a title page is empty. */
 .work-thesis-top {
   display: flex;
   justify-content: space-between;
@@ -720,26 +720,28 @@ html.smiski-live .hello-ring {
   gap: var(--space-8);
 }
 
-.work-thesis-note {
-  max-width: 34ch;
-  font-size: var(--text-sm);
-  color: var(--text-secondary);
-  text-align: left;
-}
-
 /* The extra selector weight beats the page's generic h2 sizing rules
  * (.section-inner > h2, .page section > h2), which would otherwise pin the
  * top margin and shrink the display size. */
 .work-thesis > .work-thesis-title {
-  /* Centered in the leftover height by the auto margins, ragged-right by the
-   * measure: the wrap ("I ship products / for real people.") is the
-   * composition. */
-  margin-block: auto;
+  /* The auto margin here and its pair on the note below center the two as one
+   * block: free space collects above the headline and under the note, never
+   * between them. Ragged-right by the measure — the wrap ("I ship products /
+   * for real people.") is the composition, and ch tracks the font size, so it
+   * survives a change of step. */
+  margin-block: auto 0;
   max-width: 14ch;
-  font-size: var(--text-display);
+  font-size: var(--text-4xl);
   font-weight: var(--weight-bold);
   letter-spacing: var(--tracking-tight);
   line-height: var(--leading-tight);
+}
+
+.work-thesis-note {
+  margin-block: var(--space-6) auto;
+  max-width: 34ch;
+  font-size: var(--text-sm);
+  color: var(--text-secondary);
 }
 
 /* The index doubles as navigation: each row hops to its chapter, the same
@@ -1000,13 +1002,14 @@ html.smiski-live .hello-ring {
     min-height: 0;
   }
 
-  .work-thesis-top {
-    flex-direction: column;
-    gap: var(--space-4);
+  .work-thesis > .work-thesis-title {
+    margin-block: var(--space-12) 0;
   }
 
-  .work-thesis > .work-thesis-title {
-    margin-block: var(--space-12);
+  /* No leftover height to absorb down here, so the note's auto margin would
+   * collapse to nothing and leave it flush against the index. */
+  .work-thesis-note {
+    margin-bottom: var(--space-12);
   }
 
   .work-thesis-foot {
