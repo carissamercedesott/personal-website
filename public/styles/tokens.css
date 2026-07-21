@@ -60,11 +60,11 @@
   --sky-500: #5F97BF;
   --sky-700: #386185;
 
-  --lilac-100: #F0EAF9;
-  --lilac-200: #DFD2F2;
-  --lilac-300: #C5AFE5;
-  --lilac-500: #9678C7;
-  --lilac-700: #614C8C;
+  --taro-100: #F7F3FC;
+  --taro-200: #E7DDF6;
+  --taro-300: #CEBAEA;
+  --taro-500: #A889D5;
+  --taro-700: #6D549D;
 
   --butter-100: #FBF2D9;
   --butter-200: #F6E4B3;
@@ -171,10 +171,10 @@
   /* 500, not 400 — focus indicators need 3:1 against the page bg. */
   --focus-ring: var(--blush-500);
 
-  /* Section eyebrows. Lilac is the one family with no other job, so it
+  /* Section eyebrows. Taro is the one family with no other job, so it
    * reads as wayfinding rather than competing with the blush accent. */
-  --label-fg: var(--lilac-700);
-  --label-rule: color-mix(in srgb, var(--lilac-500) 40%, transparent);
+  --label-fg: var(--taro-700);
+  --label-rule: color-mix(in srgb, var(--taro-500) 40%, transparent);
 
   /* Tag taxonomy — every tag is one of three kinds, always the same color:
    * platform (what it's built with), discipline (what kind of work),
@@ -237,8 +237,8 @@
 
   --focus-ring: var(--blush-300);
 
-  --label-fg: var(--lilac-300);
-  --label-rule: color-mix(in srgb, var(--lilac-300) 35%, transparent);
+  --label-fg: var(--taro-300);
+  --label-rule: color-mix(in srgb, var(--taro-300) 35%, transparent);
 
   --status-success: var(--sage-300);
   --status-success-soft: rgba(103, 155, 118, 0.18);
@@ -287,8 +287,8 @@
 
     --focus-ring: var(--blush-300);
 
-    --label-fg: var(--lilac-300);
-    --label-rule: color-mix(in srgb, var(--lilac-300) 35%, transparent);
+    --label-fg: var(--taro-300);
+    --label-rule: color-mix(in srgb, var(--taro-300) 35%, transparent);
 
     --status-success: var(--sage-300);
     --status-success-soft: rgba(103, 155, 118, 0.18);

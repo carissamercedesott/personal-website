@@ -76,13 +76,13 @@ between themes.
 
 Five steps each; 100 is the fill, 700 the text-on-light, 300 the text-on-dark.
 
-| Step | Sage | Sky | Lilac | Butter |
+| Step | Sage | Sky | Taro | Butter |
 |---|---|---|---|---|
-| 100 | `#E4F0E7` | `#E4EFF8` | `#F0EAF9` | `#FBF2D9` |
-| 200 | `#C8E1CE` | `#C6DFF0` | `#DFD2F2` | `#F6E4B3` |
-| 300 | `#A3CBAD` | `#9FC8E3` | `#C5AFE5` | `#EDCF83` |
-| 500 | `#679B76` | `#5F97BF` | `#9678C7` | `#C8A24B` |
-| 700 | `#3D6449` | `#386185` | `#614C8C` | `#86682B` |
+| 100 | `#E4F0E7` | `#E4EFF8` | `#F7F3FC` | `#FBF2D9` |
+| 200 | `#C8E1CE` | `#C6DFF0` | `#E7DDF6` | `#F6E4B3` |
+| 300 | `#A3CBAD` | `#9FC8E3` | `#CEBAEA` | `#EDCF83` |
+| 500 | `#679B76` | `#5F97BF` | `#A889D5` | `#C8A24B` |
+| 700 | `#3D6449` | `#386185` | `#6D549D` | `#86682B` |
 
 ## Semantic tokens
 
