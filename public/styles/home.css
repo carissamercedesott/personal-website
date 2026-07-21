@@ -1929,8 +1929,14 @@ body.has-modal {
   --cols: 24;
   --rows: 12;
   /* One module. Bounded by viewport height as well as width, because the
-   * section only gets one screen and the field has to finish inside it. */
-  --cell: clamp(34px, min(3.7vw, 6.2vh), 58px);
+   * section only gets one screen and the field has to finish inside it.
+   *
+   * The 38px floor is set by the smiski, not by the type: he's a fixed ~110px
+   * wide while the field shrinks, so below that module the gap between law 02
+   * and where he stands closes to nothing. It pairs with the 1020px
+   * breakpoint below — 24 modules at the floor is 912px, which needs about
+   * that much viewport to still sit at ~89% of it. Move one, move both. */
+  --cell: clamp(38px, min(3.7vw, 6.2vh), 58px);
   --half: calc(var(--cell) / 2);
   /* The lattice runs two whole modules past the field on every side so the
    * dots read as continuing rather than stopping at a border. Whole modules,
@@ -2004,6 +2010,11 @@ body.has-modal {
 .principle {
   list-style: none;
   align-self: start;
+  justify-self: start;
+  /* Hug the text rather than fill the grid area, so a law's box is the law.
+   * The areas below are sized for the copy plus room to grow; a stretched box
+   * would run under the smiski and make future copy changes collide silently. */
+  width: fit-content;
   /* Revealed in the order the eye travels, not all at once. */
   transition-delay: var(--reveal-delay, 0s);
 }
@@ -2057,6 +2068,7 @@ body.has-modal {
  * rails — the board's left edge and its right — is what keeps the arrangement
  * from reading as three items indented at random. */
 .principle--far {
+  justify-self: end;
   text-align: right;
 }
 
@@ -2127,10 +2139,10 @@ html.smiski-live .principles-stage::after {
   transform: translateX(3px);
 }
 
-/* Under ~900px the 24-module field is wider than the screen, so it collapses
- * to a single rail. The laws keep a one-module stagger — enough to remember
- * the composition without pretending the canvas is still there. */
-@media (max-width: 900px) {
+/* Below the width the field needs at its smallest module, it collapses to a
+ * single rail. The laws keep a one-module stagger — enough to remember the
+ * composition without pretending the canvas is still there. */
+@media (max-width: 1020px) {
   .principles-board {
     --cell: clamp(22px, 6.4vw, 34px);
     /* The lattice stops being a placement grid here, so it goes back to the
@@ -2153,8 +2165,10 @@ html.smiski-live .principles-stage::after {
 
   /* Each law needs its own reset: the placements above are nth-child rules,
    * and a bare .principle here would lose to them on specificity. */
+  /* Law 01 comes off the right rail too — there is only one rail down here. */
   .principle:nth-child(1) {
     grid-area: auto;
+    justify-self: start;
     --law-size: var(--text-xl);
     text-align: left;
   }
