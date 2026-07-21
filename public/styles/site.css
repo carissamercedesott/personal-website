@@ -520,36 +520,6 @@
   font-variant-numeric: tabular-nums;
 }
 
-/* Bullets: a short rule instead of a disc, and looser leading so multi-line
- * items stay scannable and the role title above them keeps the emphasis. */
-.org-role ul {
-  margin-top: var(--space-3);
-  padding-left: 0;
-  list-style: none;
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-3);
-  color: var(--text-secondary);
-  /* One step looser than --leading-normal; these run two to three lines. */
-  line-height: 1.7;
-}
-
-.org-role li {
-  position: relative;
-  padding-left: var(--space-6);
-}
-
-.org-role li::before {
-  content: "";
-  position: absolute;
-  left: 0;
-  /* Sits on the first line's midline rather than its box top. */
-  top: 0.8em;
-  width: 10px;
-  height: 1px;
-  background: var(--border-strong);
-}
-
 .org-role .tag-row {
   margin-top: var(--space-4);
 }
@@ -572,14 +542,6 @@
 
   .org-tile {
     font-size: var(--text-xs);
-  }
-
-  .org-role li {
-    padding-left: var(--space-4);
-  }
-
-  .org-role li::before {
-    width: 6px;
   }
 }
 
