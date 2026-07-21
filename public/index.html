@@ -216,25 +216,41 @@
 
       <section class="page-section band-oat" id="principles">
         <div class="section-inner">
-          <span class="section-label" data-reveal><span class="section-label-num">02</span>Principles</span>
-          <h2>How I build</h2>
-          <div class="principles-board" data-reveal>
-            <!-- Where the smiski stands to study the laws (walker-scene
-                 reads this anchor's rect). -->
+          <!-- One canvas, not a heading with a list under it: a 24 × 12 field
+               of square modules that everything below is placed onto by line
+               number. The dot lattice is that same field at half pitch, so
+               every edge you see is sitting on a dot row. -->
+          <div class="principles-board">
+            <div class="principles-head" data-reveal>
+              <span class="section-label"><span class="section-label-num">02</span>Principles</span>
+              <h2>How I build</h2>
+            </div>
+
+            <!-- Where the smiski stands: the intersection of column line 14
+                 and row line 11, which is also the line the last law hangs
+                 from. walker-scene reads this anchor's rect. -->
             <div class="principles-stage" data-smiski-study aria-hidden="true"></div>
-            <ol class="principles-list">
-              <li class="principle principle--left" data-reveal>
+
+            <ol class="principles-list" role="list">
+              <li class="principle principle--far" data-reveal>
+                <span class="principle-num">01</span>
                 <h3>Design with empathy</h3>
               </li>
-              <li class="principle principle--right" data-reveal>
+              <li class="principle" data-reveal>
+                <span class="principle-num">02</span>
                 <h3>Ground UX in research</h3>
               </li>
-              <li class="principle principle--left" data-reveal>
+              <li class="principle" data-reveal>
+                <span class="principle-num">03</span>
                 <h3>Build worlds with consistent laws</h3>
               </li>
             </ol>
+
+            <a class="principles-exit" href="/resume">
+              See full resume
+              <svg class="icon" aria-hidden="true"><use href="/images/icons.svg#arrow-right"></use></svg>
+            </a>
           </div>
-          <a class="btn btn-primary section-cta" href="/resume">See full resume</a>
         </div>
       </section>
 
