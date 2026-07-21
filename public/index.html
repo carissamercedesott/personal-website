@@ -88,7 +88,18 @@
             <p class="intro-hello">hello world!</p>
             <h2>nice to meet you</h2>
             <p class="intro-bio">
-              I'm Carissa <span class="intro-wave" aria-hidden="true">👋</span> A
+              I'm Carissa
+              <span class="intro-wave" aria-hidden="true">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M9.3 12.2 8.6 6.6" />
+                  <path d="M11.7 12 11.5 5.5" />
+                  <path d="M14.1 12.1 14.6 6.2" />
+                  <path d="M16.4 12.6 17.6 8.4" />
+                  <path d="M9.4 12.4 7 14" />
+                  <path d="M9 11.5c-.6 2.9.3 6 2.9 7.5 2.6 1.6 6 .6 7.4-2 .7-1.4 1-3.1.9-4.9" />
+                </svg>
+              </span>
+              A
               design-minded software engineer at
               <strong>Duolingo</strong>, working on UI/UX, design systems, and
               client architecture that's built to last.
@@ -110,7 +121,7 @@
       <section class="page-section band" id="work">
         <div class="section-inner">
           <span class="section-label" data-reveal><span class="section-label-num">01</span>Work</span>
-          <h2>I ship research-backed products, fast</h2>
+          <h2>I ship products for real people</h2>
           <p class="section-lead">
             I prototype, collaborate, and polish quickly to close the gap
             between human behavior and technology.
@@ -169,16 +180,13 @@
               <div class="project-card-body">
                 <div class="flagship-head">
                   <h3>Waddl</h3>
-                  <span class="tag tag--discipline flagship-badge"><svg class="icon" aria-hidden="true"><use href="/images/icons.svg#wrench"></use></svg> In progress</span>
+                  <span class="tag tag--platform flagship-badge"><svg class="icon" aria-hidden="true"><use href="/images/icons.svg#laptop"></use></svg> Electron</span>
+                  <span class="tag tag--platform flagship-badge">TypeScript</span>
                 </div>
                 <p>
                   Claude Code without the terminal — a cozy desktop window
                   that narrates as it reads and edits your codebase.
                 </p>
-                <span class="tag-row">
-                  <span class="tag tag--platform">Electron</span>
-                  <span class="tag tag--platform">TypeScript</span>
-                </span>
                 <span class="btn btn-primary flagship-cta">Read the case study</span>
               </div>
             </a>
@@ -303,6 +311,10 @@
             Solid on this site's design tokens. Keyboard-first, reduced-motion
             aware, and each one ships its own source, right underneath.
           </p>
+          <div class="tag-row" style="margin-top: var(--space-4)">
+            <span class="tag tag--platform">TypeScript</span>
+            <span class="tag tag--platform">SolidJS</span>
+          </div>
           <div class="lab-preview">
             <article class="lab-preview-item" data-reveal>
               <h3>Ghost-text autocomplete</h3>

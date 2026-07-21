@@ -35,13 +35,25 @@
       </nav>
     </header>
 
-    <main class="page" id="main">
-      <h1 class="page-title">Resume</h1>
-      <p class="page-lead">
-        The full story — everywhere I've worked, researched, and studied.
-      </p>
+    <main class="page resume-page" id="main">
+      <div class="resume-layout">
+        <nav class="resume-toc" aria-label="Resume sections">
+          <span class="resume-toc-title">On this page</span>
+          <ul>
+            <li><a href="#experience">Experience</a></li>
+            <li><a href="#research">Research</a></li>
+            <li><a href="#education">Education</a></li>
+            <li><a href="#skills">Skills</a></li>
+          </ul>
+        </nav>
 
-      <section>
+        <div class="resume-body">
+          <h1 class="page-title">Resume</h1>
+          <p class="page-lead">
+            The full story — everywhere I've worked, researched, and studied.
+          </p>
+
+      <section id="experience">
         <span class="section-label" data-reveal>Experience</span>
         <h2>Where I've worked</h2>
         <div class="timeline">
@@ -143,7 +155,7 @@
         </div>
       </section>
 
-      <section>
+      <section id="research">
         <span class="section-label" data-reveal>Research</span>
         <h2>Research &amp; involvement</h2>
         <div class="timeline">
@@ -215,7 +227,7 @@
         </div>
       </section>
 
-      <section>
+      <section id="education">
         <span class="section-label" data-reveal>Education</span>
         <h2>Education</h2>
         <div class="timeline">
@@ -235,7 +247,7 @@
         </div>
       </section>
 
-      <section>
+      <section id="skills">
         <span class="section-label" data-reveal>Skills</span>
         <h2>Toolbox</h2>
         <div class="tag-row" style="margin-top: var(--space-6)">
@@ -251,6 +263,8 @@
           <span class="tag tag--recognition">Poker</span>
         </div>
       </section>
+        </div>
+      </div>
     </main>
 
     <footer class="site-footer">

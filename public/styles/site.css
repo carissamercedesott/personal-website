@@ -419,6 +419,86 @@
   }
 }
 
+/* ── Resume: sticky section rail ──
+ * A two-column layout: a running table of contents on the left that tracks
+ * which section is in view (scroll spy in site.js), and the resume body on
+ * the right. The rail mirrors the timeline's left-border motif. */
+.resume-layout {
+  display: grid;
+  grid-template-columns: 180px minmax(0, 1fr);
+  gap: var(--space-12);
+  align-items: start;
+}
+
+.resume-toc {
+  position: sticky;
+  /* Clears the sticky site header. */
+  top: 88px;
+  align-self: start;
+}
+
+.resume-toc-title {
+  display: block;
+  padding-left: var(--space-4);
+  margin-bottom: var(--space-3);
+  font-family: var(--font-mono);
+  font-size: var(--text-xs);
+  font-weight: var(--weight-semibold);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+}
+
+.resume-toc ul {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  border-left: 2px solid var(--border-default);
+}
+
+.resume-toc a {
+  display: block;
+  /* Pulls each link's own left border over the rail so the active marker
+   * sits on the shared line rather than beside it. */
+  margin-left: -2px;
+  padding: var(--space-2) var(--space-4);
+  border-left: 2px solid transparent;
+  color: var(--text-muted);
+  font-family: var(--font-mono);
+  font-size: var(--text-sm);
+  text-decoration: none;
+  transition: color var(--duration-fast) var(--ease-out),
+    border-color var(--duration-fast) var(--ease-out);
+}
+
+.resume-toc a:hover {
+  color: var(--text-primary);
+}
+
+.resume-toc a.is-active {
+  color: var(--accent-strong);
+  border-left-color: var(--accent-default);
+  font-weight: var(--weight-semibold);
+}
+
+/* The body column keeps the page's normal rhythm; drop the first section's
+ * top margin since the intro above already supplies the spacing. */
+.resume-body > section:first-of-type {
+  margin-top: var(--space-12);
+}
+
+/* Below the two-column breakpoint the rail is dropped and the body reflows
+ * to full width. */
+@media (max-width: 820px) {
+  .resume-layout {
+    grid-template-columns: 1fr;
+  }
+
+  .resume-toc {
+    display: none;
+  }
+}
+
 /* ── Project cards ── */
 .card-grid {
   margin-top: var(--space-6);

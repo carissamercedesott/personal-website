@@ -98,6 +98,81 @@ function initScrollSpy() {
   }
 }
 
+// Resume side rail: click a section to scroll to it, and highlight whichever
+// section is in view. A scroll-based spy (rather than IntersectionObserver) so
+// sections of very different heights resolve predictably.
+function initResumeToc() {
+  const toc = document.querySelector(".resume-toc");
+  if (!toc) return;
+
+  const links = Array.from(toc.querySelectorAll('a[href^="#"]'));
+  const sections = links
+    .map((link) => document.getElementById(link.hash.slice(1)))
+    .filter(Boolean);
+  if (sections.length === 0) return;
+
+  const setActive = (id) => {
+    for (const link of links) {
+      link.classList.toggle("is-active", link.hash === `#${id}`);
+    }
+  };
+
+  // While a clicked target is scrolling into view, its link stays lit so the
+  // rail lands on what you picked — even when the page bottoms out before that
+  // section can reach the top (short trailing sections share the final screen).
+  let lockedId = null;
+  let lockTimer = 0;
+
+  const update = () => {
+    if (lockedId) {
+      setActive(lockedId);
+      return;
+    }
+    // Active section = the last one whose heading has passed just under the
+    // sticky header.
+    const line = 140;
+    let currentId = sections[0].id;
+    for (const section of sections) {
+      if (section.getBoundingClientRect().top <= line) currentId = section.id;
+    }
+    // At the very bottom, trailing sections may be too short to ever reach the
+    // line — land on the last one so the rail can complete.
+    const atBottom =
+      window.scrollY + window.innerHeight >=
+      document.documentElement.scrollHeight - 4;
+    if (atBottom) currentId = sections[sections.length - 1].id;
+    setActive(currentId);
+  };
+
+  const releaseLock = () => {
+    lockedId = null;
+  };
+
+  for (const link of links) {
+    link.addEventListener("click", (event) => {
+      const target = document.getElementById(link.hash.slice(1));
+      if (!target) return;
+      event.preventDefault();
+      lockedId = target.id;
+      setActive(lockedId);
+      target.scrollIntoView({
+        behavior: prefersReducedMotion() ? "auto" : "smooth",
+      });
+      // Reflect the section in the URL without the browser's own jump.
+      history.replaceState(null, "", link.hash);
+      // scrollend releases the lock the moment the smooth scroll settles;
+      // the timer is a fallback for browsers without scrollend.
+      window.clearTimeout(lockTimer);
+      lockTimer = window.setTimeout(releaseLock, 1000);
+    });
+  }
+  window.addEventListener("scrollend", releaseLock);
+
+  window.addEventListener("scroll", update, { passive: true });
+  window.addEventListener("resize", update);
+  update();
+}
+
 function initTypewriter() {
   const wordEl = document.getElementById("hero-type-word");
   if (!wordEl) return;
@@ -449,6 +524,7 @@ function initSiteChrome() {
   initThemeToggle();
   initReveal();
   initScrollSpy();
+  initResumeToc();
   initTypewriter();
   initProjectModal();
   initHeroGrid();

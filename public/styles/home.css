@@ -561,6 +561,30 @@ html.smiski-live .hello-ring {
 .intro-wave {
   font-style: normal;
   white-space: nowrap;
+  display: inline-block;
+}
+
+.intro-wave svg {
+  width: 1.2em;
+  height: 1.2em;
+  vertical-align: -0.24em;
+  color: var(--accent-strong);
+  /* Pivot near the wrist so the hand rocks rather than spins. */
+  transform-origin: 62% 82%;
+  animation: intro-wave-hand 2.4s var(--ease-in-out) 0.5s 3 both;
+}
+
+/* A few gentle rocks on load, then it rests. */
+@keyframes intro-wave-hand {
+  0%, 55%, 100% { transform: rotate(0deg); }
+  12%, 36% { transform: rotate(13deg); }
+  24%, 48% { transform: rotate(-7deg); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .intro-wave svg {
+    animation: none;
+  }
 }
 
 .intro-bio-icon {
@@ -743,6 +767,17 @@ a.project-card:hover {
   aspect-ratio: auto;
   border-bottom: none;
   border-right: 1px solid var(--border-default);
+}
+
+/* In dark mode --border-default equals --surface-raised, so the card edge and
+ * the image divider disappear into the card. Use the lighter --border-strong
+ * to keep both crisp. */
+[data-theme="dark"] .project-card {
+  border-color: var(--border-strong);
+}
+
+[data-theme="dark"] .project-card--flagship .project-card-img {
+  border-right-color: var(--border-strong);
 }
 
 .project-card--flagship .project-card-body {

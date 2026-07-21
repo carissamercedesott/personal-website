@@ -644,14 +644,6 @@
       <section id="palette">
         <h2>Color palette</h2>
         <p>
-          Seven families, one job each — three core families carry the site,
-          four support families exist for tags and status. Each card wears a
-          pastel step so you read the family's character, not its working
-          value. Expand a family for its full ramp: every shade is there for a
-          reason, and the reason is usually contrast. Click any shade to copy
-          its hex.
-        </p>
-        <p>
           Components never use these values directly. They go through the
           <a href="#semantic">semantic tokens</a> below. Figma naming:
           <code>Blush/500</code>, <code>Oat/100</code>, &hellip;
@@ -661,20 +653,11 @@
 
       <section id="semantic">
         <h2>Semantic tokens</h2>
-        <p>
-          Components only use these — never raw palette values. Toggle the
-          theme above and watch them remap.
-        </p>
         <div class="semantic-grid" id="semantic-grid"></div>
       </section>
 
       <section id="typography">
         <h2>Typography</h2>
-        <p>
-          IBM Plex Sans across display, headings, and body (700 for
-          display/bold, 600 for headings), with IBM Plex Mono for accents.
-          Body line-height 1.6; headings 1.15 with &minus;2% tracking.
-        </p>
         <div class="type-row">
           <span class="type-label">display</span>
           <span style="font-family: var(--font-display); font-size: var(--text-display); font-weight: var(--weight-bold); letter-spacing: var(--tracking-tight); line-height: var(--leading-tight)">Aa</span>
@@ -715,13 +698,11 @@
 
       <section id="spacing">
         <h2>Spacing</h2>
-        <p>4px base grid. Use the scale — never arbitrary values.</p>
         <div id="spacing-rows" style="margin-top: var(--space-6)"></div>
       </section>
 
       <section id="radii">
         <h2>Radii &amp; elevation</h2>
-        <p>Soft corners, warm-tinted shadows. Elevation is subtle — crisp beats floaty.</p>
         <div class="radius-grid">
           <div class="radius-box" style="border-radius: var(--radius-sm)">sm 6</div>
           <div class="radius-box" style="border-radius: var(--radius-md)">md 10</div>
@@ -737,14 +718,6 @@
 
       <section id="motion">
         <h2>Motion</h2>
-        <p>
-          Four durations, three easings, three named moves — <strong>rise</strong>
-          for entrances, <strong>settle</strong> for hovers (fast in, soft out),
-          <strong>pop</strong> for dialogs. Springs ride a
-          <code>linear()</code> curve, transform-only. With
-          <code>prefers-reduced-motion</code> set, everything on this site
-          renders in place — including these demos.
-        </p>
         <div class="motion-list" id="motion-list"></div>
         <div class="moves">
           <button class="move move--rise" type="button">
@@ -767,7 +740,6 @@
 
       <section id="components">
         <h2>Components</h2>
-        <p>Buttons, tags, and a project card assembled from semantic tokens.</p>
         <h3>Buttons</h3>
         <div class="component-row">
           <button class="btn btn-primary" type="button">Primary</button>
