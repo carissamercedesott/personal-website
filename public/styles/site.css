@@ -151,9 +151,9 @@
 
 /* Specimen tags: section labels read like the little green stickers on
  * lab jars — mono, sage, with a status dot. Part of the smiski-lab motif. */
-/* Section eyebrow: a numeral, a hairline, and the section name. Mono and
- * uppercase so it reads as a plate marking the page rather than prose.
- * Mono is already wide, so it carries less tracking than a sans would. */
+/* Section eyebrow: a numeral and the section name. Mono and uppercase so it
+ * reads as a plate marking the page rather than prose. Mono is already wide,
+ * so it carries less tracking than a sans would. */
 .section-label {
   display: inline-flex;
   align-items: center;

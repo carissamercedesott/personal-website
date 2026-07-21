@@ -78,8 +78,6 @@ body.lab kbd,
   letter-spacing: 0.16em;
   text-transform: uppercase;
   color: var(--accent-default);
-  border-bottom: 1px solid color-mix(in srgb, var(--accent-default) 35%, transparent);
-  padding-bottom: 1px;
 }
 
 .experiment-body {
