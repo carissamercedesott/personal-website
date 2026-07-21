@@ -79,6 +79,11 @@
         color: var(--text-muted);
       }
 
+      /* "Core colors" leads the section, so it sits where the grid used to. */
+      .families-divider:first-child {
+        margin-top: var(--space-6);
+      }
+
       .swatch-card {
         display: flex;
         flex-direction: column;
@@ -98,8 +103,6 @@
         box-shadow: var(--shadow-md, 0 6px 16px rgba(35, 30, 27, 0.1));
       }
 
-      /* Labels flex so the color bands line up across a row, whatever the
-       * role text runs to. */
       .swatch-card__label {
         flex: 1;
         display: flex;
@@ -117,12 +120,6 @@
 
       .palette-grid--support .swatch-card__name {
         font-size: var(--text-md);
-      }
-
-      .swatch-card__role {
-        font-size: var(--text-sm);
-        line-height: 1.45;
-        color: var(--text-secondary);
       }
 
       /* border-top is the only edge this needs — the card's own border bounds
@@ -763,7 +760,6 @@
       const FAMILIES = [
         { name: "Blush", prefix: "blush", tier: "core", anchorSteps: { light: 200, dark: 300 },
           steps: [50, 100, 200, 300, 400, 500, 600, 700, 800, 900],
-          role: "Primary — buttons, links, focus, the site's signature.",
           zones: [
             { span: 4, label: "pastel fills & washes" },
             { span: 2, label: "accent core" },
@@ -772,7 +768,6 @@
           ] },
         { name: "Apricot", prefix: "apricot", tier: "core", anchorSteps: { light: 200, dark: 300 },
           steps: [50, 100, 200, 300, 400, 500, 600, 700, 800, 900],
-          role: "Secondary — awards, metrics, warm highlights.",
           zones: [
             { span: 4, label: "pastel fills & washes" },
             { span: 2, label: "accent core" },
@@ -781,7 +776,6 @@
           ] },
         { name: "Oat", prefix: "oat", tier: "core", anchorSteps: { light: 200, dark: 300 },
           steps: [0, 50, 100, 200, 300, 400, 500, 600, 700, 800, 900, 950],
-          role: "Neutrals — every background, border, and line of text. Warm greige, never pure gray.",
           zones: [
             { span: 3, label: "paper — backgrounds & surfaces" },
             { span: 2, label: "borders" },
@@ -790,19 +784,15 @@
           ] },
         { name: "Sage", prefix: "sage", tier: "support", anchorSteps: { light: 200, dark: 300 },
           steps: [100, 200, 300, 500, 700],
-          role: "Success states.",
           zones: SUPPORT_ZONES() },
         { name: "Sky", prefix: "sky", tier: "support", anchorSteps: { light: 200, dark: 300 },
           steps: [100, 200, 300, 500, 700],
-          role: "Info states and discipline tags.",
           zones: SUPPORT_ZONES() },
         { name: "Lilac", prefix: "lilac", tier: "support", anchorSteps: { light: 200, dark: 300 },
           steps: [100, 200, 300, 500, 700],
-          role: "Section eyebrows — wayfinding, kept clear of the accents.",
           zones: SUPPORT_ZONES() },
         { name: "Butter", prefix: "butter", tier: "support", anchorSteps: { light: 200, dark: 300 },
           steps: [100, 200, 300, 500, 700],
-          role: "Warnings and recognition tags.",
           zones: SUPPORT_ZONES() },
       ];
 
@@ -968,12 +958,10 @@
         const openers = new Map();
         const grids = {};
         for (const tier of ["core", "support"]) {
-          if (tier === "support") {
-            const divider = document.createElement("p");
-            divider.className = "families-divider";
-            divider.textContent = "Support colors";
-            container.appendChild(divider);
-          }
+          const divider = document.createElement("p");
+          divider.className = "families-divider";
+          divider.textContent = tier === "core" ? "Core colors" : "Support colors";
+          container.appendChild(divider);
           const grid = document.createElement("div");
           grid.className = "palette-grid palette-grid--" + tier;
           container.appendChild(grid);
@@ -990,7 +978,6 @@
           card.innerHTML =
             '<span class="swatch-card__label">' +
             '<span class="swatch-card__name">' + family.name + "</span>" +
-            '<span class="swatch-card__role">' + family.role + "</span>" +
             "</span>" +
             '<span class="swatch-card__color" style="background:' + hex + '">' +
             '<span class="swatch-card__meta" style="color:' +
@@ -1060,7 +1047,6 @@
         card.innerHTML =
           '<span class="swatch-card__label">' +
           '<span class="swatch-card__name">Smiski</span>' +
-          '<span class="swatch-card__role">The resident smiski, mixed in three.js rather than CSS.</span>' +
           "</span>" +
           '<span class="swatch-card__color" style="background:' + hex + '">' +
           '<span class="swatch-card__meta" style="color:' +
