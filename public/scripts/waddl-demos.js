@@ -44,12 +44,14 @@
     if (height > 0) frame.style.height = height + "px";
   }
 
-  // Folders and diffs animate open over a few hundred milliseconds, so one
-  // measurement on click would catch the height mid-flight. Re-measure across
-  // the animation instead. Timers rather than animation frames: a frame that
-  // isn't being painted doesn't get animation frames, which is the same gap
-  // that makes the frame's own ResizeObserver unreliable here.
-  const SETTLE_MS = [0, 60, 140, 260, 420, 640];
+  // One measurement is never enough. On load, #demo-root exists but React
+  // hasn't mounted into it yet, so it measures 0 and sync skips; folders and
+  // diffs then animate open over a few hundred milliseconds, so a single
+  // measurement on click catches the height mid-flight. Re-measure across a
+  // window instead, out to where webfonts have settled. Timers rather than
+  // animation frames: a frame that isn't being painted doesn't get animation
+  // frames, which is the same gap that makes ResizeObserver unreliable here.
+  const SETTLE_MS = [0, 60, 140, 260, 420, 640, 1000, 1600];
 
   function settle(frame) {
     SETTLE_MS.forEach(function (delay) {
@@ -62,7 +64,7 @@
   function watch(frame) {
     const root = demoRoot(frame);
     if (!root) return;
-    sync(frame);
+    settle(frame);
     const observer = new ResizeObserver(function () {
       sync(frame);
     });
@@ -83,7 +85,10 @@
     frames.forEach(sync);
   }
 
-  window.addEventListener("resize", syncAll);
+  // A width change reflows the demo, so its height lands a frame or two later.
+  window.addEventListener("resize", function () {
+    frames.forEach(settle);
+  });
 
   new MutationObserver(syncAll).observe(document.documentElement, {
     attributes: true,
