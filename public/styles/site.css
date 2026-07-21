@@ -10,9 +10,13 @@
   border-bottom: 1px solid var(--border-default);
 }
 
+/* The bar is chrome — sticky, translucent, blurred, hairlined — and chrome
+ * belongs to the window, not to the column. It used to hold its contents in
+ * the 960px reading column, which on a wide display left the name floating
+ * several hundred pixels in from an edge-to-edge bar, aligned to nothing
+ * visible. The gutter is --space-6 to match .hero-corner, so the wordmark
+ * and the hero's contact chips share a left edge. */
 .site-nav {
-  max-width: 960px;
-  margin: 0 auto;
   padding: var(--space-3) var(--space-6);
   display: flex;
   align-items: center;
