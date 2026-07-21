@@ -1555,16 +1555,6 @@ body.has-modal {
   pointer-events: none;
 }
 
-.principle-num {
-  display: block;
-  margin-bottom: var(--space-1);
-  font-family: var(--font-mono);
-  font-size: var(--text-sm);
-  font-weight: var(--weight-semibold);
-  letter-spacing: 0.12em;
-  color: var(--accent-2-strong);
-}
-
 /* Three columns: laws alternate down the outer two while the middle
  * stays clear for the smiski — compact enough that all three laws share
  * the frame with him. */
