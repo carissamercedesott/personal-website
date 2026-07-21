@@ -927,8 +927,9 @@ html.smiski-live .hello-ring {
 }
 
 /* The device, unframed: no card, no border — the warm glow is the only
- * grounding. Sized to clear the section's padding and its own rule so the
- * whole phone, and its shadow, sit inside one screen. */
+ * grounding, and now the only one the phone has anywhere. Sized to clear the
+ * section's padding and its own rule so the whole phone sits inside one
+ * screen. */
 .work-chapter .card-media--phone {
   --flagship-phone-h: clamp(340px, 64vh, 640px);
   padding: 0;
@@ -1310,21 +1311,17 @@ a.project-card:hover {
   padding: var(--phone-bezel);
   border-radius: var(--phone-radius);
   background: #14110f;
-  /* Also proportional: a fixed 16px/38px drop bunched into a dark smudge
-   * under a device three times the size it was tuned for.
+  /* No drop shadow. A shadow offset far enough down to ground a device this
+   * size reaches past the bottom of its own silhouette, and the body's 15%
+   * corner radius curves away exactly there — so what showed wasn't a soft
+   * edge under the phone but a grey wedge sitting inside each bottom corner,
+   * with the shadow's own (smaller) radius visible against the body's. Pulling
+   * the alpha down only made a fainter wedge; the geometry is the problem.
    *
-   * The alphas are low because the geometry is large. Scaling the blur with
-   * the device (0.12 of its height — 63px at the work-screen size) spreads the
-   * shadow over enough area that the 0.5 black it used to carry stopped
-   * reading as a shadow and became a grey slab the size of the phone's box.
-   * Tinted with --text-primary rather than pure black: neutral black over a
-   * warm oat background is what made it read grey rather than soft. */
-  box-shadow:
-    inset 0 0 0 1px rgba(255, 255, 255, 0.08),
-    0 calc(var(--phone-h) * 0.05) calc(var(--phone-h) * 0.12)
-      calc(var(--phone-h) * -0.035) rgba(35, 30, 27, 0.16),
-    0 calc(var(--phone-h) * 0.008) calc(var(--phone-h) * 0.02)
-      rgba(35, 30, 27, 0.1);
+   * The device is grounded by the warm radial behind it instead — see
+   * .card-media--phone. All that's left here is the inset hairline that keeps
+   * the bezel from meeting the background as a flat silhouette. */
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.08);
 }
 
 .card-video {
