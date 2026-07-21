@@ -497,10 +497,22 @@ function initCardVideo() {
 function initPageBack() {
   const back = document.querySelector(".page-back");
   if (!back) return;
-  // Return to the page the visitor actually came from (home, the Work
-  // gallery, …); the href is the fallback for direct visits.
+  // The link says Home and always goes home. The one special case is arriving
+  // from the home page itself: there, history.back() reaches the same place as
+  // the href but restores the scroll position, so a visitor who clicked into a
+  // card lands back where they were reading instead of at the top. From any
+  // other referrer — another sub-page, a search result, a direct link — going
+  // back would land somewhere that isn't home, so the href's "/" wins.
   back.addEventListener("click", (event) => {
-    if (document.referrer.startsWith(window.location.origin) && window.history.length > 1) {
+    let from;
+    try {
+      from = new URL(document.referrer);
+    } catch {
+      return; // No referrer (direct visit): follow the href.
+    }
+    const cameFromHome =
+      from.origin === window.location.origin && from.pathname === "/";
+    if (cameFromHome && window.history.length > 1) {
       event.preventDefault();
       window.history.back();
     }

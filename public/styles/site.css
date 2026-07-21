@@ -183,6 +183,25 @@
   scroll-margin-top: 64px;
 }
 
+/* One screen per section, so the scroll cue lands on a fresh view each time.
+ * Same measurements the hero already uses: svh (stable under mobile URL bars)
+ * minus the 64px the sticky header covers, which is also what scroll-margin-top
+ * above clears. min-height, not height — #work runs taller than a viewport on
+ * short screens and has to grow rather than clip.
+ *
+ * Deliberately no flex/grid centering here: .section-inner centers itself with
+ * `margin: 0 auto`, and an auto inline margin opts an item out of stretching in
+ * both layouts, which collapsed the section's measure from 960px to its longest
+ * line. Blocks keep the existing measure exactly; the section's own padding
+ * still sets the rhythm. */
+.home main > section[id] {
+  min-height: calc(100vh - 64px);
+  min-height: calc(100svh - 64px);
+  /* .page-section already clears the header, but .intro and .hero aren't one,
+   * so a hop onto them used to tuck their first line under it. */
+  scroll-margin-top: 64px;
+}
+
 .section-inner {
   max-width: 960px;
   margin: 0 auto;
@@ -551,20 +570,9 @@
  * note rather than a two-column app layout. Below the rail's breakpoint that
  * same nav becomes a sticky strip under the header — one element throughout,
  * so the scroll spy in site.js keeps working untouched. */
-/* On the resume the eyebrow is the section heading — the prose h2 that used
- * to sit under it said the same thing a second time, in a second voice. It
- * still has to out-rank `.page section > h2`, which sets the heading size. */
-.resume-page section > h2.section-label {
-  margin-top: 0;
-  /* Matches the sub-dividers on /design (.families-divider): body sans,
-   * muted, tighter tracking. The resume's sections are the parts of one
-   * document rather than the site's numbered chapters, so they don't wear
-   * the lilac mono eyebrow the home page uses. */
-  font-family: var(--font-body);
-  font-size: var(--text-xs);
-  letter-spacing: var(--tracking-wide);
-  color: var(--text-muted);
-}
+/* On the resume the section heading is a plain h2, styled by
+ * `.page section > h2` — the same rule that sets "Color palette" on /design,
+ * so the two pages' section headings match exactly. */
 
 .page.resume-page {
   /* .resume-layout sets the measure; .page's 960px cap would re-offset it. */
@@ -687,9 +695,6 @@
   scroll-margin-top: 120px;
 }
 
-.resume-body > section > h2 {
-  letter-spacing: var(--tracking-tight);
-}
 
 /* ── Wide: the rail moves out into the left margin ──
  * 1160px is the first width at which 704px of column plus two 200px margins
@@ -747,12 +752,14 @@
     border-left-color: var(--accent-default);
   }
 
-  /* Vertical rail: the marker becomes a rule under the label. */
+  /* One marker, not two. In the vertical rail the active state is already the
+   * lit segment of the spine (border-left, pulled onto the rail by the -1px
+   * margin above). The underline this used to draw sat indented from that
+   * spine, so one selection read as two disconnected marks — a line out at the
+   * rail and a rule under the label. The horizontal strip below 1160px still
+   * uses the underline, where there is no spine to grow out of. */
   .resume-toc a::after {
-    left: var(--space-4);
-    right: var(--space-4);
-    bottom: var(--space-1);
-    height: 1px;
+    display: none;
   }
 
   .resume-body > section {
