@@ -111,9 +111,40 @@ function initResumeToc() {
     .filter(Boolean);
   if (sections.length === 0) return;
 
+  const inner = toc.querySelector(".resume-toc-inner");
+  const marker = toc.querySelector(".resume-toc-marker");
+  let markerLink = null;
+  let markerTop = null;
+
+  // Park the accent line over the active label. The edge leading the move gets
+  // the shorter duration, so the line stretches on its way and gathers itself
+  // at the destination; see the transition in site.css.
+  const moveMarker = (link) => {
+    if (!inner || !marker) return;
+    const innerRect = inner.getBoundingClientRect();
+    const linkRect = link.getBoundingClientRect();
+    const top = linkRect.top - innerRect.top;
+    if (link === markerLink && top === markerTop) return;
+    const first = markerTop === null;
+    const goingDown = !first && top > markerTop;
+    markerLink = link;
+    markerTop = top;
+    inner.style.setProperty("--toc-marker-top", `${top}px`);
+    inner.style.setProperty("--toc-marker-bottom", `${top + linkRect.height}px`);
+    inner.style.setProperty("--toc-marker-dur-top", goingDown ? "620ms" : "440ms");
+    inner.style.setProperty("--toc-marker-dur-bottom", goingDown ? "440ms" : "620ms");
+    // First placement lands without transition (see :not(.is-ready) in the
+    // CSS), so the line doesn't sweep down from the top of the rail on load.
+    // The reflow read commits that position before motion is switched on.
+    if (first) void inner.offsetHeight;
+    inner.classList.add("is-ready");
+  };
+
   const setActive = (id) => {
     for (const link of links) {
-      link.classList.toggle("is-active", link.hash === `#${id}`);
+      const active = link.hash === `#${id}`;
+      link.classList.toggle("is-active", active);
+      if (active) moveMarker(link);
     }
   };
 

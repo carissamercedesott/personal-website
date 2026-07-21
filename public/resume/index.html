@@ -27,6 +27,7 @@
         <a class="site-logo" href="/">Carissa Ott</a>
         <div class="site-links">
           <a href="/projects">Work</a>
+          <a href="https://carissaott.com/waddl-app/">Waddl</a>
           <a href="/playground">Playground</a>
           <a href="/design">Design system</a>
           <a href="/resume" aria-current="page">Resume</a>
@@ -39,7 +40,12 @@
       <div class="resume-layout">
         <div class="resume-body">
           <a class="page-back" href="/"><svg class="icon" aria-hidden="true"><use href="/images/icons.svg#arrow-down"></use></svg> Home</a>
-          <h1 class="page-title">Resume</h1>
+          <div class="resume-title-row">
+            <h1 class="page-title">Resume</h1>
+            <a class="resume-pdf" href="/carissa-ott-resume.pdf" target="_blank" rel="noopener" title="Open the PDF" aria-label="Open the resume as a PDF">
+              <svg class="icon" aria-hidden="true"><use href="/images/icons.svg#resume-doc"></use></svg>
+            </a>
+          </div>
           <p class="page-lead">
             Everywhere I've worked, researched, studied, and built.
           </p>
@@ -49,6 +55,7 @@
                margin against .resume-layout, so DOM order stops mattering. -->
           <nav class="resume-toc" aria-label="Resume sections">
             <div class="resume-toc-inner">
+              <span class="resume-toc-marker" aria-hidden="true"></span>
               <ul>
                 <li><a href="#experience">Experience</a></li>
                 <li><a href="#research">Research</a></li>
@@ -262,10 +269,26 @@
             <span class="skill-group-label">Languages &amp; tools</span>
             <div class="tag-row">
               <span class="tag tag--platform">Python</span>
-              <span class="tag tag--platform">Swift</span>
+              <span class="tag tag--platform">Swift/SwiftUI</span>
+              <span class="tag tag--platform">TypeScript</span>
               <span class="tag tag--platform">C++</span>
               <span class="tag tag--platform">ReactJS</span>
+              <span class="tag tag--platform">SolidJS</span>
+              <span class="tag tag--platform">Electron</span>
+              <span class="tag tag--platform">three.js</span>
+              <span class="tag tag--platform">CSS/animation</span>
               <span class="tag tag--platform">Figma</span>
+            </div>
+          </div>
+
+          <div class="skill-group">
+            <span class="skill-group-label">Design</span>
+            <div class="tag-row">
+              <span class="tag tag--discipline">Design systems &amp; tokens</span>
+              <span class="tag tag--discipline">Prototyping</span>
+              <span class="tag tag--discipline">Typography</span>
+              <span class="tag tag--discipline">Motion &amp; interaction</span>
+              <span class="tag tag--discipline">Accessibility</span>
             </div>
           </div>
 
@@ -283,6 +306,10 @@
             <div class="tag-row">
               <span class="tag tag--recognition">Cookie Baking Expert</span>
               <span class="tag tag--recognition">Poker</span>
+              <span class="tag tag--recognition">Snowboarding</span>
+              <span class="tag tag--recognition">Hiking</span>
+              <span class="tag tag--recognition">Running</span>
+              <span class="tag tag--recognition">DJing</span>
             </div>
           </div>
         </div>

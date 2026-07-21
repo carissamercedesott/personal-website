@@ -1,4 +1,4 @@
-// The three case-study demos are the real Waddl React components, each
+// The framed case-study demos are the real Waddl React components, each
 // running in its own frame. They're framed rather than inlined because
 // Waddl's design tokens share ~113 names with this site's (--accent-default,
 // --bg-default, --text-primary …) and both sit on :root, so one document

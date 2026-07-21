@@ -159,9 +159,10 @@
 }
 
 /* ── Interaction demos ──
- * Each breakdown frames the real component from the Waddl repo. They're
- * iframes because Waddl's tokens collide by name with this site's — see
- * scripts/waddl-demos.js, which also sizes them to their reported height. */
+ * These frame the real component from the Waddl repo. They're iframes
+ * because Waddl's tokens collide by name with this site's — see
+ * scripts/waddl-demos.js, which also sizes them to their reported height.
+ * The duck below is the exception; it's inlined. */
 .demo-figure {
   margin-top: var(--space-4);
 }
@@ -183,52 +184,150 @@
   color: var(--text-muted);
 }
 
-/* ── Decisions: chose / rejected ── */
-.decision-grid {
-  margin-top: var(--space-6);
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: var(--space-6);
+/* ── The duck ──
+ * The one demo not framed from the Waddl build — he lives in the app's
+ * composer, not in the three exported components, so the sprite and the
+ * walk timings are inlined instead. The four colours are the mascot's own
+ * palette rather than this page's tokens: he's the same bird in either
+ * theme, so he doesn't take the light/dark swap the surface around him does. */
+.duck-stage {
+  --duck-body: #edcf83;
+  --duck-shade: #c8a24b;
+  --duck-bill: #e1773d;
+  --duck-eye: #171310;
+  padding: var(--space-4);
+  background: var(--bg-subtle);
 }
 
-@media (max-width: 640px) {
-  .decision-grid {
-    grid-template-columns: 1fr;
+.duck-track {
+  position: relative;
+  height: 42px;
+}
+
+.duck-mover {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  /* 8s out, 8s back; the flip below runs at twice the period so he turns
+   * on the beat he reverses. */
+  animation: duck-walk 8s linear infinite alternate;
+}
+
+.duck-flip {
+  transform-origin: 50% 100%;
+  animation: duck-turn 16s steps(1) infinite;
+}
+
+.duck-sprite {
+  display: block;
+  transform-origin: 50% 100%;
+  animation: duck-trot 0.14s var(--ease-in-out) infinite alternate;
+}
+
+@keyframes duck-walk {
+  0% {
+    left: 0;
+  }
+  100% {
+    left: calc(100% - 48px);
   }
 }
 
-.decision-col {
+@keyframes duck-turn {
+  0%,
+  100% {
+    transform: scaleX(1);
+  }
+  50% {
+    transform: scaleX(-1);
+  }
+}
+
+@keyframes duck-trot {
+  0% {
+    transform: translateY(0);
+  }
+  100% {
+    transform: translateY(-1.5px);
+  }
+}
+
+/* Two feet poses cross-faded on opposite halves of the same step, so one
+ * foot is always planted. The idle pair only shows when motion is off. */
+.duck-feet-idle {
+  opacity: 0;
+}
+
+.duck-feet-left {
+  animation: duck-step 0.28s steps(1) infinite;
+}
+
+.duck-feet-right {
+  animation: duck-step 0.28s steps(1) -0.14s infinite;
+}
+
+@keyframes duck-step {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0;
+  }
+}
+
+/* The faux composer he paces on top of — enough of the app's input row to
+ * place him, not a working control. */
+.duck-composer {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  padding: var(--space-3) var(--space-4);
   border: 1px solid var(--border-default);
   border-radius: var(--radius-lg);
-  padding: var(--space-6);
   background: var(--surface-default);
 }
 
-.decision-col h3 {
-  font-size: var(--text-md);
-  font-family: var(--font-mono);
-  text-transform: uppercase;
-  letter-spacing: var(--tracking-wide);
-}
-
-.decision-col-chose h3 {
-  color: var(--status-success);
-}
-
-.decision-col-rejected h3 {
-  color: var(--status-error);
-}
-
-.decision-col ul {
-  margin-top: var(--space-4);
-  padding-left: var(--space-6);
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-3);
-  color: var(--text-secondary);
+.duck-composer-text {
+  flex: 1;
+  min-width: 0;
   font-size: var(--text-sm);
+  color: var(--text-muted);
 }
 
-.decision-todo {
-  color: var(--text-muted);
+.duck-composer-send {
+  display: grid;
+  place-items: center;
+  flex-shrink: 0;
+  width: 28px;
+  height: 28px;
+  border-radius: var(--radius-full);
+  background: var(--accent-soft);
+  color: var(--accent-strong);
+}
+
+/* The arrow sprite points down; the send button points up. */
+.duck-composer-send .icon {
+  width: 14px;
+  height: 14px;
+  transform: rotate(180deg);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .duck-mover,
+  .duck-flip,
+  .duck-sprite,
+  .duck-feet-left,
+  .duck-feet-right {
+    animation: none;
+  }
+
+  .duck-feet-idle {
+    opacity: 1;
+  }
+
+  .duck-feet-left,
+  .duck-feet-right {
+    opacity: 0;
+  }
 }

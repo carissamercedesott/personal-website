@@ -14,6 +14,9 @@ const CONTENT_TYPES: Record<string, string> = {
   ".svg": "image/svg+xml",
   ".png": "image/png",
   ".ico": "image/x-icon",
+  /* Without this the resume falls back to octet-stream and downloads instead
+   * of opening in the browser's viewer. */
+  ".pdf": "application/pdf",
 };
 
 function sendNotFound(res: ServerResponse): void {

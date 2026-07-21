@@ -710,9 +710,8 @@ html.smiski-live .hello-ring {
 }
 
 /* ── Screen 1: the thesis, set like a title page ──
- * The label says where you are, the index says what's coming, and the
- * headline and its note hold the middle together — the screen is "empty" the
- * way a title page is empty. */
+ * The label says where you are and the headline and its note hold the middle
+ * together — the screen is "empty" the way a title page is empty. */
 .work-thesis-top {
   display: flex;
   justify-content: space-between;
@@ -737,55 +736,22 @@ html.smiski-live .hello-ring {
   line-height: var(--leading-tight);
 }
 
+/* Reads as a second line of the headline rather than a caption: it sits close
+ * under the title at a lower step, and the two phrases it emphasises name the
+ * two chapters that follow. */
 .work-thesis-note {
-  margin-block: var(--space-6) auto;
-  max-width: 34ch;
-  font-size: var(--text-sm);
-  color: var(--text-secondary);
-}
-
-/* The index doubles as navigation: each row hops to its chapter, the same
- * jump the → key makes. */
-.work-thesis-foot {
-  display: flex;
-  justify-content: space-between;
-  align-items: end;
-  gap: var(--space-8);
-  padding-top: var(--space-4);
-  border-top: 1px solid var(--border-default);
-}
-
-.work-index-label {
-  font-family: var(--font-mono);
-  font-size: var(--text-xs);
-  color: var(--text-muted);
-}
-
-.work-index {
-  list-style: none;
-  margin: 0;
-  padding: 0;
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-2);
-  text-align: right;
-}
-
-.work-index a {
-  font-family: var(--font-mono);
-  font-size: var(--text-sm);
+  margin-block: var(--space-3) auto;
+  max-width: 40ch;
+  font-size: var(--text-2xl);
+  font-weight: var(--weight-medium);
+  letter-spacing: var(--tracking-tight);
+  line-height: var(--leading-snug);
   color: var(--text-primary);
-  text-decoration: none;
 }
 
-.work-index a:hover {
-  color: var(--accent-strong);
-}
-
-.work-index-num {
-  margin-right: var(--space-2);
-  color: var(--text-muted);
-  font-variant-numeric: tabular-nums;
+.work-thesis-note em {
+  font-style: normal;
+  color: var(--accent-default);
 }
 
 /* ── The chapter grammar: rule, copy, device ── */
@@ -875,12 +841,6 @@ html.smiski-live .hello-ring {
  * own gap. */
 .work-cta {
   margin-top: var(--space-4);
-}
-
-/* The quiet exit to everything else. */
-.work-all {
-  font-size: var(--text-sm);
-  color: var(--text-muted);
 }
 
 /* ── Screen 2: Cross Math — copy high-left, whole device right ──
@@ -1007,17 +967,9 @@ html.smiski-live .hello-ring {
   }
 
   /* No leftover height to absorb down here, so the note's auto margin would
-   * collapse to nothing and leave it flush against the index. */
+   * collapse to nothing and butt the note against the next screen. */
   .work-thesis-note {
     margin-bottom: var(--space-12);
-  }
-
-  .work-thesis-foot {
-    align-items: start;
-  }
-
-  .work-index {
-    text-align: left;
   }
 
   .work-chapter--scale,
@@ -1812,7 +1764,9 @@ body.has-modal {
 }
 
 /* The floating logos. Each is a round chip that idles with a slow bob,
- * staggered so the row breathes rather than pulses in unison. */
+ * staggered so the row breathes rather than pulses in unison. The glyphs are
+ * lit in the same apricot as the smiski's ring up in the hero, so the page
+ * opens and closes on the same light. */
 .contact-orbit {
   margin-top: var(--space-8);
   display: flex;
@@ -1828,10 +1782,14 @@ body.has-modal {
   height: 56px;
   border-radius: var(--radius-full);
   background: var(--surface-raised);
-  border: 1px solid var(--border-default);
-  color: var(--text-secondary);
-  box-shadow: var(--shadow-md);
+  border: 1px solid color-mix(in srgb, var(--accent-2-default) 30%, var(--border-default));
+  color: var(--accent-2-strong);
+  /* The chip's own halo stays steady so hover has something to brighten; the
+   * breathing happens on the glyph below. */
+  box-shadow: var(--shadow-md),
+    0 0 16px color-mix(in srgb, var(--accent-2-default) 24%, transparent);
   animation: orb-float 3.6s var(--ease-in-out) infinite;
+  animation-delay: var(--orb-delay);
   transition: color var(--duration-fast) var(--ease-out),
     border-color var(--duration-fast) var(--ease-out),
     box-shadow var(--duration-fast) var(--ease-out);
@@ -1840,19 +1798,21 @@ body.has-modal {
 .contact-orb .icon {
   width: 22px;
   height: 22px;
+  animation: orb-glow 2.4s var(--ease-in-out) infinite;
+  animation-delay: var(--orb-delay);
 }
 
-/* Stagger the bob so the logos drift out of sync. */
-.contact-orb:nth-child(1) { animation-delay: 0s; }
-.contact-orb:nth-child(2) { animation-delay: 0.45s; }
-.contact-orb:nth-child(3) { animation-delay: 0.9s; }
-.contact-orb:nth-child(4) { animation-delay: 1.35s; }
+/* Stagger the bob and the glow together, so the row drifts out of sync. */
+.contact-orb:nth-child(1) { --orb-delay: 0s; }
+.contact-orb:nth-child(2) { --orb-delay: 0.45s; }
+.contact-orb:nth-child(3) { --orb-delay: 0.9s; }
+.contact-orb:nth-child(4) { --orb-delay: 1.35s; }
 
 .contact-orb:hover {
-  color: var(--accent-strong);
-  border-color: var(--accent-strong);
-  box-shadow: var(--shadow-lg);
-  /* Pause the bob and lift on hover so the target holds still. */
+  border-color: color-mix(in srgb, var(--accent-2-default) 70%, transparent);
+  box-shadow: var(--shadow-lg),
+    0 0 28px color-mix(in srgb, var(--accent-2-default) 50%, transparent);
+  /* Pause the bob on hover so the target holds still. */
   animation-play-state: paused;
 }
 
@@ -1866,9 +1826,25 @@ body.has-modal {
   }
 }
 
+/* Matches the hero ring's 2.4s breath. */
+@keyframes orb-glow {
+  0%,
+  100% {
+    filter: drop-shadow(0 0 4px color-mix(in srgb, var(--accent-2-default) 35%, transparent));
+  }
+  50% {
+    filter: drop-shadow(0 0 9px color-mix(in srgb, var(--accent-2-default) 65%, transparent));
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
   .contact-orb {
     animation: none;
+  }
+
+  .contact-orb .icon {
+    animation: none;
+    filter: drop-shadow(0 0 6px color-mix(in srgb, var(--accent-2-default) 45%, transparent));
   }
 }
 
@@ -2000,6 +1976,9 @@ body.has-modal {
   list-style: none;
   align-self: start;
   justify-self: start;
+  /* One size for all three: they're peers, so placement carries the
+   * composition and type size doesn't rank them. */
+  --law-size: max(1.3rem, calc(var(--cell) * 0.54));
   /* Hug the text rather than fill the grid area, so a law's box is the law.
    * The areas below are sized for the copy plus room to grow; a stretched box
    * would run under the smiski and make future copy changes collide silently. */
@@ -2015,17 +1994,13 @@ body.has-modal {
   text-wrap: balance;
 }
 
-/* The three anchor points. The heading and laws 01 and 03 hang off the field's
- * left line; law 02 is the single counterweight on the right, and the smiski
- * stands centered between them. That's the whole composition: a left rail, one
- * departure from it, and the figure holding the gap open. The row starts
- * (1, 4, 7, 10) put a three-module beat between every anchor, which is what
- * lets an even left rail read as a cadence rather than a list. Scale climbs a
- * step per law, so the last one lands as the conclusion rather than the third
- * of three. */
+/* The three anchor points. The heading and law 03 hang off the field's left
+ * line; law 01 steps three modules in off it and law 02 is the counterweight
+ * on the right, with the smiski standing centered between them. The row starts
+ * (1, 4, 7, 10) put a three-module beat between every anchor, so the laws
+ * read as a cadence rather than a list. */
 .principle:nth-child(1) {
-  grid-area: 4 / 1 / 6 / 12;
-  --law-size: max(1.25rem, calc(var(--cell) * 0.5));
+  grid-area: 4 / 4 / 6 / 13;
   --reveal-delay: 60ms;
 }
 
@@ -2034,13 +2009,11 @@ body.has-modal {
  * and would run under the smiski rather than wrap. */
 .principle:nth-child(2) {
   grid-area: 7 / 15 / 9 / 25;
-  --law-size: max(1.3rem, calc(var(--cell) * 0.54));
   --reveal-delay: 150ms;
 }
 
 .principle:nth-child(3) {
   grid-area: 10 / 1 / 12 / 15;
-  --law-size: max(1.45rem, calc(var(--cell) * 0.62));
   --reveal-delay: 240ms;
 }
 
@@ -2068,20 +2041,6 @@ body.has-modal {
   height: 132px;
   transform: translate(-50%, -100%);
   pointer-events: none;
-}
-
-/* The dot he's standing on, inked. The lattice reacting to him is the whole
- * gesture — no plinth, no marker, and nothing to see when he isn't there. */
-html.smiski-live .principles-stage::after {
-  content: "";
-  position: absolute;
-  left: 50%;
-  bottom: 0;
-  width: 5px;
-  height: 5px;
-  margin: 0 0 -2.5px -2.5px;
-  border-radius: var(--radius-full);
-  background: color-mix(in srgb, var(--text-primary) 40%, transparent);
 }
 
 /* The exit closes the left rail on the field's bottom row, a module below the
@@ -2130,11 +2089,14 @@ html.smiski-live .principles-stage::after {
     justify-self: start;
   }
 
+  .principle {
+    --law-size: var(--text-xl);
+  }
+
   /* Each law needs its own reset: the placements above are nth-child rules,
    * and a bare .principle here would lose to them on specificity. */
   .principle:nth-child(1) {
     grid-area: auto;
-    --law-size: var(--text-xl);
   }
 
   /* Law 02 comes off the right rail too — there is only one rail down here. */
@@ -2142,13 +2104,11 @@ html.smiski-live .principles-stage::after {
     grid-area: auto;
     justify-self: start;
     text-align: left;
-    --law-size: var(--text-xl);
     margin-left: var(--cell);
   }
 
   .principle:nth-child(3) {
     grid-area: auto;
-    --law-size: var(--text-2xl);
     margin-left: calc(var(--cell) * 2);
   }
 

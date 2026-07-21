@@ -130,6 +130,7 @@ export const createSmiskiWalker = () => {
   const perchEl = document.querySelector<HTMLElement>("[data-smiski-perch]");
   const ringEl = document.querySelector<HTMLElement>("[data-smiski-ring]");
   const studyEl = document.querySelector<HTMLElement>("[data-smiski-study]");
+  const farewellEl = document.querySelector<HTMLElement>("[data-smiski-farewell]");
   const introEl = document.querySelector<HTMLElement>(".intro");
 
   // The sticky header sections clear when they snap into place.
@@ -281,6 +282,10 @@ export const createSmiskiWalker = () => {
   // Study (principles act): how settled he is at the study anchor.
   let studyW = 0;
   let studied = false;
+
+  // Farewell (contact act): how centered the last screen is.
+  let farewellW = 0;
+  let waved = false;
 
   // Wave (hero act)
   let waveT = 10; // seconds since the current wave started
@@ -465,6 +470,23 @@ export const createSmiskiWalker = () => {
       studied = false;
     }
 
+    // Farewell act: on the last screen he squares up and waves you off.
+    // Same shape as the study act above, but it only sees the bottom of the
+    // page, where he's finished walking and has nowhere left to go.
+    let farewellTarget = 0;
+    if (farewellEl && w >= 1 && mode === "flow") {
+      const rect = farewellEl.getBoundingClientRect();
+      const mid = (rect.top + rect.height / 2) / viewH;
+      farewellTarget = smooth01((1 - Math.abs(mid - 0.5) / 0.55) * 1.6);
+    }
+    farewellW += (farewellTarget - farewellW) * Math.min(1, dt * (snap ? 60 : 7));
+    if (farewellW > 0.75 && !waved) {
+      waved = true;
+      showBubble("thanks for stopping by!", 5200);
+    } else if (farewellW < 0.1) {
+      waved = false;
+    }
+
     let tx: number;
     let ty: number;
     if (w > 0) {
@@ -499,8 +521,9 @@ export const createSmiskiWalker = () => {
     if (w > 0) {
       yaw = THREE.MathUtils.euclideanModulo(yaw + Math.PI, Math.PI * 2) - Math.PI;
       const walkYaw = moving ? lastDir * 0.85 : lastDir * 0.12;
-      // Studying, he squares up to face the reader.
-      const targetYaw = THREE.MathUtils.lerp(walkYaw, 0.1, studyW);
+      // Studying or waving goodbye, he squares up to face the reader.
+      const facing = Math.max(studyW, farewellW);
+      const targetYaw = THREE.MathUtils.lerp(walkYaw, 0.1, facing);
       yaw += (targetYaw - yaw) * Math.min(1, dt * 5);
     } else if (u >= 1) {
       sinceDrag += dt;
@@ -524,6 +547,11 @@ export const createSmiskiWalker = () => {
 
     // Blend the three poses limb by limb.
     const wave = sitW > 0.3 ? waveEnv() : 0;
+    // The seated wave above is a timed envelope that fires and decays. The
+    // farewell one holds for as long as the last screen is on it, so it's
+    // driven by the anchor instead of a clock.
+    const bye = walkW * farewellW;
+    const byeArmRZ = 2.55 + Math.sin(clock * 7.5) * 0.42;
     const legSwing = Math.sin(phase) * 0.55 * gait;
     const armSwing = Math.sin(phase) * 0.45 * gait;
     const nod = Math.sin(phase * 2) * 0.045 * gait;
@@ -564,8 +592,8 @@ export const createSmiskiWalker = () => {
       rig.byName.armR,
       [0.27, 0.18, 0],
       [0, -0.16, 0],
-      sitW * sitArmRX + walkW * armSwing * (1 - studyW) + think * -0.42,
-      sitW * sitArmRZ + spreadW * 2.1 + think * 2.3,
+      sitW * sitArmRX + walkW * armSwing * (1 - studyW) * (1 - bye) + think * -0.42,
+      sitW * sitArmRZ + spreadW * 2.1 + think * 2.3 + bye * byeArmRZ,
     );
     poseLimb(
       rig.byName.legL,

@@ -28,6 +28,7 @@
         <a class="site-logo" href="/">Carissa Ott</a>
         <div class="site-links">
           <a href="/projects">Work</a>
+          <a href="https://carissaott.com/waddl-app/">Waddl</a>
           <a href="/playground">Playground</a>
           <a href="/design">Design system</a>
           <a href="/resume">Resume</a>
@@ -38,37 +39,25 @@
 
     <main class="page" id="main">
       <a class="page-back" href="/"><svg class="icon" aria-hidden="true"><use href="/images/icons.svg#arrow-down"></use></svg> Home</a>
-      <span class="section-label" data-reveal>Case study</span>
+      <span class="status-chip">In progress</span>
       <h1 class="page-title">Waddl</h1>
       <p class="page-lead">
-        A cozy desktop window where Claude Code waddles through your codebase,
-        narrating as it reads and edits. No terminal required — that's the
-        point.
+        A cozy desktop home for agentic coding. I live in AI IDEs, so I
+        designed the one that fixes my own gaps.
       </p>
       <div class="tag-row" style="margin-top: var(--space-4)">
         <span class="tag tag--discipline">AI Agents</span>
         <span class="tag tag--platform">Electron</span>
         <span class="tag tag--platform">TypeScript</span>
-        <span class="tag tag--recognition">In progress</span>
       </div>
 
       <section id="problem">
         <span class="section-label" data-reveal><span class="section-label-num">01</span></span>
         <h2>The problem</h2>
-        <!-- TODO: Carissa — refine this copy; it's scaffolding in roughly
-             your voice, not final. -->
         <p>
-          An AI coding agent does most of its work where you can't see it: it
-          reads ten files, plans, edits three of them, and what you get is a
-          terminal scrolling by. That's fine if you live in terminals. Most
-          people don't.
-        </p>
-        <p>
-          Waddl is my running answer to one question: <strong>how do you make
-          an AI coding agent's activity legible without a terminal?</strong>
-          The bet is that legibility is an interface problem, not a logging
-          problem — the agent's activity needs to be <em>read</em>, the way a
-          progress bar or a diff is read, not scrolled.
+          Messy work spaces. Sending prompts to the wrong chat. Tricky
+          debugging. No pixel ducks. All are issues I face on the daily as a
+          software engineer.
         </p>
       </section>
 
@@ -97,30 +86,16 @@
         <span class="section-label" data-reveal><span class="section-label-num">03</span></span>
         <h2>Three problems, three fixes</h2>
         <p class="section-lead">
-          The thesis breaks into three concrete problems — the specific
-          places an agent stops being legible. None of these are new
-          problems, and other tools take a swing at each. What follows is
-          the interaction Waddl uses for each — the actual components from
-          the app, running here. Poke at them.
+          Additions I'd make to agentic IDEs to reduce friction in my
+          everyday workflows.
         </p>
 
         <article class="breakdown">
-          <h3>Every chat lands in one flat list</h3>
+          <h3>Project folders to organize chats</h3>
           <p>
-            Agent sessions pile up faster than any other kind of chat —
-            one throwaway question and one week-long refactor look
-            identical in the list. Three projects' worth end up in a
-            single column sorted by recency, so finding the session where
-            you fixed the theme tokens means scrolling and guessing at
-            titles the agent wrote for you.
-          </p>
-          <p>
-            <span class="breakdown-label">Waddl's fix</span>
-            <strong>Project folders.</strong> Chats live in named,
-            collapsible folders you drag them into. Collapse the projects
-            you're not in; anything unfiled stays visible under
-            <code>ungrouped</code> rather than vanishing into a default
-            bucket you forget to check.
+            Chats live in named, collapsible folders you drag them into. I
+            stay organized and I'm no longer sending the prompt to the
+            wrong repo accidentally.
           </p>
           <figure class="demo-figure">
             <div class="waddl-window">
@@ -137,22 +112,11 @@
         </article>
 
         <article class="breakdown">
-          <h3>Undoing an agent is all-or-nothing</h3>
+          <h3>Revert checkpoints for controlled undoing</h3>
           <p>
-            An agent makes six edits and the third one was wrong. Usually
-            your options are keep everything or throw it all out. Git will
-            get you back, but only if you thought to commit before you
-            started — and the point of this window is that you shouldn't
-            need to think in git to use it.
-          </p>
-          <p>
-            <span class="breakdown-label">Waddl's fix</span>
-            <strong>A rewind rail.</strong> Every file edit drops a
-            checkpoint in the timeline's own gutter — the rewind lives
-            where the work happened, not behind a command you have to know
-            about. Hover a checkpoint and the steps it would undo dim in
-            place, so you see the cost before you pay it. Click, and the
-            tail folds away rather than being deleted.
+            I don't waste tokens or efficiency anymore by leaving my agent
+            going only to realize it messed up a while back. I can rewind
+            incrementally so I can debug easier.
           </p>
           <figure class="demo-figure">
             <div class="waddl-window">
@@ -169,68 +133,75 @@
         </article>
 
         <article class="breakdown">
-          <h3>Edits arrive as a wall of diff</h3>
+          <h3>A duck that waddles through your code</h3>
           <p>
-            Ten files of red and green is technically shown, but it isn't
-            legible — the one line that matters is buried in the noise,
-            and the context lines you already agree with take up most of
-            the screen.
-          </p>
-          <p>
-            <span class="breakdown-label">Waddl's fix</span>
-            <strong>Collapsible diffs, written as they land.</strong> Each
-            file is a card that collapses to a one-line summary, and its
-            rows stream in as the edit actually happens — so an edit is
-            something you watch arrive, not a wall that appears at the
-            end. Untouched runs fold to a single line you can open in
-            place when you want to check them.
+            <a href="https://en.wikipedia.org/wiki/Rubber_duck_debugging" target="_blank" rel="noopener">Rubber
+              duck theory</a>, anyone?
           </p>
           <figure class="demo-figure">
             <div class="waddl-window">
               <div class="waddl-titlebar">
                 <span class="waddl-dot" aria-hidden="true"></span>
-                <span class="waddl-title">waddl · edits</span>
-                <span class="waddl-status">live</span>
+                <span class="waddl-title">waddl · composer</span>
+                <span class="waddl-status">working</span>
               </div>
-              <iframe class="demo-inline" data-demo="diff" title="Waddl edits — live, interactive"></iframe>
+              <!-- The duck is the one demo that isn't framed from the Waddl
+                   build: it lives in the app's composer rather than in any
+                   of the three exported demo components. Same pixel rects
+                   and the same walk/trot/flip timings, inlined here. -->
+              <div class="duck-stage" aria-hidden="true">
+                <div class="duck-track">
+                  <div class="duck-mover">
+                    <div class="duck-flip">
+                      <svg class="duck-sprite" viewBox="0 0 16 14" width="48" height="42" shape-rendering="crispEdges">
+                        <rect x="8" y="0" width="4" height="1" fill="var(--duck-body)" />
+                        <rect x="7" y="1" width="6" height="1" fill="var(--duck-body)" />
+                        <rect x="7" y="2" width="3" height="1" fill="var(--duck-body)" />
+                        <rect x="10" y="2" width="1" height="1" fill="var(--duck-eye)" />
+                        <rect x="11" y="2" width="2" height="1" fill="var(--duck-body)" />
+                        <rect x="7" y="3" width="6" height="1" fill="var(--duck-body)" />
+                        <rect x="13" y="3" width="2" height="1" fill="var(--duck-bill)" />
+                        <rect x="7" y="4" width="6" height="1" fill="var(--duck-body)" />
+                        <rect x="13" y="4" width="3" height="1" fill="var(--duck-bill)" />
+                        <rect x="7" y="5" width="6" height="1" fill="var(--duck-body)" />
+                        <rect x="1" y="6" width="2" height="1" fill="var(--duck-body)" />
+                        <rect x="5" y="6" width="8" height="1" fill="var(--duck-body)" />
+                        <rect x="1" y="7" width="13" height="1" fill="var(--duck-body)" />
+                        <rect x="1" y="8" width="7" height="1" fill="var(--duck-body)" />
+                        <rect x="8" y="8" width="3" height="1" fill="var(--duck-shade)" />
+                        <rect x="11" y="8" width="3" height="1" fill="var(--duck-body)" />
+                        <rect x="2" y="9" width="4" height="1" fill="var(--duck-body)" />
+                        <rect x="6" y="9" width="3" height="1" fill="var(--duck-shade)" />
+                        <rect x="9" y="9" width="5" height="1" fill="var(--duck-body)" />
+                        <rect x="2" y="10" width="12" height="1" fill="var(--duck-body)" />
+                        <rect x="3" y="11" width="10" height="1" fill="var(--duck-body)" />
+                        <g class="duck-feet-idle">
+                          <rect x="4" y="12" width="2" height="2" fill="var(--duck-bill)" />
+                          <rect x="9" y="12" width="2" height="2" fill="var(--duck-bill)" />
+                        </g>
+                        <g class="duck-feet-left">
+                          <rect x="4" y="12" width="2" height="2" fill="var(--duck-bill)" />
+                          <rect x="10" y="12" width="2" height="1" fill="var(--duck-bill)" />
+                        </g>
+                        <g class="duck-feet-right">
+                          <rect x="5" y="12" width="2" height="1" fill="var(--duck-bill)" />
+                          <rect x="9" y="12" width="2" height="2" fill="var(--duck-bill)" />
+                        </g>
+                      </svg>
+                    </div>
+                  </div>
+                </div>
+                <div class="duck-composer">
+                  <span class="duck-composer-text">Debounce the search input so we don't fire a request per keystroke</span>
+                  <span class="duck-composer-send">
+                    <svg class="icon" aria-hidden="true"><use href="/images/icons.svg#arrow-down"></use></svg>
+                  </span>
+                </div>
+              </div>
             </div>
-            <figcaption class="demo-figcaption">Collapse a file to its one-line summary, or open a folded run of
-              unchanged lines in place.</figcaption>
+            <figcaption class="demo-figcaption">I swear, he helps me debug.</figcaption>
           </figure>
         </article>
-      </section>
-
-      <section id="decisions">
-        <span class="section-label" data-reveal><span class="section-label-num">04</span></span>
-        <h2>Decisions &amp; rejected alternatives</h2>
-        <p class="section-lead">
-          <strong>The big one:</strong> shrink the agent from a full terminal
-          to a companion-sized window, so what it's doing reads at a glance
-          instead of scrolling past.
-        </p>
-        <div class="decision-grid">
-          <div class="decision-col decision-col-chose">
-            <h3>Chose</h3>
-            <ul>
-              <li>A companion-sized always-on-top window</li>
-              <!-- TODO: Carissa — 2–3 more decisions you committed to. -->
-              <li class="decision-todo">…</li>
-              <li class="decision-todo">…</li>
-            </ul>
-          </div>
-          <div class="decision-col decision-col-rejected">
-            <h3>Rejected</h3>
-            <ul>
-              <li>A full terminal UI — powerful, but it's the thing being escaped</li>
-              <!-- TODO: Carissa — the alternatives you walked away from,
-                   and (ideally) one clause on why. -->
-              <li class="decision-todo">…</li>
-              <li class="decision-todo">…</li>
-            </ul>
-          </div>
-        </div>
-        <!-- TODO: Carissa — a number for the case study when one exists:
-             sessions run, files touched, weeks in — anything honest. -->
       </section>
 
     </main>
