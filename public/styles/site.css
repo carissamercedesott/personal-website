@@ -612,6 +612,14 @@
  * note rather than a two-column app layout. Below the rail's breakpoint that
  * same nav becomes a sticky strip under the header — one element throughout,
  * so the scroll spy in site.js keeps working untouched. */
+/* On the resume the eyebrow is the section heading — the prose h2 that used
+ * to sit under it said the same thing a second time, in a second voice. It
+ * still has to out-rank `.page section > h2`, which sets the heading size. */
+.resume-page section > h2.section-label {
+  margin-top: 0;
+  font-size: var(--text-sm);
+}
+
 .page.resume-page {
   /* .resume-layout sets the measure; .page's 960px cap would re-offset it. */
   max-width: none;
