@@ -197,7 +197,6 @@
         <div class="section-inner">
           <span class="section-label" data-reveal><span class="section-label-num">02</span>Principles</span>
           <h2>How I build</h2>
-          <p class="section-lead">Three laws I don't break.</p>
           <div class="principles-board" data-reveal>
             <!-- Where the smiski stands to study the laws (walker-scene
                  reads this anchor's rect). -->
@@ -278,14 +277,17 @@
             radius, elevation, motion. This site is the system's first
             customer.
           </p>
+          <!-- Same chip anatomy as the semantic grid on /design: square
+               swatch, token name, purpose underneath. -->
           <div class="token-strip" data-reveal>
-            <span class="token-swatch"><i style="--swatch: var(--bg-default)"></i>--bg-default<em>page background</em></span>
-            <span class="token-swatch"><i style="--swatch: var(--surface-default)"></i>--surface-default<em>cards, panels</em></span>
-            <span class="token-swatch"><i style="--swatch: var(--border-default)"></i>--border-default<em>hairlines</em></span>
-            <span class="token-swatch"><i style="--swatch: var(--text-primary)"></i>--text-primary<em>headings, body</em></span>
-            <span class="token-swatch"><i style="--swatch: var(--accent-default)"></i>--accent-default<em>buttons, highlights</em></span>
-            <span class="token-swatch"><i style="--swatch: var(--accent-2-default)"></i>--accent-2-default<em>awards, metrics</em></span>
-            <span class="token-swatch token-swatch--motion">hover · --ease-out / --duration-fast</span>
+            <span class="token-swatch"><i style="--swatch: var(--bg-default)"></i><span><code>--bg-default</code><small>page background</small></span></span>
+            <span class="token-swatch"><i style="--swatch: var(--surface-default)"></i><span><code>--surface-default</code><small>cards, panels</small></span></span>
+            <span class="token-swatch"><i style="--swatch: var(--border-default)"></i><span><code>--border-default</code><small>hairlines</small></span></span>
+            <span class="token-swatch"><i style="--swatch: var(--text-primary)"></i><span><code>--text-primary</code><small>headings, body</small></span></span>
+            <span class="token-swatch"><i style="--swatch: var(--accent-default)"></i><span><code>--accent-default</code><small>buttons, highlights</small></span></span>
+            <span class="token-swatch"><i style="--swatch: var(--accent-2-default)"></i><span><code>--accent-2-default</code><small>awards, metrics</small></span></span>
+            <span class="token-swatch token-swatch--motion"><i aria-hidden="true"></i><span><code>--ease-out</code><small>hover easing</small></span></span>
+            <span class="token-swatch token-swatch--motion"><i aria-hidden="true"></i><span><code>--duration-fast</code><small>hover timing</small></span></span>
           </div>
           <a class="resume-link" href="/design">Explore the full design system →</a>
         </div>
