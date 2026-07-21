@@ -589,10 +589,6 @@ html.smiski-live .hello-ring {
   color: var(--text-secondary);
 }
 
-.intro-bio + .intro-bio {
-  margin-top: var(--space-3);
-}
-
 .intro-bio strong {
   color: var(--text-primary);
 }
@@ -600,14 +596,6 @@ html.smiski-live .hello-ring {
 .intro-wave {
   font-style: normal;
   white-space: nowrap;
-}
-
-.intro-bio-icon {
-  width: 1.15em;
-  height: 1.15em;
-  color: var(--accent-strong);
-  vertical-align: -0.22em;
-  margin-right: 0.15em;
 }
 
 /* ── Experience: a sticker sheet on its own rose band ── */
