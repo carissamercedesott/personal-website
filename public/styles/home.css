@@ -678,17 +678,130 @@ html.smiski-live .hello-ring {
   }
 }
 
-/* ── Work chapters: one flagship per screen ──
- * The home page gives each lead project a whole viewport: copy on one side,
- * the device at the size it was built to be seen on the other. No card frame —
- * the section band is the surface, so nothing competes with the device.
+/* ── The Work screens: thesis, then one flagship per viewport ──
+ * Three compositions, one grammar. Every screen hangs its type on a hairline
+ * rule and its device on a frame edge; what changes between screens is the
+ * axis — the thesis is all type, Cross Math drops off the bottom, Waddl runs
+ * off the right. Shared frame is wider than the page's 960px reading measure
+ * because on these screens the work is the text.
  * (The bordered .project-card--flagship rows below still run on /projects,
  * where the point is a scannable list rather than one build at a time.) */
+.work-frame {
+  max-width: 1200px;
+}
+
+/* Each screen owns its full viewport: the inner column takes the section's
+ * height so the rule can pin high and the device can reach the fold, instead
+ * of everything clustering at the optical center. */
+.work-screen > .work-frame,
+.work-thesis {
+  display: flex;
+  flex-direction: column;
+  min-height: calc(100svh - 64px - 2 * var(--space-12));
+}
+
+/* ── Screen 1: the thesis, set like a title page ──
+ * Three corners do three jobs: the label says where you are, the note says
+ * how she works, the index says what's coming. The headline holds the middle
+ * on its own — the screen is "empty" the way a title page is empty. */
+.work-thesis-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: var(--space-8);
+}
+
+.work-thesis-note {
+  max-width: 34ch;
+  font-size: var(--text-sm);
+  color: var(--text-secondary);
+  text-align: left;
+}
+
+/* The extra selector weight beats the page's generic h2 sizing rules
+ * (.section-inner > h2, .page section > h2), which would otherwise pin the
+ * top margin and shrink the display size. */
+.work-thesis > .work-thesis-title {
+  /* Centered in the leftover height by the auto margins, ragged-right by the
+   * measure: the wrap ("I ship products / for real people.") is the
+   * composition. */
+  margin-block: auto;
+  max-width: 14ch;
+  font-size: var(--text-display);
+  font-weight: var(--weight-bold);
+  letter-spacing: var(--tracking-tight);
+  line-height: var(--leading-tight);
+}
+
+/* The index doubles as navigation: each row hops to its chapter, the same
+ * jump the → key makes. */
+.work-thesis-foot {
+  display: flex;
+  justify-content: space-between;
+  align-items: end;
+  gap: var(--space-8);
+  padding-top: var(--space-4);
+  border-top: 1px solid var(--border-default);
+}
+
+.work-index-label {
+  font-family: var(--font-mono);
+  font-size: var(--text-xs);
+  color: var(--text-muted);
+}
+
+.work-index {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  text-align: right;
+}
+
+.work-index a {
+  font-family: var(--font-mono);
+  font-size: var(--text-sm);
+  color: var(--text-primary);
+  text-decoration: none;
+}
+
+.work-index a:hover {
+  color: var(--accent-strong);
+}
+
+.work-index-num {
+  margin-right: var(--space-2);
+  color: var(--text-muted);
+  font-variant-numeric: tabular-nums;
+}
+
+/* ── The chapter grammar: rule, copy, device ── */
+
+/* The rule is the screen's spine: label on the left, stack on the right,
+ * everything below hangs from it. It's what locks type and image to the
+ * same grid line. */
+.work-rule {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: var(--space-8);
+  padding-bottom: var(--space-3);
+  border-bottom: 1px solid var(--border-default);
+}
+
+.work-rule-meta {
+  font-family: var(--font-mono);
+  font-size: var(--text-xs);
+  color: var(--text-muted);
+  white-space: nowrap;
+}
+
 .work-chapter {
+  flex: 1;
   display: grid;
-  grid-template-columns: minmax(0, 5fr) minmax(0, 6fr);
-  align-items: center;
-  gap: clamp(var(--space-8), 6vw, var(--space-16));
+  column-gap: clamp(var(--space-8), 5vw, var(--space-16));
 }
 
 .work-chapter-copy {
@@ -699,15 +812,13 @@ html.smiski-live .hello-ring {
 }
 
 .work-chapter-copy > h2 {
-  /* Bigger than a section heading: on this screen the build's name is the
-   * headline, and .section-label above it carries the theme. */
-  margin-top: var(--space-1);
+  margin-top: 0;
   font-size: var(--text-4xl);
   letter-spacing: var(--tracking-tight);
   line-height: var(--leading-tight);
 }
 
-/* The one line that says why this build is here. */
+/* The story line — the one sentence each chapter exists to say. */
 .work-chapter-lead {
   margin: 0;
   font-family: var(--font-display);
@@ -717,134 +828,242 @@ html.smiski-live .hello-ring {
   color: var(--accent-strong);
 }
 
-.work-chapter .section-lead,
-.work-chapter .tag-row,
-.work-chapter .btn {
-  margin-top: 0;
+.work-chapter-body {
+  max-width: 40ch;
+  font-size: var(--text-md);
+  line-height: var(--leading-normal);
+  color: var(--text-secondary);
 }
 
-/* Quiet exit to the full list — a link, so it can't be mistaken for the
- * screen's own action. */
-.work-chapter-all {
+/* Stats set like a ledger: display numerals, mono captions. The number is
+ * the proof, so it gets display type instead of hiding in a sentence. */
+.work-stats {
+  margin: var(--space-4) 0 0;
+  display: flex;
+  gap: clamp(var(--space-8), 4vw, var(--space-16));
+}
+
+.work-stats dt {
+  font-family: var(--font-display);
+  font-size: var(--text-3xl);
+  font-weight: var(--weight-bold);
+  letter-spacing: var(--tracking-tight);
+  line-height: 1;
+  font-variant-numeric: tabular-nums;
+}
+
+.work-stats dd {
+  margin: var(--space-2) 0 0;
+  font-family: var(--font-mono);
+  font-size: var(--text-xs);
+  color: var(--text-muted);
+}
+
+/* One action per chapter, set as a text link: on a screen this quiet a
+ * filled button is the loudest thing in view, and the device should be. */
+.work-cta {
+  margin-top: var(--space-4);
   display: inline-flex;
   align-items: center;
   gap: var(--space-2);
-  font-size: var(--text-sm);
+  border: 0;
+  padding: 0;
+  background: none;
+  font-family: var(--font-display);
+  font-size: var(--text-md);
   font-weight: var(--weight-semibold);
+  color: var(--accent-strong);
+  text-decoration: none;
+  cursor: pointer;
 }
 
-.work-chapter-all .icon {
-  width: 15px;
-  height: 15px;
-}
-
-.work-chapter-all:hover .icon {
-  transform: translateX(3px);
+.work-cta .icon {
+  width: 16px;
+  height: 16px;
   transition: transform var(--duration-fast) var(--ease-out);
 }
 
-/* Waddl's screen mirrors Cross Math's so the two don't read as one template
- * repeated: media leads on the left, copy answers on the right. */
-.work-chapter--flip {
-  grid-template-columns: minmax(0, 6fr) minmax(0, 5fr);
+.work-cta:hover {
+  color: var(--accent-hover);
 }
 
-.work-chapter--flip .work-chapter-copy {
-  order: 1;
+.work-cta:hover .icon {
+  transform: translateX(3px);
 }
 
-/* The device, unframed: the card's border, padding and panel background come
- * off, and only the warm glow behind it stays so a dark device keeps its
- * footing in both themes. */
+/* The quiet exit to everything else. */
+.work-all {
+  font-size: var(--text-sm);
+  color: var(--text-muted);
+}
+
+/* ── Screen 2: Cross Math — copy high-left, phone dropping off the fold ──
+ * The phone is cropped by the band edge (both bands clip overflow), which
+ * anchors it to the frame instead of floating it in glow: the game keeps
+ * going past the fold. Copy top-aligns to the rule; the diagonal from the
+ * headline down to the phone is the screen's tension. */
+.work-chapter--scale {
+  grid-template-columns: minmax(0, 5fr) minmax(0, 6fr);
+}
+
+.work-chapter--scale .work-chapter-copy {
+  align-self: start;
+  padding-top: clamp(var(--space-8), 7vh, var(--space-24));
+}
+
+.work-chapter--scale .work-chapter-media {
+  align-self: end;
+  justify-self: center;
+}
+
+/* The device, unframed: no card, no border — the warm glow is the only
+ * grounding, and the crop does the anchoring. */
 .work-chapter .card-media--phone {
-  /* Roughly twice the card's phone — bounded by viewport height so the whole
-   * screen still fits between the header and the fold. */
-  --flagship-phone-h: clamp(340px, 58vh, 620px);
+  --flagship-phone-h: clamp(420px, 72vh, 760px);
   padding: 0;
   border: 0;
   background: radial-gradient(
-    70% 55% at 50% 50%,
+    70% 55% at 50% 40%,
     var(--accent-soft),
     transparent 72%
   );
 }
 
-.work-chapter .card-preview-hint {
-  left: 50%;
-  bottom: clamp(-6px, -1vh, 0px);
-  transform: translateX(-50%);
+/* The crop: transform, not margin, so the grid still sizes to the full
+ * phone and the copy column's height math stays honest. */
+.work-chapter--scale .phone {
+  transform: translateY(11%);
 }
 
-/* Waddl runs on the desktop, so it gets a window instead of a bezel: title
- * bar, traffic lights, the screenshot as its content. */
+/* ── Screen 3: Waddl — the app running off the right edge ──
+ * Landscape device, so the bleed changes axis: the window overruns the
+ * frame (and on most viewports the screen), copy sits low-left. Opposite
+ * diagonal to Cross Math — sequence, not mirror. */
+.work-chapter--self {
+  grid-template-columns: minmax(0, 4fr) minmax(0, 7fr);
+}
+
+.work-chapter--self .work-chapter-copy {
+  order: 0;
+  align-self: end;
+  padding-bottom: clamp(var(--space-8), 8vh, var(--space-24));
+}
+
+.work-chapter--self .work-chapter-media {
+  order: 1;
+  align-self: start;
+  margin-top: clamp(var(--space-8), 8vh, var(--space-16));
+  /* The overrun past the frame's right edge; the band clips whatever
+   * leaves the viewport. */
+  width: calc(100% + clamp(96px, 14vw, 260px));
+  margin-right: calc(-1 * clamp(96px, 14vw, 260px));
+}
+
+/* Waddl's counterpart to the phone bezel. No fake title bar — the
+ * screenshot (and the live app) already draw their own window chrome. */
 .desk {
+  position: relative;
   display: block;
   border: 1px solid var(--border-strong);
   border-radius: var(--radius-lg);
   overflow: hidden;
   background: var(--surface-raised);
-  box-shadow: var(--shadow-md);
-  transition: transform var(--duration-base) var(--ease-out),
-    box-shadow var(--duration-base) var(--ease-out);
-}
-
-.desk:hover {
-  transform: translateY(-4px);
   box-shadow: var(--shadow-lg);
-  transition-duration: var(--duration-fast);
-}
-
-.desk-bar {
-  display: flex;
-  align-items: center;
-  gap: 7px;
-  padding: var(--space-3) var(--space-4);
-  border-bottom: 1px solid var(--border-default);
-  background: var(--bg-subtle);
-}
-
-/* macOS traffic lights — fixed colors in both themes, like the real ones
- * (same call as .light in lab.css). */
-.desk-bar i {
-  width: 11px;
-  height: 11px;
-  border-radius: var(--radius-full);
-  background: #ff5f57;
-}
-
-.desk-bar i:nth-child(2) {
-  background: #febc2e;
-}
-
-.desk-bar i:nth-child(3) {
-  background: #28c840;
 }
 
 .desk-screen {
   display: block;
   width: 100%;
-  /* The screenshot is a window shot, so it's shown whole rather than cropped
-   * to a ratio the way the card thumbnails are. */
   height: auto;
 }
 
-/* Stacked: copy first, device under it — and the device gives up its share of
- * the viewport, since the two now split one screen vertically. */
+/* The live demo (site.js swaps it in): the real app rendered at its
+ * natural 1380×690 and scaled down over the screenshot, which stays
+ * underneath as the loading poster. Non-interactive by design — the
+ * pointer goes to /waddl, the demo just runs. */
+.desk-live {
+  position: absolute;
+  top: 0;
+  left: 0;
+  border: 0;
+  transform-origin: top left;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity var(--duration-slow) var(--ease-out);
+}
+
+.desk.is-live .desk-live {
+  opacity: 1;
+}
+
+/* Joins the rule's mono stack line once the iframe is up; the dot carries
+ * the "live" claim. */
+.desk-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-1);
+}
+
+.desk-badge i {
+  width: 6px;
+  height: 6px;
+  border-radius: var(--radius-full);
+  background: var(--status-success);
+}
+
+/* Stacked: rule, copy, device — one rail, no bleeds. The devices give up
+ * their share of the viewport since everything now splits one screen. */
 @media (max-width: 860px) {
-  .work-chapter,
-  .work-chapter--flip {
-    grid-template-columns: 1fr;
-    gap: var(--space-8);
+  .work-screen > .work-frame,
+  .work-thesis {
+    min-height: 0;
   }
 
-  .work-chapter--flip .work-chapter-copy {
+  .work-thesis-top {
+    flex-direction: column;
+    gap: var(--space-4);
+  }
+
+  .work-thesis > .work-thesis-title {
+    margin-block: var(--space-12);
+  }
+
+  .work-thesis-foot {
+    align-items: start;
+  }
+
+  .work-index {
+    text-align: left;
+  }
+
+  .work-chapter--scale,
+  .work-chapter--self {
+    grid-template-columns: 1fr;
+    row-gap: var(--space-8);
+  }
+
+  .work-chapter-copy {
     order: 0;
+    align-self: auto;
+    padding: var(--space-8) 0 0;
+  }
+
+  .work-chapter--self .work-chapter-media {
+    order: 1;
+    width: 100%;
+    margin-right: 0;
+    margin-top: 0;
   }
 
   .work-chapter .card-media--phone {
     --flagship-phone-h: clamp(280px, 42vh, 420px);
   }
+
+  .work-chapter--scale .phone {
+    transform: none;
+  }
 }
+
 
 /* ── Flagship rows: the two lead projects, image beside text ── */
 .flagships {
@@ -1087,37 +1306,6 @@ a.project-card:hover {
   object-fit: cover;
   border-radius: 21px;
   background: #000;
-}
-
-/* "Preview" cue — decorative, so pointer-events stay off and a click still
- * opens the card's modal. Fades out once the clip is playing. */
-.card-preview-hint {
-  position: absolute;
-  left: var(--space-4);
-  bottom: var(--space-4);
-  display: inline-flex;
-  align-items: center;
-  gap: 5px;
-  padding: 4px var(--space-3);
-  border-radius: var(--radius-full);
-  background: rgba(20, 17, 15, 0.62);
-  color: #fff;
-  -webkit-backdrop-filter: blur(6px);
-  backdrop-filter: blur(6px);
-  font-family: var(--font-mono);
-  font-size: var(--text-xs);
-  font-weight: var(--weight-semibold);
-  pointer-events: none;
-  transition: opacity var(--duration-base) var(--ease-out);
-}
-
-.card-preview-hint .icon {
-  width: 13px;
-  height: 13px;
-}
-
-.card-media--phone.is-playing .card-preview-hint {
-  opacity: 0;
 }
 
 /* Stacked layout: media on top, so trade the right divider for a bottom

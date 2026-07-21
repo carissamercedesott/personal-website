@@ -25,13 +25,16 @@
 
   // The registry. `combo` is display + matching; a two-key combo is a
   // chord starting with "g". `key` overrides matching where the printed
-  // glyph isn't the KeyboardEvent key (the arrows). `note` marks entries
-  // that only apply somewhere else, so the sheet stays honest per page.
+  // glyph isn't the KeyboardEvent key (the arrows), and `altKeys`/`altCombo`
+  // add synonyms shown as "or" in the sheet. `note` marks entries that only
+  // apply somewhere else, so the sheet stays honest per page.
   const SHORTCUTS = [
     { group: "Navigate", combo: ["⌘K"], label: "Command palette", external: true,
       note: () => (document.body.classList.contains("lab") ? "" : "in the Playground") },
-    { group: "Navigate", combo: ["→"], key: "ArrowRight", label: "Next section", run: () => hopSection(1) },
-    { group: "Navigate", combo: ["←"], key: "ArrowLeft", label: "Previous section", run: () => hopSection(-1) },
+    { group: "Navigate", combo: ["→"], key: "ArrowRight", altKeys: ["Enter"], altCombo: ["↵"],
+      label: "Next section", run: () => hopSection(1) },
+    { group: "Navigate", combo: ["←"], key: "ArrowLeft", altKeys: ["Escape"], altCombo: ["esc"],
+      label: "Previous section", run: () => hopSection(-1) },
     { group: "Go to", combo: ["g", "h"], label: "Home", run: navigate("/") },
     { group: "Go to", combo: ["g", "p"], label: "Work — all projects", run: navigate("/projects") },
     { group: "Go to", combo: ["g", "w"], label: "Waddl case study", run: navigate("/waddl") },
@@ -47,7 +50,8 @@
   ];
 
   // Keyed by the KeyboardEvent.key a binding answers to: entry.key where one
-  // is given (ArrowRight), otherwise the printed glyph itself.
+  // is given (ArrowRight), otherwise the printed glyph itself; altKeys
+  // register the same entry under its synonyms.
   const singles = {};
   const chords = {};
   for (const entry of SHORTCUTS) {
@@ -59,6 +63,7 @@
     } else if (entry.combo.length === 1 && entry.combo[0].length === 1) {
       singles[entry.combo[0]] = entry;
     }
+    for (const key of entry.altKeys ?? []) singles[key] = entry;
   }
 
   // ── The "?" sheet, rendered from the registry ──
@@ -74,7 +79,10 @@
         const rows = SHORTCUTS.filter((s) => s.group === group)
           .map((s) => {
             const note = s.note?.() ?? "";
-            const keys = s.combo.map((k) => `<kbd>${k}</kbd>`).join('<span class="keys-then">then</span>');
+            let keys = s.combo.map((k) => `<kbd>${k}</kbd>`).join('<span class="keys-then">then</span>');
+            if (s.altCombo) {
+              keys += '<span class="keys-then">or</span>' + s.altCombo.map((k) => `<kbd>${k}</kbd>`).join("");
+            }
             return (
               '<div class="keys-row">' +
               `<span class="keys-label">${s.label}` +
@@ -178,6 +186,15 @@
       chordTimer = window.setTimeout(resetChord, CHORD_MS);
       return;
     }
+    // Enter keeps its day job on focused controls — only bare-page Enter
+    // (focus on the page itself, not a link or button) advances the section.
+    if (
+      event.key === "Enter" &&
+      event.target !== document.body &&
+      event.target !== document.documentElement &&
+      event.target !== document
+    )
+      return;
     // Exact key first (ArrowRight), then the lowercased glyph (t, d, ?).
     const entry = singles[event.key] ?? singles[event.key.toLowerCase()];
     if (entry) {

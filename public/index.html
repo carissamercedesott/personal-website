@@ -94,70 +94,85 @@
         </div>
       </section>
 
-      <!-- Work runs as three screens: the thesis, then one screen per
-           flagship. Each build gets a whole viewport so its device can be
-           the size it deserves — the cards they used to live in capped both
-           at a thumbnail. -->
+      <!-- Work runs as three screens, one composition each: a typographic
+           thesis that doubles as the section's table of contents, then one
+           whole viewport per flagship. The two chapters share a grammar (a
+           hairline rule carrying the label and the stack, a copy column, a
+           device anchored to a frame edge) but bleed on different axes so
+           they read as a sequence, not a template. -->
       <section class="page-section band" id="work">
-        <div class="section-inner">
-          <span class="section-label" data-reveal><span class="section-label-num">01</span>Work</span>
-          <h2>I ship products for real people</h2>
-          <p class="section-lead">
-            I prototype, collaborate, and polish quickly to close the gap
-            between human behavior and technology.
-          </p>
+        <div class="section-inner work-frame work-thesis">
+          <div class="work-thesis-top" data-reveal>
+            <span class="section-label"><span class="section-label-num">01</span>Work</span>
+            <p class="work-thesis-note">
+              I prototype, collaborate, and polish quickly to close the
+              gap between human behavior and technology.
+            </p>
+          </div>
+          <h2 class="work-thesis-title" data-reveal>I ship products for real&nbsp;people.</h2>
+          <nav class="work-thesis-foot" data-reveal aria-label="Selected work">
+            <span class="work-index-label">Selected work</span>
+            <ol class="work-index">
+              <li><a href="#work-scale"><span class="work-index-num">01</span> At scale — Cross Math</a></li>
+              <li><a href="#work-self"><span class="work-index-num">02</span> For myself — Waddl</a></li>
+            </ol>
+          </nav>
         </div>
       </section>
 
-      <section class="page-section band-oat" id="work-scale">
-        <div class="section-inner work-chapter" data-reveal>
-          <div class="work-chapter-copy">
+      <section class="page-section band-oat work-screen" id="work-scale">
+        <div class="section-inner work-frame">
+          <div class="work-rule" data-reveal>
             <span class="section-label">At scale</span>
-            <h2>Cross Math</h2>
-            <p class="work-chapter-lead">Products used by millions.</p>
-            <p class="section-lead">
-              A math puzzle game inside the Duolingo iOS app, played by
-              100M+ daily active users.
-            </p>
-            <span class="tag-row">
-              <span class="tag tag--platform"><svg class="icon" aria-hidden="true"><use href="/images/icons.svg#phone"></use></svg> iOS</span>
-              <span class="tag tag--platform">Swift</span>
-              <span class="tag tag--discipline">Algorithms</span>
-            </span>
-            <button class="btn btn-primary" type="button" aria-haspopup="dialog">See more</button>
-            <div class="project-card-details">
-              <span class="tag-row">
-                <span class="tag tag--platform">Swift</span>
-                <span class="tag tag--discipline">Algorithms</span>
-                <span class="tag tag--discipline">Product</span>
-              </span>
-              <p>
-                <strong>The decision:</strong> generate every puzzle live
-                instead of authoring them — a constraint-programming
-                algorithm keeps the numbers honest while the backend
-                produces fresh puzzle shapes in real time, and the Swift
-                UI flexes across every iOS device.
-              </p>
-              <!-- TODO: Carissa — the tradeoff: what did live generation
-                   cost you? (latency budget, harder QA, gnarly edge
-                   cases…) Replace this comment with one sentence. -->
-              <p>
-                <strong>The number:</strong> CEO-approved at prototype
-                review, live for 100M+ users — all inside one intern
-                summer.
-              </p>
-              <span class="card-award"><svg class="icon" aria-hidden="true"><use href="/images/icons.svg#phone"></use></svg> Live in Duolingo on iOS — 100M+ users</span>
-            </div>
+            <span class="work-rule-meta">Swift · iOS · constraint solver</span>
           </div>
-          <div class="card-media card-media--phone work-chapter-media">
-            <div class="phone">
-              <video class="card-video" muted loop playsinline preload="none"
-                     poster="/images/projects/cross-math-poster.png"
-                     aria-label="Cross Math gameplay — filling in a math puzzle in the Duolingo iOS app">
-                <source src="/images/projects/cross-math.mp4" type="video/mp4" />
-              </video>
+          <div class="work-chapter work-chapter--scale" data-reveal>
+            <div class="work-chapter-copy">
+              <h2>Cross Math</h2>
+              <p class="work-chapter-lead">Products used by millions.</p>
+              <p class="work-chapter-body">
+                A math puzzle game inside the Duolingo iOS app. Every
+                puzzle is generated live — no authored content, no
+                repeats.
+              </p>
+              <dl class="work-stats">
+                <div><dt>100M+</dt><dd>daily active users</dd></div>
+                <div><dt>1 summer</dt><dd>prototype to production</dd></div>
+              </dl>
+              <button class="work-cta" type="button" aria-haspopup="dialog">See the breakdown <svg class="icon" aria-hidden="true"><use href="/images/icons.svg#arrow-right"></use></svg></button>
+              <div class="project-card-details">
+                <span class="tag-row">
+                  <span class="tag tag--platform">Swift</span>
+                  <span class="tag tag--discipline">Algorithms</span>
+                  <span class="tag tag--discipline">Product</span>
+                </span>
+                <p>
+                  <strong>The decision:</strong> generate every puzzle live
+                  instead of authoring them — a constraint-programming
+                  algorithm keeps the numbers honest while the backend
+                  produces fresh puzzle shapes in real time, and the Swift
+                  UI flexes across every iOS device.
+                </p>
+                <!-- TODO: Carissa — the tradeoff: what did live generation
+                     cost you? (latency budget, harder QA, gnarly edge
+                     cases…) Replace this comment with one sentence. -->
+                <p>
+                  <strong>The number:</strong> CEO-approved at prototype
+                  review, live for 100M+ users — all inside one intern
+                  summer.
+                </p>
+                <span class="card-award"><svg class="icon" aria-hidden="true"><use href="/images/icons.svg#phone"></use></svg> Live in Duolingo on iOS — 100M+ users</span>
+              </div>
             </div>
-            <span class="card-preview-hint" aria-hidden="true"><svg class="icon" aria-hidden="true"><use href="/images/icons.svg#play"></use></svg> Preview</span>
+            <div class="card-media card-media--phone work-chapter-media" data-autoplay>
+              <div class="phone">
+                <video class="card-video" muted loop playsinline preload="metadata"
+                       poster="/images/projects/cross-math-poster.png"
+                       aria-label="Cross Math gameplay — filling in a math puzzle in the Duolingo iOS app">
+                  <source src="/images/projects/cross-math.mp4" type="video/mp4" />
+                </video>
+              </div>
+            </div>
           </div>
         </div>
 
@@ -171,31 +186,31 @@
         </dialog>
       </section>
 
-      <section class="page-section band" id="work-self">
-        <div class="section-inner work-chapter work-chapter--flip" data-reveal>
-          <div class="work-chapter-copy">
+      <section class="page-section band work-screen" id="work-self">
+        <div class="section-inner work-frame">
+          <div class="work-rule" data-reveal>
             <span class="section-label">For myself</span>
-            <h2>Waddl</h2>
-            <p class="work-chapter-lead">For my own workflows.</p>
-            <p class="section-lead">
-              A cozy desktop window with all my dream developer tools. I
-              live in agentic IDEs, so I designed the one that fixes my
-              own gaps.
-            </p>
-            <span class="tag-row">
-              <span class="tag tag--platform"><svg class="icon" aria-hidden="true"><use href="/images/icons.svg#laptop"></use></svg> Electron</span>
-              <span class="tag tag--platform">TypeScript</span>
-              <span class="tag tag--discipline"><svg class="icon" aria-hidden="true"><use href="/images/icons.svg#wrench"></use></svg> In progress</span>
-            </span>
-            <a class="btn btn-primary" href="/waddl">Read the case study</a>
-            <a class="work-chapter-all" href="/projects">See all my work <svg class="icon" aria-hidden="true"><use href="/images/icons.svg#arrow-right"></use></svg></a>
+            <span class="work-rule-meta">Electron · TypeScript · in progress</span>
           </div>
-          <!-- tabindex="-1": the CTA above already goes to /waddl, so the
-               screenshot is a shortcut for the mouse, not a second tab stop. -->
-          <a class="desk work-chapter-media" href="/waddl" tabindex="-1">
-            <span class="desk-bar" aria-hidden="true"><i></i><i></i><i></i></span>
-            <img class="desk-screen" src="/images/projects/waddl-screenshot.webp" alt="Waddl — a small desktop window showing Claude Code narrating its work" />
-          </a>
+          <div class="work-chapter work-chapter--self" data-reveal>
+            <div class="work-chapter-copy">
+              <h2>Waddl</h2>
+              <p class="work-chapter-lead">I build the tools I wish existed.</p>
+              <p class="work-chapter-body">
+                A cozy desktop home for agentic coding. I live in AI
+                IDEs, so I designed the one that fixes my own gaps.
+              </p>
+              <a class="work-cta" href="/waddl">Read the case study <svg class="icon" aria-hidden="true"><use href="/images/icons.svg#arrow-right"></use></svg></a>
+              <a class="work-all" href="/projects">See all my work</a>
+            </div>
+            <!-- tabindex="-1": the CTA already goes to /waddl, so the window
+                 is a shortcut for the mouse, not a second tab stop. When
+                 site.js upgrades it to the live demo, the iframe stays
+                 pointer-events: none — ambient here, interactive on /waddl. -->
+            <a class="desk work-chapter-media" href="/waddl" tabindex="-1" data-waddl-embed>
+              <img class="desk-screen" src="/images/projects/waddl-screenshot.webp" alt="Waddl — a small desktop window showing Claude Code narrating its work" />
+            </a>
+          </div>
         </div>
       </section>
 

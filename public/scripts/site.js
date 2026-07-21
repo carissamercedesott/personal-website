@@ -237,11 +237,14 @@ function initProjectModal() {
   // Matches the .project-modal.is-closing animation in home.css.
   const CLOSE_MS = 140;
 
-  function openModal(card) {
+  // `card` supplies the content; `restoreTo` is what regains focus on close —
+  // the same element for a card you click, the "See more" button for a work
+  // chapter (a section isn't focusable, so focus would fall to the body).
+  function openModal(card, restoreTo) {
     const cardImage = card.querySelector(".project-card-img");
     const cardMedia = card.querySelector(".card-media--phone");
     const cardVideo = card.querySelector(".card-video");
-    trigger = card;
+    trigger = restoreTo ?? card;
 
     // A fresh clone per open; the close handler removes it again.
     modal.querySelector(".project-modal-media")?.remove();
@@ -252,7 +255,6 @@ function initProjectModal() {
       image.hidden = true;
       const media = cardMedia.cloneNode(true);
       media.classList.add("project-modal-media");
-      media.querySelector(".card-preview-hint")?.remove();
       modal.insertBefore(media, image);
       const video = media.querySelector("video");
       if (video) {
@@ -267,7 +269,9 @@ function initProjectModal() {
       image.alt = cardImage?.alt ?? cardVideo?.getAttribute("aria-label") ?? "";
     }
 
-    title.textContent = card.querySelector("h3").textContent;
+    // Cards name the build in an h3; a full-screen work chapter names it in
+    // its h2, since there the build's name is the screen's headline.
+    title.textContent = card.querySelector("h2, h3").textContent;
     info.innerHTML = card.querySelector(".project-card-details")?.innerHTML ?? "";
     modal.showModal();
     document.body.classList.add("has-modal");
@@ -292,11 +296,14 @@ function initProjectModal() {
 
   // The trigger is either the card itself (shelf cards) or a "See more"
   // button inside it (flagships). The listener sits on the card either way, so
-  // clicking anywhere on it opens the modal.
+  // clicking anywhere on it opens the modal — except on a work chapter, which
+  // is a whole screen and far too big to be one hit target; there only the
+  // button opens it, while the chapter still supplies the modal's content.
   for (const trigger of document.querySelectorAll('[aria-haspopup="dialog"]')) {
-    const card = trigger.closest(".project-card, .card") ?? trigger;
-    card.addEventListener("click", () => {
-      if (!modal.open) openModal(card);
+    const card = trigger.closest(".project-card, .card, .work-chapter") ?? trigger;
+    const hit = card.matches(".work-chapter") ? trigger : card;
+    hit.addEventListener("click", () => {
+      if (!modal.open) openModal(card, hit);
     });
     // A real <button> already fires click on Enter/Space; role="button" doesn't.
     if (trigger !== card) continue;
@@ -444,9 +451,10 @@ function initAboutCarousel() {
   updateEnds();
 }
 
-// Flagship cards can preview a muted screen recording. Desktop plays on
-// hover/focus (preview on intent); touch plays while the card is in view.
-// Reduced motion leaves the poster still — no autoplay at all.
+// Device recordings play themselves: data-autoplay media runs whenever it's
+// on screen (paused off screen to save the battery), everything else keeps
+// the old preview-on-intent hover behavior. Reduced motion leaves the
+// poster still — no autoplay at all.
 function initCardVideo() {
   const medias = document.querySelectorAll(".card-media--phone");
   if (medias.length === 0 || prefersReducedMotion()) return;
@@ -458,26 +466,41 @@ function initCardVideo() {
     if (!video) continue;
 
     const play = () => {
-      // preload="none": the first play() is what fetches the clip.
-      const started = video.play();
-      const mark = () => media.classList.add("is-playing");
-      if (started && started.then) started.then(mark).catch(() => {});
-      else mark();
+      // The first play() is what fetches the clip.
+      video.play().catch(() => {});
     };
     const stop = () => {
       video.pause();
-      video.currentTime = 0;
-      media.classList.remove("is-playing");
     };
 
-    if (hoverCapable) {
+    if ("autoplay" in media.dataset) {
+      if ("IntersectionObserver" in window) {
+        const observer = new IntersectionObserver(
+          (entries) => {
+            for (const entry of entries) {
+              if (entry.isIntersecting) play();
+              else stop();
+            }
+          },
+          { threshold: 0.25 }
+        );
+        observer.observe(media);
+      } else {
+        play();
+      }
+    } else if (hoverCapable) {
       const card = media.closest(".project-card") ?? media;
       card.addEventListener("pointerenter", play);
-      card.addEventListener("pointerleave", stop);
-      // Keyboard: playing while any control inside the card holds focus.
+      card.addEventListener("pointerleave", () => {
+        stop();
+        video.currentTime = 0;
+      });
       card.addEventListener("focusin", play);
       card.addEventListener("focusout", (event) => {
-        if (!card.contains(event.relatedTarget)) stop();
+        if (!card.contains(event.relatedTarget)) {
+          stop();
+          video.currentTime = 0;
+        }
       });
     } else if ("IntersectionObserver" in window) {
       const observer = new IntersectionObserver(
@@ -491,6 +514,86 @@ function initCardVideo() {
       );
       observer.observe(media);
     }
+  }
+}
+
+// The Waddl screen upgrades its screenshot to the real app: the deployed
+// build (/waddl-app/) rendered at its natural 1380×690, scaled into the
+// window frame, told to autorun its scripted demo. Ambient by design —
+// pointer-events stay off (the link goes to /waddl), so the demo can't
+// steal scroll or the arrow keys. The screenshot underneath doubles as the
+// loading poster and stays for touch, narrow screens, and reduced motion.
+function initWaddlEmbed() {
+  const frame = document.querySelector("[data-waddl-embed]");
+  if (!frame) return;
+  if (prefersReducedMotion()) return;
+  if (!window.matchMedia("(min-width: 861px) and (hover: hover)").matches) return;
+
+  // The size the app lays out at before scaling; matches the screenshot's
+  // 2:1 ratio so the swap doesn't shift the frame.
+  const APP_W = 1380;
+  const APP_H = 690;
+
+  // Mirrors the theme toggle's own resolution: explicit choice, else OS.
+  const pageMode = () => {
+    const set = document.documentElement.dataset.theme;
+    if (set === "dark" || set === "light") return set;
+    return window.matchMedia("(prefers-color-scheme: dark)").matches
+      ? "dark"
+      : "light";
+  };
+
+  const mount = () => {
+    const iframe = document.createElement("iframe");
+    iframe.className = "desk-live";
+    iframe.src = `/waddl-app/?autorun&mode=${pageMode()}`;
+    iframe.title = "Waddl — live demo";
+    iframe.setAttribute("aria-hidden", "true");
+    iframe.setAttribute("tabindex", "-1");
+    iframe.width = APP_W;
+    iframe.height = APP_H;
+    const scale = () => {
+      iframe.style.transform = `scale(${frame.clientWidth / APP_W})`;
+    };
+    iframe.addEventListener("load", () => {
+      frame.classList.add("is-live");
+      // The status joins the rule's stack line ("Electron · TypeScript · …")
+      // rather than overlaying the window — the window clips its overflow,
+      // and the app already draws its own chrome.
+      const meta = frame.closest("section")?.querySelector(".work-rule-meta");
+      if (meta && !meta.querySelector(".desk-badge")) {
+        const badge = document.createElement("span");
+        badge.className = "desk-badge";
+        badge.innerHTML = ' · <i aria-hidden="true"></i> live demo';
+        meta.appendChild(badge);
+      }
+    });
+    frame.appendChild(iframe);
+    scale();
+    window.addEventListener("resize", scale);
+    // Theme toggles reach the demo without a reload.
+    new MutationObserver(() => {
+      iframe.contentWindow?.postMessage({ waddlMode: pageMode() }, "*");
+    }).observe(document.documentElement, {
+      attributes: true,
+      attributeFilter: ["data-theme"],
+    });
+  };
+
+  // The app is a real bundle; don't fetch it until the screen is close.
+  if ("IntersectionObserver" in window) {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        if (entries.some((entry) => entry.isIntersecting)) {
+          observer.disconnect();
+          mount();
+        }
+      },
+      { rootMargin: "600px" }
+    );
+    observer.observe(frame);
+  } else {
+    mount();
   }
 }
 
@@ -604,6 +707,7 @@ function initSiteChrome() {
   initScrollCue();
   initAboutCarousel();
   initCardVideo();
+  initWaddlEmbed();
   initPageBack();
   initOrgLogos();
   initOrgDisclosures();
