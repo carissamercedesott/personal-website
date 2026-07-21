@@ -152,16 +152,6 @@ body.home {
   line-height: var(--leading-snug);
 }
 
-.hero-design-link {
-  justify-self: center;
-  margin-top: var(--space-3);
-  font-size: var(--text-sm);
-  font-weight: var(--weight-medium);
-  color: var(--accent-strong);
-  text-decoration-thickness: 1px;
-  text-underline-offset: 3px;
-}
-
 /* The way onward: a round button pinned to the viewport. It rests while
  * you read, steps aside the moment you scroll, and retires at the page's
  * end. Clicking it carries you to the next section. */
