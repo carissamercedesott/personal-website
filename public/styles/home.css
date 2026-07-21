@@ -1182,7 +1182,9 @@ body.has-modal {
   font-size: var(--text-xl);
 }
 
-/* ── Design system teaser: real tokens, worn as chips ── */
+/* ── Design system teaser: real tokens, worn as chips ──
+ * Semantic names rather than palette steps: --accent-default is the promise
+ * the system makes, --blush-500 is just a colour that happens to keep it. */
 .token-strip {
   margin-top: var(--space-6);
   display: flex;
@@ -1217,6 +1219,17 @@ body.has-modal {
   border-radius: var(--radius-full);
   background: var(--swatch);
   border: 1px solid var(--border-default);
+}
+
+/* What the token is for. Reads as the quiet half of the pair, so the chip
+ * still scans as a token name first. */
+.token-swatch em {
+  font-style: normal;
+  color: var(--text-muted);
+}
+
+.token-swatch em::before {
+  content: " · ";
 }
 
 /* ── About me: a photo reel wrapped in the same pulsating light that
