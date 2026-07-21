@@ -278,7 +278,7 @@ const v = 92, he = 0.9, _e = 2.6, Q = (w) => {
     r.style.transform = `translate(${n - 60 * y}px, ${u - l - 95 * y}px) scale(${y.toFixed(3)})`, S.style.left = `${a.clamp(n, 90, tt - 90)}px`, S.style.bottom = `${a.clamp(l + 110 * y, 60, u - 30)}px`, ve(e, x), f.render(G, q);
   };
   Lt(1 / 60, !0), w.classList.add("is-active"), window.setTimeout(
-    () => it("hi! scroll down — i'll give you the tour.", 4200),
+    () => it("hi! i'll show you around", 4200),
     900
   ), requestAnimationFrame(ne);
 };

@@ -718,7 +718,7 @@ export const createSmiskiWalker = () => {
   updateFlow(1 / 60, true);
   container.classList.add("is-active");
   window.setTimeout(
-    () => showBubble("hi! scroll down — i'll give you the tour.", 4200),
+    () => showBubble("hi! i'll show you around", 4200),
     900,
   );
   requestAnimationFrame(step);
