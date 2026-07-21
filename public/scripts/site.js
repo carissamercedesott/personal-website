@@ -532,6 +532,68 @@ function initOrgLogos() {
   });
 }
 
+// <details> gives the resume its keyboard behaviour and keeps it readable
+// with no JS, but it can't animate itself — open is instant and there's no
+// closing frame at all. So the summary click is intercepted: opening flips
+// the attribute first and animates up from nothing, closing animates down and
+// only then flips it, which is the half the element can't do alone.
+function initOrgDisclosures() {
+  const reduced = window.matchMedia("(prefers-reduced-motion: reduce)");
+
+  document.querySelectorAll("details.org").forEach((details) => {
+    const summary = details.querySelector("summary");
+    const panel = details.querySelector(".org-roles");
+    if (!summary || !panel) return;
+    let running = null;
+    let guard = null;
+    let settle = null;
+
+    summary.addEventListener("click", (event) => {
+      // Let the element do its own thing when motion isn't wanted.
+      if (reduced.matches) return;
+      event.preventDefault();
+
+      // Cancel any run still in flight, without letting its completion fire.
+      if (settle) settle(true);
+
+      const opening = !details.open;
+      // Open first: a closed <details> has no laid-out panel to measure.
+      if (opening) details.open = true;
+      const height = panel.offsetHeight;
+
+      running = panel.animate(
+        {
+          height: opening ? [0, height + "px"] : [height + "px", 0],
+          opacity: opening ? [0, 1] : [1, 0],
+        },
+        { duration: 260, easing: "cubic-bezier(0.2, 0, 0, 1)" },
+      );
+
+      // The open/closed state is settled here rather than in an onfinish
+      // handler. Animation events are delivered by the rendering loop, so a
+      // document that isn't being painted — a background tab, a throttled
+      // frame loop — would finish the animation and never tell us, stranding
+      // the panel shut with the section marked open. A timer doesn't depend
+      // on painting, so it can always land the end state.
+      settle = (aborted) => {
+        window.clearTimeout(guard);
+        guard = null;
+        settle = null;
+        if (running) {
+          running.onfinish = null;
+          if (aborted) running.cancel();
+          else running.finish();
+          running = null;
+        }
+        if (!aborted && !opening) details.open = false;
+      };
+
+      guard = window.setTimeout(settle, 300);
+      running.onfinish = () => settle();
+    });
+  });
+}
+
 function initSiteChrome() {
   initThemeToggle();
   initReveal();
@@ -546,6 +608,7 @@ function initSiteChrome() {
   initCardVideo();
   initPageBack();
   initOrgLogos();
+  initOrgDisclosures();
 }
 
 window.initSiteChrome = initSiteChrome;

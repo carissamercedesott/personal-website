@@ -417,8 +417,12 @@
   display: grid;
   place-items: center;
   border-radius: var(--radius-md);
-  background: var(--bg-subtle);
-  border: 1px solid var(--border-default);
+  /* Logos that carry their own solid background set --tile-bg to it, so the
+   * plate and its border disappear into the artwork and the tile reads as one
+   * rounded square rather than a logo sitting on a mismatched one. Logos with
+   * transparent backgrounds leave it unset and keep the default plate. */
+  background: var(--tile-bg, var(--bg-subtle));
+  border: 1px solid var(--tile-bg, var(--border-default));
   font-family: var(--font-mono);
   font-size: var(--text-sm);
   font-weight: var(--weight-semibold);
@@ -443,9 +447,10 @@
   border-radius: inherit;
 }
 
+/* A colour-matched plate keeps its colour; only the ring moves. */
 .org:hover .org-tile,
 .org[open] .org-tile {
-  background: var(--accent-soft);
+  background: var(--tile-bg, var(--accent-soft));
   border-color: var(--accent-default);
   color: var(--accent-strong);
 }
@@ -502,23 +507,9 @@
   gap: var(--space-6);
 }
 
-/* Opening only — closing an element can't be transitioned without JS, and a
- * resume doesn't need the round trip animated. */
-.org[open] .org-roles {
-  animation: org-open var(--duration-base) var(--ease-out) both;
-}
-
-@keyframes org-open {
-  from {
-    opacity: 0;
-    transform: translateY(-4px);
-  }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .org[open] .org-roles {
-    animation: none;
-  }
+/* site.js animates this open and shut; it clips while the height runs. */
+.org-roles[style*="height"] {
+  overflow: hidden;
 }
 
 .org-role-head {
