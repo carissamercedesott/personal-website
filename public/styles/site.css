@@ -412,6 +412,8 @@
 /* The org's initial in a rounded square — an app icon's silhouette, so it
  * reads as something to press. Opaque, to mask the rail passing behind. */
 .org-tile {
+  position: relative;
+  overflow: hidden;
   flex: none;
   width: var(--timeline-node);
   height: var(--timeline-node);
@@ -430,6 +432,18 @@
     background-color var(--duration-base) var(--ease-out),
     opacity var(--duration-base) var(--ease-out),
     transform var(--duration-slow) var(--ease-spring);
+}
+
+/* The org's logo, sitting over its initial. A missing or misnamed file
+ * collapses to nothing (alt=""), so the letter underneath shows through
+ * rather than leaving an empty tile. */
+.org-logo {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: inherit;
 }
 
 .org:hover .org-tile,

@@ -520,6 +520,18 @@ function initPageBack() {
   });
 }
 
+// Resume org tiles carry a logo over the organization's initial. A missing
+// or misnamed file would otherwise leave a broken-image glyph sitting on a
+// resume, so drop the image and let the letter underneath stand in.
+function initOrgLogos() {
+  document.querySelectorAll(".org-logo").forEach((img) => {
+    const drop = () => img.remove();
+    // The error may already have fired before this script ran.
+    if (img.complete && img.naturalWidth === 0) drop();
+    else img.addEventListener("error", drop);
+  });
+}
+
 function initSiteChrome() {
   initThemeToggle();
   initReveal();
@@ -533,6 +545,7 @@ function initSiteChrome() {
   initAboutCarousel();
   initCardVideo();
   initPageBack();
+  initOrgLogos();
 }
 
 window.initSiteChrome = initSiteChrome;
