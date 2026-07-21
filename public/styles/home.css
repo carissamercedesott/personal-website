@@ -890,11 +890,12 @@ html.smiski-live .hello-ring {
   color: var(--text-muted);
 }
 
-/* ── Screen 2: Cross Math — copy high-left, phone dropping off the fold ──
- * The phone is cropped by the band edge (both bands clip overflow), which
- * anchors it to the frame instead of floating it in glow: the game keeps
- * going past the fold. Copy top-aligns to the rule; the diagonal from the
- * headline down to the phone is the screen's tension. */
+/* ── Screen 2: Cross Math — copy high-left, whole device right ──
+ * The phone is shown entire: it's the one piece of shipped product on the
+ * page, and cropping it at the fold cost more (a device missing its bottom
+ * reads as a layout bug before it reads as a bleed) than the edge tension
+ * was worth. The asymmetry now comes from mass and offset instead — copy
+ * hangs from the rule top-left, the device holds the full column height. */
 .work-chapter--scale {
   grid-template-columns: minmax(0, 5fr) minmax(0, 6fr);
 }
@@ -905,27 +906,22 @@ html.smiski-live .hello-ring {
 }
 
 .work-chapter--scale .work-chapter-media {
-  align-self: end;
+  align-self: center;
   justify-self: center;
 }
 
 /* The device, unframed: no card, no border — the warm glow is the only
- * grounding, and the crop does the anchoring. */
+ * grounding. Sized to clear the section's padding and its own rule so the
+ * whole phone, and its shadow, sit inside one screen. */
 .work-chapter .card-media--phone {
-  --flagship-phone-h: clamp(420px, 72vh, 760px);
+  --flagship-phone-h: clamp(340px, 64vh, 640px);
   padding: 0;
   border: 0;
   background: radial-gradient(
-    70% 55% at 50% 40%,
+    70% 55% at 50% 50%,
     var(--accent-soft),
     transparent 72%
   );
-}
-
-/* The crop: transform, not margin, so the grid still sizes to the full
- * phone and the copy column's height math stays honest. */
-.work-chapter--scale .phone {
-  transform: translateY(11%);
 }
 
 /* ── Screen 3: Waddl — the app running off the right edge ──
@@ -1277,19 +1273,35 @@ a.project-card:hover {
 }
 
 /* The device: a plain dark bezel. The recording already carries its own
- * iOS status bar and home indicator, so there's no notch overlay. The body
- * color is intentionally theme-independent, like a real phone. */
+ * iOS status bar and Dynamic Island, so there's no notch overlay. The body
+ * color is intentionally theme-independent, like a real phone.
+ *
+ * Every dimension is a ratio of the frame's own size rather than a fixed
+ * pixel value, so one device reads correctly everywhere it appears — ~240px
+ * in a /projects card, 600px+ on the Work screen. Flat pixels don't survive
+ * that range: at 648px tall a 5px bezel and 26px radius came out thinner and
+ * squarer than the 1px inset highlight, which is what made the corners look
+ * like stray seams. Ratios are the real thing's: bezel ≈ 2.8% of body width,
+ * corner radius ≈ 15%. */
 .phone {
+  --phone-h: var(--flagship-phone-h, clamp(240px, 30vw, 312px));
+  --phone-w: calc(var(--phone-h) * 512 / 1080);
+  --phone-bezel: max(3px, calc(var(--phone-w) * 0.028));
+  --phone-radius: calc(var(--phone-w) * 0.15);
   position: relative;
-  height: var(--flagship-phone-h, clamp(240px, 30vw, 312px));
+  height: var(--phone-h);
   aspect-ratio: 512 / 1080;
-  padding: 5px;
-  border-radius: 26px;
+  padding: var(--phone-bezel);
+  border-radius: var(--phone-radius);
   background: #14110f;
+  /* Also proportional: a fixed 16px/38px drop bunched into a dark smudge
+   * under a device three times the size it was tuned for. */
   box-shadow:
-    inset 0 0 0 1px rgba(255, 255, 255, 0.09),
-    0 16px 38px -14px rgba(0, 0, 0, 0.55),
-    0 4px 10px rgba(0, 0, 0, 0.28);
+    inset 0 0 0 1px rgba(255, 255, 255, 0.08),
+    0 calc(var(--phone-h) * 0.05) calc(var(--phone-h) * 0.12)
+      calc(var(--phone-h) * -0.035) rgba(0, 0, 0, 0.5),
+    0 calc(var(--phone-h) * 0.008) calc(var(--phone-h) * 0.02)
+      rgba(0, 0, 0, 0.2);
 }
 
 .card-video {
@@ -1297,7 +1309,8 @@ a.project-card:hover {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  border-radius: 21px;
+  /* The screen's corner is the body's minus the bezel it sits inside. */
+  border-radius: calc(var(--phone-radius) - var(--phone-bezel));
   background: #000;
 }
 
@@ -1432,8 +1445,11 @@ body.has-modal {
   padding-block: var(--space-8);
 }
 
+/* The var, not `height` — the frame's bezel, radius and shadow all derive
+ * from it, so setting height alone would shrink the device while leaving it
+ * wearing the Work screen's proportions. */
 .project-modal-media .phone {
-  height: clamp(280px, 46vh, 380px);
+  --phone-h: clamp(280px, 46vh, 380px);
 }
 
 .project-modal-body {
