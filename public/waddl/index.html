@@ -105,7 +105,8 @@
           The thesis breaks into three concrete problems — the specific
           places an agent stops being legible. None of these are new
           problems, and other tools take a swing at each. What follows is
-          the interaction Waddl uses, drawn as it renders in the app.
+          the interaction Waddl uses for each — the actual components from
+          the app, running here. Poke at them.
         </p>
 
         <article class="breakdown">
@@ -126,30 +127,17 @@
             <code>ungrouped</code> rather than vanishing into a default
             bucket you forget to check.
           </p>
-          <figure class="snap-figure">
+          <figure class="demo-figure">
             <div class="waddl-window">
               <div class="waddl-titlebar">
                 <span class="waddl-dot" aria-hidden="true"></span>
                 <span class="waddl-title">waddl · sidebar</span>
-                <span class="waddl-status">3 projects</span>
+                <span class="waddl-status">live</span>
               </div>
-              <div class="waddl-body">
-<pre class="snap"><span class="snap-dim">chats                              + folder   + chat</span>
-<span class="snap-rule">────────────────────────────────────────────────────</span>
-<span class="snap-strong">▾ waddl</span>
-    <span class="snap-accent">●</span> refactor the timeline<span class="snap-dim">                  running</span>
-    <span class="snap-dim">○</span> theme tokens
-<span class="snap-strong">▸ personal site</span><span class="snap-dim">                             2 chats</span>
-<span class="snap-strong">▾ side quests</span>
-    <span class="snap-drop">┄ drag chats here ┄</span>
-<span class="snap-dim">ungrouped</span>
-    <span class="snap-dim">○</span> new chat</pre>
-              </div>
+              <iframe class="demo-inline" data-demo="sidebar" title="Waddl sidebar — live, interactive"></iframe>
             </div>
-            <figcaption class="snap-caption">
-              A collapsed project keeps its count; an empty one advertises
-              itself as a drop target instead of reading as broken.
-            </figcaption>
+            <figcaption class="demo-figcaption">The real component. Collapse a project, drag a chat into another
+              folder, or double-click a name to rename it.</figcaption>
           </figure>
         </article>
 
@@ -171,32 +159,17 @@
             place, so you see the cost before you pay it. Click, and the
             tail folds away rather than being deleted.
           </p>
-          <figure class="snap-figure">
+          <figure class="demo-figure">
             <div class="waddl-window">
               <div class="waddl-titlebar">
                 <span class="waddl-dot" aria-hidden="true"></span>
                 <span class="waddl-title">waddl · timeline</span>
-                <span class="waddl-status">4 checkpoints</span>
+                <span class="waddl-status">live</span>
               </div>
-              <div class="waddl-body">
-<pre class="snap"><span class="snap-dim">│</span> <span class="snap-accent">◆</span> src/theme.ts            <span class="snap-add">+12</span> <span class="snap-del">−4</span>
-<span class="snap-dim">│</span>
-<span class="snap-dim">│</span> <span class="snap-accent">◆</span> src/Timeline.tsx        <span class="snap-add">+31</span> <span class="snap-del">−8</span>   <span class="snap-pill">⟲ restore to here</span>
-<span class="snap-dim">│</span>
-<span class="snap-undo">│ ◇ src/Sidebar.tsx           +5 −2   ┐ these 2 steps</span>
-<span class="snap-undo">│</span>
-<span class="snap-undo">│ ◇ src/tokens.css            +7 −7   ┘ would be undone</span></pre>
-              </div>
-              <div class="waddl-controls snap-banner">
-                <span><span class="snap-accent">⟲</span> Reverted to <code>src/Timeline.tsx</code> · 2 later steps hidden</span>
-                <span class="snap-pill">Return to latest</span>
-              </div>
+              <iframe class="demo-inline" data-demo="rewind" title="Waddl timeline — live, interactive"></iframe>
             </div>
-            <figcaption class="snap-caption">
-              Top: hovering the second checkpoint previews the rewind.
-              Bottom: after committing to it, the banner keeps the way
-              back one click away.
-            </figcaption>
+            <figcaption class="demo-figcaption">Hover an edit and “Restore to here” surfaces, ghosting out the
+              steps it would undo. Click to rewind, then return to latest.</figcaption>
           </figure>
         </article>
 
@@ -217,31 +190,17 @@
             end. Untouched runs fold to a single line you can open in
             place when you want to check them.
           </p>
-          <figure class="snap-figure">
+          <figure class="demo-figure">
             <div class="waddl-window">
               <div class="waddl-titlebar">
                 <span class="waddl-dot" aria-hidden="true"></span>
                 <span class="waddl-title">waddl · edits</span>
-                <span class="waddl-status">2 files</span>
+                <span class="waddl-status">live</span>
               </div>
-              <div class="waddl-body">
-<pre class="snap"><span class="snap-strong">▾ ◫ src/greeting.ts</span>                         <span class="snap-add">+3</span> <span class="snap-del">−2</span>
-<span class="snap-dim">  1   1</span>   export function greet(name: string) {
-<span class="snap-fold">      ⋯   4 unchanged lines</span>
-<span class="snap-dim">  6    </span>   <span class="snap-del">−  return "Hello, " + name</span>
-<span class="snap-dim">      6</span>   <span class="snap-add">+  const hour = new Date().getHours()</span>
-<span class="snap-dim">      7</span>   <span class="snap-add">+  const hi = hour &lt; 12 ? "Good morning" : "Hello"</span>
-<span class="snap-dim">      8</span>   <span class="snap-add">+  return `${hi}, ${name}!`</span>
-<span class="snap-dim">  7   9</span>   }
-
-<span class="snap-strong">▸ ◫ src/greeting.test.ts</span>                    <span class="snap-add">+6</span> <span class="snap-del">−1</span></pre>
-              </div>
+              <iframe class="demo-inline" data-demo="diff" title="Waddl edits — live, interactive"></iframe>
             </div>
-            <figcaption class="snap-caption">
-              One file open, one collapsed. The
-              <code>⋯ 4 unchanged lines</code> row is a button — the
-              context is one click away, not gone.
-            </figcaption>
+            <figcaption class="demo-figcaption">Collapse a file to its one-line summary, or open a folded run of
+              unchanged lines in place.</figcaption>
           </figure>
         </article>
       </section>
@@ -279,32 +238,6 @@
              sessions run, files touched, weeks in — anything honest. -->
       </section>
 
-      <section id="build-log">
-        <span class="section-label" data-reveal><span class="section-label-num">05</span></span>
-        <h2>Build log</h2>
-        <p class="section-lead">
-          Waddl is in progress, on purpose. Newest first.
-        </p>
-        <div class="log-list">
-          <!-- TODO: Carissa — fill in these three entries (date + a few
-               sentences each). Newest at the top; add more as you go. -->
-          <article class="log-entry">
-            <span class="log-date">— TODO date —</span>
-            <h3 class="log-title">— TODO: latest milestone —</h3>
-            <p class="log-body">…</p>
-          </article>
-          <article class="log-entry">
-            <span class="log-date">— TODO date —</span>
-            <h3 class="log-title">— TODO: earlier milestone —</h3>
-            <p class="log-body">…</p>
-          </article>
-          <article class="log-entry">
-            <span class="log-date">— TODO date —</span>
-            <h3 class="log-title">— TODO: where it started —</h3>
-            <p class="log-body">…</p>
-          </article>
-        </div>
-      </section>
     </main>
 
     <footer class="site-footer">
@@ -321,5 +254,6 @@
 
     <script src="/scripts/site.js"></script>
     <script src="/scripts/keys.js"></script>
+    <script src="/scripts/waddl-demos.js"></script>
   </body>
 </html>

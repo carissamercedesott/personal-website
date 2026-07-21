@@ -122,7 +122,7 @@
   color: var(--status-success);
 }
 
-/* A mini Waddl-style window chrome around each interaction snapshot. */
+/* A mini Waddl-style window chrome around each demo frame. */
 .waddl-window {
   max-width: 620px;
   border: 1px solid var(--border-default);
@@ -162,109 +162,29 @@
   color: var(--text-muted);
 }
 
-.waddl-body {
-  padding: var(--space-4);
-}
-
-.waddl-controls {
-  padding: var(--space-3) var(--space-4);
-  border-top: 1px solid var(--border-default);
-  display: flex;
-  gap: var(--space-3);
-}
-
-/* ── Interaction snapshots ──
- * Static pictures of the app, aligned by hand in a <pre>. Colour carries the
- * state the way it does in Waddl itself: accent = live or actionable, muted =
- * dimmed or already-undone. No JS, so nothing here can drift out of sync with
- * a demo script. */
-.snap-figure {
+/* ── Interaction demos ──
+ * Each breakdown frames the real component from the Waddl repo. They're
+ * iframes because Waddl's tokens collide by name with this site's — see
+ * scripts/waddl-demos.js, which also sizes them to their reported height. */
+.demo-figure {
   margin-top: var(--space-4);
 }
 
-.snap {
-  margin: 0;
-  font-family: var(--font-mono);
-  font-size: var(--text-xs);
-  line-height: 1.75;
-  color: var(--text-secondary);
-  overflow-x: auto;
-}
-
-.snap-strong {
-  color: var(--text-primary);
-  font-weight: var(--weight-semibold);
-}
-
-.snap-dim {
-  color: var(--text-muted);
-}
-
-.snap-rule {
-  color: var(--border-default);
-}
-
-.snap-accent {
-  color: var(--accent-strong);
-}
-
-.snap-add {
-  color: var(--status-success);
-}
-
-.snap-del {
-  color: var(--status-error);
-}
-
-/* The tail a rewind would discard: legible, but visibly already spent. */
-.snap-undo {
-  color: var(--text-muted);
-  opacity: 0.6;
-}
-
-.snap-drop,
-.snap-fold {
-  color: var(--text-muted);
-  font-style: italic;
-}
-
-/* A drawn control — a picture of a button, not a button. */
-.snap-pill {
-  display: inline-block;
-  padding: 0 var(--space-2);
-  border: 1px solid var(--border-strong);
-  border-radius: var(--radius-full);
-  background: var(--surface-hover);
-  color: var(--text-secondary);
-  font-size: var(--text-xs);
-  white-space: nowrap;
-}
-
-.snap-banner {
-  align-items: center;
-  justify-content: space-between;
-  flex-wrap: wrap;
+.demo-inline {
+  display: block;
+  width: 100%;
+  /* A placeholder until the frame reports its real height; roughly the
+   * shortest demo, so the page doesn't jump much on load. */
+  height: 300px;
+  border: 0;
   background: var(--bg-subtle);
-  font-family: var(--font-mono);
-  font-size: var(--text-xs);
-  color: var(--text-secondary);
 }
 
-.snap-banner code {
-  font-family: inherit;
-  color: var(--text-primary);
-}
-
-.snap-caption {
+.demo-figcaption {
   margin-top: var(--space-3);
   max-width: 60ch;
   font-size: var(--text-sm);
   color: var(--text-muted);
-}
-
-.snap-caption code {
-  font-family: var(--font-mono);
-  font-size: var(--text-xs);
 }
 
 /* ── Decisions: chose / rejected ── */
@@ -315,48 +235,4 @@
 
 .decision-todo {
   color: var(--text-muted);
-}
-
-/* ── Build log ── */
-.log-list {
-  margin-top: var(--space-6);
-  border-left: 2px solid var(--border-default);
-  padding-left: var(--space-8);
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-8);
-}
-
-.log-entry {
-  position: relative;
-}
-
-.log-entry::before {
-  content: "";
-  position: absolute;
-  left: calc(-1 * var(--space-8) - 7px);
-  top: 6px;
-  width: 12px;
-  height: 12px;
-  border-radius: var(--radius-full);
-  background: var(--accent-2-default);
-  border: 2px solid var(--surface-default);
-}
-
-.log-date {
-  font-family: var(--font-mono);
-  font-size: var(--text-xs);
-  color: var(--text-muted);
-}
-
-.log-title {
-  margin-top: var(--space-1);
-  font-size: var(--text-md);
-}
-
-.log-body {
-  margin-top: var(--space-2);
-  max-width: 65ch;
-  font-size: var(--text-sm);
-  color: var(--text-secondary);
 }
