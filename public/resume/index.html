@@ -37,121 +37,114 @@
 
     <main class="page resume-page" id="main">
       <div class="resume-layout">
-        <nav class="resume-toc" aria-label="Resume sections">
-          <span class="resume-toc-title">On this page</span>
-          <ul>
-            <li><a href="#experience">Experience</a></li>
-            <li><a href="#research">Research</a></li>
-            <li><a href="#education">Education</a></li>
-            <li><a href="#skills">Skills</a></li>
-          </ul>
-        </nav>
-
         <div class="resume-body">
           <h1 class="page-title">Resume</h1>
           <p class="page-lead">
             The full story — everywhere I've worked, researched, and studied.
           </p>
 
+          <!-- Sits after the lead so the narrow-width strip reads as a section
+               nav under the title. At ≥1160px it's positioned out into the left
+               margin against .resume-layout, so DOM order stops mattering. -->
+          <nav class="resume-toc" aria-label="Resume sections">
+            <div class="resume-toc-inner">
+              <span class="resume-toc-title">On this page</span>
+              <ul>
+                <li><a href="#experience">Experience</a></li>
+                <li><a href="#research">Research</a></li>
+                <li><a href="#education">Education</a></li>
+                <li><a href="#skills">Skills</a></li>
+              </ul>
+            </div>
+          </nav>
+
       <section id="experience">
         <span class="section-label" data-reveal>Experience</span>
         <h2>Where I've worked</h2>
         <div class="timeline">
-          <article class="timeline-entry" data-reveal>
-            <div class="timeline-header">
-              <h3>Duolingo</h3>
-              <span class="timeline-dates">Aug 2025 – Present · New York, NY</span>
+          <details class="org" data-reveal open>
+            <summary class="org-head">
+              <span class="org-tile" aria-hidden="true">D</span>
+              <span class="org-heading">
+                <h3 class="org-name">Duolingo</h3>
+                <span class="org-meta">3 roles · Jun 2023 – Present · New York, NY</span>
+              </span>
+              <svg class="icon org-chevron" aria-hidden="true"><use href="/images/icons.svg#arrow-down"></use></svg>
+            </summary>
+            <div class="org-roles">
+              <div class="org-role">
+                <div class="org-role-head">
+                  <h4>Software Engineer — iOS &amp; Backend</h4>
+                  <span class="timeline-dates">Aug 2025 – Present</span>
+                </div>
+                <ul>
+                  <li>Shipped critical improvements to Stories, increasing retention +0.11% (p&nbsp;&lt;&nbsp;0.01) and learning metrics +0.12 (p&nbsp;&lt;&nbsp;0.01).</li>
+                  <li>Refactored the iOS Course architecture onto a new API, saving $500,000+ in bandwidth costs.</li>
+                  <li>Collaborate with product managers and designers to increase client experience, brainstorming which features to develop.</li>
+                </ul>
+                <div class="tag-row">
+                  <span class="tag tag--platform">Swift</span>
+                  <span class="tag tag--discipline">Backend</span>
+                  <span class="tag tag--discipline">Product</span>
+                </div>
+              </div>
+              <div class="org-role">
+                <div class="org-role-head">
+                  <h4>Software Engineering Intern</h4>
+                  <span class="timeline-dates">Jun 2024 – Sep 2024</span>
+                </div>
+                <ul>
+                  <li>Implemented and launched the Cross Math game on iOS: a constraint-programming algorithm for accurate puzzle number generation, a backend algorithm for real-time random puzzle shapes, and responsive Swift UI for all iOS devices.</li>
+                  <li>Earned CEO approval for Cross Math at its prototype review, and launched to 100+ million users.</li>
+                </ul>
+                <div class="tag-row">
+                  <span class="tag tag--platform">Swift</span>
+                  <span class="tag tag--discipline">Algorithms</span>
+                </div>
+              </div>
+              <div class="org-role">
+                <div class="org-role-head">
+                  <h4>Software Engineering Thrive Intern</h4>
+                  <span class="timeline-dates">Jun 2023 – Aug 2023</span>
+                </div>
+                <ul>
+                  <li>Designed and built Conlang Creator with a team of four interns: a full-stack web app for creating custom languages.</li>
+                  <li>Developed language-building features with Python, DynamoDB, and ReactJS — vocabulary, grammar, and an automatic translation algorithm supporting 40+ languages to and from conlangs.</li>
+                </ul>
+                <div class="tag-row">
+                  <span class="tag tag--platform">Python</span>
+                  <span class="tag tag--platform">ReactJS</span>
+                  <span class="tag tag--platform">DynamoDB</span>
+                </div>
+              </div>
             </div>
-            <p class="timeline-role">Software Engineer — iOS &amp; Backend</p>
-            <ul>
-              <li>
-                Shipped critical improvements to Stories, increasing retention
-                +0.11% (p&nbsp;&lt;&nbsp;0.01) and learning metrics +0.12
-                (p&nbsp;&lt;&nbsp;0.01).
-              </li>
-              <li>
-                Refactored the iOS Course architecture onto a new API, saving
-                $500,000+ in bandwidth costs.
-              </li>
-              <li>
-                Collaborate with product managers and designers to increase
-                client experience, brainstorming which features to develop.
-              </li>
-            </ul>
-            <div class="tag-row">
-              <span class="tag tag--platform">Swift</span>
-              <span class="tag tag--discipline">Backend</span>
-              <span class="tag tag--discipline">Product</span>
-            </div>
-          </article>
+          </details>
 
-          <article class="timeline-entry" data-reveal>
-            <div class="timeline-header">
-              <h3>Duolingo</h3>
-              <span class="timeline-dates">Jun 2024 – Sep 2024</span>
+          <details class="org" data-reveal>
+            <summary class="org-head">
+              <span class="org-tile" aria-hidden="true">C</span>
+              <span class="org-heading">
+                <h3 class="org-name">Cognixion</h3>
+                <span class="org-meta">Jun 2021 – Sep 2021 · Santa Barbara, CA</span>
+              </span>
+              <svg class="icon org-chevron" aria-hidden="true"><use href="/images/icons.svg#arrow-down"></use></svg>
+            </summary>
+            <div class="org-roles">
+              <div class="org-role">
+                <div class="org-role-head">
+                  <h4>Neurotechnology Software Development Intern</h4>
+                  <span class="timeline-dates">Jun 2021 – Sep 2021</span>
+                </div>
+                <ul>
+                  <li>Developed software for the Cognixion ONE assistive communication BCI headset — adding 500+ colloquial phrases and creating the first non-English language pack of Californian Spanish slang for bilingual users.</li>
+                </ul>
+                <div class="tag-row">
+                  <span class="tag tag--discipline">Accessibility</span>
+                  <span class="tag tag--discipline">BCI</span>
+                </div>
+              </div>
             </div>
-            <p class="timeline-role">Software Engineering Intern</p>
-            <ul>
-              <li>
-                Implemented and launched the Cross Math game on iOS: a
-                constraint-programming algorithm for accurate puzzle number
-                generation, a backend algorithm for real-time random puzzle
-                shapes, and responsive Swift UI for all iOS devices.
-              </li>
-              <li>
-                Earned CEO approval for Cross Math at its prototype review,
-                and launched to 100+ million users.
-              </li>
-            </ul>
-            <div class="tag-row">
-              <span class="tag tag--platform">Swift</span>
-              <span class="tag tag--discipline">Algorithms</span>
-            </div>
-          </article>
-
-          <article class="timeline-entry" data-reveal>
-            <div class="timeline-header">
-              <h3>Duolingo</h3>
-              <span class="timeline-dates">Jun 2023 – Aug 2023</span>
-            </div>
-            <p class="timeline-role">Software Engineering Thrive Intern</p>
-            <ul>
-              <li>
-                Designed and built Conlang Creator with a team of four interns:
-                a full-stack web app for creating custom languages.
-              </li>
-              <li>
-                Developed language-building features with Python, DynamoDB, and
-                ReactJS — vocabulary, grammar, and an automatic translation
-                algorithm supporting 40+ languages to and from conlangs.
-              </li>
-            </ul>
-            <div class="tag-row">
-              <span class="tag tag--platform">Python</span>
-              <span class="tag tag--platform">ReactJS</span>
-              <span class="tag tag--platform">DynamoDB</span>
-            </div>
-          </article>
-
-          <article class="timeline-entry" data-reveal>
-            <div class="timeline-header">
-              <h3>Cognixion</h3>
-              <span class="timeline-dates">Jun 2021 – Sep 2021 · Santa Barbara, CA</span>
-            </div>
-            <p class="timeline-role">Neurotechnology Software Development Intern</p>
-            <ul>
-              <li>
-                Developed software for the Cognixion ONE assistive
-                communication BCI headset — adding 500+ colloquial phrases and
-                creating the first non-English language pack of Californian
-                Spanish slang for bilingual users.
-              </li>
-            </ul>
-            <div class="tag-row">
-              <span class="tag tag--discipline">Accessibility</span>
-              <span class="tag tag--discipline">BCI</span>
-            </div>
-          </article>
+          </details>
         </div>
       </section>
 
@@ -159,71 +152,94 @@
         <span class="section-label" data-reveal>Research</span>
         <h2>Research &amp; involvement</h2>
         <div class="timeline">
-          <article class="timeline-entry" data-reveal>
-            <div class="timeline-header">
-              <h3>Speech &amp; Cognitive Development Laboratory, UCLA</h3>
-              <span class="timeline-dates">Jan 2024 – Present</span>
+          <details class="org" data-reveal>
+            <summary class="org-head">
+              <span class="org-tile" aria-hidden="true">S</span>
+              <span class="org-heading">
+                <h3 class="org-name">Speech &amp; Cognitive Development Laboratory, UCLA</h3>
+                <span class="org-meta">Jan 2024 – Present</span>
+              </span>
+              <svg class="icon org-chevron" aria-hidden="true"><use href="/images/icons.svg#arrow-down"></use></svg>
+            </summary>
+            <div class="org-roles">
+              <div class="org-role">
+                <div class="org-role-head">
+                  <h4>Undergraduate Researcher — Speech Development</h4>
+                  <span class="timeline-dates">Jan 2024 – Present</span>
+                </div>
+                <ul>
+                  <li>Developing transformer-based ML algorithms in PyTorch to extract child-directed speech from 300+ twelve-hour audio recordings of 130 children (ages 3–5), generating clinically relevant insights into early language acquisition.</li>
+                </ul>
+              </div>
             </div>
-            <p class="timeline-role">Undergraduate Researcher — Speech Development</p>
-            <ul>
-              <li>
-                Developing transformer-based ML algorithms in PyTorch to
-                extract child-directed speech from 300+ twelve-hour audio
-                recordings of 130 children (ages 3–5), generating clinically
-                relevant insights into early language acquisition.
-              </li>
-            </ul>
-          </article>
+          </details>
 
-          <article class="timeline-entry" data-reveal>
-            <div class="timeline-header">
-              <h3>Neural Engineering &amp; Computation (Kao) Lab, UCLA</h3>
-              <span class="timeline-dates">Mar 2024 – Present</span>
+          <details class="org" data-reveal>
+            <summary class="org-head">
+              <span class="org-tile" aria-hidden="true">N</span>
+              <span class="org-heading">
+                <h3 class="org-name">Neural Engineering &amp; Computation (Kao) Lab, UCLA</h3>
+                <span class="org-meta">Mar 2024 – Present</span>
+              </span>
+              <svg class="icon org-chevron" aria-hidden="true"><use href="/images/icons.svg#arrow-down"></use></svg>
+            </summary>
+            <div class="org-roles">
+              <div class="org-role">
+                <div class="org-role-head">
+                  <h4>Undergraduate Researcher — NLP &amp; Speech Neuroprosthesis</h4>
+                  <span class="timeline-dates">Mar 2024 – Present</span>
+                </div>
+                <ul>
+                  <li>Developing transformer models with self-supervised learning on intracranial neural data to investigate how the brain processes language, toward clinically viable speech neuroprostheses.</li>
+                </ul>
+              </div>
             </div>
-            <p class="timeline-role">Undergraduate Researcher — NLP &amp; Speech Neuroprosthesis</p>
-            <ul>
-              <li>
-                Developing transformer models with self-supervised learning on
-                intracranial neural data to investigate how the brain processes
-                language, toward clinically viable speech neuroprostheses.
-              </li>
-            </ul>
-          </article>
+          </details>
 
-          <article class="timeline-entry" data-reveal>
-            <div class="timeline-header">
-              <h3>BMES Design Team — Vertebrae Rehabilitation Device</h3>
-              <span class="timeline-dates">Sep 2023 – Sep 2024</span>
+          <details class="org" data-reveal>
+            <summary class="org-head">
+              <span class="org-tile" aria-hidden="true">B</span>
+              <span class="org-heading">
+                <h3 class="org-name">BMES Design Team — Vertebrae Rehabilitation Device</h3>
+                <span class="org-meta">Sep 2023 – Sep 2024</span>
+              </span>
+              <svg class="icon org-chevron" aria-hidden="true"><use href="/images/icons.svg#arrow-down"></use></svg>
+            </summary>
+            <div class="org-roles">
+              <div class="org-role">
+                <div class="org-role-head">
+                  <h4>Software Team Lead</h4>
+                  <span class="timeline-dates">Sep 2023 – Sep 2024</span>
+                </div>
+                <ul>
+                  <li>Led the software team building an affordable wearable vertebrae rehabilitation device — real-time feedback, ML models predicting spinal alignment, and an intuitive UI for patients, surgeons, and ergonomic use.</li>
+                </ul>
+              </div>
             </div>
-            <p class="timeline-role">Software Team Lead</p>
-            <ul>
-              <li>
-                Led the software team building an affordable wearable vertebrae
-                rehabilitation device — real-time feedback, ML models
-                predicting spinal alignment, and an intuitive UI for patients,
-                surgeons, and ergonomic use.
-              </li>
-            </ul>
-          </article>
+          </details>
 
-          <article class="timeline-entry" data-reveal>
-            <div class="timeline-header">
-              <h3>ACM TeachLA, UCLA</h3>
-              <span class="timeline-dates">Sep 2021 – Apr 2024</span>
+          <details class="org" data-reveal>
+            <summary class="org-head">
+              <span class="org-tile" aria-hidden="true">A</span>
+              <span class="org-heading">
+                <h3 class="org-name">ACM TeachLA, UCLA</h3>
+                <span class="org-meta">Sep 2021 – Apr 2024</span>
+              </span>
+              <svg class="icon org-chevron" aria-hidden="true"><use href="/images/icons.svg#arrow-down"></use></svg>
+            </summary>
+            <div class="org-roles">
+              <div class="org-role">
+                <div class="org-role-head">
+                  <h4>Justice, Equity, Diversity &amp; Inclusion Director</h4>
+                  <span class="timeline-dates">Sep 2021 – Apr 2024</span>
+                </div>
+                <ul>
+                  <li>Taught 50+ underserved middle-school students core CS concepts in Python, and hosted allyship spaces promoting diversity and inclusion in CS.</li>
+                  <li>Implemented and instructed a 6-week quantum computing course at UCLA with 25+ undergraduate and graduate attendees.</li>
+                </ul>
+              </div>
             </div>
-            <p class="timeline-role">Justice, Equity, Diversity &amp; Inclusion Director</p>
-            <ul>
-              <li>
-                Taught 50+ underserved middle-school students core CS concepts
-                in Python, and hosted allyship spaces promoting diversity and
-                inclusion in CS.
-              </li>
-              <li>
-                Implemented and instructed a 6-week quantum computing course at
-                UCLA with 25+ undergraduate and graduate attendees.
-              </li>
-            </ul>
-          </article>
+          </details>
         </div>
       </section>
 
@@ -231,36 +247,61 @@
         <span class="section-label" data-reveal>Education</span>
         <h2>Education</h2>
         <div class="timeline">
-          <article class="timeline-entry" data-reveal>
-            <div class="timeline-header">
-              <h3>University of California, Los Angeles</h3>
-              <span class="timeline-dates">Graduated Mar 2025</span>
+          <details class="org" data-reveal open>
+            <summary class="org-head">
+              <span class="org-tile" aria-hidden="true">U</span>
+              <span class="org-heading">
+                <h3 class="org-name">University of California, Los Angeles</h3>
+                <span class="org-meta">Graduated Mar 2025</span>
+              </span>
+              <svg class="icon org-chevron" aria-hidden="true"><use href="/images/icons.svg#arrow-down"></use></svg>
+            </summary>
+            <div class="org-roles">
+              <div class="org-role">
+                <div class="org-role-head">
+                  <h4>B.S. Cognitive Science, Specialization in Computer Science · Minor in Data Science Engineering</h4>
+                  <span class="timeline-dates">Graduated Mar 2025</span>
+                </div>
+                <ul>
+                  <li>Cumulative GPA: 3.901</li>
+                </ul>
+              </div>
             </div>
-            <p class="timeline-role">
-              B.S. Cognitive Science, Specialization in Computer Science ·
-              Minor in Data Science Engineering
-            </p>
-            <ul>
-              <li>Cumulative GPA: 3.901</li>
-            </ul>
-          </article>
+          </details>
         </div>
       </section>
 
       <section id="skills">
         <span class="section-label" data-reveal>Skills</span>
         <h2>Toolbox</h2>
-        <div class="tag-row" style="margin-top: var(--space-6)">
-          <span class="tag tag--platform">Python</span>
-          <span class="tag tag--platform">Swift</span>
-          <span class="tag tag--discipline">Machine Learning</span>
-          <span class="tag tag--discipline">Statistics</span>
-          <span class="tag tag--platform">C++</span>
-          <span class="tag tag--platform">ReactJS</span>
-          <span class="tag tag--discipline">Data Science</span>
-          <span class="tag tag--platform">Figma</span>
-          <span class="tag tag--recognition">Cookie Baking Expert</span>
-          <span class="tag tag--recognition">Poker</span>
+        <div class="skill-groups">
+          <div class="skill-group">
+            <span class="skill-group-label">Languages &amp; tools</span>
+            <div class="tag-row">
+              <span class="tag tag--platform">Python</span>
+              <span class="tag tag--platform">Swift</span>
+              <span class="tag tag--platform">C++</span>
+              <span class="tag tag--platform">ReactJS</span>
+              <span class="tag tag--platform">Figma</span>
+            </div>
+          </div>
+
+          <div class="skill-group">
+            <span class="skill-group-label">Domains</span>
+            <div class="tag-row">
+              <span class="tag tag--discipline">Machine Learning</span>
+              <span class="tag tag--discipline">Statistics</span>
+              <span class="tag tag--discipline">Data Science</span>
+            </div>
+          </div>
+
+          <div class="skill-group">
+            <span class="skill-group-label">Off the clock</span>
+            <div class="tag-row">
+              <span class="tag tag--recognition">Cookie Baking Expert</span>
+              <span class="tag tag--recognition">Poker</span>
+            </div>
+          </div>
         </div>
       </section>
         </div>
