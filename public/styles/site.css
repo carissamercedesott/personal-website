@@ -556,7 +556,14 @@
  * still has to out-rank `.page section > h2`, which sets the heading size. */
 .resume-page section > h2.section-label {
   margin-top: 0;
-  font-size: var(--text-sm);
+  /* Matches the sub-dividers on /design (.families-divider): body sans,
+   * muted, tighter tracking. The resume's sections are the parts of one
+   * document rather than the site's numbered chapters, so they don't wear
+   * the lilac mono eyebrow the home page uses. */
+  font-family: var(--font-body);
+  font-size: var(--text-xs);
+  letter-spacing: var(--tracking-wide);
+  color: var(--text-muted);
 }
 
 .page.resume-page {
