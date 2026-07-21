@@ -69,26 +69,67 @@ body.home {
   border-color: var(--status-success);
 }
 
-/* …and the pill itself lives on as a popup under the chip. */
+/* …and the label under it is a tooltip, not a second copy of the chip.
+ * It used to wear the same green fill, green border and full radius as the
+ * button it hangs from, so two capsules competed instead of one explaining
+ * the other. Inverted surface instead: floating UI reads as floating when
+ * it's opaque and casts a shadow. --text-primary over --bg-default swaps
+ * itself in dark mode, so one rule covers both. */
 .hero-duo-tip {
   position: absolute;
-  top: calc(100% + var(--space-2));
+  /* Clearance for the caret. */
+  top: calc(100% + 10px);
   left: 0;
+  /* Two flex items only — the dot and one span wrapping the whole label.
+   * Loose text here would split into an anonymous item per run and the gap
+   * would open up mid-sentence. */
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
   white-space: nowrap;
   font-family: var(--font-body);
   font-size: var(--text-xs);
-  font-weight: var(--weight-semibold);
-  color: var(--status-success);
-  background: var(--status-success-soft);
-  border: 1px solid color-mix(in srgb, var(--status-success) 30%, transparent);
-  border-radius: var(--radius-full);
-  padding: 3px var(--space-3);
+  font-weight: var(--weight-medium);
+  color: var(--bg-default);
+  background: var(--text-primary);
+  border-radius: var(--radius-md);
+  padding: var(--space-2) var(--space-3);
+  box-shadow: var(--shadow-md);
   opacity: 0;
-  transform: translateY(-4px) scale(0.96);
+  transform: translateY(-4px);
   transform-origin: top left;
   pointer-events: none;
   transition: opacity var(--duration-fast) var(--ease-out),
     transform var(--duration-fast) var(--ease-out);
+}
+
+.hero-duo-tip strong {
+  font-weight: var(--weight-semibold);
+}
+
+/* Anchors the label to the chip. Left-aligned rather than centred: the chip
+ * sits in the hero's top-left corner, and a label this wide centred on a
+ * 34px button would hang off the side of the page. 11px puts the caret's
+ * midpoint under the button's. */
+.hero-duo-tip::before {
+  content: "";
+  position: absolute;
+  bottom: 100%;
+  left: 11px;
+  border: 6px solid transparent;
+  border-bottom-color: var(--text-primary);
+}
+
+/* The green moves here, so "currently" is carried by a live status dot
+ * rather than by flooding the whole label. A mid step, because the surface
+ * behind it is near-black in light mode and near-white in dark — the
+ * --status-success ends of the ramp each disappear against one of them. */
+.hero-duo-dot {
+  flex: none;
+  width: 6px;
+  height: 6px;
+  border-radius: var(--radius-full);
+  background: var(--sage-500);
 }
 
 .hero-duo:hover .hero-duo-tip,
