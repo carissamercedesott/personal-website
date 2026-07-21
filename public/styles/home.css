@@ -868,36 +868,11 @@ html.smiski-live .hello-ring {
   color: var(--text-muted);
 }
 
-/* One action per chapter, set as a text link: on a screen this quiet a
- * filled button is the loudest thing in view, and the device should be. */
+/* Styling is .btn .btn-primary, same as .flagship-cta. This is only the extra
+ * beat between the action and the copy above it, on top of the flex column's
+ * own gap. */
 .work-cta {
   margin-top: var(--space-4);
-  display: inline-flex;
-  align-items: center;
-  gap: var(--space-2);
-  border: 0;
-  padding: 0;
-  background: none;
-  font-family: var(--font-display);
-  font-size: var(--text-md);
-  font-weight: var(--weight-semibold);
-  color: var(--accent-strong);
-  text-decoration: none;
-  cursor: pointer;
-}
-
-.work-cta .icon {
-  width: 16px;
-  height: 16px;
-  transition: transform var(--duration-fast) var(--ease-out);
-}
-
-.work-cta:hover {
-  color: var(--accent-hover);
-}
-
-.work-cta:hover .icon {
-  transform: translateX(3px);
 }
 
 /* The quiet exit to everything else. */
