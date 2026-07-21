@@ -7,7 +7,10 @@
   const navigate = (href) => () => window.location.assign(href);
 
   // Jump between top-level sections. "Current" is the last section whose
-  // top has passed under the sticky header; j/k step from there.
+  // top has passed under the sticky header; ← / → step from there.
+  //
+  // The sideways keys, not ↑ / ↓: a section is a screen you page through, and
+  // the vertical keys have to stay free to scroll within one that runs long.
   function hopSection(direction) {
     const sections = [...document.querySelectorAll("main section")];
     if (sections.length === 0) return;
@@ -21,13 +24,14 @@
   }
 
   // The registry. `combo` is display + matching; a two-key combo is a
-  // chord starting with "g". `note` marks entries that only apply
-  // somewhere else, so the sheet stays honest per page.
+  // chord starting with "g". `key` overrides matching where the printed
+  // glyph isn't the KeyboardEvent key (the arrows). `note` marks entries
+  // that only apply somewhere else, so the sheet stays honest per page.
   const SHORTCUTS = [
     { group: "Navigate", combo: ["⌘K"], label: "Command palette", external: true,
       note: () => (document.body.classList.contains("lab") ? "" : "in the Playground") },
-    { group: "Navigate", combo: ["j"], label: "Next section", run: () => hopSection(1) },
-    { group: "Navigate", combo: ["k"], label: "Previous section", run: () => hopSection(-1) },
+    { group: "Navigate", combo: ["→"], key: "ArrowRight", label: "Next section", run: () => hopSection(1) },
+    { group: "Navigate", combo: ["←"], key: "ArrowLeft", label: "Previous section", run: () => hopSection(-1) },
     { group: "Go to", combo: ["g", "h"], label: "Home", run: navigate("/") },
     { group: "Go to", combo: ["g", "p"], label: "Work — all projects", run: navigate("/projects") },
     { group: "Go to", combo: ["g", "w"], label: "Waddl case study", run: navigate("/waddl") },
@@ -42,12 +46,16 @@
     { group: "Help", combo: ["?"], label: "This sheet", run: () => toggleSheet() },
   ];
 
+  // Keyed by the KeyboardEvent.key a binding answers to: entry.key where one
+  // is given (ArrowRight), otherwise the printed glyph itself.
   const singles = {};
   const chords = {};
   for (const entry of SHORTCUTS) {
     if (entry.external || !entry.run) continue;
     if (entry.combo.length === 2 && entry.combo[0] === "g") {
       chords[entry.combo[1]] = entry;
+    } else if (entry.key) {
+      singles[entry.key] = entry;
     } else if (entry.combo.length === 1 && entry.combo[0].length === 1) {
       singles[entry.combo[0]] = entry;
     }
@@ -170,7 +178,8 @@
       chordTimer = window.setTimeout(resetChord, CHORD_MS);
       return;
     }
-    const entry = singles[event.key.toLowerCase()];
+    // Exact key first (ArrowRight), then the lowercased glyph (t, d, ?).
+    const entry = singles[event.key] ?? singles[event.key.toLowerCase()];
     if (entry) {
       event.preventDefault();
       entry.run();

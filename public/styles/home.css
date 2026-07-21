@@ -256,13 +256,14 @@ body.home {
   }
 }
 
+/* Drifts along the arrow it draws — sideways, like a next-slide nudge. */
 @keyframes cue-float {
   0%,
   100% {
-    transform: translateY(0);
+    transform: translateX(0);
   }
   50% {
-    transform: translateY(8px);
+    transform: translateX(8px);
   }
 }
 
@@ -674,6 +675,174 @@ html.smiski-live .hello-ring {
 
   .exp-sticker-paper {
     height: 138px !important;
+  }
+}
+
+/* ── Work chapters: one flagship per screen ──
+ * The home page gives each lead project a whole viewport: copy on one side,
+ * the device at the size it was built to be seen on the other. No card frame —
+ * the section band is the surface, so nothing competes with the device.
+ * (The bordered .project-card--flagship rows below still run on /projects,
+ * where the point is a scannable list rather than one build at a time.) */
+.work-chapter {
+  display: grid;
+  grid-template-columns: minmax(0, 5fr) minmax(0, 6fr);
+  align-items: center;
+  gap: clamp(var(--space-8), 6vw, var(--space-16));
+}
+
+.work-chapter-copy {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--space-4);
+}
+
+.work-chapter-copy > h2 {
+  /* Bigger than a section heading: on this screen the build's name is the
+   * headline, and .section-label above it carries the theme. */
+  margin-top: var(--space-1);
+  font-size: var(--text-4xl);
+  letter-spacing: var(--tracking-tight);
+  line-height: var(--leading-tight);
+}
+
+/* The one line that says why this build is here. */
+.work-chapter-lead {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: var(--text-xl);
+  font-weight: var(--weight-semibold);
+  letter-spacing: var(--tracking-tight);
+  color: var(--accent-strong);
+}
+
+.work-chapter .section-lead,
+.work-chapter .tag-row,
+.work-chapter .btn {
+  margin-top: 0;
+}
+
+/* Quiet exit to the full list — a link, so it can't be mistaken for the
+ * screen's own action. */
+.work-chapter-all {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  font-size: var(--text-sm);
+  font-weight: var(--weight-semibold);
+}
+
+.work-chapter-all .icon {
+  width: 15px;
+  height: 15px;
+}
+
+.work-chapter-all:hover .icon {
+  transform: translateX(3px);
+  transition: transform var(--duration-fast) var(--ease-out);
+}
+
+/* Waddl's screen mirrors Cross Math's so the two don't read as one template
+ * repeated: media leads on the left, copy answers on the right. */
+.work-chapter--flip {
+  grid-template-columns: minmax(0, 6fr) minmax(0, 5fr);
+}
+
+.work-chapter--flip .work-chapter-copy {
+  order: 1;
+}
+
+/* The device, unframed: the card's border, padding and panel background come
+ * off, and only the warm glow behind it stays so a dark device keeps its
+ * footing in both themes. */
+.work-chapter .card-media--phone {
+  /* Roughly twice the card's phone — bounded by viewport height so the whole
+   * screen still fits between the header and the fold. */
+  --flagship-phone-h: clamp(340px, 58vh, 620px);
+  padding: 0;
+  border: 0;
+  background: radial-gradient(
+    70% 55% at 50% 50%,
+    var(--accent-soft),
+    transparent 72%
+  );
+}
+
+.work-chapter .card-preview-hint {
+  left: 50%;
+  bottom: clamp(-6px, -1vh, 0px);
+  transform: translateX(-50%);
+}
+
+/* Waddl runs on the desktop, so it gets a window instead of a bezel: title
+ * bar, traffic lights, the screenshot as its content. */
+.desk {
+  display: block;
+  border: 1px solid var(--border-strong);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  background: var(--surface-raised);
+  box-shadow: var(--shadow-md);
+  transition: transform var(--duration-base) var(--ease-out),
+    box-shadow var(--duration-base) var(--ease-out);
+}
+
+.desk:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-lg);
+  transition-duration: var(--duration-fast);
+}
+
+.desk-bar {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  padding: var(--space-3) var(--space-4);
+  border-bottom: 1px solid var(--border-default);
+  background: var(--bg-subtle);
+}
+
+/* macOS traffic lights — fixed colors in both themes, like the real ones
+ * (same call as .light in lab.css). */
+.desk-bar i {
+  width: 11px;
+  height: 11px;
+  border-radius: var(--radius-full);
+  background: #ff5f57;
+}
+
+.desk-bar i:nth-child(2) {
+  background: #febc2e;
+}
+
+.desk-bar i:nth-child(3) {
+  background: #28c840;
+}
+
+.desk-screen {
+  display: block;
+  width: 100%;
+  /* The screenshot is a window shot, so it's shown whole rather than cropped
+   * to a ratio the way the card thumbnails are. */
+  height: auto;
+}
+
+/* Stacked: copy first, device under it — and the device gives up its share of
+ * the viewport, since the two now split one screen vertically. */
+@media (max-width: 860px) {
+  .work-chapter,
+  .work-chapter--flip {
+    grid-template-columns: 1fr;
+    gap: var(--space-8);
+  }
+
+  .work-chapter--flip .work-chapter-copy {
+    order: 0;
+  }
+
+  .work-chapter .card-media--phone {
+    --flagship-phone-h: clamp(280px, 42vh, 420px);
   }
 }
 
@@ -1555,13 +1724,15 @@ body.has-modal {
   pointer-events: none;
 }
 
-/* Three columns: laws alternate down the outer two while the middle
- * stays clear for the smiski — compact enough that all three laws share
- * the frame with him. */
+/* A twelve-column field the three laws are placed into by hand. The old
+ * three-column version alternated them down the outer two rails, which read
+ * as a zigzag between two fixed positions; giving each law its own start and
+ * span makes the group read as composed instead of mirrored. The middle still
+ * stays clear for the smiski. */
 .principles-list {
   position: relative;
   display: grid;
-  grid-template-columns: minmax(0, 1fr) minmax(150px, 180px) minmax(0, 1fr);
+  grid-template-columns: repeat(12, minmax(0, 1fr));
   grid-template-rows: repeat(3, auto);
   column-gap: var(--space-4);
   row-gap: clamp(28px, 5vh, 56px);
@@ -1574,26 +1745,27 @@ body.has-modal {
   align-self: center;
 }
 
-/* One law per bend: explicit rows keep the grid from packing two laws
- * side by side. */
+/* One law per row, each at its own offset. Law 1 sits flush left; law 2 starts
+ * past the smiski's right edge (column 8 of 12 clears the 160px stage centered
+ * on the list); law 3 comes back left but indented a column, so it doesn't
+ * simply rhyme with law 1. */
 .principle:nth-child(1) {
   grid-row: 1;
+  grid-column: 1 / span 5;
 }
 
 .principle:nth-child(2) {
   grid-row: 2;
+  grid-column: 8 / span 5;
 }
 
 .principle:nth-child(3) {
   grid-row: 3;
-}
-
-.principle--left {
-  grid-column: 1;
-}
-
-.principle--right {
-  grid-column: 3;
+  grid-column: 2 / span 7;
+  /* Breaks the even row rhythm — the drop before the last law is what keeps
+   * the arrangement from resolving into three tidy bands. It also has to clear
+   * the smiski's stage, which this law passes under on its way left. */
+  margin-top: clamp(24px, 3.5vh, 48px);
 }
 
 .principle h3 {
@@ -1607,9 +1779,13 @@ body.has-modal {
     row-gap: var(--space-8);
   }
 
-  .principle--left,
-  .principle--right {
+  /* Stacked: the composed offsets collapse to one rail. Overrides the
+   * per-law placement above, including law 3's extra drop. */
+  .principle:nth-child(1),
+  .principle:nth-child(2),
+  .principle:nth-child(3) {
     grid-column: 1;
+    margin-top: 0;
   }
 
   /* No walker on small screens — the stage would just be a hole. */

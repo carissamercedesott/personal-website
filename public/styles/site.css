@@ -183,23 +183,36 @@
   scroll-margin-top: 64px;
 }
 
-/* One screen per section, so the scroll cue lands on a fresh view each time.
- * Same measurements the hero already uses: svh (stable under mobile URL bars)
- * minus the 64px the sticky header covers, which is also what scroll-margin-top
- * above clears. min-height, not height — #work runs taller than a viewport on
- * short screens and has to grow rather than clip.
- *
- * Deliberately no flex/grid centering here: .section-inner centers itself with
- * `margin: 0 auto`, and an auto inline margin opts an item out of stretching in
- * both layouts, which collapsed the section's measure from 960px to its longest
- * line. Blocks keep the existing measure exactly; the section's own padding
- * still sets the rhythm. */
+/* One screen per section, so the arrow cue and the ← → keys land on a fresh
+ * view each time. Same measurements the hero already uses: svh (stable under
+ * mobile URL bars) minus the 64px the sticky header covers, which is also what
+ * scroll-margin-top above clears. min-height, not height — a section whose
+ * content outgrows the viewport (long copy, short screens) grows and scrolls
+ * normally rather than clipping. */
 .home main > section[id] {
   min-height: calc(100vh - 64px);
   min-height: calc(100svh - 64px);
   /* .page-section already clears the header, but .intro and .hero aren't one,
    * so a hop onto them used to tuck their first line under it. */
   scroll-margin-top: 64px;
+}
+
+/* Content rides in the middle of its screen instead of at the top, so a
+ * section that only half-fills the viewport still reads as a composed frame.
+ * The hero is excluded — it centers itself with its own grid.
+ *
+ * The pairing below matters: .section-inner centers with `margin: 0 auto`, and
+ * an auto inline margin opts an item out of flex stretching, which collapsed
+ * the measure from 960px to the longest line. The explicit width puts it
+ * back. */
+.home main > section[id]:not(.hero) {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.home main > section[id] > .section-inner {
+  width: 100%;
 }
 
 .section-inner {
