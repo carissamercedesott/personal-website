@@ -577,14 +577,7 @@ html.smiski-live .hello-ring {
 }
 
 
-.intro-hello {
-  font-family: var(--font-mono);
-  font-weight: var(--weight-semibold);
-  color: var(--accent-strong);
-}
-
 .intro-copy h2 {
-  margin-top: var(--space-2);
   font-size: var(--text-4xl);
   letter-spacing: var(--tracking-tight);
 }
@@ -615,14 +608,6 @@ html.smiski-live .hello-ring {
   color: var(--accent-strong);
   vertical-align: -0.22em;
   margin-right: 0.15em;
-}
-
-.intro-thesis {
-  margin-top: var(--space-4);
-  max-width: 44ch;
-  font-size: var(--text-lg);
-  font-weight: var(--weight-medium);
-  color: var(--text-primary);
 }
 
 /* ── Experience: a sticker sheet on its own rose band ── */
@@ -706,9 +691,13 @@ html.smiski-live .hello-ring {
 
 /* ── Flagship rows: the two lead projects, image beside text ── */
 .flagships {
-  margin-top: var(--space-8);
+  margin-top: var(--space-6);
   display: grid;
-  gap: var(--space-16);
+  /* Tight enough that the section's closing link clears the fold. */
+  gap: var(--space-8);
+  /* The Cross Math phone is the tallest thing in either flagship, so it sets
+   * the height both cards stand at (see .project-card--flagship min-height). */
+  --flagship-phone-h: clamp(240px, 30vw, 312px);
 }
 
 .project-card {
@@ -782,6 +771,10 @@ a.project-card:hover {
   display: grid;
   grid-template-columns: minmax(0, 6fr) minmax(0, 5fr);
   align-items: stretch;
+  /* Matches the phone card's natural height (phone + .card-media--phone's
+   * vertical padding + the card's 1px top/bottom border, since border-box
+   * counts it) so the image-only flagships don't sit shorter. */
+  min-height: calc(var(--flagship-phone-h) + var(--space-6) * 2 + 2px);
 }
 
 .project-card--flagship .project-card-img {
@@ -875,6 +868,8 @@ a.project-card:hover {
 @media (max-width: 760px) {
   .project-card--flagship {
     grid-template-columns: 1fr;
+    /* Stacked, so the side-by-side height match no longer applies. */
+    min-height: 0;
   }
 
   .project-card--flagship .project-card-img {
@@ -917,7 +912,7 @@ a.project-card:hover {
  * color is intentionally theme-independent, like a real phone. */
 .phone {
   position: relative;
-  height: clamp(240px, 30vw, 312px);
+  height: var(--flagship-phone-h, clamp(240px, 30vw, 312px));
   aspect-ratio: 512 / 1080;
   padding: 5px;
   border-radius: 26px;
@@ -1454,7 +1449,7 @@ body.has-modal {
 }
 
 .contact-inner .section-label {
-  /* Center the label + hairline in a normally left-aligned block. */
+  /* Center the label in a normally left-aligned block. */
   justify-content: center;
 }
 
@@ -1628,10 +1623,11 @@ body.has-modal {
   letter-spacing: var(--tracking-tight);
 }
 
+/* Inline flow, not flex. As a flex row the title became one item stretched
+ * to the column, so a law that wrapped to two lines left the chevron parked
+ * at the box's right edge instead of trailing the last word. */
 .principle-toggle {
-  display: inline-flex;
-  align-items: center;
-  gap: var(--space-2);
+  display: inline;
   border: none;
   background: none;
   padding: 0;
@@ -1648,7 +1644,8 @@ body.has-modal {
 .principle-toggle .disclosure-chevron {
   width: 20px;
   height: 20px;
-  flex: none;
+  /* .icon already sets inline-block and the baseline nudge. */
+  margin-left: var(--space-2);
   color: var(--accent-strong);
   transition: transform var(--duration-base) var(--ease-out);
 }

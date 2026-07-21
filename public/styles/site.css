@@ -172,21 +172,6 @@
   font-variant-numeric: tabular-nums;
 }
 
-/* The hairline. Drawn by default so a label that never reveals still
- * renders; it only starts collapsed when it's a reveal target. */
-.section-label::before {
-  content: "";
-  width: 2.5rem;
-  height: 1px;
-  background: var(--label-rule);
-  transform-origin: left;
-  transition: transform var(--duration-slow) var(--ease-out) 120ms;
-}
-
-.section-label[data-reveal]:not(.is-revealed)::before {
-  transform: scaleX(0);
-}
-
 .page section > h2 {
   margin-top: var(--space-2);
   font-size: var(--text-2xl);
@@ -194,7 +179,7 @@
 
 /* ── One-page scroll sections ── */
 .page-section {
-  padding: var(--space-16) var(--space-6);
+  padding: var(--space-12) var(--space-6);
   scroll-margin-top: 64px;
 }
 
@@ -332,14 +317,13 @@
   gap: var(--space-2);
 }
 
-/* ── Experience timeline ── */
-.resume-link {
-  display: inline-block;
-  margin-top: var(--space-3);
-  font-size: var(--text-sm);
-  font-weight: var(--weight-medium);
-  text-decoration-thickness: 1px;
-  text-underline-offset: 3px;
+/* The link that closes a section. Styled as .btn .btn-primary so it reads the
+ * same as the CTAs inside the cards — one button language across the page.
+ * justify-self keeps it from stretching where its parent is a grid
+ * (.flagships); it's inert in the block-level sections. */
+.section-cta {
+  margin-top: var(--space-6);
+  justify-self: start;
 }
 
 /* One hairline rail with a monogram node per entry. The rail is a gradient
@@ -480,6 +464,11 @@
 .org-name {
   font-size: var(--text-xl);
   letter-spacing: -0.01em;
+}
+
+/* Nothing opens by itself, so weight is what marks the one you opened. */
+.org[open] .org-name {
+  font-weight: var(--weight-bold);
 }
 
 .org-meta {
@@ -740,8 +729,11 @@
   .resume-toc {
     position: absolute;
     top: 0;
-    /* Hangs entirely outside the column. */
-    right: calc(100% + var(--space-8));
+    /* Hangs entirely outside the column, drifting further out as the margin
+     * grows — at --space-8 flat it crowded the text on a wide display. The
+     * ceiling keeps it from stranding itself a screen away from what it
+     * indexes, and the floor keeps it inside the breakpoint's margins. */
+    right: calc(100% + clamp(var(--space-8), 5vw, var(--space-24)));
     width: 160px;
     /* Full height, so the sticky inner has somewhere to travel. */
     height: 100%;
