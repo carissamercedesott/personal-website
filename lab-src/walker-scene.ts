@@ -132,6 +132,9 @@ export const createSmiskiWalker = () => {
   const studyEl = document.querySelector<HTMLElement>("[data-smiski-study]");
   const introEl = document.querySelector<HTMLElement>(".intro");
 
+  // The sticky header sections clear when they snap into place.
+  const HEADER_H = 64;
+
   let viewW = 1;
   let viewH = 1;
   let worldW = 1;
@@ -151,11 +154,18 @@ export const createSmiskiWalker = () => {
     const rect = introEl.getBoundingClientRect();
     const introTop = rect.top + window.scrollY;
     const introBottom = introTop + rect.height;
-    // The intro is a full-viewport act: the drop scrubs while it slides
-    // in and finishes right as it fills the screen, so he's settled and
-    // spinning in the ring exactly when the section is centered.
+    // The intro is a full-viewport act: the drop scrubs while it slides in
+    // and has to be *finished* by the time the section snaps into place, so
+    // he's settled and spinning in the ring while you're reading it.
+    //
+    // That landing spot is fixed — a section top parks under the 64px header
+    // (scroll-margin-top in site.css) and the reader stops there, since the
+    // page now moves one screen at a time. So the drop ends before that
+    // point, not at a fraction of the viewport past it: a scrub that ends
+    // later never quite reaches 1, and the ring act (idle turn, drag to
+    // spin) is gated on u >= 1.
     dropStart = introTop - viewH * 0.68;
-    dropEnd = introTop - viewH * 0.05;
+    dropEnd = Math.max(dropStart + 120, introTop - HEADER_H - 56);
     walkStart = Math.max(introBottom - viewH * 0.5, dropEnd + 80);
     walkEnd = Math.max(introBottom - viewH * 0.1, walkStart + 240);
   };

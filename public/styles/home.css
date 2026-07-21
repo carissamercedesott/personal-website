@@ -476,18 +476,11 @@ html:not(.smiski-live) .hello-stage {
   display: none;
 }
 
-/* With the guide running, hello-world is a full-screen act of its own:
- * the section fills the viewport so the smiski is settled and spinning
- * in the ring exactly when the section is centered on screen. */
-html.smiski-live .intro {
-  min-height: 100svh;
-  display: flex;
-  align-items: center;
-}
-
-html.smiski-live .intro > .section-inner {
-  width: 100%;
-}
+/* Hello-world is a full-screen act of its own: every section is one screen
+ * now (see site.css), which is also what the guide's drop scrub is timed
+ * against — he finishes his fall and starts spinning in the ring exactly as
+ * the section snaps into place. Nothing to add here beyond the ring column
+ * itself; the layout rules already own the centering. */
 
 /* Where the smiski sits during the hero act. Just an invisible anchor —
  * the 3D scene reads its rect and parks the mossy mound there. */
