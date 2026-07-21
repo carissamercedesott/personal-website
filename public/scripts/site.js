@@ -383,19 +383,6 @@ function initHeroGrid() {
 // The hero's scroll cue is a teaching device, not navigation: once the
 // visitor scrolls it has done its job, so it fades out rather than
 // sitting half-cut at the fold.
-function initDisclosures() {
-  for (const toggle of document.querySelectorAll("[aria-controls].principle-toggle")) {
-    const region = document.getElementById(toggle.getAttribute("aria-controls"));
-    if (!region) continue;
-    toggle.addEventListener("click", () => {
-      const open = toggle.getAttribute("aria-expanded") === "true";
-      toggle.setAttribute("aria-expanded", String(!open));
-      region.classList.toggle("is-open", !open);
-    });
-  }
-}
-
-
 function initScrollCue() {
   const cue = document.getElementById("scroll-cue");
   if (!cue) return;
@@ -602,7 +589,6 @@ function initSiteChrome() {
   initTypewriter();
   initProjectModal();
   initHeroGrid();
-  initDisclosures();
   initScrollCue();
   initAboutCarousel();
   initCardVideo();

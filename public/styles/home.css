@@ -1611,66 +1611,6 @@ body.has-modal {
   letter-spacing: var(--tracking-tight);
 }
 
-/* Inline flow, not flex. As a flex row the title became one item stretched
- * to the column, so a law that wrapped to two lines left the chevron parked
- * at the box's right edge instead of trailing the last word. */
-.principle-toggle {
-  display: inline;
-  border: none;
-  background: none;
-  padding: 0;
-  font: inherit;
-  color: inherit;
-  text-align: left;
-  cursor: pointer;
-}
-
-.principle-toggle:hover {
-  color: var(--accent-strong);
-}
-
-.principle-toggle .disclosure-chevron {
-  width: 20px;
-  height: 20px;
-  /* .icon already sets inline-block and the baseline nudge. */
-  margin-left: var(--space-2);
-  color: var(--accent-strong);
-  transition: transform var(--duration-base) var(--ease-out);
-}
-
-.principle-toggle[aria-expanded="true"] .disclosure-chevron {
-  transform: rotate(180deg);
-}
-
-/* Dropdown: the description unrolls beneath the law. */
-.disclosure {
-  display: grid;
-  grid-template-rows: 0fr;
-  transition: grid-template-rows var(--duration-slow) var(--ease-out);
-}
-
-.disclosure.is-open {
-  grid-template-rows: 1fr;
-}
-
-.disclosure-inner {
-  overflow: hidden;
-  min-height: 0;
-}
-
-.disclosure-inner p {
-  margin-top: var(--space-3);
-  max-width: 44ch;
-  color: var(--text-secondary);
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .disclosure,
-  .principle-toggle .disclosure-chevron {
-    transition: none;
-  }
-}
-
 @media (max-width: 760px) {
   .principles-list {
     grid-template-columns: 1fr;
