@@ -1980,6 +1980,20 @@ body.has-modal {
   mask-composite: intersect;
 }
 
+/* The lattice is an absolutely-positioned pseudo, so it paints over anything
+ * static — dots land on top of the type and through the button's fill. Same
+ * cure as .hero > *, except the laws can't be reached that way: the ol between
+ * them and the board is display: contents, so they're grandchildren. Every
+ * box on the field is named here instead.
+ *
+ * Position only, no z-index. The stage is already absolute and later in the
+ * DOM, so it keeps standing on the dots rather than under them. */
+.principles-head,
+.principle,
+.principles-exit {
+  position: relative;
+}
+
 /* Top-left corner of the field, on lines 1/1. The eyebrow and the heading are
  * an anchor point like the laws are — the difference is scale, not treatment. */
 .principles-head {
@@ -2103,6 +2117,15 @@ html.smiski-live .principles-stage::after {
   grid-area: 12 / 1 / 13 / 9;
   align-self: end;
   justify-self: start;
+  /* .btn-primary's fill is --accent-soft, which is opaque in light mode but
+   * an 18% wash in dark — and an 18% wash over a dot lattice shows the dots.
+   * Same film, now over an opaque plate of the band underneath, so the button
+   * covers what it sits on. --band-oat is exact here: it and --surface-default
+   * are the same value in dark mode, so the band's gradient is flat behind
+   * this corner. (In light mode the film is opaque and the plate never
+   * shows.) */
+  background: linear-gradient(var(--accent-soft), var(--accent-soft))
+    var(--band-oat);
 }
 
 /* Below the width the field needs at its smallest module, it collapses to a
