@@ -1,0 +1,12 @@
+{
+  "version": "0.0.1",
+  "configurations": [
+    {
+      "name": "personal-website",
+      "runtimeExecutable": "sh",
+      "runtimeArgs": ["-c", "PATH=$HOME/.nodenv/shims:$PATH npx tsx watch src/server.ts"],
+      "port": 4173,
+      "autoPort": true
+    }
+  ]
+}

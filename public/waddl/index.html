@@ -6,7 +6,7 @@
     <title>Waddl — Carissa Ott</title>
     <meta
       name="description"
-      content="Waddl case study — making an AI coding agent's activity legible without a terminal. Streaming text, collapsible diffs, and error states, by Carissa Ott."
+      content="Waddl case study — making an AI coding agent's activity legible without a terminal. Project folders, a rewind rail, and collapsible diffs, by Carissa Ott."
     />
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -103,107 +103,146 @@
         <h2>Three problems, three fixes</h2>
         <p class="section-lead">
           The thesis breaks into three concrete problems — the specific
-          places an agent stops being legible. Here's each one, and the
-          interaction Waddl uses to fix it. Every fix below is a live
-          rebuild in this site's stack, not a screenshot — try them.
+          places an agent stops being legible. None of these are new
+          problems, and other tools take a swing at each. What follows is
+          the interaction Waddl uses, drawn as it renders in the app.
         </p>
 
         <article class="breakdown">
-          <h3>You only see the answer</h3>
+          <h3>Every chat lands in one flat list</h3>
           <p>
-            A coding agent does its thinking silently and hands you a
-            finished result. When it's wrong, you can't tell where it went
-            off — you never saw the reasoning.
+            Agent sessions pile up faster than any other kind of chat —
+            one throwaway question and one week-long refactor look
+            identical in the list. Three projects' worth end up in a
+            single column sorted by recency, so finding the session where
+            you fixed the theme tokens means scrolling and guessing at
+            titles the agent wrote for you.
           </p>
           <p>
             <span class="breakdown-label">Waddl's fix</span>
-            <strong>Streaming narration.</strong> It types out what it's
-            reading, deciding, and changing as it happens — so the thought
-            process is something you watch, not reconstruct.
+            <strong>Project folders.</strong> Chats live in named,
+            collapsible folders you drag them into. Collapse the projects
+            you're not in; anything unfiled stays visible under
+            <code>ungrouped</code> rather than vanishing into a default
+            bucket you forget to check.
           </p>
-          <div class="waddl-window" aria-label="Demo: streaming agent narration">
-            <div class="waddl-titlebar">
-              <span class="waddl-dot" aria-hidden="true"></span>
-              <span class="waddl-title">waddl</span>
-              <span class="waddl-status" id="stream-status">idle</span>
+          <figure class="snap-figure">
+            <div class="waddl-window">
+              <div class="waddl-titlebar">
+                <span class="waddl-dot" aria-hidden="true"></span>
+                <span class="waddl-title">waddl · sidebar</span>
+                <span class="waddl-status">3 projects</span>
+              </div>
+              <div class="waddl-body">
+<pre class="snap"><span class="snap-dim">chats                              + folder   + chat</span>
+<span class="snap-rule">────────────────────────────────────────────────────</span>
+<span class="snap-strong">▾ waddl</span>
+    <span class="snap-accent">●</span> refactor the timeline<span class="snap-dim">                  running</span>
+    <span class="snap-dim">○</span> theme tokens
+<span class="snap-strong">▸ personal site</span><span class="snap-dim">                             2 chats</span>
+<span class="snap-strong">▾ side quests</span>
+    <span class="snap-drop">┄ drag chats here ┄</span>
+<span class="snap-dim">ungrouped</span>
+    <span class="snap-dim">○</span> new chat</pre>
+              </div>
             </div>
-            <div class="waddl-body">
-              <p class="stream-output" id="stream-output" aria-live="polite"></p>
+            <figcaption class="snap-caption">
+              A collapsed project keeps its count; an empty one advertises
+              itself as a drop target instead of reading as broken.
+            </figcaption>
+          </figure>
+        </article>
+
+        <article class="breakdown">
+          <h3>Undoing an agent is all-or-nothing</h3>
+          <p>
+            An agent makes six edits and the third one was wrong. Usually
+            your options are keep everything or throw it all out. Git will
+            get you back, but only if you thought to commit before you
+            started — and the point of this window is that you shouldn't
+            need to think in git to use it.
+          </p>
+          <p>
+            <span class="breakdown-label">Waddl's fix</span>
+            <strong>A rewind rail.</strong> Every file edit drops a
+            checkpoint in the timeline's own gutter — the rewind lives
+            where the work happened, not behind a command you have to know
+            about. Hover a checkpoint and the steps it would undo dim in
+            place, so you see the cost before you pay it. Click, and the
+            tail folds away rather than being deleted.
+          </p>
+          <figure class="snap-figure">
+            <div class="waddl-window">
+              <div class="waddl-titlebar">
+                <span class="waddl-dot" aria-hidden="true"></span>
+                <span class="waddl-title">waddl · timeline</span>
+                <span class="waddl-status">4 checkpoints</span>
+              </div>
+              <div class="waddl-body">
+<pre class="snap"><span class="snap-dim">│</span> <span class="snap-accent">◆</span> src/theme.ts            <span class="snap-add">+12</span> <span class="snap-del">−4</span>
+<span class="snap-dim">│</span>
+<span class="snap-dim">│</span> <span class="snap-accent">◆</span> src/Timeline.tsx        <span class="snap-add">+31</span> <span class="snap-del">−8</span>   <span class="snap-pill">⟲ restore to here</span>
+<span class="snap-dim">│</span>
+<span class="snap-undo">│ ◇ src/Sidebar.tsx           +5 −2   ┐ these 2 steps</span>
+<span class="snap-undo">│</span>
+<span class="snap-undo">│ ◇ src/tokens.css            +7 −7   ┘ would be undone</span></pre>
+              </div>
+              <div class="waddl-controls snap-banner">
+                <span><span class="snap-accent">⟲</span> Reverted to <code>src/Timeline.tsx</code> · 2 later steps hidden</span>
+                <span class="snap-pill">Return to latest</span>
+              </div>
             </div>
-            <div class="waddl-controls">
-              <button class="btn btn-secondary btn-sm" id="stream-play" type="button">Play narration</button>
-            </div>
-          </div>
+            <figcaption class="snap-caption">
+              Top: hovering the second checkpoint previews the rewind.
+              Bottom: after committing to it, the banner keeps the way
+              back one click away.
+            </figcaption>
+          </figure>
         </article>
 
         <article class="breakdown">
           <h3>Edits arrive as a wall of diff</h3>
           <p>
             Ten files of red and green is technically shown, but it isn't
-            legible — the one line that matters is buried in the noise.
+            legible — the one line that matters is buried in the noise,
+            and the context lines you already agree with take up most of
+            the screen.
           </p>
           <p>
             <span class="breakdown-label">Waddl's fix</span>
-            <strong>Collapsible diffs.</strong> Every file collapses to a
-            one-line summary you can scan, and opens only when you want the
-            detail. Glance first; dig in on demand.
+            <strong>Collapsible diffs, written as they land.</strong> Each
+            file is a card that collapses to a one-line summary, and its
+            rows stream in as the edit actually happens — so an edit is
+            something you watch arrive, not a wall that appears at the
+            end. Untouched runs fold to a single line you can open in
+            place when you want to check them.
           </p>
-          <div class="waddl-window" aria-label="Demo: collapsible diff">
-            <div class="waddl-titlebar">
-              <span class="waddl-dot" aria-hidden="true"></span>
-              <span class="waddl-title">waddl · edits</span>
-            </div>
-            <div class="waddl-body">
-              <button class="diff-file" id="diff-toggle" type="button" aria-expanded="false" aria-controls="diff-body">
-                <span class="diff-chevron" aria-hidden="true">›</span>
-                <span class="diff-name">src/greeting.ts</span>
-                <span class="diff-stats"><span class="diff-plus">+3</span> <span class="diff-minus">−2</span></span>
-              </button>
-              <div class="diff-body" id="diff-body" hidden>
-                <pre class="diff-code"><code><span class="diff-line diff-line-ctx">export function greet(name: string) {</span>
-<span class="diff-line diff-line-del">-  return "Hello, " + name;</span>
-<span class="diff-line diff-line-del">-}</span>
-<span class="diff-line diff-line-add">+  const time = new Date().getHours();</span>
-<span class="diff-line diff-line-add">+  const hi = time &lt; 12 ? "Good morning" : "Hello";</span>
-<span class="diff-line diff-line-add">+  return `${hi}, ${name}!`;</span>
-<span class="diff-line diff-line-ctx">}</span></code></pre>
+          <figure class="snap-figure">
+            <div class="waddl-window">
+              <div class="waddl-titlebar">
+                <span class="waddl-dot" aria-hidden="true"></span>
+                <span class="waddl-title">waddl · edits</span>
+                <span class="waddl-status">2 files</span>
               </div>
-            </div>
-          </div>
-        </article>
+              <div class="waddl-body">
+<pre class="snap"><span class="snap-strong">▾ ◫ src/greeting.ts</span>                         <span class="snap-add">+3</span> <span class="snap-del">−2</span>
+<span class="snap-dim">  1   1</span>   export function greet(name: string) {
+<span class="snap-fold">      ⋯   4 unchanged lines</span>
+<span class="snap-dim">  6    </span>   <span class="snap-del">−  return "Hello, " + name</span>
+<span class="snap-dim">      6</span>   <span class="snap-add">+  const hour = new Date().getHours()</span>
+<span class="snap-dim">      7</span>   <span class="snap-add">+  const hi = hour &lt; 12 ? "Good morning" : "Hello"</span>
+<span class="snap-dim">      8</span>   <span class="snap-add">+  return `${hi}, ${name}!`</span>
+<span class="snap-dim">  7   9</span>   }
 
-        <article class="breakdown">
-          <h3>Failure, with no way forward</h3>
-          <p>
-            When an agent breaks, most tools throw a red error and stop.
-            You're left to reverse-engineer what happened and what to do
-            next.
-          </p>
-          <p>
-            <span class="breakdown-label">Waddl's fix</span>
-            <strong>Inline recovery.</strong> Waddl says what failed in
-            plain language, right where you're looking, with the fix
-            attached — one click to let it try again.
-          </p>
-          <div class="waddl-window" aria-label="Demo: agent error state and recovery">
-            <div class="waddl-titlebar">
-              <span class="waddl-dot" aria-hidden="true"></span>
-              <span class="waddl-title">waddl · tasks</span>
-            </div>
-            <div class="waddl-body">
-              <div class="task-row" id="task-row" data-state="idle">
-                <span class="task-icon" id="task-icon" aria-hidden="true">○</span>
-                <span class="task-text" id="task-text">run the test suite</span>
-              </div>
-              <div class="task-error" id="task-error" hidden>
-                <p class="task-error-msg">2 tests failed in <code>greeting.test.ts</code> — expected "Good morning", got "Hello".</p>
-                <button class="btn btn-secondary btn-sm" id="task-retry" type="button">Let waddl fix it</button>
+<span class="snap-strong">▸ ◫ src/greeting.test.ts</span>                    <span class="snap-add">+6</span> <span class="snap-del">−1</span></pre>
               </div>
             </div>
-            <div class="waddl-controls">
-              <button class="btn btn-secondary btn-sm" id="task-run" type="button">Run task</button>
-            </div>
-          </div>
+            <figcaption class="snap-caption">
+              One file open, one collapsed. The
+              <code>⋯ 4 unchanged lines</code> row is a button — the
+              context is one click away, not gone.
+            </figcaption>
+          </figure>
         </article>
       </section>
 
@@ -282,6 +321,5 @@
 
     <script src="/scripts/site.js"></script>
     <script src="/scripts/keys.js"></script>
-    <script src="/scripts/waddl.js"></script>
   </body>
 </html>
