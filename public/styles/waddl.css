@@ -13,11 +13,10 @@
 
 .demo-embed {
   position: relative;
-  /* Break out wider than the 960px prose column so the three-panel app
-   * isn't cramped; centred on the viewport and capped to stay on-screen. */
-  width: min(1200px, 94vw);
-  margin-left: 50%;
-  transform: translateX(-50%);
+  /* Sits on the column like everything else. It used to break out to 1200px
+   * so the three-panel app wasn't cramped, but that made it the one element
+   * wider than the page — the demo read as the page's edge rather than as
+   * one figure in it. */
   margin-top: var(--space-6);
   aspect-ratio: 16 / 9;
   overflow: hidden;
@@ -38,7 +37,9 @@
   display: none;
 }
 
-.demo-caption {
+/* The escape hatch to the standalone app, offered up front — a reader who
+ * wants the real window shouldn't have to scroll past the embed to find it. */
+.demo-action {
   margin-top: var(--space-3);
   font-size: var(--text-sm);
   color: var(--text-muted);
@@ -122,9 +123,10 @@
   color: var(--status-success);
 }
 
-/* A mini Waddl-style window chrome around each demo frame. */
+/* A mini Waddl-style window chrome around each demo frame. Fills the column,
+ * matching the figures and headings around it; waddl-demos.js re-measures
+ * each frame's height on resize, so the extra width costs nothing. */
 .waddl-window {
-  max-width: 620px;
   border: 1px solid var(--border-default);
   border-radius: var(--radius-lg);
   background: var(--surface-default);
