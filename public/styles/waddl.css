@@ -95,7 +95,7 @@
 
 .breakdown > p {
   margin-top: var(--space-3);
-  max-width: 65ch;
+  max-width: var(--measure-prose);
   color: var(--text-secondary);
 }
 
@@ -179,7 +179,7 @@
 
 .demo-figcaption {
   margin-top: var(--space-3);
-  max-width: 60ch;
+  max-width: var(--measure-prose);
   font-size: var(--text-sm);
   color: var(--text-muted);
 }

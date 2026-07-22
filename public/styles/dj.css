@@ -189,9 +189,12 @@
   text-align: right;
 }
 
-/* Keep the fixed deck from covering the footer links. */
+/* Keep the fixed deck from covering the footer links. The one place a
+ * container's gutter is deliberately asymmetric — so it's written as the
+ * gutter plus the deck plus a gap, and tracks --gutter rather than replacing
+ * it with a number that would drift out of step. */
 .site-footer-inner {
-  padding-right: calc(72px + var(--space-8));
+  padding-right: calc(var(--gutter) + 72px + var(--space-2));
 }
 
 /* Beat-synced wash over the hero gradient. */

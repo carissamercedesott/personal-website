@@ -118,6 +118,29 @@
   --space-16: 4rem;    /* 64px */
   --space-24: 6rem;    /* 96px */
 
+  /* ── Layout ──
+   * Every horizontal measure on the site is one of these four values, and
+   * every centered column is the same container primitive with a different
+   * --measure (see the "Layout system" block at the top of site.css).
+   * Adding a width here should be rare; adding one anywhere else is a bug.
+   *
+   * These cap the container's *outer* edge, gutter included — the convention
+   * .page's 960px has always used. */
+  --measure-page: 960px;   /* the default column: every page, every section */
+  --measure-wide: 1200px;  /* work screens, where the artifact is the content */
+  /* The resume's long-form column — ~70 characters of bullet text. Written as
+   * content plus gutters because, unlike the two above, this one is set by the
+   * line length rather than by the page frame: the 704px is the part that
+   * matters and it shouldn't shrink when the gutter grows. */
+  --measure-read: calc(704px + 2 * var(--gutter));
+  --measure-prose: 60ch;   /* leads and descriptions — a measure, not a column */
+
+  /* The page's left and right breathing room. One value everywhere, so the
+   * header wordmark, the body column and the footer share a left edge at
+   * every viewport width. It steps down on phones at the end of this file —
+   * once, centrally, rather than in each container that remembered to. */
+  --gutter: var(--space-6);
+
   /* ── Radii — soft but crisp ── */
   --radius-sm: 6px;    /* chips, tags, inputs */
   --radius-md: 10px;   /* buttons */
@@ -254,6 +277,15 @@
   --shadow-lg: 0 12px 32px rgba(0, 0, 0, 0.45), 0 2px 6px rgba(0, 0, 0, 0.3);
 
   --scrim: rgba(0, 0, 0, 0.6);
+}
+
+/* Phones: the gutter steps down once, here. Every container reads --gutter,
+ * so the header, the body column and the footer narrow together and keep
+ * their shared edge instead of drifting apart at small sizes. */
+@media (max-width: 640px) {
+  :root {
+    --gutter: var(--space-4);
+  }
 }
 
 /* System dark mode, unless the user explicitly chose light. */

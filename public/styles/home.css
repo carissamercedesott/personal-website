@@ -9,14 +9,18 @@ body.home {
   background-attachment: fixed;
 }
 
+/* Uncapped — the hero is a composition, not a reading column, and centers its
+ * own content with the grid below. It's still a container so its gutter is the
+ * page's, which is what lets .hero-corner sit on the header's left edge. */
 .hero {
+  --measure: none;
   /* svh keeps the hero stable under mobile browser URL bars. */
   min-height: calc(100vh - 64px);
   min-height: calc(100svh - 64px);
   display: grid;
   place-content: center;
   text-align: center;
-  padding: var(--space-16) var(--space-6);
+  padding-block: var(--space-16);
   animation: rise-in var(--duration-slow) var(--ease-out) both;
 }
 
@@ -25,8 +29,8 @@ body.home {
 .hero .hero-corner {
   position: absolute;
   top: var(--space-6);
-  left: var(--space-6);
-  max-width: calc(100% - 2 * var(--space-6));
+  left: var(--gutter);
+  max-width: calc(100% - 2 * var(--gutter));
 }
 
 .hero-contact {
@@ -310,8 +314,10 @@ body.home {
   }
 }
 
+/* A band, like .page-section: vertical rhythm and background only. Its
+ * .section-inner supplies the measure and the gutter. */
 .intro {
-  padding: var(--space-16) var(--space-6);
+  padding-block: var(--space-16);
   /* Top stays transparent so the hero's fixed wash flows in; the bottom
    * lands on the surface color the next band uses — no seam. */
   background: linear-gradient(
@@ -330,7 +336,7 @@ body.home {
   }
 
   .intro {
-    padding: var(--space-12) var(--space-4);
+    padding-block: var(--space-12);
   }
 }
 
@@ -691,12 +697,12 @@ html.smiski-live .hello-ring {
  * Three compositions, one grammar. Every screen hangs its type on a hairline
  * rule and its device on a frame edge; what changes between screens is the
  * axis — the thesis is all type, Cross Math drops off the bottom, Waddl runs
- * off the right. Shared frame is wider than the page's 960px reading measure
- * because on these screens the work is the text.
+ * off the right. The frame takes the wide measure rather than the page's
+ * default because on these screens the work is the text.
  * (The bordered .project-card--flagship rows below still run on /projects,
  * where the point is a scannable list rather than one build at a time.) */
 .work-frame {
-  max-width: 1200px;
+  --measure: var(--measure-wide);
 }
 
 /* Each screen owns its full viewport: the inner column takes the section's
@@ -710,25 +716,27 @@ html.smiski-live .hello-ring {
 }
 
 /* ── Screen 1: the thesis, set like a title page ──
- * The label says where you are and the headline and its note hold the middle
- * together — the screen is "empty" the way a title page is empty. */
+ * The label, headline, and note hold the middle together — the screen is
+ * "empty" the way a title page is empty. The auto margin here pairs with the
+ * one on the note below: free space collects above the label and under the
+ * note, never between them, so the three travel as one block and the label
+ * stays on its heading the way it does in every other section. */
 .work-thesis-top {
   display: flex;
   justify-content: space-between;
   align-items: baseline;
   gap: var(--space-8);
+  margin-block: auto 0;
 }
 
 /* The extra selector weight beats the page's generic h2 sizing rules
  * (.section-inner > h2, .page section > h2), which would otherwise pin the
  * top margin and shrink the display size. */
 .work-thesis > .work-thesis-title {
-  /* The auto margin here and its pair on the note below center the two as one
-   * block: free space collects above the headline and under the note, never
-   * between them. Ragged-right by the measure — the wrap ("I ship products /
-   * for real people.") is the composition, and ch tracks the font size, so it
-   * survives a change of step. */
-  margin-block: auto 0;
+  /* Ragged-right by the measure — the wrap ("I ship products / for real
+   * people.") is the composition, and ch tracks the font size, so it survives
+   * a change of step. */
+  margin-block: var(--space-2) 0;
   max-width: 14ch;
   font-size: var(--text-4xl);
   font-weight: var(--weight-bold);
@@ -1870,10 +1878,10 @@ body.has-modal {
  * object instead of drifting out of register.
  */
 
-/* The board sets its own measure — the shared 960px column would crop the
- * field back to the small rectangle this replaced. */
+/* The board sets its own measure from --cell below — the shared column would
+ * crop the field back to the small rectangle this replaced. */
 #principles > .section-inner {
-  max-width: none;
+  --measure: none;
 }
 
 .principles-board {
