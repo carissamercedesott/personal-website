@@ -231,6 +231,14 @@
   font-size: var(--text-2xl);
 }
 
+/* The research page runs real multi-paragraph prose, unlike the card-based
+ * pages; give its section copy paragraph spacing and a reading measure. */
+.research-page section > p {
+  margin-top: var(--space-4);
+  max-width: var(--measure-prose);
+  line-height: var(--leading-normal);
+}
+
 /* ── One-page scroll sections ──
  * A band: full-bleed background and vertical rhythm only. The .section-inner
  * it wraps is the container, and supplies the measure and the gutter. */

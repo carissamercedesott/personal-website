@@ -614,6 +614,77 @@ html.smiski-live .hello-ring {
   white-space: nowrap;
 }
 
+/* ── Every angle: the learning journey as a hairline timeline ──
+ * Five vantage points strung on one rail. The rail is drawn per-step so it
+ * stops at the last marker; each step is a mono lens label over a phrase and
+ * a line, echoing the work-rule stack. */
+.journey {
+  margin-top: var(--space-8);
+  padding: 0;
+  list-style: none;
+  display: grid;
+  gap: var(--space-8);
+}
+
+.journey-step {
+  position: relative;
+  padding-left: var(--space-8);
+}
+
+/* The rail runs down the left of each step and past its bottom to meet the
+ * next marker; the last step drops it so the line ends on the final dot. */
+.journey-step::before {
+  content: "";
+  position: absolute;
+  left: 5px;
+  top: var(--space-1);
+  bottom: calc(-1 * var(--space-8));
+  width: 1px;
+  background: var(--border-strong);
+}
+
+.journey-step:last-child::before {
+  display: none;
+}
+
+/* The marker on the rail, aligned to the lens label's cap height. */
+.journey-step::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: var(--space-1);
+  width: 11px;
+  height: 11px;
+  border-radius: var(--radius-full);
+  background: var(--surface-default);
+  border: 2px solid var(--accent-default);
+}
+
+/* The payoff step lands on Duolingo; its marker fills in so the eye stops. */
+.journey-step--now::after {
+  background: var(--accent-default);
+}
+
+.journey-lens {
+  font-family: var(--font-mono);
+  font-size: var(--text-xs);
+  font-weight: var(--weight-medium);
+  color: var(--text-muted);
+}
+
+.journey-step h3 {
+  margin-top: var(--space-2);
+  font-size: var(--text-xl);
+  letter-spacing: var(--tracking-tight);
+}
+
+.journey-step p {
+  margin-top: var(--space-2);
+  max-width: 56ch;
+  color: var(--text-secondary);
+  line-height: var(--leading-normal);
+}
+
 /* ── Experience: a sticker sheet on its own rose band ── */
 .band-rose {
   background: linear-gradient(
